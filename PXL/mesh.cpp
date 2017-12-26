@@ -2,10 +2,14 @@
 #include <string>
 #include <vector>
 #include "obj_loader.h"
+#include <iostream>
+#include <assimp/Importer.hpp>
 
 Mesh::Mesh(const std::string& filename)
 {
-	initMesh(OBJModel(filename).ToIndexedModel());
+	IndexedModel model = OBJModel(filename).ToIndexedModel();
+	std::cout << "Loading mesh " << filename << ". Vertices: " << model.positions.size() << std::endl;
+	initMesh(model);
 }
 
 void Mesh::initMesh(const IndexedModel & model)
@@ -50,9 +54,8 @@ Mesh::Mesh(Vertex* vertices, unsigned int vertexCount, unsigned int* indices, un
 		model.normals.push_back(*vertices[i].getNormal());
 	}
 
-	for (unsigned int i = 0; i < indicesCount; i++) {
+	for (unsigned int i = 0; i < indicesCount; i++)
 		model.indices.push_back(indices[i]);
-	}
 
 	initMesh(model);
 }
@@ -60,9 +63,7 @@ Mesh::Mesh(Vertex* vertices, unsigned int vertexCount, unsigned int* indices, un
 void Mesh::draw()
 {
 	glBindVertexArray(m_vertexArrayObject);
-
 	glDrawElements(GL_TRIANGLES, m_drawCount, GL_UNSIGNED_INT, 0);
-
 	glBindVertexArray(0);
 }
 

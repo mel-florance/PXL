@@ -2,25 +2,43 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
+#include <SDL2/SDL.h>
+#include <map>
 
 class Camera {
 public:
-	Camera(const glm::vec3& position, float fov, float aspect, float near, float far) {
-		m_position = position;
-		m_forward = glm::vec3(0, 0, 1);
-		m_up = glm::vec3(0, 1, 0);
-		m_perspective = glm::perspective(fov, aspect, near, far);
-	};
+	Camera() {};
+	Camera(const glm::vec3& position, float fov, float aspect, float near, float far);
 
 	inline glm::mat4 getViewProjection() const {
-		return m_perspective * glm::lookAt(m_position, m_position + m_forward, m_up);
+		return m_projMatrix * glm::lookAt(m_position, m_position + m_direction, m_up);
 	}
 
-	virtual ~Camera() {};
+	void onMouseMove(const glm::vec2& mouse);
+	void onKeyboard(const SDL_KeyboardEvent& event);
+	void update(float delta);
+
+	virtual ~Camera();
 
 private:
-	glm::vec3 m_position;
-	glm::vec3 m_forward;
 	glm::vec3 m_up;
-	glm::mat4 m_perspective;
+	glm::vec3 m_position;
+	glm::vec3 m_direction;
+	glm::vec3 m_rotation;
+
+	glm::vec3 m_velocity;
+	glm::vec3 m_friction;
+
+	glm::mat4 m_projMatrix;
+	glm::mat4 m_viewMatrix;
+
+	glm::vec2 m_mouse;
+	glm::vec2 m_oldMouse;
+
+	float m_sensitivity;
+	float m_moveSpeed;
+	float m_delta;
+
+	std::map<std::string, int> m_keys;
+	std::map<std::string, bool> m_keys_states;
 };
