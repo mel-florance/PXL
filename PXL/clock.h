@@ -4,9 +4,10 @@ class Clock
 {
 public:
 	Clock();
-	virtual ~Clock();
+	~Clock();
+
+	void update();
 
 	int m_lastFrame;
 	int m_deltaTime;
 };
-

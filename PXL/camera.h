@@ -3,6 +3,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
 #include <SDL2/SDL.h>
+#include <glm/glm.hpp>
+#include <glm/gtx/transform.hpp>
+
 #include <map>
 
 class Camera {

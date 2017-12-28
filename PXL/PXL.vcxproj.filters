@@ -1,110 +1,150 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Fichiers sources">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Fichiers d%27en-tête">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Fichiers de ressources">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="display.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="shader.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="mesh.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_image.c">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="texture.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="obj_loader.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="engine.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="light.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="directionalLight.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="clock.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="scene.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="display.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="shader.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="mesh.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="texture.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="transform.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="obj_loader.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="engine.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="util.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="directionalLight.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="clock.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
+    <Filter Include="src">
+      <UniqueIdentifier>{3fedde7c-3a0b-4ebe-8df1-5f23c7356790}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\core">
+      <UniqueIdentifier>{733852ad-e90f-402a-a803-5e33b7119a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\rendering">
+      <UniqueIdentifier>{c294152e-80be-428b-98f0-d34eb8922923}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\materials">
+      <UniqueIdentifier>{d7ba48c3-e2e4-4572-8ac8-ccfa08132fcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\lighting">
+      <UniqueIdentifier>{b539b570-9c48-4e47-9416-0147b0538bc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\cameras">
+      <UniqueIdentifier>{0cf77c9e-7ad4-41b7-8a81-51a2549e33a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\mesh">
+      <UniqueIdentifier>{0b5f8f5a-d7e7-4e1e-b658-d14b7491e295}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\loaders">
+      <UniqueIdentifier>{2fce7f61-845d-450a-8345-dddaf0856bca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\managers">
+      <UniqueIdentifier>{a158e997-14d7-4a32-aa8b-0fc904e57cd5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PXL.rc">
       <Filter>Fichiers de ressources</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="engine.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="display.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="directionalLight.cpp">
+      <Filter>src\lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>src\lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="clock.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>src\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="material.cpp">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>src\cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>src\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="obj_loader.cpp">
+      <Filter>src\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.c">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="sceneManager.cpp">
+      <Filter>src\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="shaderManager.cpp">
+      <Filter>src\managers</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="main.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="engine.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="display.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="directionalLight.h">
+      <Filter>src\lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>src\lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="clock.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="scene.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.h">
+      <Filter>src\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="material.h">
+      <Filter>src\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.h">
+      <Filter>src\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.h">
+      <Filter>src\cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.h">
+      <Filter>src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="obj_loader.h">
+      <Filter>src\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.h">
+      <Filter>src\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="transform.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>src\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="sceneManager.h">
+      <Filter>src\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="shaderManager.h">
+      <Filter>src\managers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

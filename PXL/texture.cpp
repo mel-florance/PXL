@@ -7,26 +7,44 @@
 
 Texture::Texture(const std::string& filename)
 {
-	int width, height, numComponents;
-	unsigned char* imageData = stbi_load(filename.c_str(), &width, &height, &numComponents, STBI_rgb_alpha);
+	m_filename = filename;
+	this->load();
+}
 
-	if (imageData == NULL)
-		std::cerr << "Texture loading failed for texture: " << filename << std::endl;
+Texture::Texture(const std::string& filename, bool generateMipmaps)
+{
+	m_filename = filename;
+	m_generateMipmaps = generateMipmaps;
+	this->load();
+}
+
+void Texture::Texture::load() {
+	int width, height, numComponents;
+	unsigned char* imageData = stbi_load(m_filename.c_str(), &width, &height, &numComponents, STBI_rgb_alpha);
+
+	if (imageData == NULL) {
+		std::cerr << "Texture loading failed for texture: " << m_filename << std::endl;
+		return;
+	}
 
 	glGenTextures(1, &m_texture);
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
-	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+
+	if (m_generateMipmaps) {
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+	}
+	else
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	std::cout.precision(3);
-	std::cout << "Loaded texture: " << filename << ": " << getFileSize(filename) << "Mb" << std::endl;
+	std::cout << "Loaded texture: " << m_filename << ": " << getFileSize(m_filename) << "Mb" << std::endl;
 
 	stbi_image_free(imageData);
 }

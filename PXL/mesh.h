@@ -37,6 +37,7 @@ private:
 		NUM_BUFFERS = 4
 	};
 
+	std::string m_name;
 	GLuint m_vertexArrayObject;
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
 	unsigned int m_drawCount;
@@ -44,9 +45,11 @@ private:
 	void initMesh(const IndexedModel& model);
 
 public:
-	Mesh(Vertex* vertices, unsigned int vertexCount, unsigned int* indices, unsigned int indicesCount);
-	Mesh(const std::string& filename);
+	Mesh(std::string name, Vertex* vertices, unsigned int vertexCount, unsigned int* indices, unsigned int indicesCount);
+	Mesh(std::string name, const std::string& filename);
 	virtual ~Mesh();
+
+	inline std::string getName() { return m_name; }
 
 	void draw();
 };

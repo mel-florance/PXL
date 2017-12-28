@@ -39,6 +39,7 @@ public:
 	}
 
 	bool addIcon(const std::string& filename);
+
 private:
 	SDL_Window* m_window;
 	SDL_GLContext m_glContext;

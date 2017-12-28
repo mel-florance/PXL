@@ -23,6 +23,7 @@
     <ProjectGuid>{B5ABDADA-19EA-462B-BA6E-DD628A8CE802}</ProjectGuid>
     <RootNamespace>PXL</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>PXL</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -120,17 +121,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ResourceCompile Include="PXL.rc" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="directionalLight.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="engine.cpp" />
-    <ClCompile Include="light.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="obj_loader.cpp" />
+    <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="shaderManager.cpp" />
     <ClCompile Include="stb_image.c" />
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
@@ -140,19 +148,21 @@
     <ClInclude Include="directionalLight.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="engine.h" />
-    <ClInclude Include="light.h" />
-    <ClInclude Include="scene.h" />
-    <ClInclude Include="util.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="obj_loader.h" />
+    <ClInclude Include="renderer.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="scene.h" />
+    <ClInclude Include="sceneManager.h" />
     <ClInclude Include="shader.h" />
+    <ClInclude Include="shaderManager.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="transform.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="PXL.rc" />
+    <ClInclude Include="util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

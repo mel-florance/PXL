@@ -1,12 +1,13 @@
 #include "mesh.h"
 #include <string>
-#include <vector>
+
 #include "obj_loader.h"
 #include <iostream>
 #include <assimp/Importer.hpp>
 
-Mesh::Mesh(const std::string& filename)
+Mesh::Mesh(std::string name, const std::string& filename)
 {
+	this->m_name = name;
 	IndexedModel model = OBJModel(filename).ToIndexedModel();
 	std::cout << "Loading mesh " << filename << ". Vertices: " << model.positions.size() << std::endl;
 	initMesh(model);
@@ -44,8 +45,9 @@ void Mesh::initMesh(const IndexedModel & model)
 	glBindVertexArray(0);
 }
 
-Mesh::Mesh(Vertex* vertices, unsigned int vertexCount, unsigned int* indices, unsigned int indicesCount)
+Mesh::Mesh(std::string name, Vertex* vertices, unsigned int vertexCount, unsigned int* indices, unsigned int indicesCount)
 {
+	this->m_name = name;
 	IndexedModel model;
 
 	for (unsigned int i = 0; i < vertexCount; i++) {

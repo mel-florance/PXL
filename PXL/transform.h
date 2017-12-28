@@ -31,9 +31,9 @@ public:
 		return positionMatrix * rotationMatrix * scaleMatrix;
 	}
 
-	inline glm::vec3& getPosition() { return m_position; }
-	inline glm::vec3& getRotation() { return m_rotation; }
-	inline glm::vec3& getScale() { return m_scale; }
+	inline glm::vec3& getPosition() { return m_position; };
+	inline glm::vec3& getRotation() { return m_rotation; };
+	inline glm::vec3& getScale() { return m_scale; };
 
 	inline void setPosition(glm::vec3& position) { m_position = position; }
 	inline void setRotation(glm::vec3& rotation) { m_rotation = rotation; }

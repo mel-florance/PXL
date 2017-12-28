@@ -1,12 +1,10 @@
 #include "camera.h"
 #include <iostream>
-#include <glm/glm.hpp>
-#include <glm/gtx/transform.hpp>
-#include <SDL2\SDL.h>
+
 #include <string>
 
 Camera::Camera(const glm::vec3& position, float fov, float aspect, float near, float far)
-{
+{ 
 	m_position = position;
 	m_up = glm::vec3(0, 1, 0);
 	m_direction = glm::vec3(0, 0, 1);
