@@ -15,7 +15,7 @@ Engine::Engine()
 	m_shaderManager = new ShaderManager();
 }
 
-void Engine::render()
+void Engine::render(std::function<void()> callback)
 {
 	if (m_window != nullptr) {
 		while (!m_window->isClosed()) {
@@ -23,8 +23,7 @@ void Engine::render()
 			m_window->clear(0.15f, 0.15f, 0.15f, 1.0f);
 
 			m_window->swapBuffers();
-
-			std::cout << "lol" << std::endl;
+			callback();
 
 			SDL_Delay(1);
 		}

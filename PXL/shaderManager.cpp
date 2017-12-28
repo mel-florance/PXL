@@ -11,7 +11,7 @@ ShaderManager::~ShaderManager()
 {
 }
 
-void ShaderManager::loadShaders(const std::string path)
+void ShaderManager::loadShaders(const std::string& path)
 {
 	DIR *dirp;
 	struct dirent* directory;

@@ -9,6 +9,11 @@
 #include "transform.h"
 #include "camera.h"
 
+void cb()
+{
+	std::cout << "hello" << std::endl;
+}
+
 int main(int argc, char* argv[]) 
 {
 	Engine* engine = new Engine();
@@ -17,7 +22,7 @@ int main(int argc, char* argv[])
 	std::cout << "Engine started!" << std::endl;
 
 	Shader shader("./res/shaders/basic");
-	Camera camera(glm::vec3(0, 0, -3), 70.f, window->getAspect(), 0.01f, 1000.0f);
+	Camera camera(glm::vec3(0.0f, 0.0f, -3.0f), 70.0f, window->getAspect(), 0.01f, 1000.0f);
 	window->setCamera(&camera);
 
 	Mesh ak("ak47", "./res/models/ak47.obj");
@@ -26,9 +31,9 @@ int main(int argc, char* argv[])
 	Texture ak_texture("./res/textures/ak47_diffuse.jpg", true);
 	Texture monkey_texture("./res/textures/checker.png", true);
 
-	Transform ak_transform(glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(1.0f,1.0f,1.0f));
-	Transform monkey_transform(glm::vec3(0.0f, 0.0f, -3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-	Transform plane_transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(M_PI / 2, 0.0f, 0.0f), glm::vec3(5.0f, 5.0f, 5.0f));
+	Transform ak_transform(glm::vec3(-2.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	Transform monkey_transform(glm::vec3(0.0f, 0.5f, -3.0f), glm::vec3(-0.6f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	Transform plane_transform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(M_PI / 2.0f, 0.0f, 0.0f), glm::vec3(5.0f, 5.0f, 5.0f));
 
 	Vertex vertices[] = {
 		Vertex(glm::vec3(1.0f, -1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f)),
@@ -45,8 +50,10 @@ int main(int argc, char* argv[])
 	Uint32 startclock = SDL_GetTicks();
 	float deltaTime = 0.0f;
 	Uint32 currentFPS = 0;
+	
 
-	//engine->render();
+
+	//engine->render(cb);
 
 
 	while (!window->isClosed())

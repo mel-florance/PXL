@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
+#include <functional>
 #include <SDL2/SDL.h>
 
 #include "clock.h"
@@ -17,7 +17,7 @@ public:
 	Engine();
 	~Engine();
 
-	void render();
+	void render(std::function<void()> callback);
 	Display* getWindow();
 
 

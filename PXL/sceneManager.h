@@ -17,7 +17,7 @@ public:
 	inline std::vector<class Scene*> getScenes() { return m_scenes; }
 	inline void setCurrentScene(unsigned int index) { m_currentScene = index; }
 
-	void addScene(std::string name);
+	void addScene(std::string& name);
 	Scene* getCurrentScene();
 
 private:

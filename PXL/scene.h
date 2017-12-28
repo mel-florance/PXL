@@ -13,12 +13,12 @@
 class Scene
 {
 public:
-	Scene(std::string name);
+	Scene(std::string& name);
 	~Scene();
 
 	void addMesh(Mesh* mesh);
 	void removeMesh(Mesh* mesh);
-	Mesh* getMeshByName(std::string name);
+	Mesh* getMeshByName(std::string& name);
 
 private:
 	std::string m_name;

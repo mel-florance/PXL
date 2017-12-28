@@ -5,7 +5,7 @@ SceneManager::SceneManager()
 
 }
 
-void SceneManager::addScene(std::string name)
+void SceneManager::addScene(std::string& name)
 {
 	Scene* scene = new Scene(name);
 	m_scenes.push_back(scene);
