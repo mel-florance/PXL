@@ -165,6 +165,7 @@
     <ClInclude Include="texture.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
