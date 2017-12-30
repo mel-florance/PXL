@@ -1,9 +1,4 @@
 #include "mesh.h"
-#include <string>
-
-#include "obj_loader.h"
-#include <iostream>
-#include <assimp/Importer.hpp>
 
 Mesh::Mesh(const std::string& name, const std::string& filename)
 {
@@ -53,13 +48,13 @@ Mesh::Mesh(const std::string& name, Vertex* vertices, unsigned int vertexCount, 
 	IndexedModel model;
 
 	for (unsigned int i = 0; i < vertexCount; i++) {
-		model.positions.push_back(*vertices[i].getPos());
-		model.texCoords.push_back(*vertices[i].getTexCoord());
-		model.normals.push_back(*vertices[i].getNormal());
+		model.positions.emplace_back(*vertices[i].getPos());
+		model.texCoords.emplace_back(*vertices[i].getTexCoord());
+		model.normals.emplace_back(*vertices[i].getNormal());
 	}
 
 	for (unsigned int i = 0; i < indicesCount; i++)
-		model.indices.push_back(indices[i]);
+		model.indices.emplace_back(indices[i]);
 
 	initMesh(model);
 }

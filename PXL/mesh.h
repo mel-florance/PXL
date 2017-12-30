@@ -1,8 +1,12 @@
 #pragma once
 
+#include <string>
+#include <iostream>
+
+#include <assimp/Importer.hpp>
 #include <glm/glm.hpp>
 #include <GL/glew.h>
-#include <string>
+
 #include "obj_loader.h"
 #include "transform.h"
 #include "Vertex.h"

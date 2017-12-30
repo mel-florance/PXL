@@ -1,11 +1,14 @@
 #pragma once
 
-#include "shader.h"
 #include <string>
 #include <map>
 #include <filesystem>
 #include <iostream>
+#include <set>
 
+#include <dirent.h>
+
+#include "shader.h"
 
 class ShaderManager
 {
@@ -18,6 +21,8 @@ public:
 	inline Shader* getShader(const std::string& name) { return m_shaders[name]; }
 
 private:
+	std::string m_shadersDir = "./res/shaders/";
 	std::map<std::string, Shader*> m_shaders;
+	std::set<std::string> m_shadersList;
 };
 

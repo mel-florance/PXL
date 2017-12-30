@@ -8,7 +8,7 @@ SceneManager::SceneManager()
 Scene* SceneManager::addScene(const std::string& name)
 {
 	Scene* scene = new Scene(name);
-	m_scenes.push_back(scene);
+	m_scenes.emplace_back(scene);
 	m_currentScene = m_scenes.size() - 1;
 	return scene;
 }

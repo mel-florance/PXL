@@ -35,11 +35,11 @@ OBJModel::OBJModel(const std::string& fileName)
 			{
 			case 'v':
 				if (lineCStr[1] == 't')
-					this->uvs.push_back(ParseOBJVec2(line));
+					this->uvs.emplace_back(ParseOBJVec2(line));
 				else if (lineCStr[1] == 'n')
-					this->normals.push_back(ParseOBJVec3(line));
+					this->normals.emplace_back(ParseOBJVec3(line));
 				else if (lineCStr[1] == ' ' || lineCStr[1] == '\t')
-					this->vertices.push_back(ParseOBJVec3(line));
+					this->vertices.emplace_back(ParseOBJVec3(line));
 				break;
 			case 'f':
 				CreateOBJFace(line);
@@ -86,7 +86,7 @@ IndexedModel OBJModel::ToIndexedModel()
 	std::vector<OBJIndex*> indexLookup;
 
 	for (unsigned int i = 0; i < numIndices; i++)
-		indexLookup.push_back(&OBJIndices[i]);
+		indexLookup.emplace_back(&OBJIndices[i]);
 
 	std::sort(indexLookup.begin(), indexLookup.end(), CompareOBJIndexPtr);
 
@@ -121,9 +121,9 @@ IndexedModel OBJModel::ToIndexedModel()
 			normalModelIndex = normalModel.positions.size();
 
 			normalModelIndexMap.insert(std::pair<OBJIndex, unsigned int>(*currentIndex, normalModelIndex));
-			normalModel.positions.push_back(currentPosition);
-			normalModel.texCoords.push_back(currentTexCoord);
-			normalModel.normals.push_back(currentNormal);
+			normalModel.positions.emplace_back(currentPosition);
+			normalModel.texCoords.emplace_back(currentTexCoord);
+			normalModel.normals.emplace_back(currentNormal);
 		}
 		else
 			normalModelIndex = it->second;
@@ -135,15 +135,15 @@ IndexedModel OBJModel::ToIndexedModel()
 		{
 			resultModelIndex = result.positions.size();
 
-			result.positions.push_back(currentPosition);
-			result.texCoords.push_back(currentTexCoord);
-			result.normals.push_back(currentNormal);
+			result.positions.emplace_back(currentPosition);
+			result.texCoords.emplace_back(currentTexCoord);
+			result.normals.emplace_back(currentNormal);
 		}
 		else
 			resultModelIndex = previousVertexLocation;
 
-		normalModel.indices.push_back(normalModelIndex);
-		result.indices.push_back(resultModelIndex);
+		normalModel.indices.emplace_back(normalModelIndex);
+		result.indices.emplace_back(resultModelIndex);
 		indexMap.insert(std::pair<unsigned int, unsigned int>(resultModelIndex, normalModelIndex));
 	}
 
@@ -245,15 +245,15 @@ void OBJModel::CreateOBJFace(const std::string& line)
 {
 	std::vector<std::string> tokens = SplitString(line, ' ');
 
-	this->OBJIndices.push_back(ParseOBJIndex(tokens[1], &this->hasUVs, &this->hasNormals));
-	this->OBJIndices.push_back(ParseOBJIndex(tokens[2], &this->hasUVs, &this->hasNormals));
-	this->OBJIndices.push_back(ParseOBJIndex(tokens[3], &this->hasUVs, &this->hasNormals));
+	this->OBJIndices.emplace_back(ParseOBJIndex(tokens[1], &this->hasUVs, &this->hasNormals));
+	this->OBJIndices.emplace_back(ParseOBJIndex(tokens[2], &this->hasUVs, &this->hasNormals));
+	this->OBJIndices.emplace_back(ParseOBJIndex(tokens[3], &this->hasUVs, &this->hasNormals));
 
 	if ((int)tokens.size() > 4)
 	{
-		this->OBJIndices.push_back(ParseOBJIndex(tokens[1], &this->hasUVs, &this->hasNormals));
-		this->OBJIndices.push_back(ParseOBJIndex(tokens[3], &this->hasUVs, &this->hasNormals));
-		this->OBJIndices.push_back(ParseOBJIndex(tokens[4], &this->hasUVs, &this->hasNormals));
+		this->OBJIndices.emplace_back(ParseOBJIndex(tokens[1], &this->hasUVs, &this->hasNormals));
+		this->OBJIndices.emplace_back(ParseOBJIndex(tokens[3], &this->hasUVs, &this->hasNormals));
+		this->OBJIndices.emplace_back(ParseOBJIndex(tokens[4], &this->hasUVs, &this->hasNormals));
 	}
 }
 
@@ -396,7 +396,7 @@ static inline std::vector<std::string> SplitString(const std::string &s, char de
 			end++;
 		}
 
-		elems.push_back(s.substr(start, end - start));
+		elems.emplace_back(s.substr(start, end - start));
 		start = end + 1;
 		end = start;
 	}
