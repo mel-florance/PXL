@@ -20,6 +20,8 @@ public:
 	void removeMesh(Mesh* mesh);
 	Mesh* getMeshByName(std::string& name);
 
+	inline std::string& getName() { return m_name; }
+
 private:
 	std::string m_name;
 

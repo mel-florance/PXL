@@ -8,7 +8,7 @@ Scene::Scene(std::string& name)
 
 void Scene::addMesh(Mesh* mesh)
 {
-	m_meshes.push_back(mesh);
+	m_meshes.emplace_back(mesh);
 }
 
 void Scene::removeMesh(Mesh* mesh) {

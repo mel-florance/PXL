@@ -18,8 +18,11 @@ public:
 	~Engine();
 
 	void render(std::function<void()> callback);
-	Display* getWindow();
 
+	Display* getWindow();
+	Clock* getClock() { return m_clock; }
+	SceneManager* getSceneManager() { return m_sceneManager; }
+	ShaderManager* getShaderManager() { return m_shaderManager; }
 
 private:
 	Display * m_window;

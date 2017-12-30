@@ -3,27 +3,35 @@
 
 ShaderManager::ShaderManager()
 {
-	this->loadShaders("./res/shaders");
-}
-
-
-ShaderManager::~ShaderManager()
-{
+	this->loadShaders("./res/shaders/");
 }
 
 void ShaderManager::loadShaders(const std::string& path)
 {
-	DIR *dirp;
+	DIR *dir;
 	struct dirent* directory;
-	dirp = opendir(path.c_str());
+	dir = opendir(path.c_str());
 
-	if (dirp)
+	if (dir)
 	{
-		while ((directory = readdir(dirp)) != NULL)
+		while ((directory = readdir(dir)) != NULL)
 		{
-			printf("%s\n", directory->d_name);
+			std::string filename = directory->d_name;
+			
+			if (filename.at(0) != '.')
+			{
+				std::string shaderName = filename.substr(0, filename.size() - 3);
+
+
+				std::cout << shaderName << std::endl;
+			}
 		}
 
-		closedir(dirp);
+		closedir(dir);
 	}
+}
+
+ShaderManager::~ShaderManager()
+{
+
 }

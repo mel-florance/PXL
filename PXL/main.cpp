@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include "GL/glew.h"
 #include <SDL2/SDL.h>
 #include "engine.h"
@@ -18,6 +19,15 @@ int main(int argc, char* argv[])
 {
 	Engine* engine = new Engine();
 	Display* window = engine->getWindow();
+
+	SceneManager* sm = engine->getSceneManager();
+
+	std::string sceneName = "test";
+	sm->addScene(sceneName);
+	sm->listScenes();
+
+	sm->deleteScene(sceneName);
+	sm->listScenes();
 
 	std::cout << "Engine started!" << std::endl;
 

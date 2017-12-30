@@ -88,6 +88,7 @@
     <ClCompile Include="shaderManager.cpp">
       <Filter>src\managers</Filter>
     </ClCompile>
+    <ClCompile Include="pointLight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -146,5 +147,6 @@
     <ClInclude Include="shaderManager.h">
       <Filter>src\managers</Filter>
     </ClInclude>
+    <ClInclude Include="pointLight.h" />
   </ItemGroup>
 </Project>

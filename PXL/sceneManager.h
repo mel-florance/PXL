@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include <algorithm>
 #include <string>
@@ -18,7 +19,11 @@ public:
 	inline void setCurrentScene(unsigned int index) { m_currentScene = index; }
 
 	void addScene(std::string& name);
-	Scene* getCurrentScene();
+	void deleteScene(std::string& name);
+	void listScenes();
+
+	Scene* getSceneByName(std::string& name);
+	Scene* getCurrentScene() { return m_scenes[m_currentScene]; }
 
 private:
 	unsigned int m_currentScene;
