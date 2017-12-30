@@ -5,7 +5,6 @@
 #include <filesystem>
 #include <iostream>
 #include <set>
-
 #include <dirent.h>
 
 #include "shader.h"

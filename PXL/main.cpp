@@ -21,12 +21,14 @@ int main(int argc, char* argv[])
 	Display* window = engine->getWindow();
 
 	SceneManager* sceneManager = engine->getSceneManager();
+	ShaderManager* shaderManager = engine->getShaderManager();
+
 	Scene* scene = sceneManager->addScene("test");
 
 
 	std::cout << "Engine started!" << std::endl;
 
-	Shader shader("./res/shaders/basic");
+
 	Camera camera(glm::vec3(0.0f, 0.0f, -3.0f), 70.0f, window->getAspect(), 0.01f, 1000.0f);
 	window->setCamera(&camera);
 
@@ -67,6 +69,7 @@ int main(int argc, char* argv[])
 
 	//engine->render(cb);
 
+	Shader* shader = shaderManager->getShader("basic");
 
 	while (!window->isClosed())
 	{
@@ -82,18 +85,18 @@ int main(int argc, char* argv[])
 
 		camera.update(deltaTime);
 
-		shader.bind();
+		shader->bind();
 
 		ak_transform.getRotation().y = angle;
-		shader.update(ak_transform, camera);
+		shader->update(ak_transform, camera);
 		ak_texture.bind(0);
 		ak.draw();
 
-		shader.update(monkey_transform, camera);
+		shader->update(monkey_transform, camera);
 		monkey_texture.bind(0);
 		monkey.draw();
 
-		shader.update(plane_transform, camera);
+		shader->update(plane_transform, camera);
 		monkey_texture.bind(0);
 		plane.draw();
 
