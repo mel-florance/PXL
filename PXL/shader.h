@@ -13,9 +13,9 @@ public:
 
 	void bind();
 	void update(const Transform& transform, const Camera& camera);
+
 	std::string loadShader(const std::string& filename);
 	void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& message);
-	
 	GLuint createShader(const std::string& text, GLenum type);
 
 private:

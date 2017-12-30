@@ -20,14 +20,9 @@ int main(int argc, char* argv[])
 	Engine* engine = new Engine();
 	Display* window = engine->getWindow();
 
-	SceneManager* sm = engine->getSceneManager();
+	SceneManager* sceneManager = engine->getSceneManager();
+	Scene* scene = sceneManager->addScene("test");
 
-	std::string sceneName = "test";
-	sm->addScene(sceneName);
-	sm->listScenes();
-
-	sm->deleteScene(sceneName);
-	sm->listScenes();
 
 	std::cout << "Engine started!" << std::endl;
 
@@ -55,6 +50,13 @@ int main(int argc, char* argv[])
 	unsigned indices[] = { 0, 1, 2, 2, 1, 3};
 
 	Mesh plane("plane", vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
+
+
+	scene->addMesh(&ak);
+	scene->addMesh(&monkey);
+	scene->addMesh(&plane);
+
+	std::cout << "Scene meshes count: " << scene->getMeshes().size() << std::endl;
 
 	float angle = 0.0f;
 	Uint32 startclock = SDL_GetTicks();

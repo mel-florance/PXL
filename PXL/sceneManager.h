@@ -14,15 +14,14 @@ public:
 	SceneManager();
 	~SceneManager();
 
-
 	inline std::vector<class Scene*> getScenes() { return m_scenes; }
 	inline void setCurrentScene(unsigned int index) { m_currentScene = index; }
 
-	void addScene(std::string& name);
-	void deleteScene(std::string& name);
+	Scene* addScene(const std::string& name);
+	void deleteScene(const std::string& name);
 	void listScenes();
 
-	Scene* getSceneByName(std::string& name);
+	Scene* getSceneByName(const std::string& name);
 	Scene* getCurrentScene() { return m_scenes[m_currentScene]; }
 
 private:

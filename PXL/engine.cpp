@@ -13,14 +13,22 @@ Engine::Engine()
 	m_clock = new Clock();
 	m_sceneManager = new SceneManager();
 	m_shaderManager = new ShaderManager();
+	m_renderer = new Renderer();
 }
 
 void Engine::render(std::function<void()> callback)
 {
+	Scene* scene = m_sceneManager->getCurrentScene();
+
 	if (m_window != nullptr) {
 		while (!m_window->isClosed()) {
 			m_clock->update();
+
+			m_renderer->render(scene);
+
 			m_window->clear(0.15f, 0.15f, 0.15f, 1.0f);
+
+
 
 			m_window->swapBuffers();
 			callback();
@@ -30,15 +38,11 @@ void Engine::render(std::function<void()> callback)
 	}
 }
 
-Display * Engine::getWindow()
-{
-	 return m_window;
-}
-
 Engine::~Engine()
 {
 	delete m_window;
 	delete m_clock;
 	delete m_sceneManager;
 	delete m_shaderManager;
+	delete m_renderer;
 }

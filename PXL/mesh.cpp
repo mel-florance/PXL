@@ -5,9 +5,11 @@
 #include <iostream>
 #include <assimp/Importer.hpp>
 
-Mesh::Mesh(std::string name, const std::string& filename)
+Mesh::Mesh(const std::string& name, const std::string& filename)
 {
 	this->m_name = name;
+	this->m_transform = new Transform();
+
 	IndexedModel model = OBJModel(filename).ToIndexedModel();
 	std::cout << "Loading mesh " << filename << ". Vertices: " << model.positions.size() << std::endl;
 	initMesh(model);
@@ -45,7 +47,7 @@ void Mesh::initMesh(const IndexedModel & model)
 	glBindVertexArray(0);
 }
 
-Mesh::Mesh(std::string name, Vertex* vertices, unsigned int vertexCount, unsigned int* indices, unsigned int indicesCount)
+Mesh::Mesh(const std::string& name, Vertex* vertices, unsigned int vertexCount, unsigned int* indices, unsigned int indicesCount)
 {
 	this->m_name = name;
 	IndexedModel model;
@@ -72,4 +74,5 @@ void Mesh::draw()
 Mesh::~Mesh()
 {
 	glDeleteVertexArrays(1, &m_vertexArrayObject);
+	delete m_transform;
 }

@@ -1,7 +1,7 @@
 #include "scene.h"
 #include <algorithm>
 
-Scene::Scene(std::string& name)
+Scene::Scene(const std::string& name)
 {
 	m_name = name;
 }
@@ -15,7 +15,7 @@ void Scene::removeMesh(Mesh* mesh) {
 	m_meshes.erase(std::remove(m_meshes.begin(), m_meshes.end(), mesh), m_meshes.end());
 }
 
-Mesh* Scene::getMeshByName(std::string& name)
+Mesh* Scene::getMeshByName(const std::string name)
 {
 	for (unsigned int i = 0; i < m_meshes.size(); i++) {
 		if (m_meshes[i]->getName() == name)

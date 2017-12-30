@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <string>
 
+#include <glm\glm.hpp>
+
 #include "mesh.h"
 #include "material.h"
 #include "Light.h"
@@ -13,17 +15,27 @@
 class Scene
 {
 public:
-	Scene(std::string& name);
+	Scene(const std::string& name);
 	~Scene();
 
 	void addMesh(Mesh* mesh);
 	void removeMesh(Mesh* mesh);
-	Mesh* getMeshByName(std::string& name);
+	Mesh* getMeshByName(std::string name);
 
 	inline std::string& getName() { return m_name; }
+	inline void setName(std::string name) { m_name = name; }
+
+	inline glm::vec4& getClearColor() { return m_clearColor; }
+	inline void setClearColor(glm::vec4 color) { m_clearColor = color; }
+
+	inline std::vector<class Mesh*> getMeshes() { return m_meshes; }
+	inline std::vector<class Material*> getMaterials() { return m_materials; }
+	inline std::vector<class Camera*> getCameras() { return m_cameras; }
+	inline std::vector<class Light*> getLights() { return m_lights; }
 
 private:
 	std::string m_name;
+	glm::vec4 m_clearColor;
 
 	std::vector<class Mesh*> m_meshes;
 	std::vector<class Material*> m_materials;

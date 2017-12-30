@@ -5,14 +5,15 @@ SceneManager::SceneManager()
 
 }
 
-void SceneManager::addScene(std::string& name)
+Scene* SceneManager::addScene(const std::string& name)
 {
 	Scene* scene = new Scene(name);
 	m_scenes.push_back(scene);
 	m_currentScene = m_scenes.size() - 1;
+	return scene;
 }
 
-Scene* SceneManager::getSceneByName(std::string& name) 
+Scene* SceneManager::getSceneByName(const std::string& name) 
 {
 	for (unsigned int i = 0; i < m_scenes.size(); i++) {
 		if (m_scenes[i]->getName() == name)
@@ -22,7 +23,7 @@ Scene* SceneManager::getSceneByName(std::string& name)
 	return nullptr;
 }
 
-void SceneManager::deleteScene(std::string& name)
+void SceneManager::deleteScene(const std::string& name)
 {
 	Scene* scene = getSceneByName(name);
 

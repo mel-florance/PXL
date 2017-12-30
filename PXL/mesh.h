@@ -4,7 +4,7 @@
 #include <GL/glew.h>
 #include <string>
 #include "obj_loader.h"
-
+#include "transform.h"
 
 class Vertex
 {
@@ -38,6 +38,8 @@ private:
 	};
 
 	std::string m_name;
+	Transform* m_transform;
+
 	GLuint m_vertexArrayObject;
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];
 	unsigned int m_drawCount;
@@ -45,11 +47,12 @@ private:
 	void initMesh(const IndexedModel& model);
 
 public:
-	Mesh(std::string name, Vertex* vertices, unsigned int vertexCount, unsigned int* indices, unsigned int indicesCount);
-	Mesh(std::string name, const std::string& filename);
+	Mesh(const std::string& name, Vertex* vertices, unsigned int vertexCount, unsigned int* indices, unsigned int indicesCount);
+	Mesh(const std::string& name, const std::string& filename);
 	virtual ~Mesh();
 
-	inline std::string getName() { return m_name; }
+	inline std::string& getName() { return m_name; }
+	inline Transform* getTransform() { return m_transform; }
 
 	void draw();
 };
