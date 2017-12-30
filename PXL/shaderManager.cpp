@@ -1,6 +1,5 @@
 #include "shaderManager.h"
 
-
 ShaderManager::ShaderManager()
 {
 	this->loadShaders("./res/shaders/");
@@ -19,10 +18,7 @@ void ShaderManager::loadShaders(const std::string& path)
 			std::string filename = directory->d_name;
 			
 			if (filename.at(0) != '.')
-			{
-				std::string shaderName = filename.substr(0, filename.size() - 3);
-				m_shadersList.emplace(shaderName);
-			}
+				m_shadersList.emplace(filename.substr(0, filename.size() - 3));
 		}
 
 		std::set<std::string>::iterator i;
@@ -41,7 +37,6 @@ void ShaderManager::loadShaders(const std::string& path)
 ShaderManager::~ShaderManager()
 {
 	std::set<std::string>::iterator i;
-	for (i = m_shadersList.begin(); i != m_shadersList.end(); ++i) {
+	for (i = m_shadersList.begin(); i != m_shadersList.end(); ++i)
 		delete m_shaders[*i];
-	}
 }
