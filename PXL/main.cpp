@@ -25,10 +25,6 @@ int main(int argc, char* argv[])
 
 	Scene* scene = sceneManager->addScene("test");
 
-
-	std::cout << "Engine started!" << std::endl;
-
-
 	Camera camera(glm::vec3(0.0f, 0.0f, -3.0f), 70.0f, window->getAspect(), 0.01f, 1000.0f);
 	window->setCamera(&camera);
 
@@ -65,8 +61,6 @@ int main(int argc, char* argv[])
 	float deltaTime = 0.0f;
 	Uint32 currentFPS = 0;
 	
-
-
 	//engine->render(cb);
 
 	Shader* shader = shaderManager->getShader("basic");

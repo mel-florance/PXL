@@ -108,4 +108,3 @@ Shader::~Shader()
 
 	glDeleteProgram(m_program);
 }
-

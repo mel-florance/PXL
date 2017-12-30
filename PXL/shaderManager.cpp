@@ -40,5 +40,8 @@ void ShaderManager::loadShaders(const std::string& path)
 
 ShaderManager::~ShaderManager()
 {
-
+	std::set<std::string>::iterator i;
+	for (i = m_shadersList.begin(); i != m_shadersList.end(); ++i) {
+		delete m_shaders[*i];
+	}
 }

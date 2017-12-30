@@ -14,6 +14,8 @@ Engine::Engine()
 	m_sceneManager = new SceneManager();
 	m_shaderManager = new ShaderManager();
 	m_renderer = new Renderer();
+
+	std::cout << "Engine started!" << std::endl;
 }
 
 void Engine::render(std::function<void()> callback)
