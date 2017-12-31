@@ -6,7 +6,7 @@ Mesh::Mesh(const std::string& name, const std::string& filename)
 	this->m_transform = new Transform();
 
 	IndexedModel model = OBJModel(filename).ToIndexedModel();
-	std::cout << "Loading mesh " << filename << ". Vertices: " << model.positions.size() << std::endl;
+	std::cout << "Loaded mesh: " << filename << ". Vertices: " << model.positions.size() << std::endl;
 	initMesh(model);
 }
 

@@ -1,11 +1,11 @@
-#version 120
+#version 330
 
-attribute vec3 position;
-attribute vec2 uvs;
-attribute vec3 normal;
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec2 uvs;
+layout (location = 2) in vec3 normal;
 
-varying vec2 fUvs;
-varying vec3 fNormal;
+out vec2 fUvs;
+out vec3 fNormal;
 
 uniform mat4 transform;
 

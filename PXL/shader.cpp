@@ -7,8 +7,8 @@
 Shader::Shader(const std::string& filename)
 {
 	m_program = glCreateProgram();
-	m_shaders[0] = createShader(loadShader(filename + ".vs"), GL_VERTEX_SHADER);
-	m_shaders[1] = createShader(loadShader(filename + ".fs"), GL_FRAGMENT_SHADER);
+	m_shaders[0] = createShader(loadShader(filename + "_VS.glsl"), GL_VERTEX_SHADER);
+	m_shaders[1] = createShader(loadShader(filename + "_FS.glsl"), GL_FRAGMENT_SHADER);
 
 	for (unsigned int i = 0; i < NUM_SHADERS; ++i)
 		glAttachShader(m_program, m_shaders[i]);

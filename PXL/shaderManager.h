@@ -20,7 +20,6 @@ public:
 	inline Shader* getShader(const std::string& name) { return m_shaders[name]; }
 
 private:
-	std::string m_shadersDir = "./res/shaders/";
 	std::map<std::string, Shader*> m_shaders;
 	std::set<std::string> m_shadersList;
 };

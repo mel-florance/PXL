@@ -18,6 +18,8 @@ public:
 	void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& message);
 	GLuint createShader(const std::string& text, GLenum type);
 
+
+
 private:
 	static const unsigned int NUM_SHADERS = 2;
 

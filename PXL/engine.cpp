@@ -9,13 +9,12 @@
 
 Engine::Engine()
 {
+	std::cout << "Engine started!" << std::endl;
 	m_window = new Display(WIDTH, HEIGHT, "PXL Engine", "./res/textures/icon.png");
 	m_clock = new Clock();
 	m_sceneManager = new SceneManager();
 	m_shaderManager = new ShaderManager();
 	m_renderer = new Renderer();
-
-	std::cout << "Engine started!" << std::endl;
 }
 
 void Engine::render(std::function<void()> callback)
