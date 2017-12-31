@@ -30,6 +30,7 @@ private:
 	unsigned int m_drawCount;
 
 	void initMesh(const IndexedModel& model);
+	void calcNormals(IndexedModel& model);
 
 public:
 	Mesh(const std::string& name, Vertex* vertices, unsigned int vertexCount, unsigned int* indices, unsigned int indicesCount);

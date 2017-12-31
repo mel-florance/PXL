@@ -49,9 +49,6 @@
     <ClCompile Include="directionalLight.cpp">
       <Filter>src\lighting</Filter>
     </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>src\lighting</Filter>
-    </ClCompile>
     <ClCompile Include="clock.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
@@ -88,7 +85,12 @@
     <ClCompile Include="shaderManager.cpp">
       <Filter>src\managers</Filter>
     </ClCompile>
-    <ClCompile Include="pointLight.cpp" />
+    <ClCompile Include="pointLight.cpp">
+      <Filter>src\lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>src\lighting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -100,9 +102,6 @@
       <Filter>src\core</Filter>
     </ClInclude>
     <ClInclude Include="directionalLight.h">
-      <Filter>src\lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
       <Filter>src\lighting</Filter>
     </ClInclude>
     <ClInclude Include="clock.h">
@@ -147,9 +146,14 @@
     <ClInclude Include="shaderManager.h">
       <Filter>src\managers</Filter>
     </ClInclude>
-    <ClInclude Include="pointLight.h" />
     <ClInclude Include="vertex.h">
       <Filter>src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="pointLight.h">
+      <Filter>src\lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>src\lighting</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

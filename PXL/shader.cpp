@@ -1,8 +1,5 @@
-#include <iostream>
-#include <fstream>
+
 #include "shader.h"
-#include "transform.h"
-#include "camera.h"
 
 Shader::Shader(const std::string& filename)
 {
@@ -24,7 +21,11 @@ Shader::Shader(const std::string& filename)
 	glValidateProgram(m_program);
 	checkShaderError(m_program, GL_VALIDATE_STATUS, true, "Shader Error: the program is invalid.");
 
-	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "transform");
+	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "mTransform");
+	m_uniforms[VIEW_U] = glGetUniformLocation(m_program, "mView");
+	m_uniforms[PROJ_U] = glGetUniformLocation(m_program, "mProj");
+	m_uniforms[LIGHT_POSITION_U] = glGetUniformLocation(m_program, "lightPosition");
+	m_uniforms[LIGHT_COLOR_U] = glGetUniformLocation(m_program, "lightColor");
 }
 
 GLuint Shader::createShader(const std::string& text, GLenum type)
@@ -52,10 +53,14 @@ void Shader::bind()
 	glUseProgram(m_program);
 }
 
-void Shader::update(const Transform& transform, const Camera& camera)
-{
-	glm::mat4 model = camera.getViewProjection() * transform.getModel();
-	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &model[0][0]);
+void Shader::update(const Transform& transform, Camera& camera, Light* light)
+{ 
+	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &transform.getModel()[0][0]);
+	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, GL_FALSE, &camera.getViewMatrix()[0][0]);
+	glUniformMatrix4fv(m_uniforms[PROJ_U], 1, GL_FALSE, &camera.getProjectionMatrix()[0][0]);
+
+	glUniform3fv(m_uniforms[LIGHT_POSITION_U], 1, &light->getPosition()[0]);
+	glUniform3fv(m_uniforms[LIGHT_COLOR_U], 1, &light->getColor()[0]);
 }
 
 std::string Shader::loadShader(const std::string& filename)

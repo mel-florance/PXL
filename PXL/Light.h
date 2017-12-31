@@ -1,17 +1,25 @@
-#pragma once;
+#pragma once
 
-#include "glm\glm.hpp"
+#include <glm\glm.hpp>
 
 class Light
 {
 public:
-	Light();
-	virtual ~Light();
+	Light(
+		const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f), 
+		const glm::vec3& color = glm::vec3(1.0f, 1.0f, 1.0f)
+	)
+		: m_position(position), m_color(color) {};
 
-	virtual inline glm::vec3& getPosition() { return m_position; }
-	virtual inline glm::vec3& getColor() { return m_color; }
+	~Light();
+
+	inline const glm::vec3& getPosition() { return m_position; }
+	inline const glm::vec3& getColor() { return m_color; }
+
+	inline void setPosition(glm::vec3& position) { m_position = position; }
 
 private:
 	glm::vec3 m_position;
 	glm::vec3 m_color;
 };
+

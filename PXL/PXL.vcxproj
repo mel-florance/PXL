@@ -129,7 +129,7 @@
     <ClCompile Include="directionalLight.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="engine.cpp" />
-    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
@@ -149,7 +149,7 @@
     <ClInclude Include="directionalLight.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="engine.h" />
-    <ClInclude Include="Light.h" />
+    <ClInclude Include="light.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />

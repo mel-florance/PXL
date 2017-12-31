@@ -6,11 +6,12 @@ Mesh::Mesh(const std::string& name, const std::string& filename)
 	this->m_transform = new Transform();
 
 	IndexedModel model = OBJModel(filename).ToIndexedModel();
+
 	std::cout << "Loaded mesh: " << filename << ". Vertices: " << model.positions.size() << std::endl;
 	initMesh(model);
 }
 
-void Mesh::initMesh(const IndexedModel & model)
+void Mesh::initMesh(const IndexedModel& model)
 {
 	m_drawCount = model.indices.size();
 
@@ -56,7 +57,36 @@ Mesh::Mesh(const std::string& name, Vertex* vertices, unsigned int vertexCount, 
 	for (unsigned int i = 0; i < indicesCount; i++)
 		model.indices.emplace_back(indices[i]);
 
+	calcNormals(model);
 	initMesh(model);
+}
+
+void Mesh::calcNormals(IndexedModel& model)
+{
+	model.normals.clear();
+	model.normals.reserve(model.positions.size());
+
+	for (unsigned int i = 0; i < model.positions.size(); i++)
+		model.normals.push_back(glm::vec3());
+
+	for (unsigned int i = 0; i < model.indices.size(); i += 3)
+	{
+		int i0 = model.indices[i];
+		int i1 = model.indices[i + 1];
+		int i2 = model.indices[i + 2];
+
+		glm::vec3 v1 = model.positions[i1] - model.positions[i0];
+		glm::vec3 v2 = model.positions[i2] - model.positions[i0];
+
+		glm::vec3 normal = glm::normalize(glm::cross(v1, v2));
+
+		model.normals[i0] = model.normals[i0] + normal;
+		model.normals[i1] = model.normals[i1] + normal;
+		model.normals[i2] = model.normals[i2] + normal;
+	}
+
+	for (unsigned int i = 0; i < model.normals.size(); i++)
+		model.normals[i] = glm::normalize(model.normals[i]);
 }
 
 void Mesh::draw()

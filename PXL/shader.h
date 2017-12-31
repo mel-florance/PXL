@@ -1,9 +1,14 @@
 #pragma once
 
+#include <iostream>
+#include <fstream>
 #include <string>
+
 #include <GL/glew.h>
+
 #include "transform.h"
 #include "camera.h"
+#include "Light.h"
 
 class Shader
 {
@@ -12,7 +17,7 @@ public:
 	virtual ~Shader();
 
 	void bind();
-	void update(const Transform& transform, const Camera& camera);
+	void update(const Transform& transform, Camera& camera, Light* light);
 
 	std::string loadShader(const std::string& filename);
 	void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& message);
@@ -25,6 +30,10 @@ private:
 
 	enum {
 		TRANSFORM_U,
+		VIEW_U,
+		PROJ_U,
+		LIGHT_POSITION_U,
+		LIGHT_COLOR_U,
 		NUM_UNIFORMS
 	};
 
