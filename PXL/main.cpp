@@ -9,7 +9,8 @@
 #include "texture.h"
 #include "transform.h"
 #include "camera.h"
-#include "light.h"
+#include "directionalLight.h"
+#include "material.h"
 
 void cb()
 {
@@ -21,16 +22,22 @@ int main(int argc, char* argv[])
 	Engine* engine = new Engine();
 	Display* window = engine->getWindow();
 
+	engine->getAssetManager()->importMesh("./res/models/ak47.obj");
+
 	SceneManager* sceneManager = engine->getSceneManager();
 	ShaderManager* shaderManager = engine->getShaderManager();
 
 	Scene* scene = sceneManager->addScene("test");
 
-	Light* light = new Light();
+	DirectionalLight* light = new DirectionalLight();
 
 
-	light->setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
+	light->setPosition(glm::vec3(0.0f, 3.0f, 0.0f));
 
+	Material* checkerMat = new Material("checkerMat", "basic");
+	Texture ak_texture("./res/textures/ak47_diffuse.jpg", true);
+	Texture monkey_texture("./res/textures/checker.png", true);
+	checkerMat->setDiffuseTexture(&monkey_texture);
 
 	Camera camera(glm::vec3(0.0f, 0.0f, -3.0f), 70.0f, window->getAspect(), 0.01f, 1000.0f);
 	window->setCamera(&camera);
@@ -39,8 +46,9 @@ int main(int argc, char* argv[])
 	Mesh monkey("monkey", "./res/models/monkey.obj");
 	Mesh plane("plane", "./res/models/plane.obj");
 
-	Texture ak_texture("./res/textures/ak47_diffuse.jpg", true);
-	Texture monkey_texture("./res/textures/checker.png", true);
+	plane.setMaterial(checkerMat);
+
+
 
 	Transform ak_transform(glm::vec3(-2.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	Transform monkey_transform(glm::vec3(0.0f, 0.5f, -3.0f), glm::vec3(-0.6f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
@@ -99,7 +107,6 @@ int main(int argc, char* argv[])
 		monkey.draw();
 
 		shader->update(plane_transform, camera, light);
-		monkey_texture.bind(0);
 		plane.draw();
 
 		window->swapBuffers();

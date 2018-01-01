@@ -14,6 +14,7 @@ Engine::Engine()
 	m_clock = new Clock();
 	m_sceneManager = new SceneManager();
 	m_shaderManager = new ShaderManager();
+	m_assetManager = new AssetManager();
 	m_renderer = new Renderer();
 }
 
@@ -45,5 +46,6 @@ Engine::~Engine()
 	delete m_clock;
 	delete m_sceneManager;
 	delete m_shaderManager;
+	delete m_assetManager;
 	delete m_renderer;
 }

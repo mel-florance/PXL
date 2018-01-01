@@ -78,11 +78,11 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
-      <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/PXL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>.\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)/PXL/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -101,10 +101,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)/PXL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/PXL/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,17 +129,20 @@
     <ResourceCompile Include="PXL.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="assetManager.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="directionalLight.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="light.cpp" />
+    <ClCompile Include="loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="obj_loader.cpp" />
     <ClCompile Include="pointLight.cpp" />
+    <ClCompile Include="rawModel.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
@@ -144,17 +152,20 @@
     <ClCompile Include="texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="assetManager.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="directionalLight.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="light.h" />
+    <ClInclude Include="loader.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="obj_loader.h" />
     <ClInclude Include="pointLight.h" />
+    <ClInclude Include="rawModel.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="scene.h" />

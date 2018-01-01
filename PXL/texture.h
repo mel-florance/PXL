@@ -14,6 +14,7 @@ public:
 
 	void load();
 	void bind(unsigned int unit);
+	void unbind();
 	
 	std::string m_filename;
 	bool m_generateMipmaps = false;
