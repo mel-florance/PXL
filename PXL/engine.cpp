@@ -17,27 +17,18 @@ Engine::Engine()
 	m_renderer = new Renderer();
 }
 
-void Engine::render(std::function<void()> callback)
+void Engine::render()
 {
 	Scene* scene = m_sceneManager->getCurrentScene();
+	m_clock->update();
+	m_window->clear(scene->getClearColor());
 
-	if (m_window != nullptr) 
-	{
-		while (!m_window->isClosed())
-		{
-			m_clock->update();
-			m_window->clear(scene->getClearColor());
+	scene->getActiveCamera()->update(m_clock->m_deltaTime);
 
-			scene->getActiveCamera()->update(m_clock->m_deltaTime);
+	m_renderer->render(scene);
+	m_window->swapBuffers();
 
-			callback();
-
-			m_renderer->render(scene);
-			m_window->swapBuffers();
-
-			SDL_Delay(1);
-		}
-	}
+	SDL_Delay(1);
 }
 
 Engine::~Engine()

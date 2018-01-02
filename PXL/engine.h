@@ -20,7 +20,7 @@ public:
 	Engine();
 	~Engine();
 
-	void render(std::function<void()> callback);
+	void render();
 
 	inline Display* getWindow() { return m_window; }
 	inline Clock* getClock() { return m_clock; }
