@@ -1,7 +1,4 @@
-#include <iostream>
-
 #include "engine.h"
-#include "sceneManager.h"
 
 #define WIDTH 1280
 #define HEIGHT 720

@@ -11,7 +11,6 @@
 #include "Light.h"
 #include "camera.h"
 
-
 class Scene
 {
 public:

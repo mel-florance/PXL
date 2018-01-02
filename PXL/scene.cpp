@@ -1,5 +1,4 @@
 #include "scene.h"
-#include <algorithm>
 
 Scene::Scene(const std::string& name)
 {

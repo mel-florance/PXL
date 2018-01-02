@@ -24,10 +24,12 @@ int main(int argc, char* argv[])
 	window->setCamera(camera);
 
 	DirectionalLight* light = new DirectionalLight();
-	light->setPosition(glm::vec3(0.0f, 3.0f, 0.0f));
+	light->setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
 
 	Mesh* monkey = assetManager->importMesh("./res/models/monkey.obj");
 	Mesh* plane = assetManager->importMesh("./res/models/plane.obj");
+	plane->getTransform()->setScale(glm::vec3(5.0f, 5.0f, 5.0f));
+	plane->getTransform()->setPosition(glm::vec3(0.0f, -2.0f, 0.0f));
 
 	Shader* shader = shaderManager->getShader("basic");
 	Material* checkerMat = new Material("checkerMat", shader);
@@ -42,8 +44,12 @@ int main(int argc, char* argv[])
 	scene->addCamera(camera);
 	scene->addLight(light);
 
+	float angle = 0.0f;
 	while (!window->isClosed())
 	{
+		angle += 0.001f;
+		monkey->getTransform()->setRotation(glm::vec3(0.0f, angle, 0.0f));
+
 		engine->render();
 	}
 	

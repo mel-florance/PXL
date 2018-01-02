@@ -1,6 +1,10 @@
 #pragma once
 
+#include <cassert>
+#include <iostream>
+#include <ostream>
 #include <string>
+
 #include <GL/glew.h>
 
 class Texture
