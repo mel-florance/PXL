@@ -26,21 +26,33 @@ int main(int argc, char* argv[])
 	DirectionalLight* light = new DirectionalLight();
 	light->setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
 
-	Mesh* monkey = assetManager->importMesh("./res/models/monkey.obj");
+	Mesh* camp = assetManager->importMesh("./res/models/watermill.obj");
+	Mesh* tree = assetManager->importMesh("./res/models/tree.obj");
 	Mesh* plane = assetManager->importMesh("./res/models/plane.obj");
+
 	plane->getTransform()->setScale(glm::vec3(5.0f, 5.0f, 5.0f));
 	plane->getTransform()->setPosition(glm::vec3(0.0f, -2.0f, 0.0f));
 
 	Shader* shader = shaderManager->getShader("basic");
+
 	Material* checkerMat = new Material("checkerMat", shader);
-	monkey->setMaterial(checkerMat);
+
 	plane->setMaterial(checkerMat);
+
+	Material* atlasMat = new Material("houseMat", shader);
+	tree->setMaterial(atlasMat);
+	camp->setMaterial(atlasMat);
 
 	Texture* checker_texture = new Texture("./res/textures/checker.png", true);
 	checkerMat->setDiffuseTexture(checker_texture);
 
-	scene->addMesh(monkey);
+	Texture* atlas_texture = new Texture("./res/textures/atlas.png", true);
+	atlasMat->setDiffuseTexture(atlas_texture);
+
+	scene->addMesh(camp);
 	scene->addMesh(plane);
+	scene->addMesh(tree);
+
 	scene->addCamera(camera);
 	scene->addLight(light);
 
@@ -48,7 +60,7 @@ int main(int argc, char* argv[])
 	while (!window->isClosed())
 	{
 		angle += 0.001f;
-		monkey->getTransform()->setRotation(glm::vec3(0.0f, angle, 0.0f));
+		tree->getTransform()->setRotation(glm::vec3(0.0f, angle, 0.0f));
 
 		engine->render();
 	}

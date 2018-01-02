@@ -32,6 +32,9 @@
     <Filter Include="src\managers">
       <UniqueIdentifier>{a158e997-14d7-4a32-aa8b-0fc904e57cd5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\entities">
+      <UniqueIdentifier>{67c18133-495d-45f9-a6db-ed82eadd3ea1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PXL.rc">
@@ -93,6 +96,9 @@
     </ClCompile>
     <ClCompile Include="assetManager.cpp">
       <Filter>src\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>src\entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="assetManager.h">
       <Filter>src\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>src\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="entityComponent.h">
+      <Filter>src\entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

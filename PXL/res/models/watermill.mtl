@@ -1,0 +1,49 @@
+# Blender MTL File: 'watermill.blend'
+# Material Count: 4
+
+newmtl Atlas
+Ns 19.607843
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_Kd C:\wamp\www\Warlight\Game\Assets\Models\Village\Textures\Waqarville_Atlas.tga
+map_d C:\\wamp\\www\\Warlight\\Game\\Assets\\Models\\Village\\Textures\\Waqarville_Atlas.png
+
+newmtl Atlas_atlas
+Ns 19.607843
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_Kd C:\wamp\www\Warlight\Game\Assets\Models\Village\Textures\Waqarville_Atlas.png
+map_d C:\\wamp\\www\\Warlight\\Game\\Assets\\Models\\Village\\Textures\\Waqarville_Atlas.png
+
+newmtl Ground
+Ns 19.607843
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\wamp\www\Warlight\Game\Assets\Models\Village\Textures\Ground-02-02.jpg
+
+newmtl alpha1
+Ns 94.117647
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 0.000000
+illum 9
+map_Kd C:\wamp\www\Warlight\Game\Assets\Models\Village\Textures\Waqarville_Atlas.tga
+map_d C:\\wamp\\www\\Warlight\\Game\\Assets\\Models\\Village\\Textures\\Waqarville_Atlas.tga

@@ -12,6 +12,11 @@ out vec4 out_Color;
 uniform vec3 lightColor;
 
 void main() {
+    vec4 texel = texture2D(diffuseTexture, fUvs);
+
+    if(texel.a < 0.5)
+        discard;
+
     vec3 unitNormal = normalize(fNormal);
     vec3 unitLight = normalize(fToLight);
     vec3 unitCamera = normalize(fToCamera);    
@@ -31,6 +36,5 @@ void main() {
     float damping = pow(factor, shininess);
     vec3 specular = damping * reflectivity * lightColor;
 
-
-    out_Color = vec4(diffuse, 1.0) * texture2D(diffuseTexture, vec2(fUvs.x, fUvs.y * -1)) + vec4(specular, 1.0);
+    out_Color = vec4(diffuse, 1.0) * texel + vec4(specular, 1.0);
 }

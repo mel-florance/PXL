@@ -135,6 +135,7 @@
     <ClCompile Include="directionalLight.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="engine.cpp" />
+    <ClCompile Include="entity.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="loader.cpp" />
     <ClCompile Include="main.cpp" />
@@ -156,6 +157,8 @@
     <ClInclude Include="directionalLight.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="engine.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="entityComponent.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="loader.h" />
     <ClInclude Include="main.h" />

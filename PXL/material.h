@@ -10,6 +10,7 @@
 class Material
 {
 public:
+	Material() {};
 	Material(const std::string& name, Shader* shader);
 	~Material();
 
