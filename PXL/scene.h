@@ -11,6 +11,7 @@
 #include "Light.h"
 #include "camera.h"
 
+
 class Scene
 {
 public:
@@ -20,6 +21,9 @@ public:
 	void addMesh(Mesh* mesh);
 	void removeMesh(Mesh* mesh);
 	Mesh* getMeshByName(std::string name);
+
+	void addCamera(Camera* camera);
+	void addLight(Light* light);
 
 	inline std::string& getName() { return m_name; }
 	inline void setName(std::string name) { m_name = name; }
@@ -32,9 +36,13 @@ public:
 	inline std::vector<class Camera*> getCameras() { return m_cameras; }
 	inline std::vector<class Light*> getLights() { return m_lights; }
 
+	void setActiveCamera(unsigned int index) { m_activeCamera = index; }
+	inline Camera* getActiveCamera() { return m_cameras[m_activeCamera]; }
+
 private:
 	std::string m_name;
 	glm::vec4 m_clearColor;
+	unsigned int m_activeCamera;
 
 	std::vector<class Mesh*> m_meshes;
 	std::vector<class Material*> m_materials;

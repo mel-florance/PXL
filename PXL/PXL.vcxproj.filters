@@ -70,9 +70,6 @@
     <ClCompile Include="mesh.cpp">
       <Filter>src\mesh</Filter>
     </ClCompile>
-    <ClCompile Include="obj_loader.cpp">
-      <Filter>src\loaders</Filter>
-    </ClCompile>
     <ClCompile Include="texture.cpp">
       <Filter>src\materials</Filter>
     </ClCompile>
@@ -93,9 +90,6 @@
     </ClCompile>
     <ClCompile Include="loader.cpp">
       <Filter>src\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="rawModel.cpp">
-      <Filter>src\mesh</Filter>
     </ClCompile>
     <ClCompile Include="assetManager.cpp">
       <Filter>src\managers</Filter>
@@ -134,9 +128,6 @@
     <ClInclude Include="mesh.h">
       <Filter>src\mesh</Filter>
     </ClInclude>
-    <ClInclude Include="obj_loader.h">
-      <Filter>src\loaders</Filter>
-    </ClInclude>
     <ClInclude Include="texture.h">
       <Filter>src\materials</Filter>
     </ClInclude>
@@ -155,9 +146,6 @@
     <ClInclude Include="shaderManager.h">
       <Filter>src\managers</Filter>
     </ClInclude>
-    <ClInclude Include="vertex.h">
-      <Filter>src\mesh</Filter>
-    </ClInclude>
     <ClInclude Include="pointLight.h">
       <Filter>src\lighting</Filter>
     </ClInclude>
@@ -166,9 +154,6 @@
     </ClInclude>
     <ClInclude Include="loader.h">
       <Filter>src\loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="rawModel.h">
-      <Filter>src\mesh</Filter>
     </ClInclude>
     <ClInclude Include="assetManager.h">
       <Filter>src\managers</Filter>

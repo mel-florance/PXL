@@ -3,7 +3,6 @@
 #include "engine.h"
 #include "sceneManager.h"
 
-
 #define WIDTH 1280
 #define HEIGHT 720
 
@@ -22,18 +21,19 @@ void Engine::render(std::function<void()> callback)
 {
 	Scene* scene = m_sceneManager->getCurrentScene();
 
-	if (m_window != nullptr) {
-		while (!m_window->isClosed()) {
+	if (m_window != nullptr) 
+	{
+		while (!m_window->isClosed())
+		{
 			m_clock->update();
+			m_window->clear(scene->getClearColor());
+
+			scene->getActiveCamera()->update(m_clock->m_deltaTime);
+
+			callback();
 
 			m_renderer->render(scene);
-
-			m_window->clear(0.15f, 0.15f, 0.15f, 1.0f);
-
-
-
 			m_window->swapBuffers();
-			callback();
 
 			SDL_Delay(1);
 		}

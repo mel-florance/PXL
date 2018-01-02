@@ -5,7 +5,7 @@ AssetManager::AssetManager()
 	m_loader = new Loader();
 }
 
-RawModel* AssetManager::importMesh(const std::string& filename)
+Mesh* AssetManager::importMesh(const std::string& filename)
 {
 	Assimp::Importer importer;
 
@@ -23,8 +23,8 @@ RawModel* AssetManager::importMesh(const std::string& filename)
 
 	const aiMesh* model = scene->mMeshes[0];
 
-	std::vector<glm::vec3> positions;
-	std::vector<glm::vec2> texCoords;
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
 	std::vector<glm::vec3> tangents;
 	std::vector<int> indices;
@@ -38,8 +38,8 @@ RawModel* AssetManager::importMesh(const std::string& filename)
 		const aiVector3D texCoord = model->HasTextureCoords(0) ? model->mTextureCoords[0][i] : aiZeroVector;
 		const aiVector3D tangent = model->mTangents[i];
 
-		positions.push_back(glm::vec3(pos.x, pos.y, pos.z));
-		texCoords.push_back(glm::vec2(texCoord.x, texCoord.y));
+		vertices.push_back(glm::vec3(pos.x, pos.y, pos.z));
+		uvs.push_back(glm::vec2(texCoord.x, texCoord.y));
 		normals.push_back(glm::vec3(normal.x, normal.y, normal.z));
 		tangents.push_back(glm::vec3(tangent.x, tangent.y, tangent.z));
 	}
@@ -55,7 +55,7 @@ RawModel* AssetManager::importMesh(const std::string& filename)
 
 	std::cout << "Loaded new mesh: " << filename << std::endl;
 
-	return &m_loader->loadToVAO(positions, indices, texCoords, normals);
+	return m_loader->loadToVAO(filename, vertices, indices, uvs, normals, tangents);
 }
 
 AssetManager::~AssetManager()

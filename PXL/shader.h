@@ -17,6 +17,7 @@ public:
 	virtual ~Shader();
 
 	void bind();
+	void unbind();
 	void update(const Transform& transform, Camera& camera, Light* light);
 
 	std::string loadShader(const std::string& filename);

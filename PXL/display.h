@@ -18,7 +18,7 @@ public:
 	virtual ~Display();
 
 	bool isClosed();
-	void clear(float r, float g, float b, float a);
+	void clear(const glm::vec4& color);
 	void swapBuffers();
 
 	inline Uint32 getWidth() { return m_width; }

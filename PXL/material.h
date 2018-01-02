@@ -4,11 +4,12 @@
 #include <glm/glm.hpp>
 
 #include "texture.h"
+#include "shader.h"
 
 class Material
 {
 public:
-	Material(const std::string& name, const std::string& shaderId);
+	Material(const std::string& name, Shader* shader);
 	~Material();
 
 	inline float getShininess() { return m_shininess; }
@@ -19,9 +20,15 @@ public:
 	inline void setReflectivity(float value) { m_reflectivity = value; }
 	inline void setDiffuseTexture(Texture* texture) { m_diffuseTexture = texture; }
 
+	inline const std::string& getName() { return m_name; }
+	inline void setName(const std::string& name) { m_name = name; }
+
+	inline Shader* getShader() { return m_shader; }
+	inline void setShader(Shader* shader) { m_shader = shader; }
+
 private:
 	std::string m_name;
-	std::string m_shaderId;
+	Shader* m_shader;
 
 	glm::vec3 m_color;
 	glm::vec2 m_tiling = glm::vec2(1.0f, 1.0f);

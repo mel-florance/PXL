@@ -51,6 +51,10 @@ GLuint Shader::createShader(const std::string& text, GLenum type)
 void Shader::bind()
 {
 	glUseProgram(m_program);
+}	
+void Shader::unbind()
+{
+	glUseProgram(0);
 }
 
 void Shader::update(const Transform& transform, Camera& camera, Light* light)

@@ -1,12 +1,12 @@
 #include "material.h"
 
-Material::Material(const std::string& name, const std::string& shaderId)
+Material::Material(const std::string& name, Shader* shader)
 {
 	m_name = name;
-	m_shaderId = shaderId;
+	m_shader = shader;
 }
 
 Material::~Material()
 {
-	delete m_diffuseTexture;
+
 }

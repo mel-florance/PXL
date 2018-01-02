@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SDL2/SDL.h>
+
 class Clock
 {
 public:
@@ -8,6 +10,6 @@ public:
 
 	void update();
 
-	int m_lastFrame;
-	int m_deltaTime;
+	Uint32 m_lastFrame;
+	float m_deltaTime;
 };

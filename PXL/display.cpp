@@ -60,9 +60,9 @@ bool Display::isClosed()
 	return m_isClosed;
 }
 
-void Display::clear(float r, float g, float b, float a)
+void Display::clear(const glm::vec4& color)
 {
-	glClearColor(r, g, b, a);
+	glClearColor(color.x, color.y, color.z, color.w);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

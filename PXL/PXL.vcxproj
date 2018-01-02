@@ -140,9 +140,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
-    <ClCompile Include="obj_loader.cpp" />
     <ClCompile Include="pointLight.cpp" />
-    <ClCompile Include="rawModel.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
@@ -163,9 +161,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />
-    <ClInclude Include="obj_loader.h" />
     <ClInclude Include="pointLight.h" />
-    <ClInclude Include="rawModel.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="scene.h" />
@@ -176,7 +172,6 @@
     <ClInclude Include="texture.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="util.h" />
-    <ClInclude Include="vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
