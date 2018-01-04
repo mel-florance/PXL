@@ -33,6 +33,8 @@ public:
 	void preUpdate(Transform* transform, Camera* camera, std::vector<Light*> lights);
 	void postUpdate();
 
+	virtual void bindAttributes();
+
 private:
 	std::string m_name;
 	Shader* m_shader;

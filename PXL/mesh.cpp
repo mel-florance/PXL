@@ -10,6 +10,8 @@ Mesh::Mesh(const std::string& name, GLuint& vao, GLuint& vertexCount)
 
 void Mesh::draw(Camera* camera, std::vector<Light*> lights)
 {
+	this->getMaterial()->getShader()->bind();
+	this->getMaterial()->bindAttributes();
 	this->getMaterial()->preUpdate(this->getTransform(), camera, lights);
 
 	glBindVertexArray(this->getVao());

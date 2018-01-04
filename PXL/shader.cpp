@@ -9,22 +9,11 @@ Shader::Shader(const std::string& filename)
 	for (unsigned int i = 0; i < NUM_SHADERS; ++i)
 		glAttachShader(m_program, m_shaders[i]);
 
-	glBindAttribLocation(m_program, 0, "position");
-	glBindAttribLocation(m_program, 1, "uvs");
-	glBindAttribLocation(m_program, 2, "normal");
-
-
 	glLinkProgram(m_program);
 	checkShaderError(m_program, GL_LINK_STATUS, true, "Shader Error: program linking failed.");
 
 	glValidateProgram(m_program);
 	checkShaderError(m_program, GL_VALIDATE_STATUS, true, "Shader Error: the program is invalid.");
-
-	m_uniforms[TRANSFORM_U] = glGetUniformLocation(m_program, "mTransform");
-	m_uniforms[VIEW_U] = glGetUniformLocation(m_program, "mView");
-	m_uniforms[PROJ_U] = glGetUniformLocation(m_program, "mProj");
-	m_uniforms[LIGHT_POSITION_U] = glGetUniformLocation(m_program, "lightPosition");
-	m_uniforms[LIGHT_COLOR_U] = glGetUniformLocation(m_program, "lightColor");
 }
 
 GLuint Shader::createShader(const std::string& text, GLenum type)
@@ -47,6 +36,21 @@ GLuint Shader::createShader(const std::string& text, GLenum type)
 	return shader;
 }
 
+void Shader::addUniform(const std::string& name)
+{
+	m_uniforms[name] = glGetUniformLocation(m_program, name.c_str());
+}
+
+void Shader::setUniformMat4fv(const std::string& name, const glm::mat4& mat)
+{
+	glUniformMatrix4fv(m_uniforms[name], 1, GL_FALSE, &mat[0][0]);
+}
+
+void Shader::setUniform3fv(const std::string& name, const glm::vec3& vec)
+{
+	glUniform3fv(m_uniforms[name], 1, &vec[0]);
+}
+
 void Shader::bind()
 {
 	glUseProgram(m_program);
@@ -56,19 +60,9 @@ void Shader::unbind()
 	glUseProgram(0);
 }
 
-void Shader::bindAttribute(unsigned int attribute, std::string& name)
+void Shader::bindAttribute(GLuint location, const std::string& name)
 {
-	glBindAttribLocation(m_program, attribute, name.c_str());
-}
-
-void Shader::update(const Transform& transform, Camera& camera, std::vector<Light*> lights)
-{ 
-	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &transform.getModel()[0][0]);
-	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, GL_FALSE, &camera.getViewMatrix()[0][0]);
-	glUniformMatrix4fv(m_uniforms[PROJ_U], 1, GL_FALSE, &camera.getProjectionMatrix()[0][0]);
-
-	glUniform3fv(m_uniforms[LIGHT_POSITION_U], 1, &lights[0]->getPosition()[0]);
-	glUniform3fv(m_uniforms[LIGHT_COLOR_U], 1, &lights[0]->getColor()[0]);
+	glBindAttribLocation(m_program, location, name.c_str());
 }
 
 std::string Shader::loadShader(const std::string& filename)

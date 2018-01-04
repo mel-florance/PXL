@@ -106,7 +106,9 @@
     <ClCompile Include="basicMaterial.cpp">
       <Filter>src\materials</Filter>
     </ClCompile>
-    <ClCompile Include="guiRenderer.cpp" />
+    <ClCompile Include="guiRenderer.cpp">
+      <Filter>src\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -183,9 +185,11 @@
     <ClInclude Include="meshRenderer.h">
       <Filter>src\entities\components</Filter>
     </ClInclude>
-    <ClInclude Include="guiRenderer.h" />
     <ClInclude Include="meshFactory.h">
       <Filter>src\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="guiRenderer.h">
+      <Filter>src\rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

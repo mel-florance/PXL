@@ -7,5 +7,7 @@ class BasicMaterial : public Material
 public:
 	BasicMaterial();
 	~BasicMaterial();
+
+	void bindAttributes();
 };
 

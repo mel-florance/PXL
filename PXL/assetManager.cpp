@@ -65,7 +65,14 @@ Mesh* AssetManager::importMesh(const std::string& filename)
 		}
 	}
 	
-	return m_loader->loadToVAO(filename, vertices, indices, uvs, normals, tangents);
+	Mesh* mesh = m_loader->loadToVAO(filename, vertices, indices, uvs, normals, tangents);
+
+	if (mesh != nullptr)
+		std::cout << "Loaded mesh: " << filename << std::endl;
+	else
+		std::cout << "Error loading mesh: " << filename << std::endl;
+
+	return mesh;
 }
 
 AssetManager::~AssetManager()
