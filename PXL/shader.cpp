@@ -56,14 +56,19 @@ void Shader::unbind()
 	glUseProgram(0);
 }
 
-void Shader::update(const Transform& transform, Camera& camera, Light* light)
+void Shader::bindAttribute(unsigned int attribute, std::string& name)
+{
+	glBindAttribLocation(m_program, attribute, name.c_str());
+}
+
+void Shader::update(const Transform& transform, Camera& camera, std::vector<Light*> lights)
 { 
 	glUniformMatrix4fv(m_uniforms[TRANSFORM_U], 1, GL_FALSE, &transform.getModel()[0][0]);
 	glUniformMatrix4fv(m_uniforms[VIEW_U], 1, GL_FALSE, &camera.getViewMatrix()[0][0]);
 	glUniformMatrix4fv(m_uniforms[PROJ_U], 1, GL_FALSE, &camera.getProjectionMatrix()[0][0]);
 
-	glUniform3fv(m_uniforms[LIGHT_POSITION_U], 1, &light->getPosition()[0]);
-	glUniform3fv(m_uniforms[LIGHT_COLOR_U], 1, &light->getColor()[0]);
+	glUniform3fv(m_uniforms[LIGHT_POSITION_U], 1, &lights[0]->getPosition()[0]);
+	glUniform3fv(m_uniforms[LIGHT_COLOR_U], 1, &lights[0]->getColor()[0]);
 }
 
 std::string Shader::loadShader(const std::string& filename)

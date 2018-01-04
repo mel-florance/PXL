@@ -20,7 +20,11 @@ Display::Display(Uint32 width, Uint32 height, const std::string & title, const s
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		width, height,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE | SDL_WINDOW_MAXIMIZED
+		SDL_WINDOW_OPENGL		 | 
+		SDL_WINDOW_RESIZABLE	 | 
+		SDL_WINDOW_MAXIMIZED	 |
+		SDL_RENDERER_ACCELERATED | 
+		SDL_RENDERER_PRESENTVSYNC
 	);
 
 	addIcon(icon);
@@ -48,9 +52,6 @@ Display::Display(Uint32 width, Uint32 height, const std::string & title, const s
 		std::cerr << "Glew failed to initialize!" << std::endl;
 	else {
 		m_isClosed = false;
-		glEnable(GL_DEPTH_TEST);
-		//glEnable(GL_CULL_FACE);
-		//glCullFace(GL_BACK);
 	}
 }
 

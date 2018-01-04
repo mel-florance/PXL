@@ -8,9 +8,10 @@ Engine::Engine()
 	std::cout << "Engine started!" << std::endl;
 	m_window = new Display(WIDTH, HEIGHT, "PXL Engine", "./res/textures/icon.png");
 	m_clock = new Clock();
+	m_loader = new Loader();
 	m_sceneManager = new SceneManager();
 	m_shaderManager = new ShaderManager();
-	m_assetManager = new AssetManager();
+	m_assetManager = new AssetManager(m_loader);
 	m_renderer = new Renderer();
 }
 
@@ -36,4 +37,5 @@ Engine::~Engine()
 	delete m_shaderManager;
 	delete m_assetManager;
 	delete m_renderer;
+	delete m_loader;
 }

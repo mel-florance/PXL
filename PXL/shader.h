@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
 
 #include <GL/glew.h>
@@ -18,13 +19,12 @@ public:
 
 	void bind();
 	void unbind();
-	void update(const Transform& transform, Camera& camera, Light* light);
+	void bindAttribute(unsigned int attribute, std::string& name);
+	void update(const Transform& transform, Camera& camera, std::vector<Light*> lights);
 
 	std::string loadShader(const std::string& filename);
 	void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& message);
 	GLuint createShader(const std::string& text, GLenum type);
-
-
 
 private:
 	static const unsigned int NUM_SHADERS = 2;

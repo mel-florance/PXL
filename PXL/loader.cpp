@@ -6,6 +6,17 @@ Loader::Loader()
 	m_vbos.clear();
 }
 
+Mesh* Loader::loadToVAO(const std::string& name, std::vector<glm::vec2> vertices)
+{
+	GLuint vao = this->createVAO();
+	GLuint vc = vertices.size();
+
+	this->storeDataInAttributeList(0, 2, &vertices[0], vc * sizeof(glm::vec2));
+	this->unbindVAO();
+
+	return new Mesh(name, vao, vc);
+}
+
 Mesh* Loader::loadToVAO(
 	const std::string& name,
 	std::vector<glm::vec3> vertices,
@@ -18,11 +29,18 @@ Mesh* Loader::loadToVAO(
 	GLuint vao = this->createVAO();
 	GLuint indicesSize = indices.size();
 	
-	this->bindIndicesBuffer(indices.data(), indicesSize);
-	this->storeDataInAttributeList(0, 3, &vertices[0], vertices.size() * sizeof(glm::vec3));
-	this->storeDataInAttributeList(1, 2, &uvs[0], uvs.size() * sizeof(glm::vec2));
-	this->storeDataInAttributeList(2, 3, &normals[0], vertices.size() * sizeof(glm::vec3));
-	this->storeDataInAttributeList(3, 3, &tangents[0], tangents.size() * sizeof(glm::vec3));
+	if(indicesSize > 0)
+		this->bindIndicesBuffer(indices.data(), indicesSize);
+
+	if(vertices.size() > 0)
+		this->storeDataInAttributeList(0, 3, &vertices[0], vertices.size() * sizeof(glm::vec3));
+	if(uvs.size() > 0)
+		this->storeDataInAttributeList(1, 2, &uvs[0], uvs.size() * sizeof(glm::vec2));
+	if(normals.size() > 0)
+		this->storeDataInAttributeList(2, 3, &normals[0], vertices.size() * sizeof(glm::vec3));
+	if(tangents.size() > 0)
+		this->storeDataInAttributeList(3, 3, &tangents[0], tangents.size() * sizeof(glm::vec3));
+
 	this->unbindVAO();
 
 	return new Mesh(name, vao, indicesSize);
@@ -74,4 +92,3 @@ Loader::~Loader()
 		m_vaos.pop_back();
 	}
 }
-

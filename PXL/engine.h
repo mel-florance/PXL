@@ -28,13 +28,15 @@ public:
 	inline ShaderManager* getShaderManager() { return m_shaderManager; }
 	inline Renderer* getRenderer() { return m_renderer; }
 	inline AssetManager* getAssetManager() { return m_assetManager; }
+	inline Loader* getLoader() { return m_loader; }
 
 private:
-	Display * m_window;
+	Display* m_window;
 	Clock* m_clock;
 	SceneManager* m_sceneManager;
 	ShaderManager* m_shaderManager;
 	AssetManager* m_assetManager;
 	Renderer* m_renderer;
+	Loader* m_loader;
 };
 

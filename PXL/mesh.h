@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include <GL\glew.h>
 
@@ -25,10 +26,16 @@ public:
 	inline Material* getMaterial() { return m_material; }
 	inline void setMaterial(Material* material) { m_material = material; }
 
+	void draw(Camera* camera, std::vector<Light*> lights);
+	void toggleAttributes(bool state);
+
 private:
 	std::string m_name;
 	GLuint m_vao;
 	GLuint m_vertexCount;
+
+	std::vector<Mesh*> m_children;
+	std::vector<Mesh*> m_instances;
 
 	Material* m_material;
 	Transform* m_transform;

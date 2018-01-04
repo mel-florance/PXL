@@ -19,7 +19,7 @@ void main() {
 
     vec3 unitNormal = normalize(fNormal);
     vec3 unitLight = normalize(fToLight);
-    vec3 unitCamera = normalize(fToCamera);    
+vec3 unitCamera = normalize(fToCamera);    
 
     float nDot = dot(unitNormal, unitLight);
     float brightness = max(nDot, 0.1);

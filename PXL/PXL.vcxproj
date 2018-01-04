@@ -130,12 +130,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assetManager.cpp" />
+    <ClCompile Include="basicMaterial.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="directionalLight.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="guiRenderer.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="loader.cpp" />
     <ClCompile Include="main.cpp" />
@@ -152,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assetManager.h" />
+    <ClInclude Include="basicMaterial.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="directionalLight.h" />
@@ -159,11 +162,14 @@
     <ClInclude Include="engine.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="entityComponent.h" />
+    <ClInclude Include="guiRenderer.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="loader.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="material.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="meshFactory.h" />
+    <ClInclude Include="meshRenderer.h" />
     <ClInclude Include="pointLight.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource.h" />

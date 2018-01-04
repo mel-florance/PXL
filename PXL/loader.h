@@ -14,6 +14,8 @@ public:
 	Loader();
 	~Loader();
 
+	Mesh* loadToVAO(const std::string& name, std::vector<glm::vec2> vertices);
+
 	Mesh* loadToVAO(
 		const std::string& name,
 		std::vector<glm::vec3> vertices,

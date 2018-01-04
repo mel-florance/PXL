@@ -35,6 +35,9 @@
     <Filter Include="src\entities">
       <UniqueIdentifier>{67c18133-495d-45f9-a6db-ed82eadd3ea1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\entities\components">
+      <UniqueIdentifier>{68424d9b-471b-4099-ab1f-29028fe8911b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PXL.rc">
@@ -100,6 +103,10 @@
     <ClCompile Include="entity.cpp">
       <Filter>src\entities</Filter>
     </ClCompile>
+    <ClCompile Include="basicMaterial.cpp">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="guiRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -169,6 +176,16 @@
     </ClInclude>
     <ClInclude Include="entityComponent.h">
       <Filter>src\entities</Filter>
+    </ClInclude>
+    <ClInclude Include="basicMaterial.h">
+      <Filter>src\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="meshRenderer.h">
+      <Filter>src\entities\components</Filter>
+    </ClInclude>
+    <ClInclude Include="guiRenderer.h" />
+    <ClInclude Include="meshFactory.h">
+      <Filter>src\mesh</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

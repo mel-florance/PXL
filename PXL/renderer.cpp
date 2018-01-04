@@ -2,7 +2,12 @@
 
 Renderer::Renderer()
 {
-
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_MULTISAMPLE);
 }
 
 void Renderer::render(Scene* scene)
@@ -11,28 +16,7 @@ void Renderer::render(Scene* scene)
 
 	for (unsigned int i = 0; i < meshes.size(); i++)
 	{
-		meshes[i]->getMaterial()->getShader()->bind();
-		meshes[i]->getMaterial()->getShader()->update(*meshes[i]->getTransform(), *scene->getActiveCamera(), scene->getLights()[0]);
-		meshes[i]->getMaterial()->getDiffuseTexture()->bind(0);
-
-		glBindVertexArray(meshes[i]->getVao());
-
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(2);
-		glEnableVertexAttribArray(3);
-
-		glDrawElements(GL_TRIANGLES, meshes[i]->getVertexCount(), GL_UNSIGNED_INT, 0);
-
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(2);
-		glDisableVertexAttribArray(3);
-
-		meshes[i]->getMaterial()->getShader()->unbind();
-		meshes[i]->getMaterial()->getDiffuseTexture()->unbind();
-
-		glBindVertexArray(0);
+		meshes[i]->draw(scene->getActiveCamera(), scene->getLights());
 	}
 }
 

@@ -11,11 +11,10 @@
 
 #include "loader.h"
 
-
 class AssetManager
 {
 public:
-	AssetManager();
+	AssetManager(Loader* loader);
 	~AssetManager();
 
 	Mesh* importMesh(const std::string& filename);

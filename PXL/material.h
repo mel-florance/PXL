@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <vector>
+#include <tuple>
 
 #include <glm/glm.hpp>
 
@@ -27,6 +29,9 @@ public:
 
 	inline Shader* getShader() { return m_shader; }
 	inline void setShader(Shader* shader) { m_shader = shader; }
+
+	void preUpdate(Transform* transform, Camera* camera, std::vector<Light*> lights);
+	void postUpdate();
 
 private:
 	std::string m_name;

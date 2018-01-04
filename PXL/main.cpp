@@ -24,24 +24,30 @@ int main(int argc, char* argv[])
 	window->setCamera(camera);
 
 	DirectionalLight* light = new DirectionalLight();
-	light->setPosition(glm::vec3(0.0f, 3.0f, 3.0f));
+	light->setPosition(glm::vec3(0.0f, 100.0f, 150.0f));
 
-	Mesh* camp = assetManager->importMesh("./res/models/watermill.obj");
+	Shader* shader = shaderManager->getShader("basic");
+	Material* checkerMat = new Material("checkerMat", shader);
+
+	Mesh* testObject = assetManager->importMesh("./res/models/test.dae");
+
+	if (testObject != nullptr) {
+		testObject->getTransform()->setPosition(glm::vec3(2.0f, 2.0f, 0.0f));
+		testObject->setMaterial(checkerMat);
+		scene->addMesh(testObject);
+	}
+
 	Mesh* tree = assetManager->importMesh("./res/models/tree.obj");
 	Mesh* plane = assetManager->importMesh("./res/models/plane.obj");
 
-	plane->getTransform()->setScale(glm::vec3(5.0f, 5.0f, 5.0f));
-	plane->getTransform()->setPosition(glm::vec3(0.0f, -2.0f, 0.0f));
-
-	Shader* shader = shaderManager->getShader("basic");
-
-	Material* checkerMat = new Material("checkerMat", shader);
+	plane->getTransform()->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
+	plane->getTransform()->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
 
 	plane->setMaterial(checkerMat);
 
 	Material* atlasMat = new Material("houseMat", shader);
 	tree->setMaterial(atlasMat);
-	camp->setMaterial(atlasMat);
+
 
 	Texture* checker_texture = new Texture("./res/textures/checker.png", true);
 	checkerMat->setDiffuseTexture(checker_texture);
@@ -49,7 +55,7 @@ int main(int argc, char* argv[])
 	Texture* atlas_texture = new Texture("./res/textures/atlas.png", true);
 	atlasMat->setDiffuseTexture(atlas_texture);
 
-	scene->addMesh(camp);
+
 	scene->addMesh(plane);
 	scene->addMesh(tree);
 
@@ -59,8 +65,10 @@ int main(int argc, char* argv[])
 	float angle = 0.0f;
 	while (!window->isClosed())
 	{
-		angle += 0.001f;
-		tree->getTransform()->setRotation(glm::vec3(0.0f, angle, 0.0f));
+		angle += 0.0003f;
+
+		if(testObject != nullptr)
+			testObject->getTransform()->setRotation(glm::vec3(0.0f, angle, 0.0f));
 
 		engine->render();
 	}

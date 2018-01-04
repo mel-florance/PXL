@@ -1,8 +1,8 @@
 #include "assetManager.h"
 
-AssetManager::AssetManager()
+AssetManager::AssetManager(Loader* loader)
 {
-	m_loader = new Loader();
+	m_loader = loader;
 }
 
 Mesh* AssetManager::importMesh(const std::string& filename)
@@ -29,36 +29,46 @@ Mesh* AssetManager::importMesh(const std::string& filename)
 	std::vector<glm::vec3> tangents;
 	std::vector<int> indices;
 
-	const aiVector3D aiZeroVector(0.0f, 0.0f, 0.0f);
+	const aiVector3D aiZeroVector(0, 0, 0);
 
 	for (unsigned int i = 0; i < model->mNumVertices; i++)
 	{
-		const aiVector3D pos = model->mVertices[i];
-		const aiVector3D normal = model->mNormals[i];
-		const aiVector3D texCoord = model->HasTextureCoords(0) ? model->mTextureCoords[0][i] : aiZeroVector;
-		const aiVector3D tangent = model->mTangents[i];
+		if (model->HasPositions()) {
+			const aiVector3D pos = model->mVertices[i];
+			vertices.push_back(glm::vec3(pos.x, pos.y, pos.z));
+		}
+		
+		if (model->HasTextureCoords(0)) {
+			const aiVector3D texCoord = model->HasTextureCoords(0) ? model->mTextureCoords[0][i] : aiZeroVector;
+			uvs.push_back(glm::vec2(texCoord.x, texCoord.y));
+		}
 
-		vertices.push_back(glm::vec3(pos.x, pos.y, pos.z));
-		uvs.push_back(glm::vec2(texCoord.x, texCoord.y));
-		normals.push_back(glm::vec3(normal.x, normal.y, normal.z));
-		tangents.push_back(glm::vec3(tangent.x, tangent.y, tangent.z));
+		if (model->HasNormals()) {
+			const aiVector3D normal = model->mNormals[i];
+			normals.push_back(glm::vec3(normal.x, normal.y, normal.z));
+		}
+
+		if (model->HasTangentsAndBitangents()) {
+			const aiVector3D tangent = model->mTangents[i];
+			tangents.push_back(glm::vec3(tangent.x, tangent.y, tangent.z));
+		}
 	}
 
-	for (unsigned int i = 0; i < model->mNumFaces; i++)
-	{
-		const aiFace& face = model->mFaces[i];
-		assert(face.mNumIndices == 3);
-		indices.push_back(face.mIndices[0]);
-		indices.push_back(face.mIndices[1]);
-		indices.push_back(face.mIndices[2]);
+	if (model->HasFaces()) {
+		for (unsigned int i = 0; i < model->mNumFaces; i++)
+		{
+			const aiFace& face = model->mFaces[i];
+			assert(face.mNumIndices == 3);
+			indices.push_back(face.mIndices[0]);
+			indices.push_back(face.mIndices[1]);
+			indices.push_back(face.mIndices[2]);
+		}
 	}
-
-	std::cout << "Loaded new mesh: " << filename << std::endl;
-
+	
 	return m_loader->loadToVAO(filename, vertices, indices, uvs, normals, tangents);
 }
 
 AssetManager::~AssetManager()
 {
-	delete m_loader;
+
 }
