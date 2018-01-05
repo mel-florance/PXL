@@ -30,6 +30,8 @@ public:
 
 	void setUniformMat4fv(const std::string& name, const glm::mat4& mat);
 	void setUniform3fv(const std::string& name, const glm::vec3& vec);
+	void setUniform1f(const std::string& name, float value);
+	void setUniform1i(const std::string& name, GLint value);
 
 private:
 	static const unsigned int NUM_SHADERS = 2;

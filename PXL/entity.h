@@ -17,7 +17,7 @@ public:
 	Entity* addComponent(EntityComponent* component);
 
 	inline Transform* getTransform() { return &m_transform; }
-	inline Material* getMaterial() { return &m_material; }
+
 
 	inline std::vector<class Entity*> getChildren() { return m_children; }
 	inline std::vector<class EntityComponent*> getComponents() { return m_components; }
@@ -27,7 +27,7 @@ private:
 	std::vector<class EntityComponent*> m_components;
 
 	Transform m_transform;
-	Material m_material;
+
 
 	void update(float delta);
 

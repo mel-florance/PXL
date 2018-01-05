@@ -10,6 +10,7 @@
 #include "material.h"
 #include "Light.h"
 #include "camera.h"
+#include "text.h"
 
 class Scene
 {
@@ -23,6 +24,7 @@ public:
 
 	void addCamera(Camera* camera);
 	void addLight(Light* light);
+	void addText(Text* text);
 
 	inline std::string& getName() { return m_name; }
 	inline void setName(std::string name) { m_name = name; }
@@ -30,6 +32,7 @@ public:
 	inline glm::vec4& getClearColor() { return m_clearColor; }
 	inline void setClearColor(glm::vec4 color) { m_clearColor = color; }
 
+	inline std::vector<class Text*> getTexts() { return m_texts; }
 	inline std::vector<class Mesh*> getMeshes() { return m_meshes; }
 	inline std::vector<class Material*> getMaterials() { return m_materials; }
 	inline std::vector<class Camera*> getCameras() { return m_cameras; }
@@ -43,6 +46,7 @@ private:
 	glm::vec4 m_clearColor;
 	unsigned int m_activeCamera;
 
+	std::vector<class Text*> m_texts;
 	std::vector<class Mesh*> m_meshes;
 	std::vector<class Material*> m_materials;
 	std::vector<class Camera*> m_cameras;

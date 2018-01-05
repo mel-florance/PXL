@@ -11,6 +11,11 @@ void Scene::addMesh(Mesh* mesh)
 	m_meshes.emplace_back(mesh);
 }
 
+void Scene::addText(Text* text)
+{
+	m_texts.emplace_back(text);
+}
+
 void Scene::addCamera(Camera* camera)
 {
 	m_cameras.emplace_back(camera);

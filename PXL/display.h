@@ -6,7 +6,6 @@
 #include <SDL2\SDL.h>
 #include <GL/glew.h>
 #include <glm\glm.hpp>
-#include <SDL2\SDL_ttf.h>
 #include "stb_image.h"
 
 #include "camera.h"
@@ -46,11 +45,8 @@ public:
 
 	bool addIcon(const std::string& filename);
 
-	void renderText(const std::string& message, SDL_Color color, int x, int y, int size);
-
 private:
 	SDL_Window* m_window;
-	SDL_Renderer* m_renderer;
 	SDL_GLContext m_glContext;
 	Camera* m_camera;
 

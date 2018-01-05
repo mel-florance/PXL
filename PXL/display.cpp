@@ -30,19 +30,6 @@ Display::Display(Uint32 width, Uint32 height, const std::string & title, const s
 	addIcon(icon);
 
 	m_glContext = SDL_GL_CreateContext(m_window);	
-	m_renderer = SDL_CreateRenderer(m_window, 0, 0);
-
-	TTF_Init();
-	const char* fontPath = "./res/fonts/segoeui.ttf";
-	TTF_Font * font = TTF_OpenFont(fontPath, 25);
-
-	if (font == nullptr)
-		std::cout << "Font loading error." << std::endl;
-	else
-		std::cout << "Loaded font: " << fontPath << std::endl;
-
-
-
 	SDL_SetRelativeMouseMode(SDL_TRUE);
 	SDL_GL_SetSwapInterval(0);
 
@@ -105,10 +92,6 @@ void Display::swapBuffers()
 		}
 	}
 
-
-	//SDL_RenderCopy(m_renderer, m_texture, NULL, NULL);
-	//SDL_RenderPresent(m_renderer);
-
 	SDL_GL_SwapWindow(m_window);
 }
 
@@ -160,15 +143,9 @@ bool Display::addIcon(const std::string& filename)
 	return true;
 }
 
-void Display::renderText(const std::string& message, SDL_Color color, int x, int y, int size)
-{
-	
-}
-
 Display::~Display()
 {
 	SDL_GL_DeleteContext(m_glContext);
-	SDL_DestroyRenderer(m_renderer);
 	SDL_DestroyWindow(m_window);
 	SDL_Quit();
 }

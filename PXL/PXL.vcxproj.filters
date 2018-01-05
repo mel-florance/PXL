@@ -38,6 +38,9 @@
     <Filter Include="src\entities\components">
       <UniqueIdentifier>{68424d9b-471b-4099-ab1f-29028fe8911b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ui">
+      <UniqueIdentifier>{38de7d74-9176-4ee5-a478-7ee41a747285}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PXL.rc">
@@ -63,9 +66,6 @@
     </ClCompile>
     <ClCompile Include="renderer.cpp">
       <Filter>src\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="material.cpp">
-      <Filter>src\materials</Filter>
     </ClCompile>
     <ClCompile Include="shader.cpp">
       <Filter>src\materials</Filter>
@@ -108,6 +108,12 @@
     </ClCompile>
     <ClCompile Include="guiRenderer.cpp">
       <Filter>src\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="textMaterial.cpp">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="text.cpp">
+      <Filter>src\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -190,6 +196,12 @@
     </ClInclude>
     <ClInclude Include="guiRenderer.h">
       <Filter>src\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="textMaterial.h">
+      <Filter>src\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="text.h">
+      <Filter>src\ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
