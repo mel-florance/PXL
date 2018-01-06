@@ -6,7 +6,7 @@
 #include "mesh.h"
 #include "texture.h"
 #include "camera.h"
-#include "directionalLight.h"
+#include "pointLight.h"
 #include "basicMaterial.h"
 #include "text.h"
 
@@ -31,15 +31,16 @@ int main(int argc, char* argv[])
 	Camera* camera = new Camera(glm::vec3(0.0f, 0.0f, -3.0f), 70.0f, window->getAspect(), 0.01f, 1000.0f);
 	window->setCamera(camera);
 
-	DirectionalLight* light = new DirectionalLight();
+	PointLight* light = new PointLight();
 	light->setPosition(glm::vec3(0.0f, 100.0f, 150.0f));
 
-	assetManager->importMesh("./res/models/SM_Pine01_lod2.obj");
+	assetManager->importMesh("./res/models/SM_Pine01.obj");
 	assetManager->importMesh("./res/models/monkey.obj");
 	assetManager->importMesh("./res/models/plane.obj");
 
-	Mesh* treeTrunk = scene->getMeshByName("SM_Pine01_lod2.001");
-	Mesh* treeLeaves = scene->getMeshByName("SM_Pine01_lod2");
+	Mesh* treeTrunk = scene->getMeshByName("SM_Pine01");
+	Mesh* treeLeaves = scene->getMeshByName("SM_Pine01.001_SM_Pine01.002");
+	treeTrunk->getMaterial()->setBackFaceCulling(false);
 
 	for (unsigned int i = 0; i < 50; i++) {
 		glm::vec3 rot = glm::vec3(0, RandomFloat(-10.0f, 10.0f), 0);

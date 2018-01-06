@@ -2,6 +2,7 @@
 
 #include "texture.h"
 #include "material.h"
+#include "scene.h"
 
 class BasicMaterial : public Material
 {
@@ -9,7 +10,7 @@ public:
 	BasicMaterial(const std::string& name, Shader* shader);
 	~BasicMaterial();
 
-	virtual void preUpdate(Camera* camera, std::vector<Light*> lights);
+	virtual void preUpdate(Scene* scene);
 	virtual void updateTransform(Transform* transform);
 	virtual void postUpdate();
 
@@ -37,21 +38,26 @@ public:
 	inline void setKs(float value) { m_Ks = value; }
 	inline float& getKs() { return m_Ks; }
 
+	inline void setBackFaceCulling(bool value) { m_backFaceCulling = value; }
+	inline bool& getBackFaceCulling() { return m_backFaceCulling; }
+
 	virtual void bindAttributes();
 
 private:
-	float m_shininess = 50.0f;
+	float m_shininess;
 
 	glm::vec3 m_diffuse;
 	glm::vec3 m_ambient;
 	glm::vec3 m_specular;
 
-	float m_Ka = 1.0f;
-	float m_Kd = 1.0f;
-	float m_Ks = 1.0f;
+	float m_Ka;
+	float m_Kd;
+	float m_Ks;
 
 	Texture* m_diffuseTexture;
 
-	glm::vec2 m_tiling = glm::vec2(1.0f, 1.0f);
+	glm::vec2 m_tiling;
+	bool m_backFaceCulling;
 };
+
 

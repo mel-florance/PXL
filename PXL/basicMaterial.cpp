@@ -6,6 +6,10 @@ BasicMaterial::BasicMaterial(const std::string& name, Shader* shader) : Material
 	this->getShader()->addUniform("mView");
 	this->getShader()->addUniform("mProj");
 
+	this->getShader()->addUniform("fogColor");
+	this->getShader()->addUniform("fogDensity");
+	this->getShader()->addUniform("fogGradient");
+
 	this->getShader()->addUniform("lightPosition");
 	this->getShader()->addUniform("lightColor");
 
@@ -18,8 +22,17 @@ BasicMaterial::BasicMaterial(const std::string& name, Shader* shader) : Material
 	this->getShader()->addUniform("Kd");
 	this->getShader()->addUniform("Ks");
 
+	m_shininess = 50.0f;
+	m_Ka = 1.0f;
+	m_Kd = 1.0f;
+	m_Ks = 1.0f;
+
 	m_diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
 	m_ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+	m_tiling = glm::vec2(1.0f, 1.0f);
+	m_backFaceCulling = true;
+
+	this->bindAttributes();
 }
 
 void BasicMaterial::bindAttributes()
@@ -35,15 +48,20 @@ void BasicMaterial::updateTransform(Transform* transform)
 	this->getShader()->setUniformMat4fv("mTransform", transform->getTransformation());
 }
 
-void BasicMaterial::preUpdate(Camera* camera, std::vector<Light*> lights)
+void BasicMaterial::preUpdate(Scene* scene)
 {
-	this->getShader()->setUniformMat4fv("mView", camera->getViewMatrix());
-	this->getShader()->setUniformMat4fv("mProj", camera->getProjectionMatrix());
+	this->getShader()->setUniformMat4fv("mView", scene->getActiveCamera()->getViewMatrix());
+	this->getShader()->setUniformMat4fv("mProj", scene->getActiveCamera()->getProjectionMatrix());
 
-	this->getShader()->setUniform3fv("lightPosition", lights[0]->getPosition());
-	this->getShader()->setUniform3fv("lightColor", lights[0]->getColor());
+	//TODO: make multiple lights !
+	this->getShader()->setUniform3fv("lightPosition", scene->getLights()[0]->getPosition());
+	this->getShader()->setUniform3fv("lightColor", scene->getLights()[0]->getColor());
 
 	this->getShader()->setUniform1f("shininess", this->getShininess());
+
+	this->getShader()->setUniform3fv("fogColor", scene->getFogColor());
+	this->getShader()->setUniform1f("fogGradient", scene->getFogGradient());
+	this->getShader()->setUniform1f("fogDensity", scene->getFogDensity());
 
 	this->getShader()->setUniform3fv("diffuseColor", this->getDiffuse());
 	this->getShader()->setUniform3fv("ambientColor", this->getAmbient());
