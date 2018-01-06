@@ -1,25 +1,25 @@
 # Blender MTL File: 'None'
 # Material Count: 2
 
-newmtl M_pine01_fo.001
-Ns 52.941176
+newmtl M_pine01_fo.002
+Ns 39.215686
 Ka 0.100000 0.100000 0.100000
-Kd 0.640000 0.640000 0.640000
-Ks 0.005440 0.005440 0.005440
+Kd 0.234196 0.234196 0.234196
+Ks 0.002225 0.002225 0.002225
 Ke 0.000000 0.000000 0.000000
-Ni 1.000000
+Ni 1.500000
 d 0.000000
 illum 2
-map_Kd C:\Users\Mel\Documents\Visual Studio 2017\Projects\PXL\PXL\res\textures\t_pine_fo_d.tga
+map_Kd C:\Users\Mel\Downloads\pine_tree_pack_01_textures\t_pine_fo_d.tga
 map_d C:\\Users\\Mel\\Downloads\\pine_tree_pack_01_textures\\t_pine_fo_d.tga
 
-newmtl M_pine01_tr.001
-Ns 56.862745
+newmtl M_pine01_tr.002
+Ns 60.784314
 Ka 0.100000 0.100000 0.100000
-Kd 0.435139 0.435139 0.435139
-Ks 0.003551 0.003551 0.003551
+Kd 0.800000 0.800000 0.800000
+Ks 0.008096 0.008096 0.008096
 Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 0.911877
+Ni 1.500000
+d 1.000000
 illum 2
 map_Kd C:\Users\Mel\Downloads\pine_tree_pack_01_textures\t_pine_tr_d.tga

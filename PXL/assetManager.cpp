@@ -120,9 +120,9 @@ void AssetManager::processMesh(aiString& name, aiMesh* mesh, const aiScene* scen
 			mat->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
 			mat->Get(AI_MATKEY_COLOR_SPECULAR, specular);
 
-			meshMat->setAmbient(glm::vec3(ambient.r, ambient.g, ambient.b));
-			meshMat->setDiffuse(glm::vec3(diffuse.r, diffuse.g, diffuse.b));
-			meshMat->setSpecular(glm::vec3(specular.r, specular.g, specular.b));
+			meshMat->setKa(glm::vec3(ambient.r, ambient.g, ambient.b));
+			meshMat->setKd(glm::vec3(diffuse.r, diffuse.g, diffuse.b));
+			meshMat->setKs(glm::vec3(specular.r, specular.g, specular.b));
 
 			meshMat->setShininess(shininess);
 

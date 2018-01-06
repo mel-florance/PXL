@@ -16,7 +16,7 @@ void Renderer::render(Scene* scene)
 {
 	m_basicShader->bind();
 
-	for (unsigned int i = 0; i < scene->getMeshes().size(); ++i)
+	for (unsigned int i = 0; i < scene->getMeshes().size(); i++)
 	{
 		Mesh* mesh = scene->getMeshes()[i];
 		Material* material = mesh->getMaterial();
@@ -33,7 +33,7 @@ void Renderer::render(Scene* scene)
 		material->preUpdate(scene);
 		mesh->draw();
 
-		for (unsigned int j = 0; j < instances.size(); ++j) {
+		for (unsigned int j = 0; j < instances.size(); j++) {
 			m_basicShader->setUniformMat4fv("mTransform", instances[j]->getTransform()->getTransformation());
 			instances[j]->draw();
 		}

@@ -9,15 +9,12 @@ in float fVisibility;
 out vec4 out_Color;
 
 uniform vec3 lightColor;
-
-uniform float Ka;
-uniform float Kd;
-uniform float Ks;
-uniform vec3 diffuseColor;
-uniform vec3 ambientColor;
-uniform vec3 specularColor;
-uniform float shininess;
 uniform vec3 fogColor;
+
+uniform vec3 Ka;
+uniform vec3 Kd;
+uniform vec3 Ks;
+uniform float shininess;
 
 uniform sampler2D diffuseTexture;
 
@@ -27,23 +24,28 @@ void main()
 {
     vec4 texel = texture2D(diffuseTexture, fUvs);
 
-    if(texel.a <= 0.5)
+    if(texel.a < 0.5)
         discard;
 
-    vec3 N = normalize(fNormal);
-    vec3 L = normalize(fToLight);
+    vec3 unitNormal = normalize(fNormal);
+    vec3 unitLight = normalize(fToLight);
+    vec3 unitCamera = normalize(fToCamera);    
 
-    float lambertian = max(dot(N, L), 0.0);
-    float specular = 0.0;
+    float nDot = dot(unitNormal, unitLight);
+    float brightness = max(nDot, 0.1);
+    vec3 diffuse = brightness * lightColor;
 
-    if(lambertian > 0.0) {
-        vec3 R = reflect(-L, N);
-        vec3 V = normalize(fToCamera);
+    vec3 lightDirection = -unitLight;
+    vec3 reflected = reflect(lightDirection, unitNormal);
 
-        float specAngle = max(dot(R, V), 0.0);
-        specular = pow(specAngle, shininess);
+    if(shininess > 0.0) 
+    {
+        float factor = dot(reflected, unitCamera);
+        factor = max(factor, 0.0);
+        float damping = pow(factor, shininess);
+        specular = damping * Ks * lightColor;
     }
 
-    out_Color = texel * vec4(Ka * ambientColor + Kd * lambertian * diffuseColor + Ks * specular * specularColor, 1.0);
+    out_Color = texel * vec4(diffuse, 1.0) + vec4(specular, 1.0); 
     out_Color = mix(vec4(fogColor, 1.0), out_Color, fVisibility);
 }

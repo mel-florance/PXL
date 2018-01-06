@@ -27,7 +27,7 @@ public:
 	void addText(Text* text);
 
 	inline std::string& getName() { return m_name; }
-	inline void setName(std::string name) { m_name = name; }
+	inline void setName(std::string& name) { m_name = name; }
 
 	inline std::vector<class Text*> getTexts() { return m_texts; }
 	inline std::vector<class Mesh*> getMeshes() { return m_meshes; }
@@ -39,16 +39,16 @@ public:
 	inline Camera* getActiveCamera() { return m_cameras[m_activeCamera]; }
 
 	inline glm::vec4& getClearColor() { return m_clearColor; }
-	inline void setClearColor(glm::vec4 color) { m_clearColor = color; }
+	inline void setClearColor(glm::vec4& color) { m_clearColor = color; }
 
 	inline glm::vec3& getFogColor() { return m_fogColor; }
-	inline void setFogColor(glm::vec3 color) { m_fogColor = color; }
+	inline void setFogColor(glm::vec3& color) { m_fogColor = color; }
 
 	inline float& getFogGradient() { return m_fogGradient; }
-	inline void setFogGradient(float value) { m_fogGradient = value; }
+	inline void setFogGradient(float& value) { m_fogGradient = value; }
 
 	inline float& getFogDensity() { return m_fogDensity; }
-	inline void setFogDensity(float value) { m_fogDensity = value; }
+	inline void setFogDensity(float& value) { m_fogDensity = value; }
 
 private:
 	std::string m_name;

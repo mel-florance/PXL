@@ -10,10 +10,11 @@ public:
 
 	~Light();
 
-	inline const glm::vec3& getPosition() { return m_position; }
-	inline const glm::vec3& getColor() { return m_color; }
+	virtual inline const glm::vec3& getPosition() { return m_position; }
+	virtual inline void setPosition(glm::vec3& position) { m_position = position; }
 
-	inline void setPosition(glm::vec3& position) { m_position = position; }
+	virtual inline const glm::vec3& getColor() { return m_color; }
+	virtual inline void setColor(glm::vec3& color) { m_color = color; }
 
 private:
 	glm::vec3 m_position;

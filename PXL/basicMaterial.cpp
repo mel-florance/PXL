@@ -15,20 +15,13 @@ BasicMaterial::BasicMaterial(const std::string& name, Shader* shader) : Material
 
 	this->getShader()->addUniform("shininess");
 	this->getShader()->addUniform("diffuseTexture");
-	this->getShader()->addUniform("diffuseColor");
-	this->getShader()->addUniform("ambientColor");
-	this->getShader()->addUniform("specularColor");
 	this->getShader()->addUniform("Ka");
 	this->getShader()->addUniform("Kd");
 	this->getShader()->addUniform("Ks");
 
 	m_shininess = 50.0f;
-	m_Ka = 1.0f;
-	m_Kd = 1.0f;
-	m_Ks = 1.0f;
-
-	m_diffuse = glm::vec3(0.5f, 0.5f, 0.5f);
-	m_ambient = glm::vec3(0.1f, 0.1f, 0.1f);
+	m_Ka = glm::vec3(0.1f, 0.1f, 0.1f);
+	m_Kd = glm::vec3(0.5f, 0.5f, 0.5f);
 	m_tiling = glm::vec2(1.0f, 1.0f);
 	m_backFaceCulling = true;
 
@@ -63,13 +56,9 @@ void BasicMaterial::preUpdate(Scene* scene)
 	this->getShader()->setUniform1f("fogGradient", scene->getFogGradient());
 	this->getShader()->setUniform1f("fogDensity", scene->getFogDensity());
 
-	this->getShader()->setUniform3fv("diffuseColor", this->getDiffuse());
-	this->getShader()->setUniform3fv("ambientColor", this->getAmbient());
-	this->getShader()->setUniform3fv("specularColor", this->getSpecular());
-
-	this->getShader()->setUniform1f("Ka", this->getKa());
-	this->getShader()->setUniform1f("Kd", this->getKd());
-	this->getShader()->setUniform1f("Ks", this->getKs());
+	this->getShader()->setUniform3fv("Ka", this->getKa());
+	this->getShader()->setUniform3fv("Kd", this->getKd());
+	this->getShader()->setUniform3fv("Ks", this->getKs());
 
 	if (this->getDiffuseTexture() != nullptr) {
 		this->getDiffuseTexture()->bind(0);

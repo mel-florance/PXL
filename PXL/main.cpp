@@ -32,17 +32,19 @@ int main(int argc, char* argv[])
 	window->setCamera(camera);
 
 	PointLight* light = new PointLight();
-	light->setPosition(glm::vec3(0.0f, 100.0f, 150.0f));
+	light->setPosition(glm::vec3(0.0f, 100.0f, 100.0f));
+	light->setColor(glm::vec3(1.0f, 1.0f, 1.0f));
 
 	assetManager->importMesh("./res/models/SM_Pine01.obj");
-	assetManager->importMesh("./res/models/monkey.obj");
+	assetManager->importMesh("./res/models/SM_Pine02.obj");
 	assetManager->importMesh("./res/models/plane.obj");
 
 	Mesh* treeTrunk = scene->getMeshByName("SM_Pine01");
 	Mesh* treeLeaves = scene->getMeshByName("SM_Pine01.001_SM_Pine01.002");
 	treeTrunk->getMaterial()->setBackFaceCulling(false);
 
-	for (unsigned int i = 0; i < 50; i++) {
+	for (unsigned int i = 0; i < 50; i++) 
+	{
 		glm::vec3 rot = glm::vec3(0, RandomFloat(-10.0f, 10.0f), 0);
 		glm::vec3 pos = glm::vec3(RandomFloat(-50.0f, 50.0f), 0, RandomFloat(-50.0f, 50.0f));
 		Mesh* instance = treeTrunk->createInstance("tree_i_" + i);
@@ -54,8 +56,26 @@ int main(int argc, char* argv[])
 		instance2->getTransform()->setPosition(pos);
 	}
 
+	Mesh* tree2Trunk = scene->getMeshByName("SM_Pine02.003");
+	Mesh* tree2Leaves = scene->getMeshByName("SM_Pine02.002");
+	tree2Trunk->getMaterial()->setBackFaceCulling(false);
+
+	for (unsigned int i = 0; i < 50; i++) 
+	{
+		glm::vec3 rot = glm::vec3(0, RandomFloat(-10.0f, 10.0f), 0);
+		glm::vec3 pos = glm::vec3(RandomFloat(-50.0f, 50.0f), 0, RandomFloat(-50.0f, 50.0f));
+		Mesh* instance = tree2Trunk->createInstance("tree_i_" + i);
+		instance->getTransform()->setRotation(rot);
+		instance->getTransform()->setPosition(pos);
+
+		Mesh* instance2 = tree2Leaves->createInstance("tree_i2_" + i);
+		instance2->getTransform()->setRotation(rot);
+		instance2->getTransform()->setPosition(pos);
+	}
+
 	Mesh* plane = scene->getMeshByName("Plane");
 	plane->getTransform()->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
+	plane->getMaterial()->setTiling(glm::vec2(5.0f, 5.0f));
 
 	CBitmapFont font = engine->getFontManager()->getFont("segoe_ui");
 	Text* text = new Text("PXL Engine 1.0", glm::vec3(1.0f, 1.0f, 1.0f), 40, 960, font);
