@@ -17,13 +17,14 @@ Texture::Texture(const std::string& filename, bool generateMipmaps)
 	this->load();
 }
 
-void Texture::Texture::load() {
+Texture* Texture::Texture::load() 
+{
 	int width, height, numComponents;
 	unsigned char* imageData = stbi_load(m_filename.c_str(), &width, &height, &numComponents, STBI_rgb_alpha);
 
 	if (imageData == NULL) {
 		std::cerr << "Texture loading failed for texture: " << m_filename << std::endl;
-		return;
+		return nullptr;
 	}
 
 	glGenTextures(1, &m_texture);
@@ -46,6 +47,8 @@ void Texture::Texture::load() {
 	std::cout << "Loaded texture: " << m_filename << ": " << getFileSize(m_filename) << "Mb" << std::endl;
 
 	stbi_image_free(imageData);
+
+	return this;
 }
 
 void Texture::bind(unsigned int unit)

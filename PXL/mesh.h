@@ -26,16 +26,22 @@ public:
 	inline Material* getMaterial() { return m_material; }
 	inline void setMaterial(Material* material) { m_material = material; }
 
-	void draw(Camera* camera, std::vector<Light*> lights);
+	void draw();
 	void toggleAttributes(bool state);
+
+	void addChild(Mesh* child);
+
+	std::vector<class Mesh*> getInstances() { return m_instances; }
+
+	Mesh* createInstance(const std::string& name);
 
 private:
 	std::string m_name;
 	GLuint m_vao;
 	GLuint m_vertexCount;
 
-	std::vector<Mesh*> m_children;
-	std::vector<Mesh*> m_instances;
+	std::vector<class Mesh*> m_children;
+	std::vector<class Mesh*> m_instances;
 
 	Material* m_material;
 	Transform* m_transform;

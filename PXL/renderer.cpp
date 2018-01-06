@@ -1,7 +1,10 @@
 #include "renderer.h"
 
-Renderer::Renderer()
+Renderer::Renderer(ShaderManager* shaderManager)
 {
+	m_shaderManager = shaderManager;
+	m_basicShader = m_shaderManager->getShader("basic");
+
 	//glEnable(GL_CULL_FACE);
 	//glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);
@@ -12,17 +15,37 @@ Renderer::Renderer()
 
 void Renderer::render(Scene* scene)
 {
-	std::vector<Mesh*> meshes = scene->getMeshes();
-	std::vector<Text*> texts = scene->getTexts();
+	m_basicShader->bind();
 
-	for (unsigned int i = 0; i < meshes.size(); i++)
+	for (unsigned int i = 0; i < scene->getMeshes().size(); ++i)
 	{
-		meshes[i]->draw(scene->getActiveCamera(), scene->getLights());
+		Mesh* mesh = scene->getMeshes()[i];
+		Material* material = mesh->getMaterial();
+		std::vector<Mesh*> instances = mesh->getInstances();
+
+		glBindVertexArray(mesh->getVao());
+		material->bindAttributes();
+		mesh->toggleAttributes(true);
+		m_basicShader->setUniformMat4fv("mTransform", mesh->getTransform()->getTransformation());
+		material->preUpdate(scene->getActiveCamera(), scene->getLights());
+		mesh->draw();
+
+		for (unsigned int j = 0; j < instances.size(); ++j) {
+			m_basicShader->setUniformMat4fv("mTransform", instances[j]->getTransform()->getTransformation());
+			instances[j]->draw();
+		}
+
+		mesh->toggleAttributes(false);
+		material->postUpdate();
+		glBindVertexArray(0);
+
 	}
 
-	for (unsigned int i = 0; i < texts.size(); i++)
+	m_basicShader->unbind();
+
+	for (unsigned int i = 0; i < scene->getTexts().size(); i++)
 	{
-		texts[i]->draw();
+		scene->getTexts()[i]->draw();
 	}
 }
 

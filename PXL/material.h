@@ -19,7 +19,9 @@ public:
 	inline Shader* getShader() { return m_shader; }
 	inline void setShader(Shader* shader) { m_shader = shader; }
 
-	virtual void preUpdate(Transform* transform, Camera* camera, std::vector<Light*> lights) {}
+	virtual void updateTransform(Transform* transform) {}
+
+	virtual void preUpdate(Camera* camera, std::vector<Light*> lights) {}
 	virtual void postUpdate() {}
 
 	virtual void bindAttributes() {}

@@ -16,7 +16,7 @@ public:
 
 	GLuint m_texture;
 
-	void load();
+	Texture* load();
 	void bind(unsigned int unit);
 	void unbind();
 	

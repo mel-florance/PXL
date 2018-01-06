@@ -1,0 +1,13 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl None
+Ns 43.137255
+Ka 0.100000 0.100000 0.100000
+Kd 0.640000 0.640000 0.640000
+Ks 0.672474 0.672474 0.672474
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Mel\Documents\Visual Studio 2017\Projects\PXL\PXL\res\textures\checker.png

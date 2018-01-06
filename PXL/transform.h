@@ -10,6 +10,9 @@ private:
 	glm::vec3 m_rotation;
 	glm::vec3 m_scale;
 
+	Transform* m_parent;
+	mutable glm::mat4 m_parentMatrix;
+
 public:
 	Transform(
 		const glm::vec3& position = glm::vec3(0.0f, 0.0f, 0.0f), 
@@ -22,7 +25,7 @@ public:
 
 	virtual ~Transform() {};
 
-	inline glm::mat4 getModel() const
+	inline glm::mat4 getTransformation()
 	{
 		glm::mat4 positionMatrix = glm::translate(m_position);
 		glm::mat4 rotationXMatrix = glm::rotate(m_rotation.x, glm::vec3(1, 0, 0));
@@ -34,6 +37,16 @@ public:
 
 		return positionMatrix * rotationMatrix * scaleMatrix;
 	}
+
+	inline glm::mat4 getParentMatrix() {
+
+		if (m_parent != 0)
+			m_parentMatrix = m_parent->getTransformation();
+
+		return m_parentMatrix;
+	}
+
+	inline void setParent(Transform* parent) { m_parent = parent; }
 
 	inline glm::vec3& getPosition() { return m_position; };
 	inline glm::vec3& getRotation() { return m_rotation; };

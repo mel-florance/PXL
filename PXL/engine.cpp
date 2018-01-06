@@ -11,8 +11,9 @@ Engine::Engine()
 	m_loader = new Loader();
 	m_sceneManager = new SceneManager();
 	m_shaderManager = new ShaderManager();
-	m_assetManager = new AssetManager(m_loader);
-	m_renderer = new Renderer();
+	m_assetManager = new AssetManager(m_loader, m_shaderManager, m_sceneManager);
+	m_fontManager = new FontManager();
+	m_renderer = new Renderer(m_shaderManager);
 }
 
 void Engine::render()
@@ -26,7 +27,7 @@ void Engine::render()
 	m_renderer->render(scene);
 	m_window->swapBuffers();
 
-	SDL_Delay(1);
+	SDL_Delay(0);
 }
 
 Engine::~Engine()
@@ -36,6 +37,7 @@ Engine::~Engine()
 	delete m_sceneManager;
 	delete m_shaderManager;
 	delete m_assetManager;
+	delete m_fontManager;
 	delete m_renderer;
 	delete m_loader;
 }

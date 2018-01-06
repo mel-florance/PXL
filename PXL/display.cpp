@@ -88,6 +88,7 @@ void Display::swapBuffers()
 		}
 
 		if (m_camera != nullptr) {
+
 			m_camera->onKeyboard(e.key);
 		}
 	}

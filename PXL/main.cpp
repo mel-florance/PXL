@@ -8,8 +8,14 @@
 #include "camera.h"
 #include "directionalLight.h"
 #include "basicMaterial.h"
-#include "textMaterial.h"
 #include "text.h"
+
+float RandomFloat(float a, float b) {
+	float random = ((float)rand()) / (float)RAND_MAX;
+	float diff = b - a;
+	float r = random * diff;
+	return a + r;
+}
 
 int main(int argc, char* argv[]) 
 {
@@ -28,50 +34,34 @@ int main(int argc, char* argv[])
 	DirectionalLight* light = new DirectionalLight();
 	light->setPosition(glm::vec3(0.0f, 100.0f, 150.0f));
 
-	Shader* shader = shaderManager->getShader("basic");
-	Shader* textShader = shaderManager->getShader("text");
+	assetManager->importMesh("./res/models/SM_Pine01_lod2.obj");
+	assetManager->importMesh("./res/models/monkey.obj");
+	assetManager->importMesh("./res/models/plane.obj");
 
-	BasicMaterial* checkerMat = new BasicMaterial("checkerMat", shader);
+	Mesh* treeTrunk = scene->getMeshByName("SM_Pine01_lod2.001");
+	Mesh* treeLeaves = scene->getMeshByName("SM_Pine01_lod2");
 
-	TextMaterial* textMat = new TextMaterial("textMat", textShader);
-	Texture* textFontAtlas = new Texture("./res/fonts/segoeui.bmp", false);
-	textMat->setDiffuseTexture(textFontAtlas);
+	for (unsigned int i = 0; i < 50; i++) {
+		glm::vec3 rot = glm::vec3(0, RandomFloat(-10.0f, 10.0f), 0);
+		glm::vec3 pos = glm::vec3(RandomFloat(-50.0f, 50.0f), 0, RandomFloat(-50.0f, 50.0f));
+		Mesh* instance = treeTrunk->createInstance("tree_i_" + i);
+		instance->getTransform()->setRotation(rot);
+		instance->getTransform()->setPosition(pos);
 
-
-	char t[256] = "hello";
-	Text* fpsText = new Text(t, 10, 500, 60);
-	fpsText->setMaterial(textMat);
-	scene->addText(fpsText);
-
-	Mesh* testObject = assetManager->importMesh("./res/models/test.dae");
-
-	if (testObject != nullptr) {
-		testObject->getTransform()->setPosition(glm::vec3(2.0f, 2.0f, 0.0f));
-		testObject->setMaterial(checkerMat);
-		scene->addMesh(testObject);
+		Mesh* instance2 = treeLeaves->createInstance("tree_i2_" + i);
+		instance2->getTransform()->setRotation(rot);
+		instance2->getTransform()->setPosition(pos);
 	}
 
-	Texture* checker_texture = new Texture("./res/textures/checker.png", true);
-	checkerMat->setReflectivity(0.0f);
-	checkerMat->setShininess(0.0f);
-	checkerMat->setDiffuseTexture(checker_texture);
-
-	Mesh* plane = assetManager->importMesh("./res/models/plane.obj");
+	Mesh* plane = scene->getMeshByName("Plane");
 	plane->getTransform()->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
-	plane->getTransform()->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
-	plane->setMaterial(checkerMat);
 
-	Mesh* tree = assetManager->importMesh("./res/models/SM_Pine01.obj");
-	tree->getTransform()->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
-	BasicMaterial* treeMat = new BasicMaterial("treeMat", shader);
-	treeMat->setReflectivity(0.0f);
-	treeMat->setShininess(0.0f);
-	tree->setMaterial(treeMat);
-	Texture* tree_texture = new Texture("./res/textures/t_pine_fo_d.png", true);
-	treeMat->setDiffuseTexture(tree_texture);
-
-	scene->addMesh(plane);
-	scene->addMesh(tree);
+	CBitmapFont font = engine->getFontManager()->getFont("segoe_ui");
+	Text* text = new Text("PXL Engine 1.0", glm::vec3(1.0f, 1.0f, 1.0f), 40, 960, font);
+	Text* fpsText = new Text("0 fps", glm::vec3(1.0f, 1.0f, 1.0f), 40, 940, font);
+	fpsText->setSize(glm::vec2(0.5f, 0.5f));
+	scene->addText(text);
+	scene->addText(fpsText);
 
 	scene->addCamera(camera);
 	scene->addLight(light);
@@ -80,9 +70,10 @@ int main(int argc, char* argv[])
 	while (!window->isClosed())
 	{
 		angle += 0.0003f;
-
-		if(testObject != nullptr)
-			testObject->getTransform()->setRotation(glm::vec3(0.0f, angle, 0.0f));
+	
+		char fps[128];
+		sprintf(fps, "%d fps", (int)(1 / engine->getClock()->m_deltaTime));
+		fpsText->setText(fps);
 
 		engine->render();
 	}

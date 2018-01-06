@@ -1,11 +1,22 @@
 #include "assetManager.h"
 
-AssetManager::AssetManager(Loader* loader)
+struct MaterialInfo
+{
+	std::string name;
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+	float shininess;
+};
+
+AssetManager::AssetManager(Loader* loader, ShaderManager* shaderManager, SceneManager* sceneManager)
 {
 	m_loader = loader;
+	m_shaderManager = shaderManager;
+	m_sceneManager = sceneManager;
 }
 
-Mesh* AssetManager::importMesh(const std::string& filename)
+void AssetManager::importMesh(const std::string& filename)
 {
 	Assimp::Importer importer;
 
@@ -18,61 +29,115 @@ Mesh* AssetManager::importMesh(const std::string& filename)
 
 	if (!scene) {
 		std::cout << importer.GetErrorString() << std::endl;
-		return nullptr;
+		return;
 	}
 
-	const aiMesh* model = scene->mMeshes[0];
+	this->processNode(scene->mRootNode, scene);
+}
 
+void AssetManager::processNode(aiNode* node, const aiScene* scene)
+{
+	for (GLuint i = 0; i < node->mNumMeshes; i++)
+	{
+		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		this->processMesh(node->mName, mesh, scene);
+	}
+
+	for (GLuint i = 0; i < node->mNumChildren; i++)
+	{
+		this->processNode(node->mChildren[i], scene);
+	}
+}
+
+void AssetManager::processMesh(aiString& name, aiMesh* mesh, const aiScene* scene)
+{
+	const aiVector3D aiZeroVector(0, 0, 0);
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
 	std::vector<glm::vec3> tangents;
 	std::vector<int> indices;
 
-	const aiVector3D aiZeroVector(0, 0, 0);
 
-	for (unsigned int i = 0; i < model->mNumVertices; i++)
+	for (GLuint i = 0; i < mesh->mNumVertices; i++)
 	{
-		if (model->HasPositions()) {
-			const aiVector3D pos = model->mVertices[i];
+		if (mesh->HasPositions()) {
+			const aiVector3D pos = mesh->mVertices[i];
 			vertices.push_back(glm::vec3(pos.x, pos.y, pos.z));
 		}
-		
-		if (model->HasTextureCoords(0)) {
-			const aiVector3D texCoord = model->HasTextureCoords(0) ? model->mTextureCoords[0][i] : aiZeroVector;
+
+		if (mesh->HasTextureCoords(0)) {
+			const aiVector3D texCoord = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : aiZeroVector;
 			uvs.push_back(glm::vec2(texCoord.x, texCoord.y));
 		}
 
-		if (model->HasNormals()) {
-			const aiVector3D normal = model->mNormals[i];
+		if (mesh->HasNormals()) {
+			const aiVector3D normal = mesh->mNormals[i];
 			normals.push_back(glm::vec3(normal.x, normal.y, normal.z));
 		}
 
-		if (model->HasTangentsAndBitangents()) {
-			const aiVector3D tangent = model->mTangents[i];
+		if (mesh->HasTangentsAndBitangents()) {
+			const aiVector3D tangent = mesh->mTangents[i];
 			tangents.push_back(glm::vec3(tangent.x, tangent.y, tangent.z));
 		}
 	}
 
-	if (model->HasFaces()) {
-		for (unsigned int i = 0; i < model->mNumFaces; i++)
+	if (mesh->HasFaces())
+	{
+		for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 		{
-			const aiFace& face = model->mFaces[i];
-			assert(face.mNumIndices == 3);
+			const aiFace& face = mesh->mFaces[i];
 			indices.push_back(face.mIndices[0]);
 			indices.push_back(face.mIndices[1]);
 			indices.push_back(face.mIndices[2]);
 		}
 	}
-	
-	Mesh* mesh = m_loader->loadToVAO(filename, vertices, indices, uvs, normals, tangents);
 
-	if (mesh != nullptr)
-		std::cout << "Loaded mesh: " << filename << std::endl;
+	Mesh* newMesh = m_loader->loadToVAO(name.C_Str(), vertices, indices, uvs, normals, tangents);
+
+	if (newMesh != nullptr)
+	{
+		if (mesh->mMaterialIndex >= 0)
+		{
+			aiMaterial* mat = scene->mMaterials[mesh->mMaterialIndex];
+
+			aiString diffusePath;
+			mat->GetTexture(aiTextureType_DIFFUSE, 0, &diffusePath);
+			Texture* diffuseTexture = new Texture(diffusePath.C_Str(), true);
+
+			aiString materialName;
+			mat->Get(AI_MATKEY_NAME, materialName);
+
+			BasicMaterial* meshMat = new BasicMaterial(materialName.C_Str(), m_shaderManager->getShader("basic"));
+
+			float shininess;
+			aiColor3D diffuse;
+			aiColor3D ambient;
+			aiColor3D specular;
+
+			mat->Get(AI_MATKEY_SHININESS, shininess);
+			mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
+			mat->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
+			mat->Get(AI_MATKEY_COLOR_SPECULAR, specular);
+
+			meshMat->setAmbient(glm::vec3(ambient.r, ambient.g, ambient.b));
+			meshMat->setDiffuse(glm::vec3(diffuse.r, diffuse.g, diffuse.b));
+			meshMat->setSpecular(glm::vec3(specular.r, specular.g, specular.b));
+
+			meshMat->setShininess(shininess);
+
+			if(diffuseTexture != nullptr)
+				meshMat->setDiffuseTexture(diffuseTexture);
+
+			newMesh->setMaterial(meshMat);
+
+			m_sceneManager->getCurrentScene()->addMesh(newMesh);
+		}
+
+		std::cout << "Loaded mesh: " << name.C_Str() << std::endl;
+	}
 	else
-		std::cout << "Error loading mesh: " << filename << std::endl;
-
-	return mesh;
+		std::cout << "Error loading mesh: " << name.C_Str() << std::endl;
 }
 
 AssetManager::~AssetManager()

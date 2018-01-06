@@ -1,39 +1,26 @@
 #pragma once
 
-#include <vector>
+#include <string>
 
 #include <glm\glm.hpp>
 
-#include "transform.h"
-#include "textMaterial.h"
+#include "bitmapFont.h"
 
 class Text
 {
 public:
-	Text(const char* text, int x, int y, int size);
+	Text(const std::string& text, glm::vec3& color, int x, int y, CBitmapFont font);
 	~Text();
 
-	inline int getX() { return m_x; }
-	inline int getY() { return m_y; }
-	inline int getSize() { return m_size; }
-
-	inline void setX(int x) { m_x = x; }
-	inline void setY(int y) { m_y = y; }
-	inline void setSize(int size) { m_size = size; }
-
-	inline TextMaterial* getMaterial() { return m_material; }
-	inline void setMaterial(TextMaterial* material) { m_material = material; }
-
+	inline void setText(const std::string& text) { m_text = text; }
+	inline void setSize(glm::vec2& size) { m_size = size; }
 	void draw();
 
 private:
-	const char* m_text;
+	std::string m_text;
+	glm::vec3 m_color;
 	int m_x;
 	int m_y;
-	int m_size;
-	TextMaterial* m_material;
-
-	unsigned int m_vbo_vertices;
-	unsigned int m_vbo_uvs;
+	CBitmapFont m_font;
+	glm::vec2 m_size = glm::vec2(1.0f, 1.0f);
 };
-

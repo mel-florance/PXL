@@ -14,7 +14,7 @@ public:
 	Camera(const glm::vec3& position, float fov, float aspect, float near, float far);
 
 	inline const glm::mat4 getViewMatrix() { return glm::lookAt(m_position, m_position + m_direction, m_up); }
-	inline const glm::mat4 getProjectionMatrix() { return m_projMatrix; }
+	inline const glm::mat4& getProjectionMatrix() { return m_projMatrix; }
 
 	void onMouseMove(const glm::vec2& mouse);
 	void onKeyboard(const SDL_KeyboardEvent& event);
@@ -39,6 +39,7 @@ private:
 
 	float m_sensitivity;
 	float m_moveSpeed;
+	float m_maxSpeed;
 	float m_delta;
 
 	std::map<std::string, int> m_keys;

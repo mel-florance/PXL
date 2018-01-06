@@ -109,12 +109,16 @@
     <ClCompile Include="guiRenderer.cpp">
       <Filter>src\rendering</Filter>
     </ClCompile>
-    <ClCompile Include="textMaterial.cpp">
-      <Filter>src\materials</Filter>
+    <ClCompile Include="bitmapFont.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="fontManager.cpp">
+      <Filter>src\managers</Filter>
     </ClCompile>
     <ClCompile Include="text.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
+    <ClCompile Include="material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -197,8 +201,11 @@
     <ClInclude Include="guiRenderer.h">
       <Filter>src\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="textMaterial.h">
-      <Filter>src\materials</Filter>
+    <ClInclude Include="bitmapFont.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="fontManager.h">
+      <Filter>src\managers</Filter>
     </ClInclude>
     <ClInclude Include="text.h">
       <Filter>src\ui</Filter>

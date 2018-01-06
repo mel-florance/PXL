@@ -2,7 +2,7 @@
 # Material Count: 2
 
 newmtl M_pine01_fo
-Ns 94.117647
+Ns 96.078431
 Ka 0.100000 0.100000 0.100000
 Kd 0.640000 0.640000 0.640000
 Ks 0.000000 0.000000 0.000000
@@ -14,9 +14,9 @@ map_Kd C:\\Users\\Mel\\Documents\\Visual Studio 2017\\Projects\\PXL\\PXL\\res\\t
 map_d C:\\Users\\Mel\\Documents\\Visual Studio 2017\\Projects\\PXL\\PXL\\res\\textures\\t_pine_fo_d.tga
 
 newmtl M_pine01_tr
-Ns 94.117647
+Ns 96.078431
 Ka 0.100000 0.100000 0.100000
-Kd 0.435139 0.435139 0.435139
+Kd 0.640000 0.640000 0.640000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
