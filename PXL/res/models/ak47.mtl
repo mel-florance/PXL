@@ -1,0 +1,15 @@
+# Blender MTL File: 'None'
+# Material Count: 1
+
+newmtl ak47
+Ns 5.882353
+Ka 0.100000 0.100000 0.100000
+Kd 0.640000 0.640000 0.640000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd C:\Users\Mel\Documents\Visual Studio 2017\Projects\PXL\PXL\res\textures\ak47_diffuse.png
+map_Bump C:\\Users\\Mel\\Documents\\Visual Studio 2017\\Projects\\PXL\\PXL\\res\\textures\\ak47_normal.jpg
+map_Ns C:\\Users\\Mel\\Documents\\Visual Studio 2017\\Projects\\PXL\\PXL\\res\\textures\\ak47_specular.jpg

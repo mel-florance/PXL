@@ -18,6 +18,7 @@ uniform float fogDensity;
 uniform float fogGradient;
 
 uniform vec3 lightPosition;
+uniform int hasNormalTexture;
 
 void main() 
 {
@@ -26,9 +27,25 @@ void main()
 
     gl_Position = mProj * mView * worldPosition;
     fUvs = uvs;
+
     fNormal = vec3(mTransform * vec4(normal, 0.0)).xyz;
-    fToLight = lightPosition - worldPosition.xyz;
-    fToCamera = (inverse(mView) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
+
+    mat3 TBN = mat3(1.0);
+    if(hasNormalTexture == 1)
+    {
+        vec3 norm = normalize(fNormal);
+        vec3 tang = normalize((mTransform * vec4(tangent, 0.0)).xyz);
+        vec3 bitang = cross(norm, tang);
+
+        TBN = mat3(
+            tang.x, bitang.x, norm.x,
+            tang.y, bitang.y, norm.y,
+            tang.z, bitang.z, norm.z
+        );
+    }
+    
+    fToLight = TBN * (lightPosition - worldPosition.xyz);
+    fToCamera = TBN * ((inverse(mView) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz);
 
     float distance = length(posRelToCam.xyz);
     fVisibility = exp(-pow((distance * fogDensity), fogGradient));

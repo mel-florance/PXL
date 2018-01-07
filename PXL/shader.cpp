@@ -56,7 +56,7 @@ void Shader::setUniform1f(const std::string& name, float& value)
 	glUniform1f(m_uniforms[name], value);
 }
 
-void Shader::setUniform1i(const std::string& name, GLint& value)
+void Shader::setUniform1i(const std::string& name, int value)
 {
 	glUniform1i(m_uniforms[name], value);
 }

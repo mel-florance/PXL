@@ -2,19 +2,21 @@
 # Material Count: 2
 
 newmtl M_pine01_fo.001
-Ns 52.941176
+Ns 164.705882
 Ka 0.100000 0.100000 0.100000
-Kd 0.640000 0.640000 0.640000
-Ks 0.005440 0.005440 0.005440
+Kd 1.000000 1.000000 1.000000
+Ks 0.090245 0.090245 0.090245
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 0.000000
 illum 2
 map_Kd C:\Users\Mel\Documents\Visual Studio 2017\Projects\PXL\PXL\res\textures\t_pine_fo_d.tga
-map_d C:\\Users\\Mel\\Downloads\\pine_tree_pack_01_textures\\t_pine_fo_d.tga
+map_Bump C:\\Users\\Mel\\Downloads\\pine_tree_pack_01_textures\\t_pine_fo_n.tga
+map_Ns C:\\Users\\Mel\\Downloads\\pine_tree_pack_01_textures\\t_pine_fo_spc.tga
+map_d C:\\Users\\Mel\\Documents\\Visual Studio 2017\\Projects\\PXL\\PXL\\res\\textures\\t_pine_fo_d.tga
 
 newmtl M_pine01_tr.001
-Ns 56.862745
+Ns 54.901961
 Ka 0.100000 0.100000 0.100000
 Kd 0.435139 0.435139 0.435139
 Ks 0.003551 0.003551 0.003551
@@ -23,3 +25,5 @@ Ni 1.000000
 d 0.911877
 illum 2
 map_Kd C:\Users\Mel\Downloads\pine_tree_pack_01_textures\t_pine_tr_d.tga
+map_Bump C:\\Users\\Mel\\Downloads\\pine_tree_pack_01_textures\\t_pine_tr_n.tga
+map_Ns C:\\Users\\Mel\\Downloads\\pine_tree_pack_01_textures\\t_pine_tr_spc.tga

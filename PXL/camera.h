@@ -11,7 +11,7 @@
 class Camera {
 public:
 	Camera() {};
-	Camera(const glm::vec3& position, float fov, float aspect, float near, float far);
+	Camera(glm::vec3& position, float fov, float aspect, float near, float far);
 
 	inline const glm::mat4 getViewMatrix() { return glm::lookAt(m_position, m_position + m_direction, m_up); }
 	inline const glm::mat4& getProjectionMatrix() { return m_projMatrix; }

@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include <windows.h>
-#include <gl\gl.h>
+#include <gl/glew.h>
 #include <glm\glm.hpp>
 
 #define BFG_RS_NONE  0x0      // Blend flags

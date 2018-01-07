@@ -101,16 +101,43 @@ void AssetManager::processMesh(aiString& name, aiMesh* mesh, const aiScene* scen
 		{
 			aiMaterial* mat = scene->mMaterials[mesh->mMaterialIndex];
 
-			aiString diffusePath;
-			mat->GetTexture(aiTextureType_DIFFUSE, 0, &diffusePath);
-			Texture* diffuseTexture = new Texture(diffusePath.C_Str(), true);
-
 			aiString materialName;
 			mat->Get(AI_MATKEY_NAME, materialName);
 
 			BasicMaterial* meshMat = new BasicMaterial(materialName.C_Str(), m_shaderManager->getShader("basic"));
 
-			float shininess;
+			aiString diffusePath;
+			mat->GetTexture(aiTextureType_DIFFUSE, 0, &diffusePath);
+
+			if (strlen(diffusePath.C_Str()) > 0) 
+			{
+				Texture* diffuseTexture = new Texture(diffusePath.C_Str(), true);
+				meshMat->setDiffuseTexture(diffuseTexture);
+			}
+
+			aiString specularPath;
+			mat->GetTexture(aiTextureType_SHININESS, 0, &specularPath);
+
+			if (strlen(specularPath.C_Str()) > 0)
+			{
+				Texture* specularTexture = new Texture(specularPath.C_Str(), true);
+				meshMat->setSpecularTexture(specularTexture);
+			}
+
+			aiString normalPath;
+			mat->GetTexture(aiTextureType_HEIGHT, 0, &normalPath);
+			
+			if (strlen(normalPath.C_Str()) > 0)
+			{
+				Texture* normalTexture = new Texture(normalPath.C_Str(), true);
+				meshMat->setNormalTexture(normalTexture);
+			}
+
+			float shininess = 10.0f;
+			float exponent = 1.0f;
+			float alpha = 1.0f;
+			float reflectivity = 0.0f;
+
 			aiColor3D diffuse;
 			aiColor3D ambient;
 			aiColor3D specular;
@@ -119,15 +146,18 @@ void AssetManager::processMesh(aiString& name, aiMesh* mesh, const aiScene* scen
 			mat->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse);
 			mat->Get(AI_MATKEY_COLOR_AMBIENT, ambient);
 			mat->Get(AI_MATKEY_COLOR_SPECULAR, specular);
+			mat->Get(AI_MATKEY_SHININESS_STRENGTH, exponent);
+			mat->Get(AI_MATKEY_OPACITY, alpha);
+			mat->Get(AI_MATKEY_REFLECTIVITY, reflectivity);
 
 			meshMat->setKa(glm::vec3(ambient.r, ambient.g, ambient.b));
 			meshMat->setKd(glm::vec3(diffuse.r, diffuse.g, diffuse.b));
 			meshMat->setKs(glm::vec3(specular.r, specular.g, specular.b));
 
 			meshMat->setShininess(shininess);
-
-			if(diffuseTexture != nullptr)
-				meshMat->setDiffuseTexture(diffuseTexture);
+			meshMat->setExponent(exponent);
+			meshMat->setAlpha(alpha);
+			meshMat->setReflectivity(reflectivity);
 
 			newMesh->setMaterial(meshMat);
 

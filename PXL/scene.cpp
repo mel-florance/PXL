@@ -3,10 +3,10 @@
 Scene::Scene(const std::string& name)
 {
 	m_name = name;
-	m_clearColor = glm::vec4(0.3f, 0.5f, 0.6f, 1.0f);
-	m_fogColor = glm::vec3(0.3f, 0.5f, 0.6f);
-	m_fogGradient = 2.f;
-	m_fogDensity = 0.01f;
+	m_clearColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+	m_fogColor = glm::vec3(0.01f, 0.02f, 0.03f);
+	m_fogGradient = 1.5f;
+	m_fogDensity = 0.009f;
 }
 
 void Scene::addMesh(Mesh* mesh)

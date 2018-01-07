@@ -9,6 +9,6 @@ public:
 	virtual ~PointLight();
 
 private:
-	glm::vec3 m_attenuation;
+
 };
 

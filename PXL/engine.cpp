@@ -27,7 +27,7 @@ void Engine::render()
 	m_renderer->render(scene);
 	m_window->swapBuffers();
 
-	SDL_Delay(0);
+	//SDL_Delay(16);
 }
 
 Engine::~Engine()

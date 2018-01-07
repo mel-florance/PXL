@@ -1,8 +1,8 @@
 # Blender MTL File: 'None'
 # Material Count: 1
 
-newmtl None
-Ns 94.117647
+newmtl House_1_Neutral_house.png
+Ns 0.000000
 Ka 0.100000 0.100000 0.100000
 Kd 0.640000 0.640000 0.640000
 Ks 0.000000 0.000000 0.000000
@@ -10,4 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 1
-map_Kd C:\Users\Mel\Documents\Visual Studio 2017\Projects\PXL\PXL\res\textures\checker.png
+map_Kd C:\Users\Mel\Documents\Visual Studio 2017\Projects\PXL\PXL\res\textures\house.jpg
