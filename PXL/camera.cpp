@@ -12,7 +12,7 @@ Camera::Camera(glm::vec3& position, float fov, float aspect, float near, float f
 	m_projMatrix = glm::perspective(fov, aspect, near, far);
 	m_moveSpeed = 10.0f;
 	m_maxSpeed = 5.0f,
-	m_sensitivity = 70.0f;
+	m_sensitivity = 50.0f;
 
 	m_keys["FORWARD"] = 26;
 	m_keys["BACKWARD"] = 22;
@@ -71,7 +71,6 @@ void Camera::onMouseMove(const glm::vec2& mouse)
 
 	m_oldMouse = mouse;
 }
-
 
 void Camera::onKeyboard(const SDL_KeyboardEvent& event)
 {

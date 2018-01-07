@@ -26,8 +26,6 @@ public:
 	void start();
 	void stop();
 
-	inline double getFrameTime() { return m_frameTime; }
-
 	inline Display* getWindow() { return m_window; }
 	inline Clock* getClock() { return m_clock; }
 	inline SceneManager* getSceneManager() { return m_sceneManager; }
@@ -41,14 +39,18 @@ private:
 	Display* m_window;
 	Clock* m_clock;
 	Game* m_game;
+
 	SceneManager* m_sceneManager;
 	ShaderManager* m_shaderManager;
 	AssetManager* m_assetManager;
 	FontManager* m_fontManager;
+
 	Renderer* m_renderer;
 	Loader* m_loader;
 
 	bool m_running;
-	double m_frameTime;
+	double m_deltaTime;
+	double m_frameStart;
+	double m_frameEnd;
 };
 

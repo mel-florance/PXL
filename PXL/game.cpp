@@ -51,7 +51,7 @@ Game::Game(Engine* engine)
 
 void Game::update(double delta)
 {
-	m_angle += 0.3f * delta;
+	m_angle += delta;
 
 	if (m_ak != nullptr)
 	{
