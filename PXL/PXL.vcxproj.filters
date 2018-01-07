@@ -127,6 +127,12 @@
     <ClCompile Include="game.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
+    <ClCompile Include="widget.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="entityRenderer.cpp">
+      <Filter>src\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -220,6 +226,12 @@
     </ClInclude>
     <ClInclude Include="game.h">
       <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="widget.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="entityRenderer.h">
+      <Filter>src\rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

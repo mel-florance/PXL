@@ -12,7 +12,7 @@ Camera::Camera(glm::vec3& position, float fov, float aspect, float near, float f
 	m_projMatrix = glm::perspective(fov, aspect, near, far);
 	m_moveSpeed = 10.0f;
 	m_maxSpeed = 5.0f,
-	m_sensitivity = 0.1f;
+	m_sensitivity = 70.0f;
 
 	m_keys["FORWARD"] = 26;
 	m_keys["BACKWARD"] = 22;
@@ -63,8 +63,8 @@ void Camera::onMouseMove(const glm::vec2& mouse)
 {
 	m_mouse = mouse;
 
-	m_rotation.x = -glm::radians(m_mouse.x) * m_sensitivity;
-	m_rotation.y = -glm::radians(m_mouse.y) * m_sensitivity;
+	m_rotation.x = -glm::radians(m_mouse.x) * m_delta * m_sensitivity;
+	m_rotation.y = -glm::radians(m_mouse.y) * m_delta * m_sensitivity;
 
 	m_direction = glm::mat3(glm::rotate(m_rotation.x, m_up)) * m_direction;
 	m_direction = glm::mat3(glm::rotate(m_rotation.y, glm::cross(m_direction, m_up))) * m_direction;

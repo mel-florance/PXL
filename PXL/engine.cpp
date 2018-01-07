@@ -8,7 +8,7 @@ using namespace std::chrono;
 #define WIDTH 1280
 #define HEIGHT 720
 
-Engine::Engine() : m_running(false), m_frameTime(1.0 / 60)
+Engine::Engine() : m_running(false), m_frameTime(1.0 / 500)
 {
 	std::cout << "Engine started!" << std::endl;
 	m_window = new Display(WIDTH, HEIGHT, "PXL Engine", "./res/textures/icon.png");
@@ -18,7 +18,7 @@ Engine::Engine() : m_running(false), m_frameTime(1.0 / 60)
 	m_shaderManager = new ShaderManager();
 	m_assetManager = new AssetManager(m_loader, m_shaderManager, m_sceneManager);
 	m_fontManager = new FontManager();
-	m_renderer = new Renderer(m_shaderManager);
+	m_renderer = new Renderer(m_shaderManager, m_assetManager);
 	m_game = new Game(this);
 }
 
@@ -43,6 +43,13 @@ void Engine::start()
 		{
 			double startTime = m_clock->getTime();
 			double passedTime = startTime - lastTime;
+
+		
+			if (startTime < m_clock->getTime() - 0.001)
+			{
+				std::cout << m_clock->getTime() << std::endl;
+			}
+
 			lastTime = startTime;
 
 			unprocessedTime += passedTime;
@@ -61,10 +68,10 @@ void Engine::start()
 				if (m_window->isClosed())
 					this->stop();
 
-				scene->getActiveCamera()->update(m_frameTime);
+				scene->getActiveCamera()->update(passedTime);
 
 				if (m_game != nullptr)
-					m_game->update(m_frameTime);
+					m_game->update(passedTime);
 
 				render = true;
 				unprocessedTime -= m_frameTime;

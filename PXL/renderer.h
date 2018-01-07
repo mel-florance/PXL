@@ -3,17 +3,19 @@
 #include "scene.h"
 #include "shaderManager.h"
 #include "shader.h"
+#include "entityRenderer.h"
+#include "guiRenderer.h"
 
 class Renderer
 {
 public:
-	Renderer(ShaderManager* shaderManager);
+	Renderer(ShaderManager* shaderManager, AssetManager* assetManager);
 	~Renderer();
 
 	void render(Scene* scene);
 
 private:
-	ShaderManager* m_shaderManager;
-	Shader* m_basicShader;
+	EntityRenderer* m_entityRenderer;
+	GuiRenderer* m_guiRenderer;
 };
 

@@ -25,6 +25,8 @@ public:
 	void processNode(aiNode* node, const aiScene* scene);
 	void processMesh(aiString& name, aiMesh* mesh, const aiScene* scene); // TODO: should return a Mesh*
 
+	inline Loader* getLoader() { return m_loader; }
+
 private:
 	Loader* m_loader;
 	ShaderManager* m_shaderManager;

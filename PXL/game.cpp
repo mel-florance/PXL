@@ -17,7 +17,7 @@ Game::Game(Engine* engine)
 
 	PointLight* light = new PointLight();
 	light->setPosition(glm::vec3(-10.0f, 10.0f, 10.0f));
-	light->setColor(glm::vec3(8.0f, 7.0f, 6.0f));
+	light->setColor(glm::vec3(8.0f, 8.0f, 8.0f));
 	light->setAttenuation(glm::vec3(0.0f, 0.01f, 0.02f));
 
 	assetManager->importMesh("./res/models/plane.obj");
@@ -51,7 +51,7 @@ Game::Game(Engine* engine)
 
 void Game::update(double delta)
 {
-	m_angle += 0.003f;
+	m_angle += 0.3f * delta;
 
 	if (m_ak != nullptr)
 	{

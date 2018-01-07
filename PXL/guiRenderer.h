@@ -3,14 +3,18 @@
 #include "mesh.h"
 #include "meshFactory.h"
 #include "loader.h"
+#include "widget.h"
+#include "assetManager.h"
 
 class GuiRenderer
 {
 public:
-	GuiRenderer(Loader* loader);
+	GuiRenderer(AssetManager* assetManager);
 	~GuiRenderer();
+
+	void render(Scene* scene);
 
 private:
 	Mesh* m_quad;
-	Loader* m_loader;
+	AssetManager* m_assetManager;
 };
