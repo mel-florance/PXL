@@ -1,35 +1,25 @@
 # Blender MTL File: 'None'
-# Material Count: 3
-
-newmtl Atlas
-Ns 17.647059
-Ka 1.000000 1.000000 1.000000
-Kd 0.800000 0.800000 0.800000
-Ks 0.000000 0.000000 0.000000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 0.000000
-illum 3
-map_Kd C:\wamp\www\Warlight\Game\Assets\Models\Village\Textures\Waqarville_Atlas.tga
+# Material Count: 2
 
 newmtl Ground
 Ns 17.647059
-Ka 1.000000 1.000000 1.000000
+Ka 0.100000 0.100000 0.100000
 Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
-illum 2
+illum 1
 map_Kd C:\wamp\www\Warlight\Game\Assets\Models\Village\Textures\Ground-02-02.jpg
 
 newmtl Ground_Waqarville_Atlas.tga
 Ns 17.647059
-Ka 1.000000 1.000000 1.000000
+Ka 0.100000 0.100000 0.100000
 Kd 0.800000 0.800000 0.800000
 Ks 0.000000 0.000000 0.000000
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
-illum 2
+illum 1
 map_Kd C:\wamp\www\Warlight\Game\Assets\Models\Village\Textures\Waqarville_Atlas.tga
+map_d C:\\wamp\\www\\Warlight\\Game\\Assets\\Models\\Village\\Textures\\Waqarville_Atlas.tga

@@ -10,7 +10,7 @@ Camera::Camera(glm::vec3& position, float fov, float aspect, float near, float f
 	m_direction = glm::vec3(0, 0, 1);
 	m_friction = glm::vec3(0.85f, 0.85f, 0.85f);
 	m_projMatrix = glm::perspective(fov, aspect, near, far);
-	m_moveSpeed = 8.0f;
+	m_moveSpeed = 10.0f;
 	m_maxSpeed = 5.0f,
 	m_sensitivity = 0.1f;
 
@@ -35,7 +35,7 @@ Camera::Camera(glm::vec3& position, float fov, float aspect, float near, float f
 	SDL_ShowCursor(SDL_DISABLE);
 }
 
-void Camera::update(float delta)
+void Camera::update(double delta)
 {
 	m_delta = delta;
 	float speed = m_moveSpeed * m_delta;

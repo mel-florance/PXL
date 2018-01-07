@@ -7,6 +7,7 @@
 Texture::Texture(const std::string& filename)
 {
 	m_filename = filename;
+	m_generateMipmaps = false;
 	this->load();
 }
 
@@ -39,6 +40,7 @@ Texture* Texture::Texture::load()
 	if (m_generateMipmaps) {
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+		glTexEnvf(GL_TEXTURE_FILTER_CONTROL, GL_TEXTURE_LOD_BIAS, m_lodBias);
 	}
 	else
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

@@ -19,6 +19,7 @@ public:
 	bool isClosed();
 	void clear(const glm::vec4& color);
 	void swapBuffers();
+	void update();
 
 	inline Uint32 getWidth() { return m_width; }
 	inline Uint32 getHeight() { return m_height; }

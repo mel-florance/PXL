@@ -15,13 +15,18 @@
 #include "fontManager.h"
 #include "renderer.h"
 
+
+class Game;
 class Engine
 {
 public:
 	Engine();
 	~Engine();
 
-	void render();
+	void start();
+	void stop();
+
+	inline double getFrameTime() { return m_frameTime; }
 
 	inline Display* getWindow() { return m_window; }
 	inline Clock* getClock() { return m_clock; }
@@ -35,11 +40,15 @@ public:
 private:
 	Display* m_window;
 	Clock* m_clock;
+	Game* m_game;
 	SceneManager* m_sceneManager;
 	ShaderManager* m_shaderManager;
 	AssetManager* m_assetManager;
 	FontManager* m_fontManager;
 	Renderer* m_renderer;
 	Loader* m_loader;
+
+	bool m_running;
+	double m_frameTime;
 };
 

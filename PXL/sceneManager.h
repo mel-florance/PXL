@@ -24,6 +24,7 @@ public:
 	Scene* getCurrentScene() { return m_scenes[m_currentScene]; }
 
 private:
+	unsigned int m_sceneCount;
 	unsigned int m_currentScene;
-	std::vector<class Scene*> m_scenes;
+	std::vector<Scene*> m_scenes;
 };

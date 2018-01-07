@@ -1,27 +1,14 @@
 #include "clock.h"
 
-auto timePrev = high_resolution_clock::now();
 
-Clock::Clock()
+Clock::Clock() : m_epoch(std::chrono::high_resolution_clock::now())
 {
 
 }
 
-float Clock::getDelta()
+double Clock::getTime()
 {
-	auto timeCurrent = high_resolution_clock::now();
-	auto timeDiff = duration_cast< nanoseconds >(timeCurrent - timePrev);
-	double delta = timeDiff.count();
-	delta /= 1000000000;
-	timePrev = timeCurrent;
-
-	return delta;
-}
-
-void Clock::update()
-{
-	m_deltaTime = getDelta();
-
+	return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - m_epoch).count() / 1000000000.0;
 }
 
 Clock::~Clock()

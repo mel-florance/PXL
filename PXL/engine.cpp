@@ -1,9 +1,14 @@
 #include "engine.h"
+#include "game.h"
+
+#include <chrono>
+
+using namespace std::chrono;
 
 #define WIDTH 1280
 #define HEIGHT 720
 
-Engine::Engine()
+Engine::Engine() : m_running(false), m_frameTime(1.0 / 60)
 {
 	std::cout << "Engine started!" << std::endl;
 	m_window = new Display(WIDTH, HEIGHT, "PXL Engine", "./res/textures/icon.png");
@@ -14,26 +19,80 @@ Engine::Engine()
 	m_assetManager = new AssetManager(m_loader, m_shaderManager, m_sceneManager);
 	m_fontManager = new FontManager();
 	m_renderer = new Renderer(m_shaderManager);
+	m_game = new Game(this);
 }
 
-void Engine::render()
+void Engine::start()
 {
-	Scene* scene = m_sceneManager->getCurrentScene();
-	m_clock->update();
-	m_window->clear(scene->getClearColor());
+	if (m_running)
+		return;
 
-	scene->getActiveCamera()->update(m_clock->m_deltaTime);
+	double lastTime = m_clock->getTime();
+	double frameCounter = 0;
+	double unprocessedTime = 0;
+	int frames = 0;
 
-	m_renderer->render(scene);
-	m_window->swapBuffers();
+	m_running = true;
 
-	//SDL_Delay(16);
+	while (m_running)
+	{
+		bool render = false;
+		Scene* scene = m_sceneManager->getCurrentScene();
+
+		if (scene != nullptr)
+		{
+			double startTime = m_clock->getTime();
+			double passedTime = startTime - lastTime;
+			lastTime = startTime;
+
+			unprocessedTime += passedTime;
+			frameCounter += passedTime;
+
+			if (frameCounter >= 1.0)
+			{
+				frames = 0;
+				frameCounter = 0;
+			}
+
+			while (unprocessedTime > m_frameTime)
+			{
+				m_window->update();
+
+				if (m_window->isClosed())
+					this->stop();
+
+				scene->getActiveCamera()->update(m_frameTime);
+
+				if (m_game != nullptr)
+					m_game->update(m_frameTime);
+
+				render = true;
+				unprocessedTime -= m_frameTime;
+			}
+
+			if (render)
+			{
+				m_window->clear(scene->getClearColor());
+				m_renderer->render(scene);
+				m_window->swapBuffers();
+				frames++;
+			}
+			else
+				SDL_Delay(1);
+		}
+	}
+}
+
+void Engine::stop()
+{
+	m_running = false;
 }
 
 Engine::~Engine()
 {
 	delete m_window;
 	delete m_clock;
+	delete m_game;
 	delete m_sceneManager;
 	delete m_shaderManager;
 	delete m_assetManager;

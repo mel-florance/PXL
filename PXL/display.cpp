@@ -6,7 +6,6 @@ Display::Display(Uint32 width, Uint32 height, const std::string & title, const s
 	m_height = height;
 
 	SDL_Init(SDL_INIT_EVERYTHING);
-	SDL_GL_SetSwapInterval(0);
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
@@ -53,11 +52,11 @@ void Display::clear(const glm::vec4& color)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Display::swapBuffers()
+void Display::update()
 {
 	SDL_Event e;
-	
-	while (SDL_PollEvent(&e)) 
+
+	while (SDL_PollEvent(&e))
 	{
 		if (e.type == SDL_QUIT) {
 			m_isClosed = true;
@@ -66,14 +65,14 @@ void Display::swapBuffers()
 		if (e.type == SDL_WINDOWEVENT) {
 			switch (e.window.event) {
 			case SDL_WINDOWEVENT_MAXIMIZED:
-					setWidth(e.window.data1);
-					setHeight(e.window.data2);
+				setWidth(e.window.data1);
+				setHeight(e.window.data2);
 				break;
-				case SDL_WINDOWEVENT_SIZE_CHANGED:
-					glViewport(0, 0, e.window.data1, e.window.data2);
-					setWidth(e.window.data1);
-					setHeight(e.window.data2);
-					break;
+			case SDL_WINDOWEVENT_SIZE_CHANGED:
+				glViewport(0, 0, e.window.data1, e.window.data2);
+				setWidth(e.window.data1);
+				setHeight(e.window.data2);
+				break;
 			}
 		}
 
@@ -93,6 +92,10 @@ void Display::swapBuffers()
 		}
 	}
 
+}
+
+void Display::swapBuffers()
+{
 	SDL_GL_SwapWindow(m_window);
 }
 

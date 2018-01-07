@@ -18,7 +18,7 @@ public:
 
 	void onMouseMove(const glm::vec2& mouse);
 	void onKeyboard(const SDL_KeyboardEvent& event);
-	void update(float delta);
+	void update(double delta);
 
 	virtual ~Camera();
 

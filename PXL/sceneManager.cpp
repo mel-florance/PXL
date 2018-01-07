@@ -2,7 +2,7 @@
 
 SceneManager::SceneManager()
 {
-
+	m_sceneCount = 0;
 }
 
 Scene* SceneManager::addScene(const std::string& name)

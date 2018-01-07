@@ -139,6 +139,7 @@
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="fontManager.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="guiRenderer.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="loader.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="entityComponent.h" />
     <ClInclude Include="fontManager.h" />
+    <ClInclude Include="game.h" />
     <ClInclude Include="guiRenderer.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="loader.h" />

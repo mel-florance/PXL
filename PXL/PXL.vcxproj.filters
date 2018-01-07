@@ -41,6 +41,9 @@
     <Filter Include="src\ui">
       <UniqueIdentifier>{38de7d74-9176-4ee5-a478-7ee41a747285}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\game">
+      <UniqueIdentifier>{5fe99d36-061f-4f39-a805-43da160428da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PXL.rc">
@@ -118,7 +121,12 @@
     <ClCompile Include="text.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
-    <ClCompile Include="material.cpp" />
+    <ClCompile Include="material.cpp">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -209,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="text.h">
       <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>src\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

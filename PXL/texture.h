@@ -14,6 +14,9 @@ public:
 	Texture(const std::string& filename, bool generateMipmaps);
 	virtual ~Texture();
 
+	void setLoadBias(float& value) { m_lodBias = value; }
+	float& getLodBias() { return m_lodBias; }
+
 	GLuint m_texture;
 
 	Texture* load();
@@ -21,5 +24,6 @@ public:
 	void unbind();
 	
 	std::string m_filename;
-	bool m_generateMipmaps = false;
+	bool m_generateMipmaps;
+	float m_lodBias;
 };

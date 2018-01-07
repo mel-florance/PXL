@@ -2,8 +2,6 @@
 
 #include <chrono>
 
-using namespace std::chrono;
-
 #include <SDL2/SDL.h>
 
 class Clock
@@ -12,10 +10,9 @@ public:
 	Clock();
 	~Clock();
 
-	void update();
+	double getTime();
 
-	float getDelta();
+private:
+	std::chrono::steady_clock::time_point m_epoch;
 
-	Uint32 m_lastFrame;
-	float m_deltaTime;
 };
