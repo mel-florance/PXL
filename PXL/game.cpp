@@ -16,18 +16,18 @@ Game::Game(Engine* engine)
 
 	m_light = new PointLight();
 	m_light->setPosition(glm::vec3(0.0f, 10.0f, 2.0f));
-	m_light->setColor(glm::vec3(0.0f, 10.0f, 0.0f));
+	m_light->setColor(glm::vec3(0.0f, 2.0f, 0.0f));
 	m_light->setAttenuation(glm::vec3(1.0f, 0.01f, 0.002f));
 
 
 	m_lightS = new PointLight();
 	m_lightS->setPosition(glm::vec3(0.0f, 10.0f, 2.0f));
-	m_lightS->setColor(glm::vec3(0.0f, 0.0f, 10.0f));
+	m_lightS->setColor(glm::vec3(0.0f, 0.0f, 2.0f));
 	m_lightS->setAttenuation(glm::vec3(1.0f, 0.01f, 0.002f));
 
 	m_lightR = new PointLight();
 	m_lightR->setPosition(glm::vec3(0.0f, 10.0f, 2.0f));
-	m_lightR->setColor(glm::vec3(10.0f, 0.0f, 0.0f));
+	m_lightR->setColor(glm::vec3(2.0f, 0.0f, 0.0f));
 	m_lightR->setAttenuation(glm::vec3(1.0f, 0.01f, 0.002f));
 
 
