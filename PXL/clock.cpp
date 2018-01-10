@@ -1,6 +1,5 @@
 #include "clock.h"
 
-
 Clock::Clock() : m_epoch(std::chrono::high_resolution_clock::now())
 {
 

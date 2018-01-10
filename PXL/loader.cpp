@@ -1,4 +1,5 @@
 #include "loader.h"
+#include "stb_image.h"
 
 Loader::Loader()
 {
@@ -31,7 +32,6 @@ Mesh* Loader::loadToVAO(
 	
 	if(indicesSize > 0)
 		this->bindIndicesBuffer(indices.data(), indicesSize);
-
 	if(vertices.size() > 0)
 		this->storeDataInAttributeList(0, 3, &vertices[0], vertices.size() * sizeof(glm::vec3));
 	if(uvs.size() > 0)
@@ -44,6 +44,33 @@ Mesh* Loader::loadToVAO(
 	this->unbindVAO();
 
 	return new Mesh(name, vao, indicesSize);
+}
+
+Uint32 Loader::loadCubeMap(std::vector<std::string> textures)
+{
+	Uint32 id;
+	glGenTextures(1, &id);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+
+	for (Uint32 i = 0; i < textures.size(); i++)
+	{
+		int width, height, numComponents;
+		unsigned char* imageData = stbi_load(textures[i].c_str(), &width, &height, &numComponents, STBI_rgb_alpha);
+
+		if (imageData == NULL) {
+			std::cerr << "Cube map texture loading failed for: " << textures[i].c_str() << std::endl;
+			return 0;
+		}
+
+		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+		stbi_image_free(imageData);
+	}
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+	return id;
 }
 
 void Loader::storeDataInAttributeList(GLuint location, int size, void* data, int dataSize)

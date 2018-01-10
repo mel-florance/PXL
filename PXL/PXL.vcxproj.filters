@@ -133,6 +133,21 @@
     <ClCompile Include="entityRenderer.cpp">
       <Filter>src\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="guiMaterial.cpp">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="timer.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="inputManager.cpp">
+      <Filter>src\managers</Filter>
+    </ClCompile>
+    <ClCompile Include="profiler.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="skyboxRenderer.cpp">
+      <Filter>src\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -231,6 +246,21 @@
       <Filter>src\ui</Filter>
     </ClInclude>
     <ClInclude Include="entityRenderer.h">
+      <Filter>src\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="guiMaterial.h">
+      <Filter>src\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="timer.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="inputManager.h">
+      <Filter>src\managers</Filter>
+    </ClInclude>
+    <ClInclude Include="profiler.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="skyboxRenderer.h">
       <Filter>src\rendering</Filter>
     </ClInclude>
   </ItemGroup>

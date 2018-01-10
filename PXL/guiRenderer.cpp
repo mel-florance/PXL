@@ -1,17 +1,39 @@
 #include "guiRenderer.h"
 
-GuiRenderer::GuiRenderer(AssetManager* assetManager)
+GuiRenderer::GuiRenderer(AssetManager* assetManager, ShaderManager* shaderManager)
 {
-	this->m_assetManager = assetManager;
-	this->m_quad = assetManager->getLoader()->loadToVAO("gui_quad", MeshFactory::getQuad());
+	m_assetManager = assetManager;
+	m_shaderManager = shaderManager;
+	m_guiShader = m_shaderManager->getShader("gui");
+	m_quad = assetManager->getLoader()->loadToVAO("gui_quad", MeshFactory::getQuad());
 }
 
 void GuiRenderer::render(Scene* scene)
 {
-	for (unsigned int i = 0; i < scene->getTexts().size(); i++)
+	m_guiShader->bind();
+
+	glBindVertexArray(m_quad->getVao());
+	glEnableVertexAttribArray(0);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glDisable(GL_DEPTH_TEST);
+
+	for (unsigned int i = 0; i < scene->getWidgets().size(); i++)
 	{
-		scene->getTexts()[i]->draw();
+		m_guiShader->setUniformMat4fv("mTransform", scene->getWidgets()[i]->getTransform()->getTransformation());
+		scene->getWidgets()[i]->getMaterial()->preUpdate(scene);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, m_quad->getVertexCount());
+		scene->getWidgets()[i]->getMaterial()->postUpdate();
 	}
+
+	glDisableVertexAttribArray(0);
+	glBindVertexArray(0);
+	m_guiShader->unbind();
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+
+	for (unsigned int i = 0; i < scene->getTexts().size(); i++)
+		scene->getTexts()[i]->draw();
 }
 
 GuiRenderer::~GuiRenderer()

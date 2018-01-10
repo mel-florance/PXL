@@ -12,6 +12,8 @@
 #include "camera.h"
 #include "text.h"
 
+class Widget;
+
 class Scene
 {
 public:
@@ -25,6 +27,7 @@ public:
 	void addCamera(Camera* camera);
 	void addLight(Light* light);
 	void addText(Text* text);
+	void addWidget(Widget* widget);
 
 	inline std::string& getName() { return m_name; }
 	inline void setName(std::string& name) { m_name = name; }
@@ -34,6 +37,7 @@ public:
 	inline std::vector<class Material*> getMaterials() { return m_materials; }
 	inline std::vector<class Camera*> getCameras() { return m_cameras; }
 	inline std::vector<class Light*> getLights() { return m_lights; }
+	inline std::vector<class Widget*> getWidgets() { return m_widgets; }
 
 	void setActiveCamera(unsigned int index) { m_activeCamera = index; }
 	inline Camera* getActiveCamera() { return m_cameras[m_activeCamera]; }
@@ -59,6 +63,7 @@ private:
 	std::vector<class Material*> m_materials;
 	std::vector<class Camera*> m_cameras;
 	std::vector<class Light*> m_lights;
+	std::vector<class Widget*> m_widgets;
 
 	glm::vec4 m_clearColor;
 	glm::vec3 m_fogColor;

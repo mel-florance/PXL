@@ -52,48 +52,6 @@ void Display::clear(const glm::vec4& color)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Display::update()
-{
-	SDL_Event e;
-
-	while (SDL_PollEvent(&e))
-	{
-		if (e.type == SDL_QUIT) {
-			m_isClosed = true;
-		}
-
-		if (e.type == SDL_WINDOWEVENT) {
-			switch (e.window.event) {
-			case SDL_WINDOWEVENT_MAXIMIZED:
-				setWidth(e.window.data1);
-				setHeight(e.window.data2);
-				break;
-			case SDL_WINDOWEVENT_SIZE_CHANGED:
-				glViewport(0, 0, e.window.data1, e.window.data2);
-				setWidth(e.window.data1);
-				setHeight(e.window.data2);
-				break;
-			}
-		}
-
-		if (e.type == SDL_MOUSEMOTION) {
-			SDL_WarpMouseInWindow(m_window, m_width / 2, m_height / 2);
-			setMouse((float)e.motion.x - (m_width / 2), (float)e.motion.y - (m_height / 2));
-			setMouseRel((float)e.motion.xrel, (float)e.motion.yrel);
-
-			if (m_camera != nullptr) {
-				m_camera->onMouseMove(getMouseRel());
-			}
-		}
-
-		if (m_camera != nullptr) {
-
-			m_camera->onKeyboard(e.key);
-		}
-	}
-
-}
-
 void Display::swapBuffers()
 {
 	SDL_GL_SwapWindow(m_window);

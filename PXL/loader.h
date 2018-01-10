@@ -6,6 +6,7 @@
 #include <glm\glm.hpp>
 #include <GL\glew.h>
 
+
 #include "mesh.h"
 
 class Loader
@@ -24,6 +25,8 @@ public:
 		std::vector<glm::vec3> normals,
 		std::vector<glm::vec3> tangents
 	);
+
+	Uint32 loadCubeMap(std::vector<std::string> textures);
 
 	inline void unbindVAO() { glBindVertexArray(0); }
 

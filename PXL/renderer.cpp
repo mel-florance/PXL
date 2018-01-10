@@ -3,7 +3,7 @@
 Renderer::Renderer(ShaderManager* shaderManager, AssetManager* assetManager)
 {
 	m_entityRenderer = new EntityRenderer(shaderManager);
-	m_guiRenderer = new GuiRenderer(assetManager);
+	m_guiRenderer = new GuiRenderer(assetManager, shaderManager);
 
 	glCullFace(GL_BACK);
 	glEnable(GL_DEPTH_TEST);

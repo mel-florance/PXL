@@ -7,7 +7,6 @@
 
 #include "shader.h"
 
-
 class Scene;
 class Material
 {
@@ -21,10 +20,10 @@ public:
 	virtual inline Shader* getShader() { return m_shader; }
 	virtual inline void setShader(Shader* shader) { m_shader = shader; }
 
-	virtual void updateTransform(Transform* transform) {}
+	virtual inline void updateTransform(Transform* transform) {}
 
-	virtual void preUpdate(Scene* scene) {}
-	virtual void postUpdate() {}
+	virtual inline void preUpdate(Scene* scene) {}
+	virtual inline void postUpdate() {}
 
 	virtual inline void setBackFaceCulling(bool value) { m_backFaceCulling = value; }
 	virtual inline bool& getBackFaceCulling() { return m_backFaceCulling; }
@@ -32,7 +31,7 @@ public:
 	virtual inline void setTiling(glm::vec2& tiling) { m_tiling = tiling; }
 	virtual inline glm::vec2& getTiling() { return m_tiling; }
 
-	virtual void bindAttributes() {}
+	virtual inline void bindAttributes() {}
 
 private:
 	std::string m_name;

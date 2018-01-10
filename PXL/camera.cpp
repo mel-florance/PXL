@@ -10,9 +10,9 @@ Camera::Camera(glm::vec3& position, float fov, float aspect, float near, float f
 	m_direction = glm::vec3(0, 0, 1);
 	m_friction = glm::vec3(0.85f, 0.85f, 0.85f);
 	m_projMatrix = glm::perspective(fov, aspect, near, far);
-	m_moveSpeed = 10.0f;
-	m_maxSpeed = 5.0f,
-	m_sensitivity = 50.0f;
+	m_moveSpeed = 20.0;
+	m_maxSpeed = 5.0,
+	m_sensitivity = 7.0;
 
 	m_keys["FORWARD"] = 26;
 	m_keys["BACKWARD"] = 22;
@@ -46,17 +46,17 @@ void Camera::update(double delta)
 		speed = m_maxSpeed * m_delta;
 
 	if (m_keys_states["FORWARD"])
-		m_position += speed * m_direction;
+		m_position += m_direction * speed;
 	if (m_keys_states["BACKWARD"])
-		m_position += -speed * m_direction;
+		m_position += m_direction * -speed;
 	if (m_keys_states["LEFT"])
-		m_position += -speed * glm::cross(m_direction, m_up);
+		m_position += glm::cross(m_direction, m_up) * -speed;
 	if (m_keys_states["RIGHT"])
-		m_position += speed * glm::cross(m_direction, m_up);
+		m_position += glm::cross(m_direction, m_up) * speed;
 	if (m_keys_states["UP"])
-		m_position += speed * m_up;
+		m_position += m_up * speed;
 	if (m_keys_states["DOWN"])
-		m_position += -speed * m_up;
+		m_position += m_up * -speed;
 }
 
 void Camera::onMouseMove(const glm::vec2& mouse)

@@ -10,9 +10,26 @@ BasicMaterial::BasicMaterial(const std::string& name, Shader* shader) : Material
 	this->getShader()->addUniform("fogDensity");
 	this->getShader()->addUniform("fogGradient");
 
-	this->getShader()->addUniform("lightPosition");
-	this->getShader()->addUniform("lightColor");
-	this->getShader()->addUniform("lightAttenuation");
+
+	for (unsigned int i = 0; i < 8; i++)
+	{
+		std::ostringstream ss_lightPosition;
+		ss_lightPosition << "lightPosition[" << i << "]";
+		this->getShader()->addUniform(ss_lightPosition.str());
+
+		std::ostringstream ss_lightColor;
+		ss_lightColor << "lightColor[" << i << "]";
+		this->getShader()->addUniform(ss_lightColor.str());
+
+		std::ostringstream ss_lightAttenuation;
+		ss_lightAttenuation << "lightAttenuation[" << i << "]";
+		this->getShader()->addUniform(ss_lightAttenuation.str());
+
+		//Fix light attenuation making all material blacks if at zero.
+		this->getShader()->bind();
+		this->getShader()->setUniform3fv(ss_lightAttenuation.str(), glm::vec3(1.0f, 0.0f, 0.0f));
+	}
+
 
 	this->getShader()->addUniform("shininess");
 	this->getShader()->addUniform("exponent");
@@ -55,10 +72,22 @@ void BasicMaterial::preUpdate(Scene* scene)
 	this->getShader()->setUniformMat4fv("mView", scene->getActiveCamera()->getViewMatrix());
 	this->getShader()->setUniformMat4fv("mProj", scene->getActiveCamera()->getProjectionMatrix());
 
-	//TODO: make multiple lights !
-	this->getShader()->setUniform3fv("lightPosition", scene->getLights()[0]->getPosition());
-	this->getShader()->setUniform3fv("lightColor", scene->getLights()[0]->getColor());
-	this->getShader()->setUniform3fv("lightAttenuation", scene->getLights()[0]->getAttenuation());
+	for (unsigned int i = 0; i < 8; i++)
+	{
+		std::ostringstream ss_lightPos;
+		ss_lightPos << "lightPosition[" << i << "]";
+		std::ostringstream ss_lightColor;
+		ss_lightColor << "lightColor[" << i << "]";
+		std::ostringstream ss_lightAttenuation;
+		ss_lightAttenuation << "lightAttenuation[" << i << "]";
+
+		if (i < scene->getLights().size())
+		{
+			this->getShader()->setUniform3fv(ss_lightPos.str(), scene->getLights()[i]->getPosition());
+			this->getShader()->setUniform3fv(ss_lightColor.str(), scene->getLights()[i]->getColor());
+			this->getShader()->setUniform3fv(ss_lightAttenuation.str(), scene->getLights()[i]->getAttenuation());
+		}
+	}
 
 	this->getShader()->setUniform1f("shininess", this->getShininess());
 	this->getShader()->setUniform1f("exponent", this->getExponent());

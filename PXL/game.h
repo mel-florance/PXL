@@ -12,6 +12,7 @@
 #include "text.h"
 #include "pointLight.h"
 #include "engine.h"
+#include "widget.h"
 
 class Game
 {
@@ -25,7 +26,17 @@ private:
 	Engine* m_engine;
 	Mesh* m_ak;
 	float m_angle;
+	PointLight* m_light;
+	PointLight* m_lightS;
+	PointLight* m_lightR;
 	Text* m_fpsText;
 	Scene* m_scene;
+	Widget* m_logo;
+
+	Text* m_profGame;
+	Text* m_profRender;
+	Text* m_profInput;
+	Text* m_profSwapBuffer;
+	Text* m_profSleep;
 };
 

@@ -141,21 +141,26 @@
     <ClCompile Include="entityRenderer.cpp" />
     <ClCompile Include="fontManager.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="guiMaterial.cpp" />
     <ClCompile Include="guiRenderer.cpp" />
+    <ClCompile Include="inputManager.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="loader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="pointLight.cpp" />
+    <ClCompile Include="profiler.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shaderManager.cpp" />
+    <ClCompile Include="skyboxRenderer.cpp" />
     <ClCompile Include="stb_image.c" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="timer.cpp" />
     <ClCompile Include="widget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +177,9 @@
     <ClInclude Include="entityRenderer.h" />
     <ClInclude Include="fontManager.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="guiMaterial.h" />
     <ClInclude Include="guiRenderer.h" />
+    <ClInclude Include="inputManager.h" />
     <ClInclude Include="light.h" />
     <ClInclude Include="loader.h" />
     <ClInclude Include="main.h" />
@@ -181,15 +188,18 @@
     <ClInclude Include="meshFactory.h" />
     <ClInclude Include="meshRenderer.h" />
     <ClInclude Include="pointLight.h" />
+    <ClInclude Include="profiler.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shaderManager.h" />
+    <ClInclude Include="skyboxRenderer.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="texture.h" />
+    <ClInclude Include="timer.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="widget.h" />

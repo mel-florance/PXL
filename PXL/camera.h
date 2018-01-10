@@ -37,10 +37,10 @@ private:
 	glm::vec2 m_mouse;
 	glm::vec2 m_oldMouse;
 
-	float m_sensitivity;
-	float m_moveSpeed;
-	float m_maxSpeed;
-	float m_delta;
+	double m_sensitivity;
+	double m_moveSpeed;
+	double m_maxSpeed;
+	double m_delta;
 
 	std::map<std::string, int> m_keys;
 	std::map<std::string, bool> m_keys_states;

@@ -1,12 +1,13 @@
 #include "scene.h"
+#include "widget.h"
 
 Scene::Scene(const std::string& name)
 {
 	m_name = name;
-	m_clearColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	m_fogColor = glm::vec3(0.0f, 0.0f, 0.0f);
-	m_fogGradient = 1.5f;
-	m_fogDensity = 0.009f;
+	m_clearColor = glm::vec4(0.3f, 0.3f, 0.3f, 1.0f);
+	m_fogColor = glm::vec3(0.3f, 0.3f, 0.3f);
+	m_fogGradient = 2.0f;
+	m_fogDensity = 0.000f;
 }
 
 void Scene::addMesh(Mesh* mesh)
@@ -17,6 +18,11 @@ void Scene::addMesh(Mesh* mesh)
 void Scene::addText(Text* text)
 {
 	m_texts.emplace_back(text);
+}
+
+void Scene::addWidget(Widget* widget)
+{
+	m_widgets.emplace_back(widget);
 }
 
 void Scene::addCamera(Camera* camera)

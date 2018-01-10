@@ -1,4 +1,4 @@
-#version 420 core
+#version 330
 
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec2 uvs;
@@ -7,7 +7,7 @@ layout (location = 3) in vec3 tangent;
 
 out vec2 fUvs;
 out vec3 fNormal;
-out vec3 fToLight;
+out vec3 fToLight[8];
 out vec3 fToCamera;
 out float fVisibility;
 
@@ -17,20 +17,18 @@ uniform mat4 mProj;
 uniform float fogDensity;
 uniform float fogGradient;
 
-uniform vec3 lightPosition;
+uniform vec3 lightPosition[8];
 uniform int hasNormalTexture;
+
+mat3 TBN = mat3(1.0);
 
 void main() 
 {
     vec4 worldPosition = mTransform * vec4(position, 1.0);
     vec4 posRelToCam = mView * worldPosition;
 
-    gl_Position = mProj * mView * worldPosition;
-    fUvs = uvs;
-
     fNormal = vec3(mTransform * vec4(normal, 0.0)).xyz;
 
-    mat3 TBN = mat3(1.0);
     if(hasNormalTexture == 1)
     {
         vec3 norm = normalize(fNormal);
@@ -44,10 +42,24 @@ void main()
         );
     }
     
-    fToLight = TBN * (lightPosition - worldPosition.xyz);
-    fToCamera = TBN * ((inverse(mView) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz);
+    fUvs = uvs;
+
+    for(int i = 0; i < 8; i++)
+    {
+         if(hasNormalTexture == 1)
+            fToLight[i] = TBN * (lightPosition[i] - worldPosition.xyz);
+         else
+            fToLight[i] = lightPosition[i] - worldPosition.xyz;
+    }
+
+    if(hasNormalTexture == 1)
+        fToCamera = TBN * ((inverse(mView) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz);
+    else
+        fToCamera = (inverse(mView) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
 
     float distance = length(posRelToCam.xyz);
     fVisibility = exp(-pow((distance * fogDensity), fogGradient));
     fVisibility = clamp(fVisibility, 0.0, 1.0);
+
+    gl_Position = mProj * mView * worldPosition;
 }

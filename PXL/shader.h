@@ -33,6 +33,8 @@ public:
 	void setUniform1f(const std::string& name, float& value);
 	void setUniform1i(const std::string& name, int value);
 
+	inline GLuint getProgram() { return m_program; }
+
 private:
 	static const unsigned int NUM_SHADERS = 2;
 

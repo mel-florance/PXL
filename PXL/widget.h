@@ -1,22 +1,27 @@
 #pragma once
 
+#include <string>
+
 #include "transform.h"
 #include "texture.h"
+#include "guiMaterial.h"
+
 
 class Widget
 {
 public:
-	Widget();
+	Widget(const std::string& name, Shader* shader);
 	~Widget();
 
 	inline Transform* getTransform() { return m_transform; }
 	inline void setTransform(Transform* transform) { m_transform = transform; }
 
-	inline Texture* getTexture() { return m_texture; }
-	inline void setTexture(Texture* texture) { m_texture = texture; }
+	inline GuiMaterial* getMaterial() { return m_material; }
+	inline void setMaterial(GuiMaterial* material) { m_material = material; }
 
 private:
+	std::string m_name;
 	Transform* m_transform;
-	Texture* m_texture;
+	GuiMaterial* m_material;
 };
 

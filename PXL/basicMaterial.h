@@ -1,5 +1,8 @@
 #pragma once
 
+#include <sstream>
+#include <string>
+
 #include "texture.h"
 #include "material.h"
 #include "scene.h"
@@ -77,5 +80,3 @@ private:
 	glm::vec2 m_tiling;
 	bool m_backFaceCulling;
 };
-
-

@@ -38,7 +38,8 @@ public:
 		return positionMatrix * rotationMatrix * scaleMatrix;
 	}
 
-	inline glm::mat4 getParentMatrix() {
+	inline glm::mat4 getParentMatrix()
+	{
 
 		if (m_parent != 0)
 			m_parentMatrix = m_parent->getTransformation();
