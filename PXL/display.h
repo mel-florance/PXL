@@ -25,7 +25,7 @@ public:
 	inline Uint32 getHeight() { return m_height; }
 	inline float getAspect() { return (float)m_width / (float)m_height; }
 	inline void setWidth(Uint32 width) { m_width = width; }
-	inline void setHeight(Uint32 height) { m_width = height; }
+	inline void setHeight(Uint32 height) { m_height = height; }
 
 	inline SDL_Window* getWindow() { return m_window; };
 

@@ -83,7 +83,7 @@ void BasicMaterial::preUpdate(Scene* scene)
 
 		if (i < scene->getLights().size())
 		{
-			this->getShader()->setUniform3fv(ss_lightPos.str(), scene->getLights()[i]->getPosition());
+			this->getShader()->setUniform4fv(ss_lightPos.str(), scene->getLights()[i]->getPosition());
 			this->getShader()->setUniform3fv(ss_lightColor.str(), scene->getLights()[i]->getColor());
 			this->getShader()->setUniform3fv(ss_lightAttenuation.str(), scene->getLights()[i]->getAttenuation());
 		}

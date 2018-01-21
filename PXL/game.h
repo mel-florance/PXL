@@ -6,11 +6,10 @@
 #include "shader.h"
 #include "mesh.h"
 #include "texture.h"
-#include "camera.h"
-#include "pointLight.h"
+#include "FPSCamera.h"
 #include "basicMaterial.h"
 #include "text.h"
-#include "pointLight.h"
+#include "light.h"
 #include "engine.h"
 #include "widget.h"
 
@@ -20,15 +19,16 @@ public:
 	Game(Engine* engine);
 	~Game();
 
+	glm::vec2 setGuiScale(const glm::vec2& scale);
 	void update(double delta);
 
 private:
 	Engine* m_engine;
 	Mesh* m_ak;
 	float m_angle;
-	PointLight* m_light;
-	PointLight* m_lightS;
-	PointLight* m_lightR;
+	Light* m_light;
+	Light* m_lightS;
+	Light* m_lightR;
 	Text* m_fpsText;
 	Scene* m_scene;
 	Widget* m_logo;

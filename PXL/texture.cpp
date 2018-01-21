@@ -1,5 +1,7 @@
 #include "texture.h"
 
+#define STB_IMAGE_STATIC
+#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 #include "util.h"
@@ -8,6 +10,7 @@ Texture::Texture(const std::string& filename)
 {
 	m_filename = filename;
 	m_generateMipmaps = false;
+	m_lodBias = -2.5f;
 	this->load();
 }
 
@@ -21,7 +24,7 @@ Texture::Texture(const std::string& filename, bool generateMipmaps)
 Texture* Texture::Texture::load() 
 {
 	int width, height, numComponents;
-	unsigned char* imageData = stbi_load(m_filename.c_str(), &width, &height, &numComponents, STBI_rgb_alpha);
+	unsigned char* imageData = stbi_load(m_filename.c_str(), &width, &height, &numComponents, 4);
 
 	if (imageData == NULL) {
 		std::cerr << "Texture loading failed for texture: " << m_filename << std::endl;
@@ -46,7 +49,7 @@ Texture* Texture::Texture::load()
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 	std::cout.precision(3);
-	std::cout << "Loaded texture: " << m_filename << ": " << getFileSize(m_filename) << "Mb" << std::endl;
+	std::cout << "Loaded texture: " << m_filename << ": " << Utils::getFileSize(m_filename) << "Mb" << std::endl;
 
 	stbi_image_free(imageData);
 

@@ -15,7 +15,7 @@ Engine::Engine() : m_running(false), m_frameTime(1.0 / 60)
 	m_assetManager = new AssetManager(m_loader, m_shaderManager, m_sceneManager);
 	m_fontManager = new FontManager();
 	m_inputManager = new InputManager(m_window);
-	m_renderer = new Renderer(m_shaderManager, m_assetManager);
+	m_renderer = new Renderer(m_window, m_loader, m_shaderManager, m_assetManager);
 	m_game = new Game(this);
 	m_profiler = new Profiler(m_clock);
 }
@@ -85,7 +85,7 @@ void Engine::start()
 			{
 				m_profiler->startTimer("render");
 				m_window->clear(scene->getClearColor());
-				m_renderer->render(scene);
+				m_renderer->render(scene, m_passedTime);
 				m_profiler->stopTimer("render");
 
 				m_profiler->startTimer("swapBuffer");

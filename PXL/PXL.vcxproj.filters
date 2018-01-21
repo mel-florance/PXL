@@ -58,9 +58,6 @@
     <ClCompile Include="display.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="directionalLight.cpp">
-      <Filter>src\lighting</Filter>
-    </ClCompile>
     <ClCompile Include="clock.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
@@ -72,9 +69,6 @@
     </ClCompile>
     <ClCompile Include="shader.cpp">
       <Filter>src\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>src\cameras</Filter>
     </ClCompile>
     <ClCompile Include="mesh.cpp">
       <Filter>src\mesh</Filter>
@@ -90,9 +84,6 @@
     </ClCompile>
     <ClCompile Include="shaderManager.cpp">
       <Filter>src\managers</Filter>
-    </ClCompile>
-    <ClCompile Include="pointLight.cpp">
-      <Filter>src\lighting</Filter>
     </ClCompile>
     <ClCompile Include="light.cpp">
       <Filter>src\lighting</Filter>
@@ -148,6 +139,18 @@
     <ClCompile Include="skyboxRenderer.cpp">
       <Filter>src\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="skyboxMaterial.cpp">
+      <Filter>src\materials</Filter>
+    </ClCompile>
+    <ClCompile Include="FPSCamera.cpp">
+      <Filter>src\cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="TPSCamera.cpp">
+      <Filter>src\cameras</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>src\cameras</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h" />
@@ -157,9 +160,6 @@
     </ClInclude>
     <ClInclude Include="display.h">
       <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="directionalLight.h">
-      <Filter>src\lighting</Filter>
     </ClInclude>
     <ClInclude Include="clock.h">
       <Filter>src\core</Filter>
@@ -199,9 +199,6 @@
     </ClInclude>
     <ClInclude Include="shaderManager.h">
       <Filter>src\managers</Filter>
-    </ClInclude>
-    <ClInclude Include="pointLight.h">
-      <Filter>src\lighting</Filter>
     </ClInclude>
     <ClInclude Include="light.h">
       <Filter>src\lighting</Filter>
@@ -262,6 +259,15 @@
     </ClInclude>
     <ClInclude Include="skyboxRenderer.h">
       <Filter>src\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="skyboxMaterial.h">
+      <Filter>src\materials</Filter>
+    </ClInclude>
+    <ClInclude Include="FPSCamera.h">
+      <Filter>src\cameras</Filter>
+    </ClInclude>
+    <ClInclude Include="TPSCamera.h">
+      <Filter>src\cameras</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

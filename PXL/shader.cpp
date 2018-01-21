@@ -46,9 +46,19 @@ void Shader::setUniformMat4fv(const std::string& name, const glm::mat4& mat)
 	glUniformMatrix4fv(m_uniforms[name], 1, GL_FALSE, &mat[0][0]);
 }
 
+void Shader::setUniform4fv(const std::string& name, const glm::vec4& vec)
+{
+	glUniform4fv(m_uniforms[name], 1, &vec[0]);
+}
+
 void Shader::setUniform3fv(const std::string& name, const glm::vec3& vec)
 {
 	glUniform3fv(m_uniforms[name], 1, &vec[0]);
+}
+
+void Shader::setUniform2fv(const std::string& name, const glm::vec2& vec)
+{
+	glUniform2fv(m_uniforms[name], 1, &vec[0]);
 }
 
 void Shader::setUniform1f(const std::string& name, float& value)

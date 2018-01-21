@@ -1,7 +1,9 @@
 #include "guiRenderer.h"
+#include "display.h"
 
-GuiRenderer::GuiRenderer(AssetManager* assetManager, ShaderManager* shaderManager)
+GuiRenderer::GuiRenderer(Display* window, AssetManager* assetManager, ShaderManager* shaderManager)
 {
+	m_window = window;
 	m_assetManager = assetManager;
 	m_shaderManager = shaderManager;
 	m_guiShader = m_shaderManager->getShader("gui");
@@ -29,11 +31,15 @@ void GuiRenderer::render(Scene* scene)
 	glDisableVertexAttribArray(0);
 	glBindVertexArray(0);
 	m_guiShader->unbind();
+
 	glDisable(GL_BLEND);
 	glEnable(GL_DEPTH_TEST);
 
 	for (unsigned int i = 0; i < scene->getTexts().size(); i++)
+	{
+		scene->getTexts()[i]->setScreen(m_window->getWidth(), m_window->getHeight());
 		scene->getTexts()[i]->draw();
+	}
 }
 
 GuiRenderer::~GuiRenderer()

@@ -320,6 +320,7 @@ void CBitmapFont::ezPrint(char *Text, int x, int y)
 	// Setup Texture, color and blend options
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, TexID);
+
 	SetBlend();
 
 

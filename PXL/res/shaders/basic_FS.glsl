@@ -8,6 +8,7 @@ in float fVisibility;
 
 out vec4 out_Color;
 
+uniform vec4 lightPosition[8];
 uniform vec3 lightColor[8];
 uniform vec3 lightAttenuation[8]; 
 
@@ -29,6 +30,7 @@ uniform sampler2D normalTexture;
 
 vec4 normalMap = vec4(0.0, 0.0, 0.0, 1.0);
 vec4 texel = vec4(0.0, 0.0, 0.0, 1.0);
+
 
 void main() 
 {

@@ -18,7 +18,7 @@ void EntityRenderer::render(Scene* scene)
 
 		if (material->getBackFaceCulling() == true)
 			glEnable(GL_CULL_FACE);
-
+		
 		glBindVertexArray(mesh->getVao());
 		mesh->toggleAttributes(true);
 		m_basicShader->setUniformMat4fv("mTransform", mesh->getTransform()->getTransformation());

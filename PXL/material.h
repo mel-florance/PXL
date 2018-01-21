@@ -21,6 +21,7 @@ public:
 	virtual inline void setShader(Shader* shader) { m_shader = shader; }
 
 	virtual inline void updateTransform(Transform* transform) {}
+	virtual inline void updateUniforms(Camera* camera) {}
 
 	virtual inline void preUpdate(Scene* scene) {}
 	virtual inline void postUpdate() {}

@@ -36,5 +36,8 @@ private:
 
 	glm::vec2 m_mouse;
 	glm::vec2 m_mouseRel;
+
+	std::map<std::string, int> m_keys;
+	std::map<std::string, bool> m_keys_states;
 };
 

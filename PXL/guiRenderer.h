@@ -7,15 +7,17 @@
 #include "assetManager.h"
 #include "shader.h"
 
+class Display;
 class GuiRenderer
 {
 public:
-	GuiRenderer(AssetManager* assetManager, ShaderManager* shaderManager);
+	GuiRenderer(Display* window, AssetManager* assetManager, ShaderManager* shaderManager);
 	~GuiRenderer();
 
 	void render(Scene* scene);
 
 private:
+	Display* m_window;
 	Mesh* m_quad;
 	Shader* m_guiShader;
 	AssetManager* m_assetManager;

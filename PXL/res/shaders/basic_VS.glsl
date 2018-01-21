@@ -17,7 +17,7 @@ uniform mat4 mProj;
 uniform float fogDensity;
 uniform float fogGradient;
 
-uniform vec3 lightPosition[8];
+uniform vec4 lightPosition[8];
 uniform int hasNormalTexture;
 
 mat3 TBN = mat3(1.0);
@@ -47,9 +47,9 @@ void main()
     for(int i = 0; i < 8; i++)
     {
          if(hasNormalTexture == 1)
-            fToLight[i] = TBN * (lightPosition[i] - worldPosition.xyz);
+            fToLight[i] = TBN * (lightPosition[i].xyz - worldPosition.xyz);
          else
-            fToLight[i] = lightPosition[i] - worldPosition.xyz;
+            fToLight[i] = lightPosition[i].xyz - worldPosition.xyz;
     }
 
     if(hasNormalTexture == 1)

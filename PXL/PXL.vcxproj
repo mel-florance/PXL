@@ -134,12 +134,12 @@
     <ClCompile Include="bitmapFont.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="clock.cpp" />
-    <ClCompile Include="directionalLight.cpp" />
     <ClCompile Include="display.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="entityRenderer.cpp" />
     <ClCompile Include="fontManager.cpp" />
+    <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="guiMaterial.cpp" />
     <ClCompile Include="guiRenderer.cpp" />
@@ -149,18 +149,19 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
-    <ClCompile Include="pointLight.cpp" />
     <ClCompile Include="profiler.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="sceneManager.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shaderManager.cpp" />
+    <ClCompile Include="skyboxMaterial.cpp" />
     <ClCompile Include="skyboxRenderer.cpp" />
     <ClCompile Include="stb_image.c" />
     <ClCompile Include="text.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="timer.cpp" />
+    <ClCompile Include="TPSCamera.cpp" />
     <ClCompile Include="widget.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,13 +170,13 @@
     <ClInclude Include="bitmapFont.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="clock.h" />
-    <ClInclude Include="directionalLight.h" />
     <ClInclude Include="display.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="entityComponent.h" />
     <ClInclude Include="entityRenderer.h" />
     <ClInclude Include="fontManager.h" />
+    <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="guiMaterial.h" />
     <ClInclude Include="guiRenderer.h" />
@@ -187,7 +188,6 @@
     <ClInclude Include="mesh.h" />
     <ClInclude Include="meshFactory.h" />
     <ClInclude Include="meshRenderer.h" />
-    <ClInclude Include="pointLight.h" />
     <ClInclude Include="profiler.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="resource.h" />
@@ -195,11 +195,13 @@
     <ClInclude Include="sceneManager.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="shaderManager.h" />
+    <ClInclude Include="skyboxMaterial.h" />
     <ClInclude Include="skyboxRenderer.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="text.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="timer.h" />
+    <ClInclude Include="TPSCamera.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="widget.h" />

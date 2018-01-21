@@ -21,9 +21,9 @@ Display::Display(Uint32 width, Uint32 height, const std::string & title, const s
 		width, height,
 		SDL_WINDOW_OPENGL		 | 
 		SDL_WINDOW_RESIZABLE	 | 
-		SDL_WINDOW_MAXIMIZED	 |
-		SDL_RENDERER_ACCELERATED | 
-		SDL_RENDERER_PRESENTVSYNC
+		SDL_RENDERER_ACCELERATED |
+		SDL_WINDOW_MAXIMIZED
+		//SDL_WINDOW_FULLSCREEN_DESKTOP |
 	);
 
 	addIcon(icon);
@@ -36,9 +36,8 @@ Display::Display(Uint32 width, Uint32 height, const std::string & title, const s
 
 	if (status != GLEW_OK)
 		std::cerr << "Glew failed to initialize!" << std::endl;
-	else {
+	else
 		m_isClosed = false;
-	}
 }
 
 bool Display::isClosed()
@@ -59,7 +58,7 @@ void Display::swapBuffers()
 
 bool Display::addIcon(const std::string& filename)
 {
-	int req_format = STBI_rgb_alpha;
+	int req_format = 4;
 	int depth, pitch;
 	Uint32 pixel_format;
 	Uint32 rmask, gmask, bmask, amask;
@@ -76,10 +75,10 @@ bool Display::addIcon(const std::string& filename)
 		rmask = 0x000000ff;
 		gmask = 0x0000ff00;
 		bmask = 0x00ff0000;
-		amask = (req_format == STBI_rgb) ? 0 : 0xff000000;
+		amask = (req_format == 3) ? 0 : 0xff000000;
 	#endif
 
-	if (req_format == STBI_rgb) {
+	if (req_format == 3) {
 		depth = 24;
 		pitch = 3 * iconWidth;
 		pixel_format = SDL_PIXELFORMAT_RGB24;

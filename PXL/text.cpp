@@ -10,14 +10,21 @@ Text::Text(const std::string& text, glm::vec3& color, int x, int y, CBitmapFont 
 
 }
 
+void Text::setScreen(Uint32 width, Uint32 height)
+{
+	m_screenWidth = width;
+	m_screenHeight = height;
+	m_font.Select();
+	m_font.SetScreen(width, height);
+}
+
 void Text::draw()
 {
-	//TODO: grab the window info
-	m_font.SetScreen(1920, 1040 );
 	m_font.Select();
 	m_font.SetColor(m_color.x, m_color.y, m_color.z);
 	m_font.setScale(m_size);
-	m_font.ezPrint(const_cast<char *>(m_text.c_str()), m_x * (1 / m_size.x), m_y * (1 / m_size.y));
+
+	m_font.ezPrint(const_cast<char *>(m_text.c_str()), m_x * (1 / m_size.x), (m_screenHeight - m_y) * (1 / m_size.y));
 }
 
 Text::~Text()
