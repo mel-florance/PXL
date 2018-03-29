@@ -94,6 +94,10 @@ void Input::draw(NVGcontext* ctx, double delta)
 
 
 	// Text
+	float textWidth = nvgTextBounds(ctx, pos.x, pos.y, m_text.text.c_str(), NULL, 0);
+	float diff = this->getSize().x - textWidth;
+	float textX = textWidth > this->getSize().x ? pos.x + diff : pos.x + 5;
+
 	nvgFontSize(ctx, m_text.fontSize);
 	nvgFontFace(ctx, m_text.font.c_str());
 	nvgTextAlign(ctx, m_text.align);
@@ -108,7 +112,7 @@ void Input::draw(NVGcontext* ctx, double delta)
 	nvgScissor(ctx, pos.x, pos.y, this->getSize().x, this->getSize().y - m_margin.x);
 
 	nvgText(ctx,
-		pos.x + 5,
+		textX,
 		pos.y + (this->getSize().y * 0.5f) + 5,
 		m_text.text.c_str(),
 		NULL
@@ -120,10 +124,8 @@ void Input::draw(NVGcontext* ctx, double delta)
 	{
 		nvgBeginPath(ctx);
 
-		float caretPositionX = nvgTextBounds(ctx, pos.x, pos.y, m_text.text.c_str(), NULL, 0);
-
 		nvgRect(ctx,
-			pos.x + caretPositionX + m_margin.w,
+			pos.x + textWidth + m_margin.w,
 			pos.y + m_margin.x,
 			m_caret.size.x,
 			m_caret.size.y - m_margin.z
@@ -138,7 +140,6 @@ void Input::draw(NVGcontext* ctx, double delta)
 
 		nvgFill(ctx);
 	}
-
 
 	nvgRestore(ctx);
 }

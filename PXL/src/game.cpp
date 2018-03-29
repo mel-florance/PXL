@@ -49,7 +49,8 @@ Game::Game(Engine* engine)
 	m_profSwapBuffer = new Text("SwapBuffer:", white, glm::vec2(20, 145), "segoeui");
 	m_profSleep = new Text("Sleep:", white, glm::vec2(20, 165), "segoeui");
 
-	m_input = new Input(glm::vec2(20, 185), glm::vec2(210, 35), "segoeui");
+	m_label = new Label(glm::vec2(20, 185), glm::vec2(210, 35), "My super label", "segoeui");
+	m_input = new Input(glm::vec2(20, 215), glm::vec2(210, 35), "segoeui");
 
 	panel->addChild(image);
 	panel->addChild(m_fpsText);
@@ -60,9 +61,11 @@ Game::Game(Engine* engine)
 	panel->addChild(m_profSleep);
 
 	panel->addChild(m_input);
+	panel->addChild(m_label);
 
 	m_scene->addWidget(panel);
 	m_scene->addWidget(m_input);
+	m_scene->addWidget(m_label);
 
 	m_angle = 0.0f;
 }

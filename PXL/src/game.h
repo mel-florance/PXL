@@ -15,7 +15,7 @@
 #include "window.h"
 #include "image.h"
 #include "input.h"
-
+#include "label.h"
 
 class Game
 {
@@ -44,5 +44,6 @@ private:
 	Text* m_profSleep;
 
 	Input* m_input;
+	Label* m_label;
 };
 

@@ -49,6 +49,7 @@
     <ClCompile Include="./src/TPSCamera.cpp" />
     <ClCompile Include="./src/widget.cpp" />
     <ClCompile Include="./src/window.cpp" />
+    <ClCompile Include="label.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/assetManager.h" />
@@ -99,5 +100,6 @@
     <ClInclude Include="./src/util.h" />
     <ClInclude Include="./src/widget.h" />
     <ClInclude Include="./src/window.h" />
+    <ClInclude Include="label.h" />
   </ItemGroup>
 </Project>
