@@ -1,15 +1,14 @@
-#include "input.h"
+﻿#include "input.h"
 #include <iostream>
-
 
 Input::Input(glm::vec2& position, glm::vec2& size, const std::string& font) : Widget(position, size)
 {
-	m_background = glm::vec4(48.0f, 60.0f, 68.0f, 192.0f);
+	m_background = glm::vec4(38.0f, 38.0f, 38.0f, 100.0f);
 
 	m_margin = glm::vec4(
-		5.0f, // Top
+		8.0f, // Top
 		5.0f, // Right
-		5.0f, // Bottom
+		8.0f, // Bottom
 		5.0f  // Left
 	);
 
@@ -19,7 +18,7 @@ Input::Input(glm::vec2& position, glm::vec2& size, const std::string& font) : Wi
 	m_text.align = NVG_ALIGN_LEFT;
 	m_text.color = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
 
-	m_caret.size = glm::vec2(2.0f, size.y - 6.0f);
+	m_caret.size = glm::vec2(1.0f, size.y - m_margin.z);
 	m_caret.background = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
 	m_caret.blinkStart = SDL_GetTicks();
 	m_caret.blinkSpeed = 1000;
@@ -28,11 +27,11 @@ Input::Input(glm::vec2& position, glm::vec2& size, const std::string& font) : Wi
 void Input::update(double delta)
 {
 	if (m_focused)
-		m_background = glm::vec4(58.0f, 68.0f, 78.0f, 255.0f);
+		m_background = glm::vec4(58.0f, 58.0f, 58.0f, 100.0f);
 	else if (m_hovered)
-		m_background = glm::vec4(48.0f, 58.0f, 68.0f, 255.0f);
+		m_background = glm::vec4(48.0f, 48.0f, 48.0f, 100.0f);
 	else
-		m_background = glm::vec4(38.0f, 50.0f, 58.0f, 255.0f);
+		m_background = glm::vec4(38.0f, 38.0f, 38.0f, 100.0f);
 
 	if (m_focused)
 	{
@@ -57,23 +56,42 @@ void Input::draw(NVGcontext* ctx, double delta)
 	glm::vec2 pos = this->getRelativePosition();
 
 	// Background
+	NVGpaint bg;
+	bg = nvgBoxGradient(ctx,
+		pos.x + 1,
+		pos.y + 1 + 1.5f, 
+		this->getSize().x - 2, 
+		this->getSize().y - 2, 3, 4, 
+		nvgRGBA(
+			(unsigned char)m_background.r,
+			(unsigned char)m_background.g,
+			(unsigned char)m_background.b,
+			(unsigned char)m_background.a
+		),
+		nvgRGBA(0, 0, 0, 50)
+	);
 	nvgBeginPath(ctx);
 	nvgRoundedRect(ctx,
-		pos.x,
-		pos.y,
-		this->getSize().x,
-		this->getSize().y,
-		3.0f
+		pos.x + 1, 
+		pos.y + 1,
+		this->getSize().x - 2,
+		this->getSize().y - 2,
+		4 - 1
 	);
-
-	nvgFillColor(ctx, nvgRGBA(
-		(unsigned char)m_background.r,
-		(unsigned char)m_background.g,
-		(unsigned char)m_background.b,
-		(unsigned char)m_background.a)
-	);
-
+	nvgFillPaint(ctx, bg);
 	nvgFill(ctx);
+
+	nvgBeginPath(ctx);
+	nvgRoundedRect(ctx,
+		pos.x + 0.5f,
+		pos.y + 0.5f, 
+		this->getSize().x - 1,
+		this->getSize().y - 1,
+		4 - 0.5f
+	);
+	nvgStrokeColor(ctx, nvgRGBA(0, 0, 0, 48));
+	nvgStroke(ctx);
+
 
 	// Text
 	nvgFontSize(ctx, m_text.fontSize);
@@ -86,6 +104,8 @@ void Input::draw(NVGcontext* ctx, double delta)
 		(unsigned char)m_text.color.b,
 		(unsigned char)m_text.color.a)
 	);
+
+	nvgScissor(ctx, pos.x, pos.y, this->getSize().x, this->getSize().y - m_margin.x);
 
 	nvgText(ctx,
 		pos.x + 5,
@@ -118,6 +138,7 @@ void Input::draw(NVGcontext* ctx, double delta)
 
 		nvgFill(ctx);
 	}
+
 
 	nvgRestore(ctx);
 }

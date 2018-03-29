@@ -17,9 +17,9 @@ Window::Window(const std::string& text, glm::vec2& position, glm::vec2& size, co
 
 void Window::update(double delta)
 {
-	m_background = m_hovered
-		? glm::vec4(28.0f, 30.0f, 34.0f, 255.0f)
-		: glm::vec4(28.0f, 30.0f, 34.0f, 192.0f);
+	//m_background = m_hovered
+	//	? glm::vec4(28.0f, 30.0f, 34.0f, 255.0f)
+	//	: glm::vec4(28.0f, 30.0f, 34.0f, 192.0f);
 
 	if (m_dragged)
 	{
