@@ -32,6 +32,11 @@ Game::Game(Engine* engine)
 	plane->getMaterial()->setTiling(glm::vec2(15.0f, 15.0f));
 	plane->getMaterial()->setBackFaceCulling(false);
 
+	Mesh* suzanne = m_scene->getMeshByName("Suzanne");
+
+	suzanne->getTransform()->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
+
+
 	glm::vec4 white = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
 	Window* panel = new Window("Profiling", glm::vec2(20.0f, 20.0f), glm::vec2(250.0f, 350.0f), "segoeui");
 

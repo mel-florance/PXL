@@ -1,5 +1,5 @@
 # PXL Engine
 
-![Screenshot](https://i.imgur.com/RrYbFTi.jpg)
+![Screenshot](https://imgur.com/a/jOANJ)
 
 Readme coming soon !

@@ -29,16 +29,12 @@ public:
 
 	inline glm::vec2 getRelativePosition() 
 	{
-		float x = this->getPosition().x;
-		float y = this->getPosition().y;
+		glm::vec2 pos = this->getPosition();
 
 		if (this->getParent() != nullptr)
-		{
-			x += this->getParent()->getPosition().x;
-			y += this->getParent()->getPosition().y;
-		}
+			pos += this->getParent()->getPosition();
 
-		return glm::vec2(x, y);
+		return pos;
 	}
 
 	inline bool intersects(const glm::vec2& point)
