@@ -5,45 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{3fedde7c-3a0b-4ebe-8df1-5f23c7356790}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\core">
-      <UniqueIdentifier>{733852ad-e90f-402a-a803-5e33b7119a99}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\rendering">
-      <UniqueIdentifier>{c294152e-80be-428b-98f0-d34eb8922923}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\materials">
-      <UniqueIdentifier>{d7ba48c3-e2e4-4572-8ac8-ccfa08132fcc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\lighting">
-      <UniqueIdentifier>{b539b570-9c48-4e47-9416-0147b0538bc9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\cameras">
-      <UniqueIdentifier>{0cf77c9e-7ad4-41b7-8a81-51a2549e33a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\mesh">
-      <UniqueIdentifier>{0b5f8f5a-d7e7-4e1e-b658-d14b7491e295}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\loaders">
-      <UniqueIdentifier>{2fce7f61-845d-450a-8345-dddaf0856bca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\managers">
-      <UniqueIdentifier>{a158e997-14d7-4a32-aa8b-0fc904e57cd5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\entities">
-      <UniqueIdentifier>{67c18133-495d-45f9-a6db-ed82eadd3ea1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\entities\components">
-      <UniqueIdentifier>{68424d9b-471b-4099-ab1f-29028fe8911b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\ui">
-      <UniqueIdentifier>{38de7d74-9176-4ee5-a478-7ee41a747285}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\game">
-      <UniqueIdentifier>{5fe99d36-061f-4f39-a805-43da160428da}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PXL.rc">
@@ -51,223 +12,92 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="engine.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="display.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="clock.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="scene.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="renderer.cpp">
-      <Filter>src\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="shader.cpp">
-      <Filter>src\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="mesh.cpp">
-      <Filter>src\mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="texture.cpp">
-      <Filter>src\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_image.c">
-      <Filter>src\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="sceneManager.cpp">
-      <Filter>src\managers</Filter>
-    </ClCompile>
-    <ClCompile Include="shaderManager.cpp">
-      <Filter>src\managers</Filter>
-    </ClCompile>
-    <ClCompile Include="light.cpp">
-      <Filter>src\lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="loader.cpp">
-      <Filter>src\loaders</Filter>
-    </ClCompile>
-    <ClCompile Include="assetManager.cpp">
-      <Filter>src\managers</Filter>
-    </ClCompile>
-    <ClCompile Include="entity.cpp">
-      <Filter>src\entities</Filter>
-    </ClCompile>
-    <ClCompile Include="basicMaterial.cpp">
-      <Filter>src\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="guiRenderer.cpp">
-      <Filter>src\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="bitmapFont.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="fontManager.cpp">
-      <Filter>src\managers</Filter>
-    </ClCompile>
-    <ClCompile Include="text.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="material.cpp">
-      <Filter>src\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>src\game</Filter>
-    </ClCompile>
-    <ClCompile Include="widget.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="entityRenderer.cpp">
-      <Filter>src\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="guiMaterial.cpp">
-      <Filter>src\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="timer.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="inputManager.cpp">
-      <Filter>src\managers</Filter>
-    </ClCompile>
-    <ClCompile Include="profiler.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
-    <ClCompile Include="skyboxRenderer.cpp">
-      <Filter>src\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="skyboxMaterial.cpp">
-      <Filter>src\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="FPSCamera.cpp">
-      <Filter>src\cameras</Filter>
-    </ClCompile>
-    <ClCompile Include="TPSCamera.cpp">
-      <Filter>src\cameras</Filter>
-    </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>src\cameras</Filter>
-    </ClCompile>
+    <ClCompile Include="./src/assetManager.cpp" />
+    <ClCompile Include="./src/basicMaterial.cpp" />
+    <ClCompile Include="./src/camera.cpp" />
+    <ClCompile Include="./src/circle.cpp" />
+    <ClCompile Include="./src/clock.cpp" />
+    <ClCompile Include="./src/display.cpp" />
+    <ClCompile Include="./src/engine.cpp" />
+    <ClCompile Include="./src/entity.cpp" />
+    <ClCompile Include="./src/entityRenderer.cpp" />
+    <ClCompile Include="./src/guiManager.cpp" />
+    <ClCompile Include="./src/FPSCamera.cpp" />
+    <ClCompile Include="./src/game.cpp" />
+    <ClCompile Include="./src/guiRenderer.cpp" />
+    <ClCompile Include="./src/image.cpp" />
+    <ClCompile Include="./src/input.cpp" />
+    <ClCompile Include="./src/inputManager.cpp" />
+    <ClCompile Include="./src/light.cpp" />
+    <ClCompile Include="./src/loader.cpp" />
+    <ClCompile Include="./src/main.cpp" />
+    <ClCompile Include="./src/material.cpp" />
+    <ClCompile Include="./src/mesh.cpp" />
+    <ClCompile Include="./src/nanovg.c" />
+    <ClCompile Include="./src/profiler.cpp" />
+    <ClCompile Include="./src/rect.cpp" />
+    <ClCompile Include="./src/renderer.cpp" />
+    <ClCompile Include="./src/scene.cpp" />
+    <ClCompile Include="./src/sceneManager.cpp" />
+    <ClCompile Include="./src/shader.cpp" />
+    <ClCompile Include="./src/shaderManager.cpp" />
+    <ClCompile Include="./src/skyboxMaterial.cpp" />
+    <ClCompile Include="./src/skyboxRenderer.cpp" />
+    <ClCompile Include="./src/text.cpp" />
+    <ClCompile Include="./src/texture.cpp" />
+    <ClCompile Include="./src/timer.cpp" />
+    <ClCompile Include="./src/TPSCamera.cpp" />
+    <ClCompile Include="./src/widget.cpp" />
+    <ClCompile Include="./src/window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="main.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="engine.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="display.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="clock.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="renderer.h">
-      <Filter>src\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="material.h">
-      <Filter>src\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="shader.h">
-      <Filter>src\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>src\cameras</Filter>
-    </ClInclude>
-    <ClInclude Include="mesh.h">
-      <Filter>src\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="texture.h">
-      <Filter>src\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="transform.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image.h">
-      <Filter>src\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="util.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="sceneManager.h">
-      <Filter>src\managers</Filter>
-    </ClInclude>
-    <ClInclude Include="shaderManager.h">
-      <Filter>src\managers</Filter>
-    </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>src\lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="loader.h">
-      <Filter>src\loaders</Filter>
-    </ClInclude>
-    <ClInclude Include="assetManager.h">
-      <Filter>src\managers</Filter>
-    </ClInclude>
-    <ClInclude Include="entity.h">
-      <Filter>src\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="entityComponent.h">
-      <Filter>src\entities</Filter>
-    </ClInclude>
-    <ClInclude Include="basicMaterial.h">
-      <Filter>src\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="meshRenderer.h">
-      <Filter>src\entities\components</Filter>
-    </ClInclude>
-    <ClInclude Include="meshFactory.h">
-      <Filter>src\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="guiRenderer.h">
-      <Filter>src\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="bitmapFont.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="fontManager.h">
-      <Filter>src\managers</Filter>
-    </ClInclude>
-    <ClInclude Include="text.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>src\game</Filter>
-    </ClInclude>
-    <ClInclude Include="widget.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="entityRenderer.h">
-      <Filter>src\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="guiMaterial.h">
-      <Filter>src\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="timer.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="inputManager.h">
-      <Filter>src\managers</Filter>
-    </ClInclude>
-    <ClInclude Include="profiler.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
-    <ClInclude Include="skyboxRenderer.h">
-      <Filter>src\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="skyboxMaterial.h">
-      <Filter>src\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="FPSCamera.h">
-      <Filter>src\cameras</Filter>
-    </ClInclude>
-    <ClInclude Include="TPSCamera.h">
-      <Filter>src\cameras</Filter>
-    </ClInclude>
+    <ClInclude Include="./src/assetManager.h" />
+    <ClInclude Include="./src/basicMaterial.h" />
+    <ClInclude Include="./src/camera.h" />
+    <ClInclude Include="./src/circle.h" />
+    <ClInclude Include="./src/clock.h" />
+    <ClInclude Include="./src/display.h" />
+    <ClInclude Include="./src/engine.h" />
+    <ClInclude Include="./src/entity.h" />
+    <ClInclude Include="./src/entityComponent.h" />
+    <ClInclude Include="./src/entityRenderer.h" />
+    <ClInclude Include="./src/guiManager.h" />
+    <ClInclude Include="./src/fontstash.h" />
+    <ClInclude Include="./src/FPSCamera.h" />
+    <ClInclude Include="./src/game.h" />
+    <ClInclude Include="./src/guiRenderer.h" />
+    <ClInclude Include="./src/image.h" />
+    <ClInclude Include="./src/input.h" />
+    <ClInclude Include="./src/inputManager.h" />
+    <ClInclude Include="./src/light.h" />
+    <ClInclude Include="./src/loader.h" />
+    <ClInclude Include="./src/main.h" />
+    <ClInclude Include="./src/material.h" />
+    <ClInclude Include="./src/mesh.h" />
+    <ClInclude Include="./src/meshFactory.h" />
+    <ClInclude Include="./src/meshRenderer.h" />
+    <ClInclude Include="./src/nanovg.h" />
+    <ClInclude Include="./src/nanovg_gl.h" />
+    <ClInclude Include="./src/nanovg_gl_utils.h" />
+    <ClInclude Include="./src/profiler.h" />
+    <ClInclude Include="./src/rect.h" />
+    <ClInclude Include="./src/renderer.h" />
+    <ClInclude Include="./src/resource.h" />
+    <ClInclude Include="./src/scene.h" />
+    <ClInclude Include="./src/sceneManager.h" />
+    <ClInclude Include="./src/shader.h" />
+    <ClInclude Include="./src/shaderManager.h" />
+    <ClInclude Include="./src/skyboxMaterial.h" />
+    <ClInclude Include="./src/skyboxRenderer.h" />
+    <ClInclude Include="./src/stb_image.h" />
+    <ClInclude Include="./src/stb_truetype.h" />
+    <ClInclude Include="./src/text.h" />
+    <ClInclude Include="./src/texture.h" />
+    <ClInclude Include="./src/timer.h" />
+    <ClInclude Include="./src/TPSCamera.h" />
+    <ClInclude Include="./src/transform.h" />
+    <ClInclude Include="./src/util.h" />
+    <ClInclude Include="./src/widget.h" />
+    <ClInclude Include="./src/window.h" />
   </ItemGroup>
 </Project>

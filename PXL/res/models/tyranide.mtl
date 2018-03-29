@@ -1,0 +1,28 @@
+# Blender MTL File: 'tyranide.blend'
+# Material Count: 2
+
+newmtl tyranide
+Ns 3.921569
+Ka 0.100000 0.100000 0.100000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd .\res\textures\Material.001_albedo.jpg
+map_Bump .\res\textures\Material.001_normal.jpg
+map_Ns .\res\textures\Material.001_roughness.jpg
+
+newmtl tyranide_NONE
+Ns 3.921569
+Ka 0.100000 0.100000 0.100000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Bump .\res\Material.001_normal.jpg
+map_Kd .\res\textures\Material.001_albedo.jpg
+map_Ns .\res\textures\\Material.001_roughness.jpg

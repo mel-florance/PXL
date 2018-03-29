@@ -8,8 +8,9 @@ in float fVisibility;
 
 out vec4 out_Color;
 
-uniform vec4 lightPosition[8];
+uniform vec3 lightPosition[8];
 uniform vec3 lightColor[8];
+uniform int  lightType[8];
 uniform vec3 lightAttenuation[8]; 
 
 uniform vec3 fogColor;
@@ -56,6 +57,7 @@ void main()
 
     vec3 totalDiffuse = vec3(0.0);
     vec3 totalSpecular = vec3(0.0);
+
 
     for(int i = 0; i < 8; i++)
     {
