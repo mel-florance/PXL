@@ -2,20 +2,20 @@
 
 #include <iostream>
 
-#include "display.h"
-#include "shader.h"
-#include "mesh.h"
-#include "texture.h"
-#include "FPSCamera.h"
-#include "basicMaterial.h"
-#include "text.h"
-#include "light.h"
-#include "engine.h"
-#include "widget.h"
-#include "window.h"
-#include "image.h"
-#include "input.h"
-#include "label.h"
+#include "core/display.h"
+#include "shaders/shader.h"
+#include "mesh/mesh.h"
+#include "texturing/texture.h"
+#include "cameras/FPSCamera.h"
+#include "materials/basicMaterial.h"
+#include "lighting/light.h"
+#include "core/engine.h"
+#include "ui/text.h"
+#include "ui/widget.h"
+#include "ui/window.h"
+#include "ui/image.h"
+#include "ui/input.h"
+#include "ui/label.h"
 
 class Game
 {
