@@ -169,6 +169,7 @@
     <ClCompile Include="./src/ui/label.cpp" />
     <ClCompile Include="./src/ui/layout.cpp" />
     <ClCompile Include="./src/ui/boxLayout.cpp" />
+    <ClCompile Include="./src/ui/fontManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/mesh/assetManager.h" />
@@ -222,6 +223,7 @@
     <ClInclude Include="./src/ui/label.h" />
     <ClInclude Include="./src/ui/layout.h" />
     <ClInclude Include="./src/ui/boxLayout.h" />
+    <ClInclude Include="./src/ui/fontManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -12,7 +12,7 @@ Window::Window(const std::string& text, glm::vec2& position, glm::vec2& size, co
 	m_header.rect = new Rect(glm::vec2(position.x + 1, position.y + 1), glm::vec2(size.x - 2, 30));
 
 	m_background = glm::vec4(28.0f, 30.0f, 34.0f, 192.0f);
-	m_borderRadius = 3.0f;
+	m_borderRadius = 0.0f;
 }
 
 void Window::update(double delta)
@@ -21,7 +21,7 @@ void Window::update(double delta)
 	//	? glm::vec4(28.0f, 30.0f, 34.0f, 255.0f)
 	//	: glm::vec4(28.0f, 30.0f, 34.0f, 192.0f);
 
-	if (m_dragged)
+	if (m_dragged && m_draggable)
 	{
 		glm::vec2 pos = this->getPosition();
 		glm::vec2 offset = m_mouse - pos;
@@ -164,10 +164,9 @@ void Window::onMouseDown(Uint8 button)
 {
 	m_hovered = this->getRect()->intersects(m_mouse) ? true : false;
 
-	if (m_header.rect->intersects(m_mouse)) 
-	{
-		m_dragged = button == SDL_BUTTON_LEFT ? true : false;
-	}
+	if(m_draggable)
+		if (m_header.rect->intersects(m_mouse)) 
+			m_dragged = button == SDL_BUTTON_LEFT ? true : false;
 }
 
 void Window::onMouseUp(Uint8 button)

@@ -73,15 +73,19 @@ public:
 	inline void setDragged(bool state) { m_dragged = state; }
 	inline bool getDragged() { return m_dragged; }
 
+	inline void setDraggable(bool state) { m_draggable = state; }
+	inline bool isDraggable() { return m_draggable; }
+
 	inline void setHovered(bool state) { m_hovered = state; }
-	inline bool getHovered() { return m_hovered; }
+	inline bool isHovered() { return m_hovered; }
 	
 	inline void setFocused(bool state) { m_focused = state; }
-	inline bool getFocused() { return m_focused; }
+	inline bool isFocused() { return m_focused; }
 
 	bool m_dragged;
 	bool m_hovered;
 	bool m_focused;
+	bool m_draggable;
 	glm::vec2 m_mouse;
 	glm::vec2 m_dragStart;
 	glm::vec2 m_mouseDelta;

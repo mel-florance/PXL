@@ -35,6 +35,7 @@ public:
 	inline AssetManager* getAssetManager() { return m_assetManager; }
 	inline Loader* getLoader() { return m_loader; }
 	inline GuiManager* getGuiManager() { return m_guiManager; }
+	inline FontManager* getFontManager() { return m_fontManager; }
 	inline InputManager* getInputManager() { return m_inputManager; }
 	inline Profiler* getProfiler() { return m_profiler; }
 
@@ -50,6 +51,7 @@ private:
 	AssetManager* m_assetManager;
 	GuiManager* m_guiManager;
 	InputManager* m_inputManager;
+	FontManager* m_fontManager;
 
 	Renderer* m_renderer;
 	Loader* m_loader;

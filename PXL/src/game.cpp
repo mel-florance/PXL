@@ -35,7 +35,7 @@ Game::Game(Engine* engine)
 	suzanne->getTransform()->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
 
 	glm::vec4 white = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
-	Window* panel = new Window("Profiling", glm::vec2(20.0f, 20.0f), glm::vec2(250.0f, 350.0f), "segoeui");
+	Window* panel = new Window("Profiling", glm::vec2(1.0f, 1.0f), glm::vec2(250.0f, window->getSize().y), "segoeui");
 
 	Image* image = new Image(guiManager->getContext(), "./res/textures/icon_big.png", glm::vec2(0.0f, 0.0f), glm::vec2(48.0f, 48.0f));
 

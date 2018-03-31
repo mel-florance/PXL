@@ -1,6 +1,6 @@
 #include "display.h"
 
-Display::Display(Uint32 width, Uint32 height, const std::string & title, const std::string& icon)
+Display::Display(Uint32 width, Uint32 height, const std::string& title, const std::string& icon)
 {
 	m_size = glm::vec2(width, height);
 	SDL_Init(SDL_INIT_EVERYTHING);

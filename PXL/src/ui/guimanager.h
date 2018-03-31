@@ -4,25 +4,23 @@
 #include <set>
 #include <vector>
 #include <string>
-#include <filesystem>
 #include <iostream>
 
-#include <dirent.h>
 #include <GL/glew.h>
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
 
 #include "nanovg.h"
+#include "fontManager.h"
 #include "layout.h"
 #include "widget.h"
 
 class GuiManager
 {
 public:
-	GuiManager();
+	GuiManager(FontManager* fontManager);
 	~GuiManager();
 
-	void loadFonts(char* path);
 	NVGcontext* getContext() { return m_ctx; }
 
 	inline std::vector<class Layout*> getLayouts() { return m_layouts; }
@@ -39,6 +37,7 @@ public:
 
 private:
 	NVGcontext* m_ctx;
+	FontManager* m_fontManager;
 	std::vector<class Layout*> m_layouts;
 };
 
