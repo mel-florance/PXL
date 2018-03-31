@@ -25,9 +25,12 @@ public:
 	NVGcontext* getContext() { return m_ctx; }
 
 	inline std::vector<class Layout*> getLayouts() { return m_layouts; }
-	void addLayout(Layout* layout);
+	Layout* createLayout(const std::string& name);
+
+	Layout* addLayout(Layout* layout);
 	void removeLayout(Layout* layout);
 
+	void handleWidgetEvent(Widget* widget, const SDL_Event& event, const std::string& name);
 	void handleEvent(const std::string& name, const SDL_Event& event);
 
 private:

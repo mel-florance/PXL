@@ -1,11 +1,13 @@
 #pragma once
 
+#include <string>
+
 #include "layout.h"
 
 class BoxLayout : public Layout
 {
 public:
-	BoxLayout();
+	BoxLayout(const std::string& name);
 	~BoxLayout();
 
 private:

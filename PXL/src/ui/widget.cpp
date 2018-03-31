@@ -16,8 +16,8 @@ Widget::Widget(glm::vec2& position, glm::vec2& size)
 
 void Widget::handleEvent(const std::string& name, const SDL_Event& event)
 {
-	EventFnPtr fp = m_events[name];
-	return (this->*fp)(event);
+	EventFnPtr fn = m_events[name];
+	return (this->*fn)(event);
 }
 
 void Widget::onTextInput(const SDL_Event& event)

@@ -17,6 +17,11 @@ Label::Label(glm::vec2& position, glm::vec2& size, const std::string& text, cons
 	m_color = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
 }
 
+Label::~Label()
+{
+
+}
+
 void Label::update(double delta)
 {
 

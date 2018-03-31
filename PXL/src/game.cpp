@@ -36,6 +36,8 @@ Game::Game(Engine* engine)
 
 	glm::vec4 white = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
 	Window* panel = new Window("Profiling", glm::vec2(1.0f, 1.0f), glm::vec2(250.0f, window->getSize().y), "segoeui");
+	panel->setDraggable(true);
+
 
 	Image* image = new Image(guiManager->getContext(), "./res/textures/icon_big.png", glm::vec2(0.0f, 0.0f), glm::vec2(48.0f, 48.0f));
 
@@ -46,9 +48,10 @@ Game::Game(Engine* engine)
 	m_profSwapBuffer = new Text("SwapBuffer:", white, glm::vec2(20, 145), "segoeui");
 	m_profSleep = new Text("Sleep:", white, glm::vec2(20, 165), "segoeui");
 
-	m_layout = new Layout();
+	m_layout = guiManager->createLayout("main_window");
+
 	m_label = new Label(glm::vec2(20, 185), glm::vec2(210, 35), "My super label", "segoeui");
-	m_input = new Input(glm::vec2(20, 215), glm::vec2(210, 35), "segoeui");
+	m_input = new Input(glm::vec2(0, 30), glm::vec2(210, 35), "segoeui");
 
 	panel->addChild(image);
 	panel->addChild(m_fpsText);
@@ -58,14 +61,10 @@ Game::Game(Engine* engine)
 	panel->addChild(m_profSwapBuffer);
 	panel->addChild(m_profSleep);
 
-	panel->addChild(m_input);
 	panel->addChild(m_label);
+	m_label->addChild(m_input);
 
 	m_layout->addWidget(panel);
-	m_layout->addWidget(m_input);
-	m_layout->addWidget(m_label);
-
-	guiManager->addLayout(m_layout);
 
 	m_angle = 0.0f;
 }

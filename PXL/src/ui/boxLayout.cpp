@@ -1,6 +1,6 @@
 #include "boxLayout.h"
 
-BoxLayout::BoxLayout() : Layout()
+BoxLayout::BoxLayout(const std::string& name) : Layout(name)
 {
 
 }

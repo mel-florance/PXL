@@ -19,6 +19,14 @@ GuiManager::GuiManager(FontManager* fontManager)
 	}
 }
 
+void GuiManager::handleWidgetEvent(Widget* widget, const SDL_Event& event, const std::string& name)
+{
+	widget->handleEvent(name, event);
+
+	for (unsigned int i = 0; i < widget->getChildren().size(); i++)
+		this->handleWidgetEvent(widget->getChildren()[i], event, name);
+}
+
 void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 {
 	for (unsigned int i = 0; i < m_layouts.size(); i++)
@@ -26,13 +34,19 @@ void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 		std::vector<class Widget*> widgets = m_layouts[i]->getWidgets();
 
 		for (unsigned int j = 0; j < widgets.size(); j++)
-			widgets[j]->handleEvent(name, event);
+			this->handleWidgetEvent(widgets[j], event, name);
 	}
 }
 
-void GuiManager::addLayout(Layout* layout)
+Layout* GuiManager::createLayout(const std::string& name) 
+{
+	return this->addLayout(new Layout(name));
+}
+
+Layout* GuiManager::addLayout(Layout* layout)
 {
 	m_layouts.emplace_back(layout);
+	return layout;
 }
 
 void GuiManager::removeLayout(Layout* layout)

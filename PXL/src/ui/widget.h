@@ -35,7 +35,7 @@ public:
 		glm::vec2 pos = this->getPosition();
 
 		if (this->getParent() != nullptr)
-			pos += this->getParent()->getPosition();
+			pos += this->getParent()->getRelativePosition();
 
 		return pos;
 	}
@@ -56,7 +56,7 @@ public:
 	inline void addChild(Widget* child)
 	{
 		child->setParent(this);
-		m_children.emplace_back(child);
+		m_children.push_back(child);
 	}
 
 	inline std::vector<Widget*> getChildren() { return m_children; }
@@ -99,8 +99,8 @@ public:
 private:
 	glm::vec2 m_screen;
 	Widget* m_parent;
-	std::vector<Widget*> m_children;
-	std::map <std::string, EventFnPtr> m_events;
+	std::vector<class Widget*> m_children;
+	std::map<std::string, EventFnPtr> m_events;
 	Rect* m_rect;
 };
 
