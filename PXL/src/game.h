@@ -18,7 +18,7 @@
 #include "ui/label.h"
 
 class Game
-{
+{ 
 public:
 	Game(Engine* engine);
 	~Game();

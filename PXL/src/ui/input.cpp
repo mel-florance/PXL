@@ -92,11 +92,12 @@ void Input::draw(NVGcontext* ctx, double delta)
 	nvgStrokeColor(ctx, nvgRGBA(0, 0, 0, 48));
 	nvgStroke(ctx);
 
-
 	// Text
 	float textWidth = nvgTextBounds(ctx, pos.x, pos.y, m_text.text.c_str(), NULL, 0);
 	float diff = this->getSize().x - textWidth;
-	float textX = textWidth > this->getSize().x ? pos.x + diff : pos.x + 5;
+	float textX = textWidth + m_margin.w > this->getSize().x
+		? pos.x + diff - m_margin.w 
+		: pos.x + 5;
 
 	nvgFontSize(ctx, m_text.fontSize);
 	nvgFontFace(ctx, m_text.font.c_str());
@@ -122,10 +123,14 @@ void Input::draw(NVGcontext* ctx, double delta)
 
 	if (m_focused)
 	{
+		float caretX = textWidth + m_margin.w > this->getSize().x
+			? pos.x + this->getSize().x - m_margin.w 
+			: pos.x + textWidth + m_margin.w;
+
 		nvgBeginPath(ctx);
 
 		nvgRect(ctx,
-			pos.x + textWidth + m_margin.w,
+			caretX,
 			pos.y + m_margin.x,
 			m_caret.size.x,
 			m_caret.size.y - m_margin.z
