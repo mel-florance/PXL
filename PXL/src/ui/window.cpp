@@ -144,32 +144,33 @@ void Window::draw(NVGcontext* ctx, double delta)
 	nvgRestore(ctx);
 }
 
-void Window::onKeyDown(const SDL_Keycode& keycode)
+void Window::onKeyDown(const SDL_Event& event)
 {
 
 }
 
-void Window::onKeyUp(const SDL_Keycode& keycode)
+void Window::onKeyUp(const SDL_Event& event)
 {
 
 }
 
-void Window::onMouseMove(const glm::vec2& mouse, const glm::vec2& rel)
+void Window::onMouseMove(const SDL_Event& event)
 {
-	m_mouse = mouse;
-	m_hovered = this->getRect()->intersects(mouse) ? true : false;
+	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
+	m_mouseRel = glm::vec2((float)event.motion.xrel, (float)event.motion.yrel);
+	m_hovered = this->getRect()->intersects(m_mouse) ? true : false;
 }
 
-void Window::onMouseDown(Uint8 button)
+void Window::onMouseDown(const SDL_Event& event)
 {
 	m_hovered = this->getRect()->intersects(m_mouse) ? true : false;
 
 	if(m_draggable)
 		if (m_header.rect->intersects(m_mouse)) 
-			m_dragged = button == SDL_BUTTON_LEFT ? true : false;
+			m_dragged = event.button.button == SDL_BUTTON_LEFT ? true : false;
 }
 
-void Window::onMouseUp(Uint8 button)
+void Window::onMouseUp(const SDL_Event& event)
 {
 	m_dragged = false;
 	m_hovered = this->getRect()->intersects(m_mouse) ? true : false;

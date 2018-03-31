@@ -1,8 +1,8 @@
 #pragma once
 
+#include <map>
 #include <string>
 #include <vector>
-
 
 #include <glm\glm.hpp>
 #include <SDL2\SDL.h>
@@ -15,6 +15,8 @@ class Widget
 public:
 	Widget(glm::vec2& position, glm::vec2& size);
 	~Widget();
+
+	typedef void (Widget::*EventFnPtr)(const SDL_Event& event);
 
 	inline void setRect(Rect* rect) { m_rect = rect; }
 	inline Rect* getRect() { return m_rect; }
@@ -61,14 +63,14 @@ public:
 
 	virtual inline void draw(NVGcontext* ctx, double delta) {}
 	virtual inline void update(double delta) {}
+	virtual void handleEvent(const std::string& name, const SDL_Event& event);
 
-	virtual inline void onKeyDown(const SDL_Event& event) {}
-	virtual inline void onTextInput(const SDL_Event& event) {}
-	virtual inline void onKeyUp(const SDL_Event& event) {}
-
-	virtual inline void onMouseMove(const glm::vec2& mouse, const glm::vec2& rel) {}
-	virtual inline void onMouseDown(Uint8 button) {}
-	virtual inline void onMouseUp(Uint8 button) {}
+	virtual void onKeyDown(const SDL_Event& event);
+	virtual void onTextInput(const SDL_Event& event);
+	virtual void onKeyUp(const SDL_Event& event);
+	virtual void onMouseMove(const SDL_Event& event);
+	virtual void onMouseDown(const SDL_Event& event);
+	virtual void onMouseUp(const SDL_Event& event);
 
 	inline void setDragged(bool state) { m_dragged = state; }
 	inline bool getDragged() { return m_dragged; }
@@ -86,14 +88,19 @@ public:
 	bool m_hovered;
 	bool m_focused;
 	bool m_draggable;
-	glm::vec2 m_mouse;
+	
 	glm::vec2 m_dragStart;
+
 	glm::vec2 m_mouseDelta;
+	glm::vec3 m_mouseStates;
+	glm::vec2 m_mouse;
+	glm::vec2 m_mouseRel;
 
 private:
 	glm::vec2 m_screen;
 	Widget* m_parent;
 	std::vector<Widget*> m_children;
+	std::map <std::string, EventFnPtr> m_events;
 	Rect* m_rect;
 };
 

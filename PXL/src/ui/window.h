@@ -8,11 +8,11 @@ public:
 	Window(const std::string& text, glm::vec2& position, glm::vec2& size, const std::string& font);
 	~Window();
 
-	void onKeyDown(const SDL_Keycode& keycode);
-	void onKeyUp(const SDL_Keycode& keycode);
-	void onMouseMove(const glm::vec2& mouse, const glm::vec2& rel);
-	void onMouseDown(Uint8 button);
-	void onMouseUp(Uint8 button);
+	void onKeyDown(const SDL_Event& event);
+	void onKeyUp(const SDL_Event& event);
+	void onMouseMove(const SDL_Event& event);
+	void onMouseDown(const SDL_Event& event);
+	void onMouseUp(const SDL_Event& event);
 
 	void draw(NVGcontext* ctx, double delta);
 	void update(double delta);

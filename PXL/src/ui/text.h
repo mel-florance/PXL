@@ -18,6 +18,13 @@ public:
 
 	void draw(NVGcontext* ctx, double delta);
 
+	void onKeyDown(const SDL_Event& event) {}
+	void onTextInput(const SDL_Event& event) {}
+	void onKeyUp(const SDL_Event& event) {}
+	void onMouseMove(const SDL_Event& event) {}
+	void onMouseDown(const SDL_Event& event) {}
+	void onMouseUp(const SDL_Event& event) {}
+
 private:
 	glm::vec4 m_color;
 	std::string m_text;

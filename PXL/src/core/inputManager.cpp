@@ -18,14 +18,14 @@ void InputManager::update()
 			m_window->setIsClosed(true);
 
 		if (e.type == SDL_TEXTINPUT)
-			m_guiManager->onTextInput(e);
+			m_guiManager->handleEvent("onTextInput", e);
 
 		if (e.type == SDL_KEYDOWN) {
 
 			if (m_camera != nullptr)
 				m_camera->onKeyDown(e.key.keysym.sym);
 
-			m_guiManager->onKeyDown(e);
+			m_guiManager->handleEvent("onKeyDown", e);
 		}
 
 		if (e.type == SDL_KEYUP)
@@ -33,7 +33,7 @@ void InputManager::update()
 			if (m_camera != nullptr)
 				m_camera->onKeyUp(e.key.keysym.sym);
 
-			m_guiManager->onKeyUp(e);
+			m_guiManager->handleEvent("onKeyUp", e);
 		}
 
 		if (e.type == SDL_MOUSEMOTION)
@@ -44,7 +44,7 @@ void InputManager::update()
 			if (m_camera != nullptr)
 				m_camera->onMouseMove(getMouseRel());
 
-			m_guiManager->onMouseMove(getMouse(), getMouseRel());
+			m_guiManager->handleEvent("onMouseMove", e);
 		}
 
 		if (e.type == SDL_MOUSEBUTTONDOWN)
@@ -52,7 +52,7 @@ void InputManager::update()
 			if (m_camera != nullptr)
 				m_camera->onMouseDown(e.button.button);
 
-			m_guiManager->onMouseDown(e.button.button);
+			m_guiManager->handleEvent("onMouseDown", e);
 		}
 
 		if (e.type == SDL_MOUSEBUTTONUP)
@@ -60,7 +60,7 @@ void InputManager::update()
 			if (m_camera != nullptr)
 				m_camera->onMouseUp(e.button.button);
 
-			m_guiManager->onMouseUp(e.button.button);
+			m_guiManager->handleEvent("onMouseUp", e);
 		}
 
 		if (e.type == SDL_WINDOWEVENT) 

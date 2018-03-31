@@ -183,18 +183,19 @@ void Input::onKeyUp(const SDL_Event& event)
 
 }
 
-void Input::onMouseMove(const glm::vec2& mouse, const glm::vec2& rel)
+void Input::onMouseMove(const SDL_Event& event)
 {
-	m_mouse = mouse;
-	m_hovered = this->intersects(mouse);
+	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
+	m_mouseRel = glm::vec2((float)event.motion.xrel, (float)event.motion.yrel);
+	m_hovered = this->intersects(m_mouse);
 }
 
-void Input::onMouseDown(Uint8 button)
+void Input::onMouseDown(const SDL_Event& event)
 {
 	this->setFocused(this->intersects(m_mouse));
 }
 
-void Input::onMouseUp(Uint8 button)
+void Input::onMouseUp(const SDL_Event& event)
 {
 	this->setFocused(this->intersects(m_mouse));
 }

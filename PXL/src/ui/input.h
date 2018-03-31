@@ -37,9 +37,9 @@ public:
 	void onKeyDown(const SDL_Event& event);
 	void onTextInput(const SDL_Event& event);
 	void onKeyUp(const SDL_Event& event);
-	void onMouseMove(const glm::vec2& mouse, const glm::vec2& rel);
-	void onMouseDown(Uint8 button);
-	void onMouseUp(Uint8 button);
+	void onMouseMove(const SDL_Event& event);
+	void onMouseDown(const SDL_Event& event);
+	void onMouseUp(const SDL_Event& event);
 
 private:
 	glm::vec4 m_background;
