@@ -1,8 +1,9 @@
 #include "inputManager.h"
 
-InputManager::InputManager(Display* window, SceneManager* sceneManager)
+InputManager::InputManager(Display* window, GuiManager* guiManager, SceneManager* sceneManager)
 {
 	m_window = window;
+	m_guiManager = guiManager;
 	m_sceneManager = sceneManager;
 }
 
@@ -16,13 +17,15 @@ void InputManager::update()
 		if (e.type == SDL_QUIT)
 			m_window->setIsClosed(true);
 
-		if (e.type == SDL_KEYDOWN)
-		{
+		if (e.type == SDL_TEXTINPUT)
+			m_guiManager->onTextInput(e);
+
+		if (e.type == SDL_KEYDOWN) {
+
 			if (m_camera != nullptr)
 				m_camera->onKeyDown(e.key.keysym.sym);
 
-			for (unsigned int i = 0; i < scene->getWidgets().size(); i++)
-				scene->getWidgets()[i]->onKeyDown(e);
+			m_guiManager->onKeyDown(e);
 		}
 
 		if (e.type == SDL_KEYUP)
@@ -30,14 +33,34 @@ void InputManager::update()
 			if (m_camera != nullptr)
 				m_camera->onKeyUp(e.key.keysym.sym);
 
-			for (unsigned int i = 0; i < scene->getWidgets().size(); i++)
-				scene->getWidgets()[i]->onKeyUp(e);
+			m_guiManager->onKeyUp(e);
 		}
 
-		if (e.type == SDL_TEXTINPUT)
+		if (e.type == SDL_MOUSEMOTION)
 		{
-			for (unsigned int i = 0; i < scene->getWidgets().size(); i++)
-				scene->getWidgets()[i]->onTextInput(e);
+			setMouse((float)e.motion.x, (float)e.motion.y);
+			setMouseRel((float)e.motion.xrel, (float)e.motion.yrel);
+
+			if (m_camera != nullptr)
+				m_camera->onMouseMove(getMouseRel());
+
+			m_guiManager->onMouseMove(getMouse(), getMouseRel());
+		}
+
+		if (e.type == SDL_MOUSEBUTTONDOWN)
+		{
+			if (m_camera != nullptr)
+				m_camera->onMouseDown(e.button.button);
+
+			m_guiManager->onMouseDown(e.button.button);
+		}
+
+		if (e.type == SDL_MOUSEBUTTONUP)
+		{
+			if (m_camera != nullptr)
+				m_camera->onMouseUp(e.button.button);
+
+			m_guiManager->onMouseUp(e.button.button);
 		}
 
 		if (e.type == SDL_WINDOWEVENT) 
@@ -65,36 +88,6 @@ void InputManager::update()
 			case SDL_WINDOWEVENT_CLOSE:
 				break;
 			}
-		}
-
-		if (e.type == SDL_MOUSEMOTION)
-		{
-			setMouse((float)e.motion.x, (float)e.motion.y);
-			setMouseRel((float)e.motion.xrel, (float)e.motion.yrel);
-
-			if (m_camera != nullptr)
-				m_camera->onMouseMove(getMouseRel());
-
-			for (unsigned int i = 0; i < scene->getWidgets().size(); i++)
-				scene->getWidgets()[i]->onMouseMove(getMouse(), getMouseRel());
-		}
-
-		if (e.type == SDL_MOUSEBUTTONDOWN)
-		{
-			if (m_camera != nullptr)
-				m_camera->onMouseDown(e.button.button);
-
-			for (unsigned int i = 0; i < scene->getWidgets().size(); i++)
-				scene->getWidgets()[i]->onMouseDown(e.button.button);
-		}
-		
-		if (e.type == SDL_MOUSEBUTTONUP)
-		{
-			if (m_camera != nullptr)
-				m_camera->onMouseUp(e.button.button);
-
-			for (unsigned int i = 0; i < scene->getWidgets().size(); i++)
-				scene->getWidgets()[i]->onMouseUp(e.button.button);
 		}
 	}
 }

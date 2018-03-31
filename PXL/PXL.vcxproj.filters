@@ -165,6 +165,12 @@
     <ClCompile Include="./src/texturing/texture.cpp">
       <Filter>src\texturing</Filter>
     </ClCompile>
+    <ClCompile Include="./src/ui/boxLayout.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/layout.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/game.h">
@@ -313,6 +319,12 @@
     </ClInclude>
     <ClInclude Include="./src/texturing/texture.h">
       <Filter>src\texturing</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/layout.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/boxLayout.h">
+      <Filter>src\ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

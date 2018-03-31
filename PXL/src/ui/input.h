@@ -28,8 +28,11 @@ public:
 	void setCaretBackground(glm::vec4& background) { m_caret.background = background; }
 	glm::vec4& getCaretBackground() { return m_caret.background; }
 
-	void draw(NVGcontext* ctx, double delta);
 	void update(double delta);
+	void draw(NVGcontext* ctx, double delta);
+	void drawBackground(NVGcontext* ctx, glm::vec2& position);
+	void drawText(NVGcontext* ctx, glm::vec2& position);
+	void drawCaret(NVGcontext* ctx, glm::vec2& position);
 
 	void onKeyDown(const SDL_Event& event);
 	void onTextInput(const SDL_Event& event);
@@ -54,8 +57,9 @@ private:
 		std::string text;
 		NVGalign align;
 		std::string font;
+		glm::vec4 color;
 		float fontSize;
 		float blur;
-		glm::vec4 color;
+		float width;
 	} m_text;
 };

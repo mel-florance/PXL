@@ -33,14 +33,14 @@ void Scene::removeMesh(Mesh* mesh)
 
 // Ui widgets
 
-void Scene::addWidget(Widget* widget)
+void Scene::addWidget(Widget* widget, Layout* layout)
 {
-	m_widgets.emplace_back(widget);
+	layout->addWidget(widget);
 }
 
-void Scene::removeWidget(Widget* widget)
+void Scene::removeWidget(Widget* widget, Layout* layout)
 {
-	m_widgets.erase(std::remove(m_widgets.begin(), m_widgets.end(), widget), m_widgets.end());
+	layout->removeWidget(widget);
 }
 
 // Cameras

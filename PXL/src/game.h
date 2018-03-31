@@ -16,6 +16,7 @@
 #include "ui/image.h"
 #include "ui/input.h"
 #include "ui/label.h"
+#include "ui/layout.h"
 
 class Game
 { 
@@ -45,5 +46,6 @@ private:
 
 	Input* m_input;
 	Label* m_label;
+	Layout* m_layout;
 };
 

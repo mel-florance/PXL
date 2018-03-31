@@ -53,51 +53,67 @@ void Input::draw(NVGcontext* ctx, double delta)
 {
 	nvgSave(ctx);
 
-	glm::vec2 pos = this->getRelativePosition();
+	glm::vec2 position = this->getRelativePosition();
 
-	// Background
+	this->drawBackground(ctx, position);
+	this->drawText(ctx, position);
+	this->drawCaret(ctx, position);
+
+	nvgRestore(ctx);
+}
+
+void Input::drawBackground(NVGcontext* ctx, glm::vec2& position)
+{
 	NVGpaint bg;
+
 	bg = nvgBoxGradient(ctx,
-		pos.x + 1,
-		pos.y + 1 + 1.5f, 
-		this->getSize().x - 2, 
-		this->getSize().y - 2, 3, 4, 
+		position.x + 1,
+		position.y + 1 + 1.5f,
+		this->getSize().x - 2,
+		this->getSize().y - 2, 3, 4,
 		nvgRGBA(
-			(unsigned char)m_background.r,
+		(unsigned char)m_background.r,
 			(unsigned char)m_background.g,
 			(unsigned char)m_background.b,
 			(unsigned char)m_background.a
 		),
 		nvgRGBA(0, 0, 0, 50)
 	);
+
 	nvgBeginPath(ctx);
+
 	nvgRoundedRect(ctx,
-		pos.x + 1, 
-		pos.y + 1,
+		position.x + 1,
+		position.y + 1,
 		this->getSize().x - 2,
 		this->getSize().y - 2,
 		4 - 1
 	);
+
 	nvgFillPaint(ctx, bg);
 	nvgFill(ctx);
-
 	nvgBeginPath(ctx);
+
 	nvgRoundedRect(ctx,
-		pos.x + 0.5f,
-		pos.y + 0.5f, 
+		position.x + 0.5f,
+		position.y + 0.5f,
 		this->getSize().x - 1,
 		this->getSize().y - 1,
 		4 - 0.5f
 	);
+
 	nvgStrokeColor(ctx, nvgRGBA(0, 0, 0, 48));
 	nvgStroke(ctx);
+}
 
-	// Text
-	float textWidth = nvgTextBounds(ctx, pos.x, pos.y, m_text.text.c_str(), NULL, 0);
-	float diff = this->getSize().x - textWidth;
-	float textX = textWidth + m_margin.w > this->getSize().x
-		? pos.x + diff - m_margin.w 
-		: pos.x + 5;
+void Input::drawText(NVGcontext* ctx, glm::vec2& position)
+{
+	m_text.width = nvgTextBounds(ctx, position.x, position.y, m_text.text.c_str(), NULL, 0);
+
+	float diff = this->getSize().x - m_text.width;
+	float textX = m_text.width + m_margin.w > this->getSize().x
+		? position.x + diff - m_margin.w
+		: position.x + 5;
 
 	nvgFontSize(ctx, m_text.fontSize);
 	nvgFontFace(ctx, m_text.font.c_str());
@@ -110,28 +126,29 @@ void Input::draw(NVGcontext* ctx, double delta)
 		(unsigned char)m_text.color.a)
 	);
 
-	nvgScissor(ctx, pos.x, pos.y, this->getSize().x, this->getSize().y - m_margin.x);
+	nvgScissor(ctx, position.x, position.y, this->getSize().x, this->getSize().y - m_margin.x);
 
 	nvgText(ctx,
 		textX,
-		pos.y + (this->getSize().y * 0.5f) + 5,
+		position.y + (this->getSize().y * 0.5f) + 5,
 		m_text.text.c_str(),
 		NULL
 	);
+}
 
-	// Caret
-
+void Input::drawCaret(NVGcontext* ctx, glm::vec2& position)
+{
 	if (m_focused)
 	{
-		float caretX = textWidth + m_margin.w > this->getSize().x
-			? pos.x + this->getSize().x - m_margin.w 
-			: pos.x + textWidth + m_margin.w;
+		float caretX = m_text.width + m_margin.w > this->getSize().x
+			? position.x + this->getSize().x - m_margin.w
+			: position.x + m_text.width + m_margin.w;
 
 		nvgBeginPath(ctx);
 
 		nvgRect(ctx,
 			caretX,
-			pos.y + m_margin.x,
+			position.y + m_margin.x,
 			m_caret.size.x,
 			m_caret.size.y - m_margin.z
 		);
@@ -145,8 +162,6 @@ void Input::draw(NVGcontext* ctx, double delta)
 
 		nvgFill(ctx);
 	}
-
-	nvgRestore(ctx);
 }
 
 void Input::onTextInput(const SDL_Event& event)
@@ -159,6 +174,8 @@ void Input::onKeyDown(const SDL_Event& event)
 {
 	if (event.key.keysym.sym == SDLK_BACKSPACE && m_text.text.size() > 0)
 		m_text.text.pop_back();
+	if (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_KP_ENTER)
+		m_focused = false;
 }
 
 void Input::onKeyUp(const SDL_Event& event)

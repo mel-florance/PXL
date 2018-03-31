@@ -8,11 +8,12 @@
 #include "display.h"
 #include "../cameras/camera.h"
 #include "../scene/sceneManager.h"
+#include "../ui/guiManager.h"
 
 class InputManager
 {
 public:
-	InputManager(Display* window, SceneManager* sceneManager);
+	InputManager(Display* window, GuiManager* guiManager, SceneManager* sceneManager);
 	~InputManager();
 
 	inline glm::vec2& getMouse() { return m_mouse; }
@@ -35,6 +36,7 @@ public:
 
 private:
 	SceneManager* m_sceneManager;
+	GuiManager* m_guiManager;
 	Display* m_window;
 	Camera* m_camera;
 

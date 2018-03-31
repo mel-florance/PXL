@@ -13,7 +13,7 @@ Engine::Engine() : m_running(false), m_frameTime(1.0 / 60)
 	m_shaderManager = new ShaderManager();
 	m_assetManager = new AssetManager(m_loader, m_shaderManager, m_sceneManager);
 	m_guiManager = new GuiManager();
-	m_inputManager = new InputManager(m_window, m_sceneManager);
+	m_inputManager = new InputManager(m_window, m_guiManager, m_sceneManager);
 	m_renderer = new Renderer(m_window, m_loader, m_shaderManager, m_assetManager, m_guiManager);
 	m_game = new Game(this);
 	m_profiler = new Profiler(m_clock);

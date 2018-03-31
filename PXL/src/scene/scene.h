@@ -10,10 +10,11 @@
 #include "../materials/material.h"
 #include "../lighting/light.h"
 #include "../cameras/camera.h"
+#include "../ui/GuiManager.h"
 #include "../ui/text.h"
+#include "../ui/layout.h"
 
 class Widget;
-
 class Scene
 {
 public:
@@ -40,9 +41,8 @@ public:
 	void addLight(Light* light);
 	void removeLight(Light* light);
 
-	inline std::vector<class Widget*> getWidgets() { return m_widgets; }
-	void addWidget(Widget* widget);
-	void removeWidget(Widget* widget);
+	void addWidget(Widget* widget, Layout* layout);
+	void removeWidget(Widget* widget, Layout* layout);
 
 	void setActiveCamera(unsigned int index) { m_activeCamera = index; }
 	inline Camera* getActiveCamera() { return m_cameras[m_activeCamera]; }
@@ -67,7 +67,6 @@ private:
 	std::vector<class Material*> m_materials;
 	std::vector<class Camera*> m_cameras;
 	std::vector<class Light*> m_lights;
-	std::vector<class Widget*> m_widgets;
 
 	glm::vec4 m_clearColor;
 	glm::vec3 m_fogColor;
