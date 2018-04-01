@@ -7,14 +7,21 @@ Layout::Layout(const std::string& name, const glm::vec2& position, const glm::ve
 
 void Layout::addWidget(Widget* widget)
 {
-	std::vector<class Widget*> childs;
-	size_t size = childs.size();
-
-	if (size > 0)
-		for (unsigned int i = 0; i < size; i++)
-			this->addWidget(childs[i]);
-
+	this->setWidgetWindow(widget);
 	m_widgets.emplace_back(widget);
+}
+
+void Layout::setWidgetWindow(Widget* widget) 
+{
+	if (this->getWindow() != nullptr) 
+	{
+ 		widget->setWindow(this->getWindow());
+
+		std::vector<class Widget*> childs = widget->getChildren();
+
+		for (unsigned int i = 0; i < childs.size(); i++)
+			this->setWidgetWindow(childs[i]);
+	}
 }
 
 void Layout::removeWidget(Widget* widget)

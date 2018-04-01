@@ -61,6 +61,9 @@ Game::Game(Engine* engine)
 	m_inputName = new Input(glm::vec2(0, 30), glm::vec2(210, 35), "segoeui");
 	m_labelName->addChild(m_inputName);
 
+	m_button = new Button(glm::vec2(20, 190.0f), glm::vec2(210, 35), "segoeui");
+	m_button->setText("clickMe");
+
 	//panel->addChild(image);
 	profiler->addChild(m_fpsText);
 	profiler->addChild(m_profGame);
@@ -71,6 +74,7 @@ Game::Game(Engine* engine)
 
 	outliner->addChild(m_label);
 	outliner->addChild(m_labelName);
+	outliner->addChild(m_button);
 
 	m_layout->addWidget(profiler);
 	m_layout->addWidget(outliner);

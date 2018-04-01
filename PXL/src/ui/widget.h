@@ -8,6 +8,7 @@
 #include <SDL2\SDL.h>
 #include "nanovg.h"
 
+#include "../core/display.h"
 #include "rect.h"
 
 class Widget
@@ -17,6 +18,9 @@ public:
 	~Widget();
 
 	typedef void (Widget::*EventFnPtr)(const SDL_Event& event);
+	
+	inline void setWindow(Display* window) { m_window = window; }
+	inline Display* getWindow() { return m_window; }
 
 	inline void setRect(Rect* rect) { m_rect = rect; }
 	inline Rect* getRect() { return m_rect; }
@@ -86,10 +90,14 @@ public:
 	inline void setFocused(bool state) { m_focused = state; }
 	inline bool isFocused() { return m_focused; }
 
+	inline void setActive(bool state) { m_active = state; }
+	inline bool isActive() { return m_active; }
+
 	bool m_dragged;
 	bool m_hovered;
 	bool m_focused;
 	bool m_draggable;
+	bool m_active;
 	
 	glm::vec2 m_dragStart;
 
@@ -99,6 +107,7 @@ public:
 	glm::vec2 m_mouseRel;
 
 private:
+	Display* m_window;
 	glm::vec2 m_screen;
 	Widget* m_parent;
 	std::vector<class Widget*> m_children;

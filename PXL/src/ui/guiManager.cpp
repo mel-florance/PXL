@@ -4,8 +4,9 @@
 #define NANOVG_GL3_IMPLEMENTATION
 #include "nanovg_gl.h"
 
-GuiManager::GuiManager(FontManager* fontManager)
+GuiManager::GuiManager(Display* window, FontManager* fontManager)
 {
+	m_window = window;
 	m_ctx = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES);
 	m_fontManager = fontManager;
 
@@ -47,6 +48,7 @@ Layout* GuiManager::createLayout(const std::string& name, const glm::vec2& posit
 
 Layout* GuiManager::addLayout(Layout* layout)
 {
+	layout->setWindow(m_window);
 	m_layouts.emplace_back(layout);
 	return layout;
 }

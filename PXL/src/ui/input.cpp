@@ -28,7 +28,7 @@ void Input::update(double delta)
 {
 	if (m_focused)
 		m_background = glm::vec4(58.0f, 58.0f, 58.0f, 100.0f);
-	else if (m_hovered)
+	else if (m_hovered) 
 		m_background = glm::vec4(48.0f, 48.0f, 48.0f, 100.0f);
 	else
 		m_background = glm::vec4(38.0f, 38.0f, 38.0f, 100.0f);
@@ -174,6 +174,7 @@ void Input::onKeyDown(const SDL_Event& event)
 {
 	if (event.key.keysym.sym == SDLK_BACKSPACE && m_text.text.size() > 0)
 		m_text.text.pop_back();
+
 	if (event.key.keysym.sym == SDLK_RETURN || event.key.keysym.sym == SDLK_KP_ENTER)
 		m_focused = false;
 }
@@ -188,6 +189,11 @@ void Input::onMouseMove(const SDL_Event& event)
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	m_mouseRel = glm::vec2((float)event.motion.xrel, (float)event.motion.yrel);
 	m_hovered = this->intersects(m_mouse);
+
+	Display* window = this->getWindow();
+
+	if(window != nullptr)
+		window->setCurrentCursor(m_hovered ? window->getCursor("IBEAM") : window->getCursor("ARROW"));
 }
 
 void Input::onMouseDown(const SDL_Event& event)

@@ -15,11 +15,12 @@
 #include "fontManager.h"
 #include "layout.h"
 #include "widget.h"
+#include "../core/display.h"
 
 class GuiManager
 {
 public:
-	GuiManager(FontManager* fontManager);
+	GuiManager(Display* window, FontManager* fontManager);
 	~GuiManager();
 
 	NVGcontext* getContext() { return m_ctx; }
@@ -35,6 +36,7 @@ public:
 
 private:
 	NVGcontext* m_ctx;
+	Display* m_window;
 	FontManager* m_fontManager;
 	std::vector<class Layout*> m_layouts;
 };

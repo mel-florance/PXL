@@ -13,6 +13,7 @@ public:
 
 	inline std::vector<class Widget*> getWidgets() { return m_widgets; }
 	virtual void addWidget(Widget* widget);
+	void Layout::setWidgetWindow(Widget* widget);
 	virtual void removeWidget(Widget* widget);
 
 	~Layout();

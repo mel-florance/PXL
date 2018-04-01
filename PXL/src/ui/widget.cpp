@@ -19,6 +19,7 @@ Widget::Widget(const glm::vec2& position, const glm::vec2& size)
 void Widget::handleEvent(const std::string& name, const SDL_Event& event)
 {
 	EventFnPtr fn = m_events[name];
+
 	if(fn != 0)
 		return (this->*fn)(event);
 }

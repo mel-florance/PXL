@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <string>
 #include <iostream>
 
@@ -28,9 +29,23 @@ public:
 	inline SDL_Window* getWindow() { return m_window; };
 	bool addIcon(const std::string& filename);
 
+	inline void setCurrentCursor(SDL_Cursor* cursor) {
+		m_currentCursor = cursor;
+		SDL_SetCursor(cursor);
+	}
+
+	SDL_Cursor* getCursor(const std::string& name) {
+		return m_cursors[name];
+	}
+
+	inline SDL_Cursor* getCurrentCursor() { return m_currentCursor; }
+
 private:
 	SDL_Window* m_window;
 	SDL_GLContext m_glContext;
+
+	std::map<std::string, SDL_Cursor*> m_cursors;
+	SDL_Cursor* m_currentCursor;
 
 	bool m_isClosed;
 	glm::vec2 m_size;

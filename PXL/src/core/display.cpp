@@ -32,6 +32,10 @@ Display::Display(Uint32 width, Uint32 height, const std::string& title, const st
 	SDL_GL_SetSwapInterval(0);
 
 	SDL_ShowCursor(SDL_ENABLE);
+	m_cursors["IBEAM"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
+	m_cursors["ARROW"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+
+	this->setCurrentCursor(m_cursors["ARROW"]);
 
 	GLenum status = glewInit();
 

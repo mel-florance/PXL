@@ -15,8 +15,10 @@
 #include "ui/window.h"
 #include "ui/image.h"
 #include "ui/input.h"
+#include "ui/button.h"
 #include "ui/label.h"
 #include "ui/layout.h"
+
 
 class Game
 { 
@@ -48,6 +50,8 @@ private:
 
 	Label* m_label;
 	Input* m_input;
+
+	Button* m_button;
 
 	Label* m_labelName;
 	Input* m_inputName;
