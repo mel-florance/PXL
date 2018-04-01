@@ -44,8 +44,12 @@ private:
 	Text* m_profSwapBuffer;
 	Text* m_profSleep;
 
-	Input* m_input;
-	Label* m_label;
 	Layout* m_layout;
+
+	Label* m_label;
+	Input* m_input;
+
+	Label* m_labelName;
+	Input* m_inputName;
 };
 

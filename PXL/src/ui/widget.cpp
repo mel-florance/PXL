@@ -30,6 +30,7 @@ void Widget::onTextInput(const SDL_Event& event)
 
 void Widget::onKeyDown(const SDL_Event& event)
 {
+
 }
 
 void Widget::onKeyUp(const SDL_Event& event)
