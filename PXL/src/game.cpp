@@ -35,11 +35,12 @@ Game::Game(Engine* engine)
 	suzanne->getTransform()->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
 
 	glm::vec4 white = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
-	Window* panel = new Window("Profiling", glm::vec2(1.0f, 1.0f), glm::vec2(250.0f, window->getSize().y), "segoeui");
-	panel->setDraggable(true);
+	Window* profiler = new Window("Profiling", glm::vec2(1.0f, 1.0f), glm::vec2(250.0f, window->getSize().y), "segoeui");
+	Window* outliner = new Window("Outliner", glm::vec2(250.0f, 1.0f), glm::vec2(250.0f, window->getSize().y), "segoeui");
+	//panel->setDraggable(true);
 
 
-	Image* image = new Image(guiManager->getContext(), "./res/textures/icon_big.png", glm::vec2(0.0f, 0.0f), glm::vec2(48.0f, 48.0f));
+	//Image* image = new Image(guiManager->getContext(), "./res/textures/icon_big.png", glm::vec2(0.0f, 0.0f), glm::vec2(48.0f, 48.0f));
 
 	m_fpsText = new Text("Fps:", white, glm::vec2(20.0f, 65.0f), "segoeui");
 	m_profGame = new Text("Game:", white, glm::vec2(20, 85), "segoeui");
@@ -53,18 +54,19 @@ Game::Game(Engine* engine)
 	m_label = new Label(glm::vec2(20, 185), glm::vec2(210, 35), "My super label", "segoeui");
 	m_input = new Input(glm::vec2(0, 30), glm::vec2(210, 35), "segoeui");
 
-	panel->addChild(image);
-	panel->addChild(m_fpsText);
-	panel->addChild(m_profGame);
-	panel->addChild(m_profInput);
-	panel->addChild(m_profRender);
-	panel->addChild(m_profSwapBuffer);
-	panel->addChild(m_profSleep);
+	//panel->addChild(image);
+	profiler->addChild(m_fpsText);
+	profiler->addChild(m_profGame);
+	profiler->addChild(m_profInput);
+	profiler->addChild(m_profRender);
+	profiler->addChild(m_profSwapBuffer);
+	profiler->addChild(m_profSleep);
 
-	panel->addChild(m_label);
+	profiler->addChild(m_label);
 	m_label->addChild(m_input);
 
-	m_layout->addWidget(panel);
+	m_layout->addWidget(profiler);
+	m_layout->addWidget(outliner);
 
 	m_angle = 0.0f;
 }

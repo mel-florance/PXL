@@ -23,8 +23,10 @@ void GuiManager::handleWidgetEvent(Widget* widget, const SDL_Event& event, const
 {
 	widget->handleEvent(name, event);
 
-	for (unsigned int i = 0; i < widget->getChildren().size(); i++)
-		this->handleWidgetEvent(widget->getChildren()[i], event, name);
+	std::vector<class Widget*> childs = widget->getChildren();
+
+	for (unsigned int i = 0; i < childs.size(); i++)
+		this->handleWidgetEvent(childs[i], event, name);
 }
 
 void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
@@ -38,9 +40,9 @@ void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 	}
 }
 
-Layout* GuiManager::createLayout(const std::string& name) 
+Layout* GuiManager::createLayout(const std::string& name, const glm::vec2& position, const glm::vec2& size)
 {
-	return this->addLayout(new Layout(name));
+	return this->addLayout(new Layout(name, position, size));
 }
 
 Layout* GuiManager::addLayout(Layout* layout)

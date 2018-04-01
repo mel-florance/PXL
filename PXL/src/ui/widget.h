@@ -13,7 +13,7 @@
 class Widget
 {
 public:
-	Widget(glm::vec2& position, glm::vec2& size);
+	Widget(const glm::vec2& position, const glm::vec2& size);
 	~Widget();
 
 	typedef void (Widget::*EventFnPtr)(const SDL_Event& event);
@@ -36,7 +36,7 @@ public:
 
 		if (this->getParent() != nullptr)
 			pos += this->getParent()->getRelativePosition();
-
+	
 		return pos;
 	}
 
@@ -71,6 +71,8 @@ public:
 	virtual void onMouseMove(const SDL_Event& event);
 	virtual void onMouseDown(const SDL_Event& event);
 	virtual void onMouseUp(const SDL_Event& event);
+	virtual void onWindowResized(const SDL_Event& event);
+	virtual void onWindowSizeChanged(const SDL_Event& event);
 
 	inline void setDragged(bool state) { m_dragged = state; }
 	inline bool getDragged() { return m_dragged; }

@@ -7,7 +7,7 @@
 class BoxLayout : public Layout
 {
 public:
-	BoxLayout(const std::string& name);
+	BoxLayout(const std::string& name, const glm::vec2& position, const glm::vec2& size);
 	~BoxLayout();
 
 private:

@@ -1,8 +1,8 @@
 #include "layout.h"
 
-Layout::Layout(const std::string& name) : m_name(name)
+Layout::Layout(const std::string& name, const glm::vec2& position, const glm::vec2& size) : Widget(position, size)
 {
-
+	m_name = name;
 }
 
 void Layout::addWidget(Widget* widget)

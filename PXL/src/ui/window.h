@@ -9,10 +9,13 @@ public:
 	~Window();
 
 	void onKeyDown(const SDL_Event& event);
+	void onTextInput(const SDL_Event& event);
 	void onKeyUp(const SDL_Event& event);
 	void onMouseMove(const SDL_Event& event);
 	void onMouseDown(const SDL_Event& event);
 	void onMouseUp(const SDL_Event& event);
+	void onWindowResized(const SDL_Event& event);
+	void onWindowSizeChanged(const SDL_Event& event);
 
 	void draw(NVGcontext* ctx, double delta);
 	void update(double delta);

@@ -1,6 +1,6 @@
 #include "rect.h"
 
-Rect::Rect(glm::vec2& position, glm::vec2& size) : m_position(position), m_size(size)
+Rect::Rect(const glm::vec2& position, const glm::vec2& size) : m_position(position), m_size(size)
 {
 
 }

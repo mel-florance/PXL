@@ -200,6 +200,17 @@ void Input::onMouseUp(const SDL_Event& event)
 	this->setFocused(this->intersects(m_mouse));
 }
 
+void Input::onWindowResized(const SDL_Event& event)
+{
+	this->setScreen(glm::vec2(event.window.data1, event.window.data2));
+}
+
+void Input::onWindowSizeChanged(const SDL_Event& event)
+{
+	this->setScreen(glm::vec2(event.window.data1, event.window.data2));
+}
+
+
 Input::~Input()
 {
 

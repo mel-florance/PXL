@@ -1,6 +1,6 @@
 #include "widget.h"
 
-Widget::Widget(glm::vec2& position, glm::vec2& size)
+Widget::Widget(const glm::vec2& position, const glm::vec2& size)
 {
 	m_rect = new Rect(position, size);
 	m_dragged = false;
@@ -12,12 +12,15 @@ Widget::Widget(glm::vec2& position, glm::vec2& size)
 	m_events.emplace("onMouseMove", &Widget::onMouseMove);
 	m_events.emplace("onMouseDown", &Widget::onMouseDown);
 	m_events.emplace("onMouseUp", &Widget::onMouseUp);
+	m_events.emplace("onWindowResized", &Widget::onWindowResized);
+	m_events.emplace("onWindowSizeChanged", &Widget::onWindowSizeChanged);
 }
 
 void Widget::handleEvent(const std::string& name, const SDL_Event& event)
 {
 	EventFnPtr fn = m_events[name];
-	return (this->*fn)(event);
+	if(fn != 0)
+		return (this->*fn)(event);
 }
 
 void Widget::onTextInput(const SDL_Event& event)
@@ -46,6 +49,16 @@ void Widget::onMouseDown(const SDL_Event& event)
 
 void Widget::onMouseUp(const SDL_Event& event)
 {
+}
+
+void Widget::onWindowResized(const SDL_Event& event)
+{
+	this->setScreen(glm::vec2(event.window.data1, event.window.data2));
+}
+
+void Widget::onWindowSizeChanged(const SDL_Event& event)
+{
+	this->setScreen(glm::vec2(event.window.data1, event.window.data2));
 }
 
 Widget::~Widget()

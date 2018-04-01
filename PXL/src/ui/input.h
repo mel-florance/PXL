@@ -40,6 +40,8 @@ public:
 	void onMouseMove(const SDL_Event& event);
 	void onMouseDown(const SDL_Event& event);
 	void onMouseUp(const SDL_Event& event);
+	void onWindowResized(const SDL_Event& event);
+	void onWindowSizeChanged(const SDL_Event& event);
 
 private:
 	glm::vec4 m_background;

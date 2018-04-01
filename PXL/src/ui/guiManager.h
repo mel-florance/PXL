@@ -25,7 +25,7 @@ public:
 	NVGcontext* getContext() { return m_ctx; }
 
 	inline std::vector<class Layout*> getLayouts() { return m_layouts; }
-	Layout* createLayout(const std::string& name);
+	Layout* createLayout(const std::string& name, const glm::vec2& position = glm::vec2(0.0f, 0.0f), const glm::vec2& size = glm::vec2(0.0f, 0.0f));
 
 	Layout* addLayout(Layout* layout);
 	void removeLayout(Layout* layout);

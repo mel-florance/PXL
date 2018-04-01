@@ -10,7 +10,7 @@ public:
 	GuiRenderer(GuiManager* guiManager, Display* window);
 	~GuiRenderer();
 
-	void updateWidget(Widget* widget, float delta);
+	void updateWidget(Widget* widget, double delta);
 	void render(Scene* scene, double delta);
 
 private:

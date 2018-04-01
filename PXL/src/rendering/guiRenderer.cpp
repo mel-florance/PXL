@@ -6,14 +6,16 @@ GuiRenderer::GuiRenderer(GuiManager* guiManager, Display* window)
 	m_window = window;
 }
 
-void GuiRenderer::updateWidget(Widget* widget, float delta)
+void GuiRenderer::updateWidget(Widget* widget, double delta)
 {
 	widget->setScreen(m_window->getSize());
 	widget->update(delta);
 	widget->draw(m_guiManager->getContext(), delta);
 
-	for (unsigned int i = 0; i < widget->getChildren().size(); i++)
-		this->updateWidget(widget->getChildren()[i], delta);
+	std::vector<class Widget*> childs = widget->getChildren();
+
+	for (unsigned int i = 0; i < childs.size(); i++)
+		this->updateWidget(childs[i], delta);
 }
 
 void GuiRenderer::render(Scene* scene, double delta)

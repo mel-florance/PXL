@@ -6,7 +6,7 @@
 class Rect
 {
 public:
-	Rect(glm::vec2& position, glm::vec2& size);
+	Rect(const glm::vec2& position, const glm::vec2& size);
 	~Rect();
 
 	inline void setPosition(const glm::vec2& position) { m_position = position; }
