@@ -38,13 +38,12 @@ void InputManager::update()
 
 		if (e.type == SDL_MOUSEMOTION)
 		{
+			m_guiManager->handleEvent("onMouseMove", e);
 			setMouse((float)e.motion.x, (float)e.motion.y);
 			setMouseRel((float)e.motion.xrel, (float)e.motion.yrel);
 
 			if (m_camera != nullptr)
 				m_camera->onMouseMove(getMouseRel());
-
-			m_guiManager->handleEvent("onMouseMove", e);
 		}
 
 		if (e.type == SDL_MOUSEBUTTONDOWN)

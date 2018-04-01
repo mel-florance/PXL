@@ -53,16 +53,17 @@ Game::Game(Engine* engine)
 
 
 
-	m_label = new Label(glm::vec2(20, 35.0f), glm::vec2(210, 35), "My super label", "segoeui");
-	m_input = new Input(glm::vec2(0, 30), glm::vec2(210, 35), "segoeui");
-	m_label->addChild(m_input);
-
 	m_labelName = new Label(glm::vec2(20, 100.0f), glm::vec2(210, 35), "Name", "segoeui");
 	m_inputName = new Input(glm::vec2(0, 30), glm::vec2(210, 35), "segoeui");
 	m_labelName->addChild(m_inputName);
 
+	m_label = new Label(glm::vec2(20, 35.0f), glm::vec2(210, 35), "My super label", "segoeui");
+	m_input = new Input(glm::vec2(0, 30), glm::vec2(210, 35), "segoeui");
+	m_label->addChild(m_input);
+
+
 	m_button = new Button(glm::vec2(20, 190.0f), glm::vec2(210, 35), "segoeui");
-	m_button->setText("clickMe");
+	m_button->setText("Validate");
 
 	//panel->addChild(image);
 	profiler->addChild(m_fpsText);

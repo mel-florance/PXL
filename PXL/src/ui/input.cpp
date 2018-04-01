@@ -33,6 +33,12 @@ void Input::update(double delta)
 	else
 		m_background = glm::vec4(38.0f, 38.0f, 38.0f, 100.0f);
 
+
+	if (m_hovered)
+		SDL_SetCursor(this->getWindow()->getCursor("IBEAM"));
+	else
+		SDL_SetCursor(SDL_GetDefaultCursor());
+
 	if (m_focused)
 	{
 		if (SDL_GetTicks() - m_caret.blinkStart > m_caret.blinkSpeed)
@@ -189,11 +195,6 @@ void Input::onMouseMove(const SDL_Event& event)
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	m_mouseRel = glm::vec2((float)event.motion.xrel, (float)event.motion.yrel);
 	m_hovered = this->intersects(m_mouse);
-
-	Display* window = this->getWindow();
-
-	if(window != nullptr)
-		window->setCurrentCursor(m_hovered ? window->getCursor("IBEAM") : window->getCursor("ARROW"));
 }
 
 void Input::onMouseDown(const SDL_Event& event)

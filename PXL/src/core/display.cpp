@@ -31,18 +31,19 @@ Display::Display(Uint32 width, Uint32 height, const std::string& title, const st
 	m_glContext = SDL_GL_CreateContext(m_window);	
 	SDL_GL_SetSwapInterval(0);
 
-	SDL_ShowCursor(SDL_ENABLE);
-	m_cursors["IBEAM"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
-	m_cursors["ARROW"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
-
-	this->setCurrentCursor(m_cursors["ARROW"]);
 
 	GLenum status = glewInit();
 
 	if (status != GLEW_OK)
 		std::cerr << "Glew failed to initialize!" << std::endl;
-	else
+	else 
 		m_isClosed = false;
+
+	m_cursors["IBEAM"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
+	m_cursors["ARROW"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+	SDL_SetCursor(m_cursors["ARROW"]);
+
+	SDL_ShowCursor(SDL_ENABLE);
 }
 
 bool Display::isClosed()
@@ -112,6 +113,7 @@ bool Display::addIcon(const std::string& filename)
 Display::~Display()
 {
 	SDL_GL_DeleteContext(m_glContext);
+	SDL_FreeCursor(SDL_GetCursor());
 	SDL_DestroyWindow(m_window);
 	SDL_Quit();
 }

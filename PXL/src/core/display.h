@@ -29,15 +29,13 @@ public:
 	inline SDL_Window* getWindow() { return m_window; };
 	bool addIcon(const std::string& filename);
 
-	inline void setCurrentCursor(SDL_Cursor* cursor) {
-		m_currentCursor = cursor;
-		SDL_SetCursor(cursor);
+	inline void setCurrentCursor(const std::string& name) 
+	{
+		m_currentCursor = m_cursors[name];
+		SDL_SetCursor(m_cursors[name]);
 	}
 
-	SDL_Cursor* getCursor(const std::string& name) {
-		return m_cursors[name];
-	}
-
+	inline SDL_Cursor* getCursor(const std::string& name) { return m_cursors[name]; }
 	inline SDL_Cursor* getCurrentCursor() { return m_currentCursor; }
 
 private:

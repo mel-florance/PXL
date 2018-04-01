@@ -38,13 +38,6 @@ void Widget::onKeyUp(const SDL_Event& event)
 {
 }
 
-void Widget::onMouseMove(const SDL_Event& event)
-{
-	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
-	m_mouseRel = glm::vec2((float)event.motion.xrel, (float)event.motion.yrel);
-	m_hovered = this->intersects(m_mouse);
-}
-
 void Widget::onMouseDown(const SDL_Event& event)
 {
 }

@@ -34,6 +34,7 @@ void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 {
 	for (unsigned int i = 0; i < m_layouts.size(); i++)
 	{
+
 		std::vector<class Widget*> widgets = m_layouts[i]->getWidgets();
 
 		for (unsigned int j = 0; j < widgets.size(); j++)
@@ -49,6 +50,11 @@ Layout* GuiManager::createLayout(const std::string& name, const glm::vec2& posit
 Layout* GuiManager::addLayout(Layout* layout)
 {
 	layout->setWindow(m_window);
+	std::vector<class Widget*> widgets = layout->getWidgets();
+
+	for (unsigned int j = 0; j < widgets.size(); j++)
+		widgets[j]->setWindow(m_window);
+
 	m_layouts.emplace_back(layout);
 	return layout;
 }
