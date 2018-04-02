@@ -1,6 +1,6 @@
 #include "loader.h"
-#include "util.h"
 
+#include "../core/util.h"
 #include "../stb/stb_image.h"
 
 Loader::Loader()
@@ -12,23 +12,23 @@ Loader::Loader()
 Mesh* Loader::loadToVAO(const std::string& name, std::vector<glm::vec3> vertices)
 {
 	GLuint vao = this->createVAO();
-	GLuint vc = vertices.size();
+	size_t size = vertices.size();
 
-	this->storeDataInAttributeList(0, 3, &vertices[0], vc * sizeof(glm::vec3));
+	this->storeDataInAttributeList(0, 3, &vertices[0], size * sizeof(glm::vec3));
 	this->unbindVAO();
 
-	return new Mesh(name, vao, vc);
+	return new Mesh(name, vao, size);
 }
 
 Mesh* Loader::loadToVAO(const std::string& name, std::vector<glm::vec2> vertices)
 {
 	GLuint vao = this->createVAO();
-	GLuint vc = vertices.size();
+	size_t size = vertices.size();
 
-	this->storeDataInAttributeList(0, 2, &vertices[0], vc * sizeof(glm::vec2));
+	this->storeDataInAttributeList(0, 2, &vertices[0], size * sizeof(glm::vec2));
 	this->unbindVAO();
 
-	return new Mesh(name, vao, vc);
+	return new Mesh(name, vao, size);
 }
 
 Mesh* Loader::loadToVAO(

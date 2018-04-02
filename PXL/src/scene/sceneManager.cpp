@@ -1,8 +1,8 @@
 #include "sceneManager.h"
 
-SceneManager::SceneManager()
+SceneManager::SceneManager() : m_sceneCount(0)
 {
-	m_sceneCount = 0;
+	
 }
 
 Scene* SceneManager::addScene(const std::string& name)

@@ -31,7 +31,6 @@ Display::Display(Uint32 width, Uint32 height, const std::string& title, const st
 	m_glContext = SDL_GL_CreateContext(m_window);	
 	SDL_GL_SetSwapInterval(0);
 
-
 	GLenum status = glewInit();
 
 	if (status != GLEW_OK)

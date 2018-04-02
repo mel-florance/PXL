@@ -1,5 +1,5 @@
 #include "engine.h"
-#include "../game.h"
+#include "../game/game.h"
 
 #define WIDTH 1280
 #define HEIGHT 720

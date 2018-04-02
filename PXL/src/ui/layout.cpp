@@ -8,6 +8,7 @@ Layout::Layout(const std::string& name, const glm::vec2& position, const glm::ve
 void Layout::addWidget(Widget* widget)
 {
 	this->setWidgetWindow(widget);
+	widget->setLayout(this);
 	m_widgets.emplace_back(widget);
 }
 

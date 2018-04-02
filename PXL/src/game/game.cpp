@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game(Engine* engine)
+Game::Game(Engine* engine) 
 {
 	m_engine = engine;
 
@@ -51,8 +51,6 @@ Game::Game(Engine* engine)
 	m_profSwapBuffer = new Text("SwapBuffer:", white, glm::vec2(20, 145), "segoeui");
 	m_profSleep = new Text("Sleep:", white, glm::vec2(20, 165), "segoeui");
 
-
-
 	m_labelName = new Label(glm::vec2(20, 100.0f), glm::vec2(210, 35), "Name", "segoeui");
 	m_inputName = new Input(glm::vec2(0, 30), glm::vec2(210, 35), "segoeui");
 	m_labelName->addChild(m_inputName);
@@ -64,6 +62,8 @@ Game::Game(Engine* engine)
 
 	m_button = new Button(glm::vec2(20, 190.0f), glm::vec2(210, 35), "segoeui");
 	m_button->setText("Validate");
+
+	m_button->addEventListener("mouseUp", &Game::callbackFn);
 
 	//panel->addChild(image);
 	profiler->addChild(m_fpsText);
@@ -81,6 +81,24 @@ Game::Game(Engine* engine)
 	m_layout->addWidget(outliner);
 
 	m_angle = 0.0f;
+}
+
+void Game::callbackFn(CallbackData data)
+{
+	Window* modal = new Window("Modal window",
+		glm::vec2(data.sender->getWindow()->getSize().y * 0.5f, data.sender->getWindow()->getSize().x * 0.5f), glm::vec2(250.0f, 250.0f),
+		"segoeui"
+	);
+	modal->setDraggable(true);
+
+	Layout* layout = data.sender->getParent()->getLayout();
+
+	if (layout != nullptr) 
+	{
+		modal->setParent(layout);
+		layout->addWidget(modal);
+		std::cout << "modal created" << std::endl;
+	}
 }
 
 void Game::update(double delta)

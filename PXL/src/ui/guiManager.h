@@ -15,6 +15,7 @@
 #include "fontManager.h"
 #include "layout.h"
 #include "widget.h"
+
 #include "../core/display.h"
 
 class GuiManager

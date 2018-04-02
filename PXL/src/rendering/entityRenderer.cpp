@@ -1,5 +1,6 @@
 #include "entityRenderer.h"
 #include "../scene/scene.h"
+#include "../assets/assetManager.h"
 
 EntityRenderer::EntityRenderer(ShaderManager* shaderManager)
 {
@@ -16,9 +17,11 @@ void EntityRenderer::render(Scene* scene, double delta)
 
 	m_basicShader->bind();
 
-	for (unsigned int i = 0; i < scene->getMeshes().size(); ++i)
+	std::vector<class Mesh*> meshes = scene->getMeshes();
+
+	for (unsigned int i = 0; i < meshes.size(); ++i)
 	{
-		Mesh* mesh = scene->getMeshes()[i];
+		Mesh* mesh = meshes[i];
 		Material* material = mesh->getMaterial();
 
 		if (material->getBackFaceCulling() == true)

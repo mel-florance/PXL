@@ -11,7 +11,6 @@ Scene::Scene(const std::string& name)
 }
 
 // Meshes
-
 Mesh* Scene::getMeshByName(const std::string name)
 {
 	for (unsigned int i = 0; i < m_meshes.size(); i++)
@@ -21,9 +20,10 @@ Mesh* Scene::getMeshByName(const std::string name)
 	return nullptr;
 }
 
-void Scene::addMesh(Mesh* mesh)
+Mesh* Scene::addMesh(Mesh* mesh)
 {
 	m_meshes.emplace_back(mesh);
+	return mesh;
 }
 
 void Scene::removeMesh(Mesh* mesh)
@@ -31,8 +31,19 @@ void Scene::removeMesh(Mesh* mesh)
 	m_meshes.erase(std::remove(m_meshes.begin(), m_meshes.end(), mesh), m_meshes.end());
 }
 
-// Ui widgets
+// Materials
+Material* Scene::addMaterial(Material* material)
+{
+	m_materials.emplace_back(material);
+	return material;
+}
 
+void Scene::removeMaterial(Material* material)
+{
+	m_materials.erase(std::remove(m_materials.begin(), m_materials.end(), material), m_materials.end());
+}
+
+// Ui widgets
 void Scene::addWidget(Widget* widget, Layout* layout)
 {
 	layout->addWidget(widget);
@@ -44,7 +55,6 @@ void Scene::removeWidget(Widget* widget, Layout* layout)
 }
 
 // Cameras
-
 void Scene::addCamera(Camera* camera)
 {
 	m_cameras.emplace_back(camera);
@@ -56,20 +66,8 @@ void Scene::removeCamera(Camera* camera)
 	m_cameras.erase(std::remove(m_cameras.begin(), m_cameras.end(), camera), m_cameras.end());
 }
 
-// Materials
-
-void Scene::addMaterial(Material* material)
-{
-	m_materials.emplace_back(material);
-}
-
-void Scene::removeMaterial(Material* material)
-{
-	m_materials.erase(std::remove(m_materials.begin(), m_materials.end(), material), m_materials.end());
-}
 
 // Lights
-
 void Scene::addLight(Light* light)
 {
 	m_lights.emplace_back(light);

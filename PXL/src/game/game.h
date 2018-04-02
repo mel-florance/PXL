@@ -2,23 +2,23 @@
 
 #include <iostream>
 
-#include "core/display.h"
-#include "shaders/shader.h"
-#include "mesh/mesh.h"
-#include "texturing/texture.h"
-#include "cameras/FPSCamera.h"
-#include "materials/basicMaterial.h"
-#include "lighting/light.h"
-#include "core/engine.h"
-#include "ui/text.h"
-#include "ui/widget.h"
-#include "ui/window.h"
-#include "ui/image.h"
-#include "ui/input.h"
-#include "ui/button.h"
-#include "ui/label.h"
-#include "ui/layout.h"
+#include "../core/display.h"
+#include "../core/engine.h"
+#include "../shaders/shader.h"
+#include "../mesh/mesh.h"
+#include "../cameras/FPSCamera.h"
+#include "../materials/basicMaterial.h"
+#include "../lighting/light.h"
 
+#include "../ui/text.h"
+#include "../ui/widget.h"
+#include "../ui/window.h"
+#include "../ui/image.h"
+#include "../ui/input.h"
+#include "../ui/button.h"
+#include "../ui/label.h"
+#include "../ui/layout.h"
+#include "../events/eventListener.h"
 
 class Game
 { 
@@ -26,6 +26,7 @@ public:
 	Game(Engine* engine);
 	~Game();
 
+	static void callbackFn(CallbackData data);
 	void update(double delta);
 
 private:
@@ -56,4 +57,3 @@ private:
 	Label* m_labelName;
 	Input* m_inputName;
 };
-

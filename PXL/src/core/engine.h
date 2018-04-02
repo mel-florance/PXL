@@ -12,7 +12,7 @@
 
 #include "../scene/sceneManager.h"
 #include "../shaders/shaderManager.h"
-#include "../mesh/assetManager.h"
+#include "../assets/assetManager.h"
 #include "../ui/guiManager.h"
 
 #include "../rendering/renderer.h"

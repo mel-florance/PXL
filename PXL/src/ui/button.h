@@ -47,11 +47,13 @@ private:
 
 	struct ButtonText {
 		std::string text;
-		NVGalign align;
 		std::string font;
+		NVGalign align;
 		NVGcolor color;
+		NVGcolor shadow;
 		float fontSize;
 		float blur;
 		float width;
 	} m_text;
+
 };

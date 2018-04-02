@@ -9,8 +9,9 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "../core/loader.h"
-#include "../texturing/texture.h"
+#include "loader.h"
+
+#include "../assets/texture.h"
 #include "../materials/basicMaterial.h"
 #include "../shaders/shaderManager.h"
 #include "../scene/sceneManager.h"
@@ -23,7 +24,8 @@ public:
 
 	void importMesh(const std::string& filename);
 	void processNode(aiNode* node, const aiScene* scene);
-	void processMesh(aiString& name, aiMesh* mesh, const aiScene* scene); // TODO: should return a Mesh*
+	Mesh* processMesh(aiString& name, aiMesh* mesh, const aiScene* scene);
+
 
 	inline Loader* getLoader() { return m_loader; }
 
@@ -31,5 +33,6 @@ private:
 	Loader* m_loader;
 	ShaderManager* m_shaderManager;
 	SceneManager* m_sceneManager;
+	std::vector<class Texture*> m_textures;
 };
 

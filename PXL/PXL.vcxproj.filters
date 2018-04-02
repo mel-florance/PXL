@@ -38,11 +38,20 @@
     <Filter Include="src\lighting">
       <UniqueIdentifier>{6df06d22-3c9c-415c-b260-ab2aab7a9ae2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\texturing">
-      <UniqueIdentifier>{d63b3bf2-2c71-44a1-829b-886afe2339cb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\stb">
       <UniqueIdentifier>{99e8f0de-8e61-45b7-82b0-792e74f516c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\assets">
+      <UniqueIdentifier>{1445fd0f-5662-4aa5-b984-506d2b83ef54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\events">
+      <UniqueIdentifier>{e1804138-6074-4eac-a09e-b9573b8649e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\editor">
+      <UniqueIdentifier>{d36366ec-0a41-411b-a7a1-3414d5116271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\game">
+      <UniqueIdentifier>{c755fd2c-a385-41c4-a592-e157d7fc40fa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -51,9 +60,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="./src/game.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="./src/main.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -126,9 +132,6 @@
     <ClCompile Include="./src/core/profiler.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
-    <ClCompile Include="./src/core/loader.cpp">
-      <Filter>src\core</Filter>
-    </ClCompile>
     <ClCompile Include="./src/core/engine.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
@@ -139,9 +142,6 @@
       <Filter>src\core</Filter>
     </ClCompile>
     <ClCompile Include="./src/mesh/mesh.cpp">
-      <Filter>src\mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/mesh/assetManager.cpp">
       <Filter>src\mesh</Filter>
     </ClCompile>
     <ClCompile Include="./src/ui/guiManager.cpp">
@@ -162,9 +162,6 @@
     <ClCompile Include="./src/lighting/light.cpp">
       <Filter>src\lighting</Filter>
     </ClCompile>
-    <ClCompile Include="./src/texturing/texture.cpp">
-      <Filter>src\texturing</Filter>
-    </ClCompile>
     <ClCompile Include="./src/ui/boxLayout.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
@@ -177,11 +174,32 @@
     <ClCompile Include="./src/ui/button.cpp">
       <Filter>src\ui</Filter>
     </ClCompile>
+    <ClCompile Include="./src/assets/assetManager.cpp">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/assets/loader.cpp">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/assets/texture.cpp">
+      <Filter>src\assets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/editor.cpp">
+      <Filter>src\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/outliner.cpp">
+      <Filter>src\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/game/game.cpp">
+      <Filter>src\game</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/events/eventEmitter.cpp">
+      <Filter>src\events</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/events/eventListener.cpp">
+      <Filter>src\events</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="./src/game.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="./src/main.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -266,9 +284,6 @@
     <ClInclude Include="./src/core/profiler.h">
       <Filter>src\core</Filter>
     </ClInclude>
-    <ClInclude Include="./src/core/loader.h">
-      <Filter>src\core</Filter>
-    </ClInclude>
     <ClInclude Include="./src/core/engine.h">
       <Filter>src\core</Filter>
     </ClInclude>
@@ -282,9 +297,6 @@
       <Filter>src\mesh</Filter>
     </ClInclude>
     <ClInclude Include="./src/mesh/mesh.h">
-      <Filter>src\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/mesh/assetManager.h">
       <Filter>src\mesh</Filter>
     </ClInclude>
     <ClInclude Include="./src/ui/guiManager.h">
@@ -323,9 +335,6 @@
     <ClInclude Include="./src/lighting/light.h">
       <Filter>src\lighting</Filter>
     </ClInclude>
-    <ClInclude Include="./src/texturing/texture.h">
-      <Filter>src\texturing</Filter>
-    </ClInclude>
     <ClInclude Include="./src/ui/layout.h">
       <Filter>src\ui</Filter>
     </ClInclude>
@@ -337,6 +346,30 @@
     </ClInclude>
     <ClInclude Include="./src/ui/button.h">
       <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/assets/texture.h">
+      <Filter>src\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/assets/assetManager.h">
+      <Filter>src\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/assets/loader.h">
+      <Filter>src\assets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/editor.h">
+      <Filter>src\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/outliner.h">
+      <Filter>src\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/game/game.h">
+      <Filter>src\game</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/events/eventEmitter.h">
+      <Filter>src\events</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/events/eventListener.h">
+      <Filter>src\events</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

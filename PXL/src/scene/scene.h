@@ -6,15 +6,19 @@
 
 #include <glm\glm.hpp>
 
+
 #include "../mesh/mesh.h"
 #include "../materials/material.h"
+
 #include "../lighting/light.h"
 #include "../cameras/camera.h"
 #include "../ui/GuiManager.h"
+
 #include "../ui/text.h"
 #include "../ui/layout.h"
 
 class Widget;
+
 class Scene
 {
 public:
@@ -25,17 +29,17 @@ public:
 	inline void setName(std::string& name) { m_name = name; }
 
 	inline std::vector<class Mesh*> getMeshes() { return m_meshes; }
-	Mesh* getMeshByName(std::string name);
-	void addMesh(Mesh* mesh);
+	Mesh* getMeshByName(const std::string name);
+	Mesh* addMesh(Mesh* mesh);
 	void removeMesh(Mesh* mesh);
+
+	inline std::vector<class Material*> getMaterials() { return m_materials; }
+	Material* addMaterial(Material* material);
+	void removeMaterial(Material* material);
 
 	inline std::vector<class Camera*> getCameras() { return m_cameras; }
 	void addCamera(Camera* camera);
 	void removeCamera(Camera* camera);
-
-	inline std::vector<class Material*> getMaterials() { return m_materials; }
-	void addMaterial(Material* material);
-	void removeMaterial(Material* material);
 
 	inline std::vector<class Light*> getLights() { return m_lights; }
 	void addLight(Light* light);
@@ -63,10 +67,10 @@ private:
 	std::string m_name;
 	unsigned int m_activeCamera;
 
-	std::vector<class Mesh*> m_meshes;
-	std::vector<class Material*> m_materials;
 	std::vector<class Camera*> m_cameras;
 	std::vector<class Light*> m_lights;
+	std::vector<class Mesh*> m_meshes;
+	std::vector<class Material*> m_materials;
 
 	glm::vec4 m_clearColor;
 	glm::vec3 m_fogColor;

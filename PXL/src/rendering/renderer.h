@@ -1,16 +1,15 @@
 #pragma once
 
+#include "../core/display.h"
 #include "../scene/scene.h"
 #include "../shaders/shaderManager.h"
 #include "../shaders/shader.h"
-#include "../mesh/assetManager.h"
+#include "../assets/assetManager.h"
 #include "../ui/guiManager.h"
-#include "../core/display.h"
 
-#include "skyboxRenderer.h"
 #include "guiRenderer.h"
 #include "entityRenderer.h"
-
+#include "skyboxRenderer.h"
 
 class Renderer
 {

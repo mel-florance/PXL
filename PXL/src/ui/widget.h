@@ -1,24 +1,28 @@
 #pragma once
 
 #include <map>
-#include <string>
 #include <vector>
+#include <string>
 
 #include <glm\glm.hpp>
 #include <SDL2\SDL.h>
 #include "nanovg.h"
 
 #include "../core/display.h"
+#include "../events/eventListener.h"
 #include "rect.h"
 
-class Widget
+class Layout;
+
+class Widget : public EventListener
 {
 public:
 	Widget(const glm::vec2& position, const glm::vec2& size);
 	~Widget();
 
+	void handleEvent(const std::string& name, const SDL_Event& event);
 	typedef void (Widget::*EventFnPtr)(const SDL_Event& event);
-	
+
 	inline void setWindow(Display* window) { m_window = window; }
 	inline Display* getWindow() { return m_window; }
 
@@ -44,6 +48,9 @@ public:
 		return pos;
 	}
 
+	inline void setLayout(Layout* layout) { m_layout = layout; }
+	inline Layout* getLayout() { return m_layout; }
+
 	inline bool intersects(const glm::vec2& point)
 	{
 		glm::vec2 pos = this->getRelativePosition();
@@ -67,7 +74,7 @@ public:
 
 	virtual inline void draw(NVGcontext* ctx, double delta) {}
 	virtual inline void update(double delta) {}
-	virtual void handleEvent(const std::string& name, const SDL_Event& event);
+
 
 	virtual void onKeyDown(const SDL_Event& event);
 	virtual void onTextInput(const SDL_Event& event);
@@ -109,9 +116,12 @@ public:
 private:
 	Display* m_window;
 	glm::vec2 m_screen;
-	Widget* m_parent;
-	std::vector<class Widget*> m_children;
 	std::map<std::string, EventFnPtr> m_events;
+
+	Widget* m_parent;
+	Layout* m_layout;
+	std::vector<class Widget*> m_children;
+
 	Rect* m_rect;
 };
 

@@ -16,7 +16,7 @@ Input::Input(glm::vec2& position, glm::vec2& size, const std::string& font) : Wi
 	m_text.fontSize = 20.0f;
 	m_text.blur = 0.0f;
 	m_text.align = NVG_ALIGN_LEFT;
-	m_text.color = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
+	m_text.color = glm::vec4(255.0f, 255.0f, 255.0f, 160.0f);
 
 	m_caret.size = glm::vec2(1.0f, size.y - m_margin.z);
 	m_caret.background = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
@@ -26,12 +26,19 @@ Input::Input(glm::vec2& position, glm::vec2& size, const std::string& font) : Wi
 
 void Input::update(double delta)
 {
-	if (m_focused)
+	if (m_focused) {
 		m_background = glm::vec4(58.0f, 58.0f, 58.0f, 100.0f);
-	else if (m_hovered) 
+		m_text.color = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
+	}
+	else if (m_hovered) {
+		m_text.color = glm::vec4(255.0f, 255.0f, 255.0f, 180.0f);
 		m_background = glm::vec4(48.0f, 48.0f, 48.0f, 100.0f);
-	else
+	}
+	else {
+		m_text.color = glm::vec4(255.0f, 255.0f, 255.0f, 160.0f);
 		m_background = glm::vec4(38.0f, 38.0f, 38.0f, 100.0f);
+	}
+
 
 
 	if (m_hovered)
