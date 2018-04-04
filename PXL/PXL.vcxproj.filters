@@ -53,6 +53,18 @@
     <Filter Include="src\game">
       <UniqueIdentifier>{c755fd2c-a385-41c4-a592-e157d7fc40fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ui\core">
+      <UniqueIdentifier>{3c1f1b12-dc6c-43c7-825d-66821ca3d44b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ui\widgets">
+      <UniqueIdentifier>{aa87231c-b4e8-451d-afe9-ba4f4bb49971}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ui\shapes">
+      <UniqueIdentifier>{0216597d-0063-48b5-9f59-01fcbcac10bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ui\nanovg">
+      <UniqueIdentifier>{749a9261-465e-4131-9eb9-c711cc49675a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PXL.rc">
@@ -62,33 +74,6 @@
   <ItemGroup>
     <ClCompile Include="./src/main.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/circle.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/image.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/input.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/label.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/nanovg.c">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/rect.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/text.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/widget.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/window.cpp">
-      <Filter>src\ui</Filter>
     </ClCompile>
     <ClCompile Include="./src/rendering/skyboxRenderer.cpp">
       <Filter>src\rendering</Filter>
@@ -144,9 +129,6 @@
     <ClCompile Include="./src/mesh/mesh.cpp">
       <Filter>src\mesh</Filter>
     </ClCompile>
-    <ClCompile Include="./src/ui/guiManager.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
     <ClCompile Include="./src/scene/scene.cpp">
       <Filter>src\scene</Filter>
     </ClCompile>
@@ -161,18 +143,6 @@
     </ClCompile>
     <ClCompile Include="./src/lighting/light.cpp">
       <Filter>src\lighting</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/boxLayout.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/layout.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/fontManager.cpp">
-      <Filter>src\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/ui/button.cpp">
-      <Filter>src\ui</Filter>
     </ClCompile>
     <ClCompile Include="./src/assets/assetManager.cpp">
       <Filter>src\assets</Filter>
@@ -198,6 +168,75 @@
     <ClCompile Include="./src/events/eventListener.cpp">
       <Filter>src\events</Filter>
     </ClCompile>
+    <ClCompile Include="./src/editor/viewport.cpp">
+      <Filter>src\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/EditorComponent.cpp">
+      <Filter>src\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/editorLayout.cpp">
+      <Filter>src\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/core/manager.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/boxLayout.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/button.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/icon.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/image.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/input.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/label.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/layout.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/list.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/text.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/window.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/shapes/circle.cpp">
+      <Filter>src\ui\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/shapes/rect.cpp">
+      <Filter>src\ui\shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/nanovg/nanovg.c">
+      <Filter>src\ui\nanovg</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/core/widgetState.cpp">
+      <Filter>src\ui\core</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/core/widgetEvent.cpp">
+      <Filter>src\ui\core</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/core/widget.cpp">
+      <Filter>src\ui\core</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/core/layerManager.cpp">
+      <Filter>src\ui\core</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/core/guiManager.cpp">
+      <Filter>src\ui\core</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/core/fontManager.cpp">
+      <Filter>src\ui\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/main.h">
@@ -205,39 +244,6 @@
     </ClInclude>
     <ClInclude Include="./src/resource.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/circle.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/image.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/input.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/label.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/nanovg.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/nanovg_gl.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/nanovg_gl_utils.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/rect.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/text.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/widget.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/window.h">
-      <Filter>src\ui</Filter>
     </ClInclude>
     <ClInclude Include="./src/rendering/skyboxRenderer.h">
       <Filter>src\rendering</Filter>
@@ -299,9 +305,6 @@
     <ClInclude Include="./src/mesh/mesh.h">
       <Filter>src\mesh</Filter>
     </ClInclude>
-    <ClInclude Include="./src/ui/guiManager.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
     <ClInclude Include="./src/scene/scene.h">
       <Filter>src\scene</Filter>
     </ClInclude>
@@ -320,9 +323,6 @@
     <ClInclude Include="./src/meshRenderer.h">
       <Filter>src\ecs</Filter>
     </ClInclude>
-    <ClInclude Include="./src/ui/fontstash.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
     <ClInclude Include="./src/core/inputManager.h">
       <Filter>src\core</Filter>
     </ClInclude>
@@ -334,18 +334,6 @@
     </ClInclude>
     <ClInclude Include="./src/lighting/light.h">
       <Filter>src\lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/layout.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/boxLayout.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/fontManager.h">
-      <Filter>src\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/ui/button.h">
-      <Filter>src\ui</Filter>
     </ClInclude>
     <ClInclude Include="./src/assets/texture.h">
       <Filter>src\assets</Filter>
@@ -370,6 +358,84 @@
     </ClInclude>
     <ClInclude Include="./src/events/eventListener.h">
       <Filter>src\events</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/viewport.h">
+      <Filter>src\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/editorLayout.h">
+      <Filter>src\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/EditorComponent.h">
+      <Filter>src\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/core/manager.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/boxLayout.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/button.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/icon.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets//image.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/input.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/label.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/layout.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/list.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/text.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/window.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/shapes/circle.h">
+      <Filter>src\ui\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/shapes/rect.h">
+      <Filter>src\ui\shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/nanovg/nanovg.h">
+      <Filter>src\ui\nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/nanovg/nanovg_gl.h">
+      <Filter>src\ui\nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/nanovg/nanovg_gl_utils.h">
+      <Filter>src\ui\nanovg</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/core/widgetState.h">
+      <Filter>src\ui\core</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/core/widgetEvent.h">
+      <Filter>src\ui\core</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/core/widget.h">
+      <Filter>src\ui\core</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/core/layerManager.h">
+      <Filter>src\ui\core</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/core/guiManager.h">
+      <Filter>src\ui\core</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/core/fontManager.h">
+      <Filter>src\ui\core</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/fontstash.h">
+      <Filter>src\ui\nanovg</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

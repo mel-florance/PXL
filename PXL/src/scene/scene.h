@@ -12,10 +12,10 @@
 
 #include "../lighting/light.h"
 #include "../cameras/camera.h"
-#include "../ui/GuiManager.h"
+#include "../ui/core/guiManager.h"
 
-#include "../ui/text.h"
-#include "../ui/layout.h"
+#include "../ui/widgets/text.h"
+#include "../ui/widgets/layout.h"
 
 class Widget;
 

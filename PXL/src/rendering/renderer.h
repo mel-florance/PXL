@@ -5,7 +5,7 @@
 #include "../shaders/shaderManager.h"
 #include "../shaders/shader.h"
 #include "../assets/assetManager.h"
-#include "../ui/guiManager.h"
+#include "../ui/core/guiManager.h"
 
 #include "guiRenderer.h"
 #include "entityRenderer.h"

@@ -6,8 +6,9 @@
 #include <string>
 
 #include "scene.h"
+#include "../core/manager.h"
 
-class SceneManager
+class SceneManager : public Manager
 {
 public:
 	SceneManager();

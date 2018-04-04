@@ -10,14 +10,14 @@
 #include "../materials/basicMaterial.h"
 #include "../lighting/light.h"
 
-#include "../ui/text.h"
-#include "../ui/widget.h"
-#include "../ui/window.h"
-#include "../ui/image.h"
-#include "../ui/input.h"
-#include "../ui/button.h"
-#include "../ui/label.h"
-#include "../ui/layout.h"
+#include "../ui/core/widget.h"
+#include "../ui/widgets/text.h"
+#include "../ui/widgets/window.h"
+#include "../ui/widgets/image.h"
+#include "../ui/widgets/input.h"
+#include "../ui/widgets/button.h"
+#include "../ui/widgets/label.h"
+#include "../ui/widgets/layout.h"
 #include "../events/eventListener.h"
 
 class Game

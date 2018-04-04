@@ -8,9 +8,9 @@
 #include "display.h"
 #include "../cameras/camera.h"
 #include "../scene/sceneManager.h"
-#include "../ui/guiManager.h"
+#include "../ui/core/guiManager.h"
 
-class InputManager
+class InputManager : public Manager
 {
 public:
 	InputManager(Display* window, GuiManager* guiManager, SceneManager* sceneManager);

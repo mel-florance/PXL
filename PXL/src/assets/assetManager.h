@@ -16,7 +16,7 @@
 #include "../shaders/shaderManager.h"
 #include "../scene/sceneManager.h"
 
-class AssetManager
+class AssetManager : public Manager
 {
 public:
 	AssetManager(Loader* loader, ShaderManager* shaderManager, SceneManager* sceneManager);
@@ -25,7 +25,6 @@ public:
 	void importMesh(const std::string& filename);
 	void processNode(aiNode* node, const aiScene* scene);
 	Mesh* processMesh(aiString& name, aiMesh* mesh, const aiScene* scene);
-
 
 	inline Loader* getLoader() { return m_loader; }
 

@@ -1,6 +1,6 @@
 #include "inputManager.h"
 
-InputManager::InputManager(Display* window, GuiManager* guiManager, SceneManager* sceneManager)
+InputManager::InputManager(Display* window, GuiManager* guiManager, SceneManager* sceneManager) : Manager()
 {
 	m_window = window;
 	m_guiManager = guiManager;

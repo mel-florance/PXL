@@ -35,32 +35,39 @@ Game::Game(Engine* engine)
 	suzanne->getTransform()->setPosition(glm::vec3(0.0f, 1.0f, 0.0f));
 
 	glm::vec4 white = glm::vec4(255.0f, 255.0f, 255.0f, 255.0f);
+
 	m_layout = guiManager->createLayout("main_window");
+	Layout* layout_outliner = guiManager->createLayout("outliner");
+
+
 	Window* profiler = new Window("Profiling", glm::vec2(1.0f, 1.0f), glm::vec2(250.0f, window->getSize().y), "segoeui");
 	Window* outliner = new Window("Outliner", glm::vec2(250.0f, 1.0f), glm::vec2(250.0f, window->getSize().y), "segoeui");
-	profiler->setDraggable(true);
-	outliner->setDraggable(true);
+
+	profiler->setState("draggable", true);
+	outliner->setState("draggable", true);
 
 
 	//Image* image = new Image(guiManager->getContext(), "./res/textures/icon_big.png", glm::vec2(0.0f, 0.0f), glm::vec2(48.0f, 48.0f));
 
-	m_fpsText = new Text("Fps:", white, glm::vec2(20.0f, 65.0f), "segoeui");
-	m_profGame = new Text("Game:", white, glm::vec2(20, 85), "segoeui");
-	m_profInput = new Text("Input:", white, glm::vec2(20, 105), "segoeui");
-	m_profRender = new Text("Render:", white, glm::vec2(20, 125), "segoeui");
-	m_profSwapBuffer = new Text("SwapBuffer:", white, glm::vec2(20, 145), "segoeui");
-	m_profSleep = new Text("Sleep:", white, glm::vec2(20, 165), "segoeui");
+	const std::string font = "segoeui";
 
-	m_labelName = new Label(glm::vec2(20, 100.0f), glm::vec2(210, 35), "Name", "segoeui");
-	m_inputName = new Input(glm::vec2(0, 30), glm::vec2(210, 35), "segoeui");
+	m_fpsText = new Text("Fps:", white, glm::vec2(20.0f, 65.0f), font);
+	m_profGame = new Text("Game:", white, glm::vec2(20, 85), font);
+	m_profInput = new Text("Input:", white, glm::vec2(20, 105), font);
+	m_profRender = new Text("Render:", white, glm::vec2(20, 125), font);
+	m_profSwapBuffer = new Text("SwapBuffer:", white, glm::vec2(20, 145), font);
+	m_profSleep = new Text("Sleep:", white, glm::vec2(20, 165), font);
+
+	m_labelName = new Label(glm::vec2(20, 100.0f), glm::vec2(210, 35), "Name", font);
+	m_inputName = new Input(glm::vec2(0, 30), glm::vec2(210, 35), font);
 	m_labelName->addChild(m_inputName);
 
-	m_label = new Label(glm::vec2(20, 35.0f), glm::vec2(210, 35), "My super label", "segoeui");
-	m_input = new Input(glm::vec2(0, 30), glm::vec2(210, 35), "segoeui");
+	m_label = new Label(glm::vec2(20, 35.0f), glm::vec2(210, 35), "My super label", font);
+	m_input = new Input(glm::vec2(0, 30), glm::vec2(210, 35), font);
 	m_label->addChild(m_input);
 
 
-	m_button = new Button(glm::vec2(20, 190.0f), glm::vec2(210, 35), "segoeui");
+	m_button = new Button(glm::vec2(20, 190.0f), glm::vec2(210, 35), font);
 	m_button->setText("Validate");
 
 	m_button->addEventListener("mouseUp", &Game::callbackFn);
@@ -78,26 +85,22 @@ Game::Game(Engine* engine)
 	outliner->addChild(m_button);
 
 	m_layout->addWidget(profiler);
-	m_layout->addWidget(outliner);
+	layout_outliner->addWidget(outliner);
 
 	m_angle = 0.0f;
 }
 
 void Game::callbackFn(CallbackData data)
 {
-	Window* modal = new Window("Modal window",
-		glm::vec2(data.sender->getWindow()->getSize().y * 0.5f, data.sender->getWindow()->getSize().x * 0.5f), glm::vec2(250.0f, 250.0f),
-		"segoeui"
-	);
-	modal->setDraggable(true);
-
+	Window* modal = new Window("Modal window", glm::vec2(), glm::vec2(250.0f, 250.0f), "segoeui");
 	Layout* layout = data.sender->getParent()->getLayout();
 
 	if (layout != nullptr) 
 	{
-		modal->setParent(layout);
 		layout->addWidget(modal);
-		std::cout << "modal created" << std::endl;
+
+		modal->setCentered();
+		modal->setState("draggable", true);
 	}
 }
 

@@ -1,6 +1,6 @@
 #include "shaderManager.h"
 
-ShaderManager::ShaderManager()
+ShaderManager::ShaderManager() : Manager()
 {
 	this->loadShaders("./res/shaders/");
 }

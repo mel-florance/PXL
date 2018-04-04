@@ -1,5 +1,5 @@
 #include "scene.h"
-#include "../ui/widget.h"
+#include "../ui/core/widget.h"
 
 Scene::Scene(const std::string& name)
 {

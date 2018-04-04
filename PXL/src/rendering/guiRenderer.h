@@ -2,7 +2,7 @@
 
 #include "../scene/scene.h"
 #include "../core/display.h"
-#include "../ui/guiManager.h"
+#include "../ui/core/guiManager.h"
 
 class GuiRenderer
 {
