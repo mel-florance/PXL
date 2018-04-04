@@ -100,17 +100,6 @@ void Window::draw(NVGcontext* ctx, double delta)
 
 	if (this->hasIcon())
 	{
-		nvgFontSize(ctx, m_header.rect->getSize().x * 0.15f);
-		nvgFontFace(ctx, "entypo");
-		nvgFillColor(ctx, nvgRGBA(255, 255, 255, 32));
-		nvgTextAlign(ctx, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
-		nvgText(ctx,
-			position.x + m_header.rect->getSize().x - m_header.rect->getSize().y * 0.48f,
-			position.y + m_header.rect->getSize().y * 0.55f,
-			this->getIcon()->get(),
-			NULL
-		);
-
 		nvgBeginPath(ctx);
 		nvgRoundedRect(ctx,
 			position.x + m_header.rect->getSize().x - m_header.rect->getSize().y * 1.0f,
@@ -120,8 +109,23 @@ void Window::draw(NVGcontext* ctx, double delta)
 			m_borderRadius
 		);
 
-		nvgFillColor(ctx, nvgRGBA(0.32f, 0.32f, 0.32f, 32.0f));
+		if (this->getIcon()->getState("hovered"))
+			nvgFillColor(ctx, nvgRGBA(125.0f, 0.0f, 0.0f, 128.0f));
+		else
+			nvgFillColor(ctx, nvgRGBA(32.0f, 32.0f, 32.0f, 64.0f));
+
 		nvgFill(ctx);
+
+		nvgFontSize(ctx, m_header.rect->getSize().x * 0.15f);
+		nvgFontFace(ctx, "entypo");
+		nvgFillColor(ctx, nvgRGBA(255, 255, 255, 128.0f));
+		nvgTextAlign(ctx, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
+		nvgText(ctx,
+			position.x + m_header.rect->getSize().x - m_header.rect->getSize().y * 0.48f,
+			position.y + m_header.rect->getSize().y * 0.55f,
+			this->getIcon()->get(),
+			NULL
+		);
 	}
 
 	// Header
@@ -193,6 +197,12 @@ void Window::onMouseMove(const SDL_Event& event)
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	this->setState("hovered", this->getRect()->intersects(m_mouse));
 
+	glm::vec2 position = this->getRelativePosition();
+	glm::vec2 pos = glm::vec2(position.x + m_header.rect->getSize().x - m_header.rect->getSize().y * 1.0f, position.y);
+	glm::vec2 size = glm::vec2(m_header.rect->getSize().y, m_header.rect->getSize().y);
+	Rect rect(pos, size);
+
+	this->getIcon()->setState("hovered", rect.intersects(m_mouse));
 }
 
 void Window::onMouseDown(const SDL_Event& event)
@@ -201,15 +211,8 @@ void Window::onMouseDown(const SDL_Event& event)
 
 	if (this->getState("draggable")) {
 		if (m_header.rect->intersects(m_mouse)) {
-
-			glm::vec2 position = this->getRelativePosition();
-			glm::vec2 pos = glm::vec2(position.x + m_header.rect->getSize().x - m_header.rect->getSize().y * 1.0f, position.y);
-			glm::vec2 size = glm::vec2(m_header.rect->getSize().y, m_header.rect->getSize().y);
-			Rect rect(pos, size);
-			
-			if (rect.intersects(m_mouse)) {
+			if (this->getIcon()->getState("hovered"))
 				this->setState("dragged", false);
-			}
 			else
 				this->setState("dragged", event.button.button == SDL_BUTTON_LEFT);
 		}
@@ -219,7 +222,9 @@ void Window::onMouseDown(const SDL_Event& event)
 void Window::onMouseUp(const SDL_Event& event)
 {
 	this->setState("dragged", false);
+	this->getIcon()->setState("hovered", false);
 	this->setState("hovered", this->getRect()->intersects(m_mouse));
+
 }
 
 void Window::onWindowResized(const SDL_Event& event)
