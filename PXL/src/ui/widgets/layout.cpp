@@ -10,7 +10,14 @@ void Layout::addWidget(Widget* widget)
 {
 	this->setWidgetWindow(widget);
 	widget->setLayout(this);
+	widget->setState("visible", true);
 	m_widgets.emplace_back(widget);
+}
+
+void Layout::toggleAllWidgets()
+{
+	for (unsigned int i = 0; i < m_widgets.size(); i++)
+		m_widgets[i]->setState("visible", m_widgets[i]->getState("visible") != false);
 }
 
 void Layout::setWidgetWindow(Widget* widget) 

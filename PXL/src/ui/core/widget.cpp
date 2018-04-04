@@ -53,6 +53,7 @@ bool Widget::intersects(const glm::vec2& point)
 void Widget::addChild(Widget* child)
 {
 	child->setParent(this);
+	child->setState("visible", true);
 	m_children.push_back(child);
 }
 

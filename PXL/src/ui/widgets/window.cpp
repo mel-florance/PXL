@@ -10,10 +10,10 @@ Window::Window(const std::string& text = "window", glm::vec2& position = glm::ve
 	m_header.fontSize = 20.0f;
 	m_header.blur = 0.0f;
 	m_header.align = NVG_ALIGN_CENTER;
-	m_header.color = nvgRGBA(255.0f, 255.0f, 255.0f, 230.0f);
+	m_header.color = nvgRGBA(255, 255, 255, 230);
 	m_header.rect = new Rect(glm::vec2(position.x + 1, position.y + 1), glm::vec2(size.x - 2, 30));
 
-	m_background = nvgRGBA(28.0f, 28.0f, 28.0f, 230.0f);
+	m_background = nvgRGBA(28, 28, 28, 230);
 	m_drawingShadow = false;
 	m_borderRadius = 0.0f;
 
@@ -23,6 +23,7 @@ Window::Window(const std::string& text = "window", glm::vec2& position = glm::ve
 	);
 	const glm::vec2 iconSize = glm::vec2(m_header.rect->getSize().x * 0.15f, m_header.rect->getSize().x * 0.15f);
 	Icon* icon = new Icon("CIRCLED_CROSS", iconPosition, iconSize);
+	icon->addEventListener("onClosed", &Window::onClosed);
 	this->setIcon(icon);
 }
 
@@ -110,9 +111,9 @@ void Window::draw(NVGcontext* ctx, double delta)
 		);
 
 		if (this->getIcon()->getState("hovered"))
-			nvgFillColor(ctx, nvgRGBA(125.0f, 0.0f, 0.0f, 128.0f));
+			nvgFillColor(ctx, nvgRGBA(125, 0, 0, 128));
 		else
-			nvgFillColor(ctx, nvgRGBA(32.0f, 32.0f, 32.0f, 64.0f));
+			nvgFillColor(ctx, nvgRGBA(32, 32, 32, 64));
 
 		nvgFill(ctx);
 
@@ -179,7 +180,9 @@ void Window::draw(NVGcontext* ctx, double delta)
 
 void Window::onKeyDown(const SDL_Event& event)
 {
-
+	if (event.key.keysym.sym == SDLK_c && this->getState("hovered")) {
+		this->setState("visible", this->getState("visible") == false);
+	}
 }
 
 void Window::onTextInput(const SDL_Event & event)
@@ -205,6 +208,11 @@ void Window::onMouseMove(const SDL_Event& event)
 	this->getIcon()->setState("hovered", rect.intersects(m_mouse));
 }
 
+void Window::onClosed(CallbackData data)
+{
+	data.sender->getLayout()->removeWidget(data.sender);
+}
+
 void Window::onMouseDown(const SDL_Event& event)
 {
 	this->setState("hovered", this->getRect()->intersects(m_mouse));
@@ -222,7 +230,11 @@ void Window::onMouseDown(const SDL_Event& event)
 void Window::onMouseUp(const SDL_Event& event)
 {
 	this->setState("dragged", false);
-	this->getIcon()->setState("hovered", false);
+
+	if (event.button.button == SDL_BUTTON_LEFT)
+		if (this->getIcon()->getState("hovered"))
+			this->getIcon()->handleEventListener("onClosed", { this });
+
 	this->setState("hovered", this->getRect()->intersects(m_mouse));
 
 }

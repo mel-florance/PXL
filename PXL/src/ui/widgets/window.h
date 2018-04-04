@@ -17,6 +17,8 @@ public:
 	void onWindowResized(const SDL_Event& event);
 	void onWindowSizeChanged(const SDL_Event& event);
 
+	static void onClosed(CallbackData data);
+
 	void drawBackground(NVGcontext* ctx, glm::vec2& position);
 	void drawShadow(NVGcontext* ctx, glm::vec2& position);
 	void drawHeader(NVGcontext* ctx, glm::vec2& position);

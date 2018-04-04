@@ -16,6 +16,8 @@ public:
 	void Layout::setWidgetWindow(Widget* widget);
 	virtual void removeWidget(Widget* widget);
 
+	void toggleAllWidgets();
+
 	~Layout();
 
 private:

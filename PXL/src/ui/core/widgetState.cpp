@@ -7,6 +7,7 @@ WidgetState::WidgetState()
 	this->addState("hovered");
 	this->addState("focused");
 	this->addState("active");
+	this->addState("visible");
 }
 
 WidgetState::~WidgetState()
