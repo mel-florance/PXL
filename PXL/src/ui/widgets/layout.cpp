@@ -14,6 +14,7 @@ void Layout::addWidget(Widget* widget)
 	this->setWidgetLayout(widget);
 	this->setWidgetWindow(widget);
 	widget->setState("visible", true);
+	//this->getGuiManager()->getLayerManager()->addWidget(0, widget);
 	m_widgets.emplace_back(widget);
 }
 

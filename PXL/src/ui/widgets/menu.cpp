@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "../core/guiManager.h"
 
 Menu::Menu(const glm::vec2& position, const glm::vec2& size, const std::string& font) : Widget(position, size)
 {
@@ -24,6 +25,7 @@ void Menu::onMouseMove(const SDL_Event& event)
 {
 	m_mouse = glm::vec2(event.motion.x, event.motion.y);
 	glm::vec2 position = this->getRelativePosition();
+
 
 	unsigned int i = 0;
 	float stackedWidth = 0.0f;
@@ -63,7 +65,12 @@ void Menu::onMouseMove(const SDL_Event& event)
 
 void Menu::onMouseDown(const SDL_Event& event)
 {
-	
+	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
+
+	if (this->intersects(m_mouse))
+		layerManager->addWidget(0, this);
+	else
+		layerManager->removeWidget(0, this);
 }
 
 void Menu::onMouseUp(const SDL_Event& event)

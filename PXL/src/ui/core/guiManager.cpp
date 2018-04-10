@@ -14,7 +14,7 @@ GuiManager::GuiManager(Display* window, FontManager* fontManager, AssetManager* 
 	m_layerManager = new LayerManager();
 	m_quadTree = new QuadTree(glm::vec2(2.0f, 2.0f), glm::vec2(8.0f, 8.0f));
 
-	Node a(glm::vec2(1, 1), 1);
+	/*Node a(glm::vec2(1, 1), 1);
 	Node b(glm::vec2(2, 5), 2);
 	Node c(glm::vec2(7, 6), 3);
 
@@ -29,7 +29,7 @@ GuiManager::GuiManager(Display* window, FontManager* fontManager, AssetManager* 
 		std::cout << "Node: " << node->m_data << ". Pos: (" << node->m_position.x << ", " << node->m_position.y << ")" << std::endl;
 	}
 	else
-		std::cout << "Node not found" << std::endl;
+		std::cout << "Node not found" << std::endl;*/
 
 	if (m_ctx == NULL)
 		std::cout << "Could not init nanovg." << std::endl;
@@ -53,12 +53,24 @@ void GuiManager::handleWidgetEvent(Widget* widget, const SDL_Event& event, const
 
 void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 {
-	for (unsigned int i = 0; i < m_layouts.size(); i++)
-	{
-		std::vector<class Widget*> widgets = m_layouts[i]->getWidgets();
+	std::vector<Widget*> firstLayer = this->getLayerManager()->getLayers()[0];
 
-		for (unsigned int j = 0; j < widgets.size(); j++) {
-			this->handleWidgetEvent(widgets[j], event, name);
+	if (firstLayer.size() > 0)
+	{
+		for (unsigned int i = 0; i < firstLayer.size(); i++)
+			this->handleWidgetEvent(firstLayer[i], event, name);
+	}
+	else
+	{
+		std::vector<Layout*> layouts = this->getLayouts();
+
+		for (unsigned int i = 0; i < layouts.size(); i++) 
+		{
+			std::vector<Widget*> widgets = layouts[i]->getWidgets();
+			for (unsigned int j = 0; j < widgets.size(); j++)
+			{
+				this->handleWidgetEvent(widgets[j], event, name);
+			}
 		}
 	}
 }

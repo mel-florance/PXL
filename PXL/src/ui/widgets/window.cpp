@@ -1,6 +1,7 @@
 #include "window.h"
 #include "layout.h"
 #include "icon.h"
+#include "../core/guiManager.h"
 #include <iostream>
 
 Window::Window(const std::string& text = "window", glm::vec2& position = glm::vec2(), glm::vec2& size = glm::vec2(250.0f, 250.0f), const std::string& font = "segoeui") : Widget(position, size)
@@ -89,15 +90,11 @@ void Window::draw(NVGcontext* ctx, double delta)
 		nvgFill(ctx);
 	}
 	
-
 	m_header.rect->setPosition(glm::vec2(
 		position.x + 1,
 		position.y + 1)
 	);
 	m_header.rect->setSize(glm::vec2(this->getSize().x - 2, 30));
-
-
-	
 
 	// Header
 	m_headerPaint = nvgLinearGradient(ctx,
@@ -196,7 +193,6 @@ void Window::onMouseMove(const SDL_Event& event)
 		m_dragDelta = m_dragEnd - m_dragStart;
 	}
 
-
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	this->setState("hovered", this->intersects(m_mouse));
 
@@ -209,7 +205,6 @@ void Window::onMouseMove(const SDL_Event& event)
 
 		this->getIcon()->setState("hovered", rect.intersects(m_mouse));
 	}
-
 }
 
 void Window::onClosed(CallbackData data)
@@ -220,6 +215,12 @@ void Window::onClosed(CallbackData data)
 void Window::onMouseDown(const SDL_Event& event)
 {
 	this->setState("hovered", this->intersects(m_mouse));
+
+	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
+	if (this->getState("hovered"))
+		layerManager->addWidget(0, this);
+	else
+		layerManager->removeWidget(0, this);
 
 	if (this->getState("draggable") && event.button.button == SDL_BUTTON_LEFT && !this->getState("dragged"))
 	{

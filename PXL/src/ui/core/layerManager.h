@@ -21,22 +21,39 @@ public:
 
 	bool removeLayer(int layer)
 	{
-		//m_layers.erase(std::remove(m_layers.begin(), m_layers.end(), layer), m_layers.end());
+		std::map<int, std::vector<Widget*>>::iterator it = m_layers.find(layer);
+
+		if (it != m_layers.end())
+		{
+			m_layers.erase(it);
+			return true;
+		}
+
+		return false;
 	}
 
 	inline void addWidget(int layer, Widget* widget)
 	{
-		m_layers[layer].push_back(widget);
+		std::map<int, std::vector<Widget*>>::iterator it = m_layers.find(layer);
+
+		if (it != m_layers.end())
+			if (std::find(it->second.begin(), it->second.end(), widget) == it->second.end())
+				it->second.emplace_back(widget);
 	}
 
 	inline void removeWidget(int layer, Widget* widget)
 	{
-		//m_layers[layer].erase(std::remove(m_layers[layer].begin(), m_layers[layer].end(), widget), m_layers[layer].end());
+		std::map<int, std::vector<Widget*>>::iterator it = m_layers.find(layer);
+
+		if (it != m_layers.end())
+			if (std::find(it->second.begin(), it->second.end(), widget) != it->second.end())
+				it->second.erase(std::remove(it->second.begin(), it->second.end(), widget), it->second.end());
 	}
 
 	~LayerManager();
 
 private:
+	static const unsigned int MAX_LAYERS = 32;
 	std::map<int, std::vector<Widget*>> m_layers;
 };
 
