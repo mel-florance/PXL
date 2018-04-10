@@ -1,7 +1,9 @@
 #version 330
+#extension GL_OES_standard_derivatives : enable
 
 in vec2 fUvs;
 in vec3 fNormal;
+in vec4 fVertices;
 in vec3 fToLight[8];
 in vec3 fToCamera;
 in float fVisibility;

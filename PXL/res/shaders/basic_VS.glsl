@@ -6,6 +6,7 @@ layout (location = 2) in vec3 normal;
 layout (location = 3) in vec3 tangent;
 
 out vec2 fUvs;
+out vec4 fVertices;
 out vec3 fNormal;
 out vec3 fToLight[8];
 out vec3 fToCamera;
@@ -26,6 +27,7 @@ mat3 TBN = mat3(1.0);
 void main() 
 {
     vec4 worldPosition = mTransform * vec4(position, 1.0);
+    fVertices = worldPosition;
     vec4 posRelToCam = mView * worldPosition;
 
     fNormal = vec3(mTransform * vec4(normal, 0.0)).xyz;
@@ -68,4 +70,8 @@ void main()
     fVisibility = clamp(fVisibility, 0.0, 1.0);
 
     gl_Position = mProj * mView * worldPosition;
+
+
+    
+
 }

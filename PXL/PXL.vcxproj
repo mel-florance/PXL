@@ -184,6 +184,11 @@
     <ClCompile Include="./src/ui/core/widgetEvent.cpp" />
     <ClCompile Include="./src/ui/widgets/icon.cpp" />
     <ClCompile Include="./src/ui/widgets/list.cpp" />
+    <ClCompile Include="./src/core/quadTree.cpp" />
+    <ClCompile Include="./src/ui/core/theme.cpp" />
+    <ClCompile Include="./src/ui/widgets/table.cpp" />
+    <ClCompile Include="./src/ui/widgets/menu.cpp" />
+    <ClCompile Include="./src/ui/widgets/checkbox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/assets/assetManager.h" />
@@ -252,6 +257,15 @@
     <ClInclude Include="./src/ui/core/widgetEvent.h" />
     <ClInclude Include="./src/ui/widgets/icon.h" />
     <ClInclude Include="./src/ui/widgets/list.h" />
+    <ClInclude Include="./src/core/quadTree.h" />
+    <ClInclude Include="./src/ui/core/theme.h" />
+    <ClInclude Include="./src/ui/widgets/table.h" />
+    <ClInclude Include="./src/ui/widgets/menu.h" />
+    <ClInclude Include="./src/ui/widgets/checkbox.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\icon_big.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

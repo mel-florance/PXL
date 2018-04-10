@@ -12,6 +12,7 @@ void GuiRenderer::updateWidget(Widget* widget, double delta)
 	{
 		widget->setScreen(m_window->getSize());
 		widget->update(delta);
+
 		widget->draw(m_guiManager->getContext(), delta);
 
 		std::vector<class Widget*> childs = widget->getChildren();
@@ -24,7 +25,6 @@ void GuiRenderer::updateWidget(Widget* widget, double delta)
 void GuiRenderer::render(Scene* scene, double delta)
 {
 	nvgBeginFrame(m_guiManager->getContext(), (int)m_window->getSize().x, (int)m_window->getSize().y, 1.0f);
-
 	std::vector<class Layout*> layouts = m_guiManager->getLayouts();
 
 	for (unsigned int i = 0; i < layouts.size(); i++)
@@ -35,7 +35,9 @@ void GuiRenderer::render(Scene* scene, double delta)
 			this->updateWidget(widgets[j], delta);
 	}
 
+
 	nvgEndFrame(m_guiManager->getContext());
+
 }
 
 GuiRenderer::~GuiRenderer()

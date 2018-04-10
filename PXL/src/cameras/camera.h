@@ -50,6 +50,7 @@ public:
 	virtual inline void onMouseUp(Uint8 button) {}
 	virtual inline void onKeyDown(const SDL_Keycode& keycode) {}
 	virtual inline void onKeyUp(const SDL_Keycode& keycode) {}
+	virtual inline void onMouseWheel(const SDL_Event& event) {}
 
 	virtual inline Display* getWindow() { return m_window; }
 	virtual inline void update(double delta) {}

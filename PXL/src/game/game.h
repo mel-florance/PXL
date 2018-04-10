@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <algorithm>  
 
 #include "../core/display.h"
 #include "../core/engine.h"
@@ -18,7 +19,18 @@
 #include "../ui/widgets/button.h"
 #include "../ui/widgets/label.h"
 #include "../ui/widgets/layout.h"
+
+
 #include "../events/eventListener.h"
+#include "../ui/widgets/menu.h"
+#include "../ui/widgets/list.h"
+#include "../ui/widgets/table.h"
+#include "../ui/widgets/icon.h"
+#include "../ui/widgets/checkbox.h"
+
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 class Game
 { 
@@ -27,9 +39,13 @@ public:
 	~Game();
 
 	static void callbackFn(CallbackData data);
-	void update(double delta);
+	static void createCube(CallbackData data);
 
+	void update(double delta);
+	AssetManager* m_assetManager;
 private:
+
+
 	Engine* m_engine;
 	float m_angle;
 	Light* m_light;

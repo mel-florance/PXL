@@ -1,4 +1,4 @@
-#include "entityRenderer.h"
+﻿#include "entityRenderer.h"
 #include "../scene/scene.h"
 #include "../assets/assetManager.h"
 
@@ -10,6 +10,7 @@ EntityRenderer::EntityRenderer(ShaderManager* shaderManager)
 
 void EntityRenderer::render(Scene* scene, double delta)
 {
+
 	glEnable(GL_DEPTH_TEST);
 
 	glEnable(GL_BLEND);

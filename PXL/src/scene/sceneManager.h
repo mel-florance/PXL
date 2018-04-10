@@ -8,6 +8,8 @@
 #include "scene.h"
 #include "../core/manager.h"
 
+class GuiManager;
+
 class SceneManager : public Manager
 {
 public:
@@ -24,7 +26,11 @@ public:
 	Scene* getSceneByName(const std::string& name);
 	Scene* getCurrentScene() { return m_scenes[m_currentScene]; }
 
+	void setGuiManager(GuiManager* guiManager) { m_guiManager = guiManager; }
+	GuiManager* getGuiManager() { return m_guiManager; }
+
 private:
+	GuiManager* m_guiManager;
 	unsigned int m_sceneCount;
 	unsigned int m_currentScene;
 	std::vector<Scene*> m_scenes;

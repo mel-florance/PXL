@@ -12,7 +12,7 @@ Loader::Loader()
 Mesh* Loader::loadToVAO(const std::string& name, std::vector<glm::vec3> vertices)
 {
 	GLuint vao = this->createVAO();
-	size_t size = vertices.size();
+	unsigned int size = vertices.size();
 
 	this->storeDataInAttributeList(0, 3, &vertices[0], size * sizeof(glm::vec3));
 	this->unbindVAO();
@@ -23,7 +23,7 @@ Mesh* Loader::loadToVAO(const std::string& name, std::vector<glm::vec3> vertices
 Mesh* Loader::loadToVAO(const std::string& name, std::vector<glm::vec2> vertices)
 {
 	GLuint vao = this->createVAO();
-	size_t size = vertices.size();
+	unsigned int size = vertices.size();
 
 	this->storeDataInAttributeList(0, 2, &vertices[0], size * sizeof(glm::vec2));
 	this->unbindVAO();

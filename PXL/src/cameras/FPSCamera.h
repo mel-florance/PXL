@@ -26,6 +26,7 @@ public:
 	void onMouseMove(const glm::vec2& mouse);
 	void onMouseDown(Uint8 button);
 	void onMouseUp(Uint8 button);
+	void onMouseWheel(const SDL_Event& event);
 
 	void lockCursor(bool value);
 	void update(double delta);

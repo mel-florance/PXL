@@ -8,6 +8,9 @@ WidgetState::WidgetState()
 	this->addState("focused");
 	this->addState("active");
 	this->addState("visible");
+	this->addState("closable");
+	this->addState("checked");
+	this->addState("checkable", true);
 }
 
 WidgetState::~WidgetState()

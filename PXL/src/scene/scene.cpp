@@ -22,7 +22,7 @@ Mesh* Scene::getMeshByName(const std::string name)
 
 Mesh* Scene::addMesh(Mesh* mesh)
 {
-	m_meshes.emplace_back(mesh);
+	m_meshes.push_back(mesh);
 	return mesh;
 }
 

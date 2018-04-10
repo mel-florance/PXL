@@ -20,6 +20,13 @@ void InputManager::update()
 		if (e.type == SDL_TEXTINPUT)
 			m_guiManager->handleEvent("onTextInput", e);
 
+
+		if (e.type == SDL_MOUSEWHEEL)
+		{
+			if (m_camera != nullptr)
+				m_camera->onMouseWheel(e);
+		}
+
 		if (e.type == SDL_KEYDOWN) {
 
 			if (m_camera != nullptr)
@@ -72,8 +79,8 @@ void InputManager::update()
 				break;
 			case SDL_WINDOWEVENT_SIZE_CHANGED:
 				m_window->setSize(glm::vec2(e.window.data1, e.window.data2));
-				m_guiManager->handleEvent("windowSizeChanged", e);
 				glViewport(0, 0, e.window.data1, e.window.data2);
+				m_guiManager->handleEvent("windowSizeChanged", e);
 				break;
 			case SDL_WINDOWEVENT_SHOWN:
 			case SDL_WINDOWEVENT_HIDDEN:

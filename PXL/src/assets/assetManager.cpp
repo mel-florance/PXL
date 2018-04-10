@@ -1,4 +1,5 @@
 #include "assetManager.h"
+#include "../scene/sceneManager.h"
 #include "../core/manager.h"
 
 struct MaterialInfo
@@ -17,7 +18,7 @@ AssetManager::AssetManager(Loader* loader, ShaderManager* shaderManager, SceneMa
 	m_sceneManager = sceneManager;
 }
 
-void AssetManager::importMesh(const std::string& filename)
+Mesh* AssetManager::importMesh(const std::string& filename)
 {
 	Assimp::Importer importer;
 
@@ -28,25 +29,32 @@ void AssetManager::importMesh(const std::string& filename)
 		aiProcess_CalcTangentSpace
 	);
 
-	if (!scene) 
+	if (!scene) {
 		std::cout << importer.GetErrorString() << std::endl;
-
-	this->processNode(scene->mRootNode, scene);
-}
-
-void AssetManager::processNode(aiNode* node, const aiScene* scene)
-{
-	for (GLuint i = 0; i < node->mNumMeshes; i++)
-	{
-		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		this->processMesh(node->mName, mesh, scene);
+		return nullptr;
 	}
 
-	for (GLuint i = 0; i < node->mNumChildren; i++)
-		this->processNode(node->mChildren[i], scene);
+	return this->processNode(scene->mRootNode, scene);
 }
 
-Mesh* AssetManager::processMesh(aiString& name, aiMesh* object, const aiScene* scene)
+Mesh* AssetManager::processNode(aiNode* node, const aiScene* scene)
+{
+	Mesh* mesh = nullptr;
+	for (GLuint i = 0; i < node->mChildren[0]->mNumMeshes; i++)
+	{
+		aiMesh* aiMesh = scene->mMeshes[node->mChildren[0]->mMeshes[i]];
+		mesh = this->processMesh(node->mChildren[0]->mName.C_Str(), aiMesh, scene);
+	}
+
+	//for (GLuint i = 0; i < node->mNumChildren; i++)
+	//	this->processNode(node->mChildren[i], scene);
+
+	//std::cout << "OOOOK " << std::endl;
+
+	return mesh;
+}
+
+Mesh* AssetManager::processMesh(const std::string& name, aiMesh* object, const aiScene* scene)
 {
 	const aiVector3D aiZeroVector(0, 0, 0);
 	std::vector<glm::vec3> vertices;
@@ -89,7 +97,7 @@ Mesh* AssetManager::processMesh(aiString& name, aiMesh* object, const aiScene* s
 		}
 	}
 
-	Mesh* mesh = m_loader->loadToVAO(name.C_Str(), vertices, indices, uvs, normals, tangents);
+	Mesh* mesh = m_loader->loadToVAO(name, vertices, indices, uvs, normals, tangents);
 
 	if (mesh != nullptr)
 	{
@@ -164,13 +172,13 @@ Mesh* AssetManager::processMesh(aiString& name, aiMesh* object, const aiScene* s
 			mesh->setMaterial(material);
 		}
 
-		std::cout << "Loaded mesh: " << name.C_Str() << std::endl;
+		std::cout << "Loaded mesh: " << name << std::endl;
 
 		return mesh;
 	}
 	else 
 	{
-		std::cout << "Error loading mesh: " << name.C_Str() << std::endl;
+		std::cout << "Error loading mesh: " << name << std::endl;
 
 		return nullptr;
 	}

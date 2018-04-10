@@ -17,8 +17,8 @@ public:
 	inline GLuint& getVao() { return m_vao; }
 	inline GLuint& getVertexCount() { return m_vertexCount; }
 
-	inline const std::string& getName() { return m_name; }
-	inline void setName(std::string& name) { m_name = name; }
+	inline std::string& getName() { return m_name; }
+	inline void setName(const std::string& name) { m_name = name; }
 
 	inline Transform* getTransform() { return m_transform; }
 	inline void setTransform(Transform* transform) { m_transform = transform; }

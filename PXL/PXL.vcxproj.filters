@@ -237,6 +237,21 @@
     <ClCompile Include="./src/ui/core/fontManager.cpp">
       <Filter>src\ui\core</Filter>
     </ClCompile>
+    <ClCompile Include="./src/core/quadTree.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/core/theme.cpp">
+      <Filter>src\ui\core</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/table.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/menu.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/checkbox.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/main.h">
@@ -437,5 +452,26 @@
     <ClInclude Include="./src/ui/fontstash.h">
       <Filter>src\ui\nanovg</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="./src/core/quadTree.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/core/theme.h">
+      <Filter>src\ui\core</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/table.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/menu.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/checkbox.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\textures\icon_big.ico">
+      <Filter>Fichiers de ressources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

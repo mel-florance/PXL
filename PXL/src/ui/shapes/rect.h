@@ -10,10 +10,13 @@ public:
 	~Rect();
 
 	inline void setPosition(const glm::vec2& position) { m_position = position; }
+	inline void incrementPosition(const glm::vec2& position) { m_position += position; }
 	inline glm::vec2& getPosition() { return m_position; }
 
-	inline void setSize(const glm::vec2 size) { m_size = size; }
-	inline glm::vec2 getSize() { return m_size; }
+	inline void setSize(const glm::vec2& size) { m_size = size; }
+	inline glm::vec2& getSize() { return m_size; }
+
+	bool intersects(const glm::vec2& point);
 
 	inline void print() { 
 		std::cout << 
@@ -23,8 +26,6 @@ public:
 			"height: " << this->getSize().y     << "\n"
 		<< std::endl;
 	}
-
-	bool intersects(const glm::vec2& point);
 
 private:
 	glm::vec2 m_position;

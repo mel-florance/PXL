@@ -1,0 +1,12 @@
+# Blender MTL File: 'mustang.blend'
+# Material Count: 1
+
+newmtl Material.001
+Ns 96.078431
+Ka 0.200000 0.200000 0.200000
+Kd 0.640000 0.640000 0.640000
+Ks 0.166667 0.166667 0.166667
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2

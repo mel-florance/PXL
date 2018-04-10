@@ -1,9 +1,11 @@
 #include "widget.h"
 #include "../widgets/icon.h"
+#include "../widgets/layout.h"
 
-Widget::Widget(const glm::vec2& position = glm::vec2(0.0f, 0.0f), const glm::vec2& size = glm::vec2(250.0f, 250.0f))
+Widget::Widget(const glm::vec2& position, const glm::vec2& size) : Rect(position, size)
 {
-	m_rect = new Rect(position, size);
+	m_name = "";
+	m_units = "px";
 }
 
 glm::vec2 Widget::getRelativePosition()
@@ -22,6 +24,10 @@ void Widget::setIcon(Icon* icon)
 	m_icon = icon;
 }
 
+void Widget::onClosed(CallbackData data)
+{
+	data.sender->getLayout()->removeWidget(data.sender);
+}
 
 Icon* Widget::getIcon() 
 {
@@ -59,5 +65,5 @@ void Widget::addChild(Widget* child)
 
 Widget::~Widget()
 {
-	delete m_rect;
+	delete m_icon;
 }

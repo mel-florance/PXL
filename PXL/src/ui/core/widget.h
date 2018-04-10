@@ -17,29 +17,29 @@
 
 #include "../shapes/rect.h"
 
+
+class Row;
 class Layout;
 class Icon;
+class MenuItem;
 
-class Widget : public EventListener, public WidgetEvent, public WidgetState
+class Widget : public Rect, public EventListener, public WidgetEvent, public WidgetState
 {
 public:
 	Widget(const glm::vec2& position, const glm::vec2& size);
 	~Widget();
 
+	const std::string& getName() { return m_name; }
+	void setName(const std::string& name) { m_name = name; }
+
 	inline void setWindow(Display* window) { m_window = window; }
 	inline Display* getWindow() { return m_window; }
-
-	inline void setRect(Rect* rect) { m_rect = rect; }
-	inline Rect* getRect() { return m_rect; }
 
 	virtual inline void setScreen(const glm::vec2& screen) { m_screen = screen; }
 	virtual inline glm::vec2& getScreen() { return m_screen; }
 
 	inline void setParent(Widget* parent) { m_parent = parent; }
 	inline Widget* getParent() { return m_parent; }
-
-	inline void setPosition(const glm::vec2 position) { m_rect->setPosition(position); }
-	inline glm::vec2 getPosition() { return m_rect->getPosition(); }
 
 	glm::vec2 getRelativePosition();
 
@@ -48,10 +48,8 @@ public:
 	bool intersects(const glm::vec2& point);
 
 	inline void setLayout(Layout* layout) { m_layout = layout; }
-	inline Layout* getLayout() { return m_layout; }
+	inline Layout* getLayout() { return m_layout;  }
 
-	inline void setSize(const glm::vec2& size) { m_rect->setSize(size); }
-	inline glm::vec2 getSize() { return m_rect->getSize(); }
 
 	void addChild(Widget* child);
 	inline std::vector<Widget*> getChildren() { return m_children; }
@@ -59,12 +57,24 @@ public:
 	virtual inline void draw(NVGcontext* ctx, double delta) {}
 	virtual inline void update(double delta) {}
 
+	static void onClosed(CallbackData data);
+
 	void setIcon(Icon* icon);
 	Icon* getIcon();
 	inline bool hasIcon() { return m_icon != nullptr; }
 
+	virtual inline void* addRow() { return nullptr; }
+	virtual inline void addItem(const std::string& item) {}
+	virtual inline MenuItem* addMenuItem(std::string& item) { return (MenuItem*)NULL; }
+
+	virtual inline const std::string getText() { return ""; }
+
+	inline void setUnits(const std::string& units) { m_units = units; }
+	const std::string& getUnits() { return m_units; }
+
 	glm::vec2 m_dragStart;
 	glm::vec2 m_dragEnd;
+	glm::vec2 m_dragDelta;
 
 	glm::vec2 m_mouseDelta;
 	glm::vec3 m_mouseStates;
@@ -72,13 +82,13 @@ public:
 	glm::vec2 m_mouseRel;
 
 private:
+	std::string m_name;
 	Display* m_window;
 	Layout* m_layout;
 	Widget* m_parent;
-	Rect* m_rect;
 	Icon* m_icon;
+	std::string m_units;
 
 	glm::vec2 m_screen;
 	std::vector<class Widget*> m_children;
 };
-

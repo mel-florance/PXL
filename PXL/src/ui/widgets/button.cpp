@@ -1,9 +1,10 @@
 #include "button.h"
+#include "layout.h"
 
 Button::Button(glm::vec2& position, glm::vec2& size, const std::string& font) : Widget(position, size)
 {
-	m_background = nvgRGBA(0, 0, 0, 16);
-	m_hightlight = nvgRGBA(255, 255, 255, 16);
+	m_background = nvgRGBA(30, 30, 30, 255);
+	m_hightlight = nvgRGBA(100, 100, 100, 255);
 	m_borderRadius = 4.0f;
 
 	m_margin = glm::vec4(
@@ -14,10 +15,10 @@ Button::Button(glm::vec2& position, glm::vec2& size, const std::string& font) : 
 	);
 
 	m_text.font = font;
-	m_text.fontSize = 20.0f;
+	m_text.fontSize = 18.0f;
 	m_text.blur = 0.0f;
 	m_text.align = NVG_ALIGN_MIDDLE;
-	m_text.color = nvgRGBA(255, 255, 255, 32);
+	m_text.color = nvgRGBA(200, 200, 200, 255);
 	m_text.shadow = nvgRGBA(0, 0, 0, 0);
 }
 
@@ -25,21 +26,21 @@ void Button::update(double delta)
 {
 	if (this->getState("active"))
 	{
-		m_background = nvgRGBA(255, 255, 255, 64);
-		m_text.color = nvgRGBA(255, 255, 255, 200);
-		m_hightlight = nvgRGBA(0, 0, 0, 64);
+		m_background = nvgRGBA(120, 120, 120, 255);
+		m_text.color = nvgRGBA(160, 160, 160, 255);
+		m_hightlight = nvgRGBA(30, 30, 30, 255);
 	}
 	else if (this->getState("hovered"))
 	{
-		m_background = nvgRGBA(0, 0, 0, 64);
-		m_text.color = nvgRGBA(255, 255, 255, 180);
-		m_hightlight = nvgRGBA(255, 255, 255, 64);
+		m_background = nvgRGBA(50, 50, 50, 255);
+		m_text.color = nvgRGBA(220, 220, 220, 255);
+		m_hightlight = nvgRGBA(120, 120, 120, 255);
 	}
 	else
 	{
-		m_background = nvgRGBA(0, 0, 0, 32);
-		m_text.color = nvgRGBA(255, 255, 255, 160);
-		m_hightlight = nvgRGBA(255, 255, 255, 32);
+		m_background = nvgRGBA(30, 30, 30, 255);
+		m_text.color = nvgRGBA(200, 200, 200, 255);
+		m_hightlight = nvgRGBA(100, 100, 100, 255);
 	}
 }
 
@@ -146,12 +147,17 @@ void Button::onMouseDown(const SDL_Event& event)
 
 void Button::onMouseUp(const SDL_Event& event)
 {
-	if (event.button.button == SDL_BUTTON_LEFT) 
-	{
-		if(this->getState("hovered"))
-			this->handleEventListener("mouseUp", {this});
+	this->setState("active", false);
 
-		this->setState("active", false);
+	if (event.button.button == SDL_BUTTON_LEFT )
+	{
+		if (this->getState("hovered")) {
+			if (this->hasListener("onClosed"))
+				this->handleEventListener("onClosed", { this });
+
+			if (this->getState("hovered"))
+				this->handleEventListener("mouseUp", { this });
+		}
 	}
 }
 

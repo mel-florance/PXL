@@ -21,6 +21,10 @@ public:
 		m_listeners[name] = callback; 
 	}
 
+	inline bool hasListener(std::string name) {
+		return m_listeners[name] != 0; 
+	}
+
 	inline void handleEventListener(std::string name, CallbackData data)
 	{
 		EventListenerFnPtr fn = m_listeners[name];

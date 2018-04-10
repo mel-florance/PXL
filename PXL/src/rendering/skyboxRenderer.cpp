@@ -45,5 +45,5 @@ void SkyboxRenderer::render(Scene* scene, double delta)
 
 SkyboxRenderer::~SkyboxRenderer()
 {
-
+	delete m_material;
 }

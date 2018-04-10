@@ -14,8 +14,9 @@ Engine::Engine() : m_running(false), m_frameTime(1.0 / 60)
 	m_sceneManager = new SceneManager();
 	m_shaderManager = new ShaderManager();
 	m_assetManager = new AssetManager(m_loader, m_shaderManager, m_sceneManager);
-	m_guiManager = new GuiManager(m_window, m_fontManager);
+	m_guiManager = new GuiManager(m_window, m_fontManager, m_assetManager, m_sceneManager);
 	m_inputManager = new InputManager(m_window, m_guiManager, m_sceneManager);
+	m_sceneManager->setGuiManager(m_guiManager);
 
 	m_renderer = new Renderer(m_window, m_loader, m_shaderManager, m_assetManager, m_guiManager);
 	m_profiler = new Profiler(m_clock);
@@ -61,7 +62,7 @@ void Engine::start()
 			unprocessedTime += m_passedTime;
 			frameCounter += m_passedTime;
 
-			if (frameCounter >= 0.25f)
+			if (frameCounter >= 1.0f)
 			{
 				m_fps = 1.0 / m_passedTime;
 				frames = 0;

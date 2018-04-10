@@ -44,5 +44,8 @@ void SceneManager::listScenes()
 
 SceneManager::~SceneManager()
 {
+	for (Scene* scene : m_scenes)
+		delete scene;
 
+	m_scenes.clear();
 }
