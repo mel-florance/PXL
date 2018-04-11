@@ -26,7 +26,7 @@ void Button::update(double delta)
 {
 	if (this->getState("active"))
 	{
-		m_background = nvgRGBA(120, 120, 120, 255);
+		m_background = nvgRGBA(120, 120, 120, 64);
 		m_text.color = nvgRGBA(160, 160, 160, 255);
 		m_hightlight = nvgRGBA(30, 30, 30, 255);
 	}
@@ -60,6 +60,8 @@ void Button::drawBackground(NVGcontext* ctx, glm::vec2& position)
 {
 	NVGpaint bg;
 
+	m_text.width = nvgTextBounds(ctx, position.x, position.y, m_text.text.c_str(), NULL, 0);
+
 	bg = nvgLinearGradient(ctx,
 		position.x,
 		position.y,
@@ -73,8 +75,8 @@ void Button::drawBackground(NVGcontext* ctx, glm::vec2& position)
 	nvgRoundedRect(ctx, 
 		position.x + 1, 
 		position.y + 1, 
-		this->getSize().x - 2,
-		this->getSize().y - 2,
+		this->getSize().x - 1,
+		this->getSize().y - 1,
 		m_borderRadius - 1
 	);
 	nvgFillPaint(ctx, bg);
@@ -95,8 +97,6 @@ void Button::drawBackground(NVGcontext* ctx, glm::vec2& position)
 
 void Button::drawText(NVGcontext* ctx, glm::vec2& position)
 {
-	m_text.width = nvgTextBounds(ctx, position.x, position.y, m_text.text.c_str(), NULL, 0);
-
 	nvgFontSize(ctx, m_text.fontSize);
 	nvgFontFace(ctx, m_text.font.c_str());
 	nvgTextAlign(ctx, m_text.align);
@@ -107,11 +107,11 @@ void Button::drawText(NVGcontext* ctx, glm::vec2& position)
 		position.x,
 		position.y, 
 		this->getSize().x, 
-		this->getSize().y - m_margin.x
+		this->getSize().y
 	);
 
 	nvgText(ctx,
-		position.x + (this->getSize().x * 0.5f) - (m_text.width * 0.5f), 
+		position.x + (this->getSize().x - m_text.width) * 0.5f + 2.5f,
 		position.y + (this->getSize().y * 0.5f) - 1,
 		m_text.text.c_str(),
 		NULL
@@ -120,7 +120,7 @@ void Button::drawText(NVGcontext* ctx, glm::vec2& position)
 	nvgFillColor(ctx, m_text.color);
 
 	nvgText(ctx,
-		position.x + (this->getSize().x * 0.5f) - (m_text.width * 0.5f),
+		position.x + (this->getSize().x - m_text.width) * 0.5f + 2.5f,
 		position.y + (this->getSize().y * 0.5f),
 		m_text.text.c_str(),
 		NULL

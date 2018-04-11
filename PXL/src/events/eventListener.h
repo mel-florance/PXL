@@ -22,7 +22,7 @@ public:
 	}
 
 	inline bool hasListener(std::string name) {
-		return m_listeners[name] != 0; 
+		return m_listeners[name] != NULL; 
 	}
 
 	inline void handleEventListener(std::string name, CallbackData data)

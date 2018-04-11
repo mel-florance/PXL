@@ -1,6 +1,6 @@
 #pragma once
 
-#include "editorComponent.h"
+#include "../editorComponent.h"
 
 class Viewport : public EditorComponent
 {

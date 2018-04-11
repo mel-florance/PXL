@@ -20,7 +20,6 @@ void InputManager::update()
 		if (e.type == SDL_TEXTINPUT)
 			m_guiManager->handleEvent("onTextInput", e);
 
-
 		if (e.type == SDL_MOUSEWHEEL)
 		{
 			if (m_camera != nullptr)
@@ -45,9 +44,10 @@ void InputManager::update()
 
 		if (e.type == SDL_MOUSEMOTION)
 		{
-			m_guiManager->handleEvent("onMouseMove", e);
 			setMouse((float)e.motion.x, (float)e.motion.y);
 			setMouseRel((float)e.motion.xrel, (float)e.motion.yrel);
+
+			m_guiManager->handleEvent("onMouseMove", e);
 
 			if (m_camera != nullptr)
 				m_camera->onMouseMove(getMouseRel());
@@ -58,7 +58,8 @@ void InputManager::update()
 			if (m_camera != nullptr)
 				m_camera->onMouseDown(e.button.button);
 
-			m_guiManager->handleEvent("onMouseDown", e);
+			if(e.button.button == SDL_BUTTON_LEFT)
+				m_guiManager->handleEvent("onMouseDown", e);
 		}
 
 		if (e.type == SDL_MOUSEBUTTONUP)
@@ -66,7 +67,8 @@ void InputManager::update()
 			if (m_camera != nullptr)
 				m_camera->onMouseUp(e.button.button);
 
-			m_guiManager->handleEvent("onMouseUp", e);
+			if (e.button.button == SDL_BUTTON_LEFT)
+				m_guiManager->handleEvent("onMouseUp", e);
 		}
 
 		if (e.type == SDL_WINDOWEVENT) 
@@ -82,6 +84,7 @@ void InputManager::update()
 				glViewport(0, 0, e.window.data1, e.window.data2);
 				m_guiManager->handleEvent("windowSizeChanged", e);
 				break;
+
 			case SDL_WINDOWEVENT_SHOWN:
 			case SDL_WINDOWEVENT_HIDDEN:
 			case SDL_WINDOWEVENT_EXPOSED:

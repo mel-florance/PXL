@@ -40,6 +40,7 @@ Display::Display(Uint32 width, Uint32 height, const std::string& title, const st
 
 	m_cursors["IBEAM"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
 	m_cursors["ARROW"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+	m_cursors["HAND"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
 	SDL_SetCursor(m_cursors["ARROW"]);
 
 	SDL_ShowCursor(SDL_ENABLE);

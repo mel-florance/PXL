@@ -21,6 +21,12 @@ public:
 		return filename.substr(0, lastdot);
 	}
 
+
+	static inline float mapValues(float rangeA[], float rangeB[], float value, unsigned int size = 2)
+	{
+		return (value - rangeA[0]) * (rangeB[1] - rangeB[0]) / (rangeA[1] - rangeA[0]) + rangeB[0];
+	}
+
 	static char* cpToUTF8(int cp, char* str)
 	{
 		int n = 0;

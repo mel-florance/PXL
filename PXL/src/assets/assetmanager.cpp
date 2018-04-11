@@ -24,7 +24,6 @@ Mesh* AssetManager::importMesh(const std::string& filename)
 
 	const aiScene* scene = importer.ReadFile(filename,
 		aiProcess_Triangulate |
-		aiProcess_GenSmoothNormals |
 		aiProcess_FlipUVs |
 		aiProcess_CalcTangentSpace
 	);

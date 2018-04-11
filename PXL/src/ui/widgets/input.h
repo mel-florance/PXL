@@ -40,7 +40,9 @@ public:
 	inline void setMargin(const glm::vec4& margin) { m_margin = margin; }
 	inline glm::vec4& getMargin() { return m_margin; }
 
+	inline const std::string getText() { return m_text.text; }
 	inline void setText(const std::string& text) { m_text.text = text; }
+	inline void clearText() { m_text.text = ""; }
 
 	inline void setCaretPosition(glm::vec2& position) { m_caret->position = position; }
 	inline glm::vec2 getCaretPosition() { return m_caret->position; }
@@ -50,9 +52,6 @@ public:
 
 	inline void setCaretBackground(const NVGcolor& background) { m_caret->background = background; }
 	inline const NVGcolor& getCaretBackground() { return m_caret->background; }
-
-
-	inline const std::string getText() { return m_text.text; }
 
 	void update(double delta);
 	void draw(NVGcontext* ctx, double delta);

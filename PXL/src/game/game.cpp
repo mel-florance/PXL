@@ -24,12 +24,17 @@ Game::Game(Engine* engine)
 	m_scene->addLight(m_light);
 
 	assetManager->importMesh("./res/models/plane.obj");
-	assetManager->importMesh("./res/models/mustang.obj");
+	assetManager->importMesh("./res/models/torus.obj");
 
 	Mesh* plane = m_scene->getMeshByName("Plane");
 	plane->getTransform()->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
 	plane->getMaterial()->setTiling(glm::vec2(500.0f, 500.0f));
 	plane->getMaterial()->setBackFaceCulling(false);
+
+	Mesh* torus = m_scene->getMeshByName("TwistedTorus");
+
+	torus->getTransform()->setPosition(glm::vec3(0.0f, 0.25f, 0.0f));
+	//lampb1->getMaterial()->setBackFaceCulling(false);
 
 	glm::vec4 white = glm::vec4(255.0f, 255.0f, 255.0f, 128.0f);
 	m_layout = guiManager->createLayout("main_window");
@@ -37,34 +42,35 @@ Game::Game(Engine* engine)
 	Menu* main_menu = new Menu(glm::vec2(0.0, 0.0), glm::vec2(1920, 30), "segoeui");
 
 	Menu::MenuItem* fileMenu = main_menu->addMenuItem("File");
-	fileMenu->addChild("New", "Ctrl + N", "PLUS_CIRCLED");
-	fileMenu->addChild("Open...", "Ctrl + O", "FOLDER_OPENED");
+	fileMenu->addChild("New", &Game::newProject, "Ctrl + N", "PLUS_CIRCLED");
+	fileMenu->addChild("Open...", NULL, "Ctrl + O", "FOLDER_OPENED");
 	fileMenu->addSeparator();
-	fileMenu->addChild("Save", "Ctrl + S", "FLOPPY_DISK");
-	fileMenu->addChild("Save as...", "Ctrl + Shift + S", "FLOPPY_DISK");
+	fileMenu->addChild("Save", NULL, "Ctrl + S", "FLOPPY_DISK");
+	fileMenu->addChild("Save as...", NULL, "Ctrl + Shift + S", "FLOPPY_DISK");
 	fileMenu->addSeparator();
-	fileMenu->addChild("Import", "", "REPLY");
-	fileMenu->addChild("Export", "", "FORWARD");
+	fileMenu->addChild("Import", NULL, "", "REPLY");
+	fileMenu->addChild("Export", NULL, "", "FORWARD");
 	fileMenu->addSeparator();
-	fileMenu->addChild("Quit", "Ctrl + Q", "EXIT");
+	fileMenu->addChild("Quit", &Game::exitApplication, "Ctrl + Q", "EXIT");
 
 	Menu::MenuItem* editMenu = main_menu->addMenuItem("Edit");
-	editMenu->addChild("Undo", "Ctrl + Z");
+	editMenu->addChild("Undo", NULL, "Ctrl + Z");
 	editMenu->addSeparator();
-	editMenu->addChild("Cut", "Ctrl + X");
-	editMenu->addChild("Copy", "Ctrl + C");
-	editMenu->addChild("Paste", "Ctrl + V");
+	editMenu->addChild("Cut", NULL, "Ctrl + X");
+	editMenu->addChild("Copy", NULL, "Ctrl + C");
+	editMenu->addChild("Paste", NULL, "Ctrl + V");
 
 	Menu::MenuItem* windowMenu = main_menu->addMenuItem("Window");
-	windowMenu->addChild("Fullscreen", "F11", "RESIZE_FULL");
+	windowMenu->addChild("Fullscreen", &Game::setFullscreen, "F11", "RESIZE_FULL");
 
 	Menu::MenuItem* helpMenu = main_menu->addMenuItem("Help");
-	helpMenu->addChild("Documentation", "", "HELP_CIRCLED");
+	helpMenu->addChild("Documentation", NULL, "", "HELP_CIRCLED");
 
 	Layout* layout_tools = guiManager->createLayout("tools");
 	Layout* layout_outliner = guiManager->createLayout("outliner");
 
 	Window* toolsPanel = new Window("Tools", glm::vec2(0.0f, 29.0f), glm::vec2(200.0f, (1080.0f - 360.0f - 29.0f)), "segoeui");
+	toolsPanel->setOpacity(0.8f);
 	Window* outliner = new Window("Outliner", glm::vec2((1920.0f - 300.0f), 29.0f), glm::vec2(300.0f, (1080.0f - 29.0f)), "segoeui");
 	Table* outlinerTable = new Table(glm::vec2(1.0f, 65.0f), glm::vec2(299.0f, 299.0f), "segoeui");
 	outlinerTable->setName("outlinerTable");
@@ -139,12 +145,48 @@ Game::Game(Engine* engine)
 	std::cout << j.dump(4) << std::endl;
 }
 
+void Game::exitApplication(CallbackData data)
+{
+	data.sender->getWindow()->setIsClosed(true);
+}
+
+void Game::setFullscreen(CallbackData data)
+{
+	SDL_SetWindowFullscreen(data.sender->getWindow()->getWindow(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+}
+
+void Game::newProject(CallbackData data)
+{
+	Window* modal = new Window("New Project", glm::vec2(), glm::vec2(450.0f, 350.0f), "segoeui");
+	Layout* layout = data.sender->getLayout();
+
+	Button* createButton = new Button(glm::vec2(450.0f - 80.0f - 10.0f, 350.0f - 30.0f - 10.0f), glm::vec2(80, 30), "segoeui");
+	createButton->setText("Create");
+	modal->addChild(createButton);
+
+	Label* labelSize = new Label(glm::vec2(10, 35.0f), glm::vec2(430, 35), "Name", "segoeui");
+	Input* inputSize = new Input(glm::vec2(0, 30), glm::vec2(430, 35), "segoeui");
+
+	labelSize->setName("labelSize");
+	labelSize->addChild(inputSize);
+	modal->addChild(labelSize);
+
+	if (layout != nullptr)
+	{
+		layout->addWidget(modal);
+		modal->setCentered();
+		modal->setState("draggable", true);
+		modal->setState("closable", true);
+		createButton->addEventListener("onClosed", &Game::createCube);
+	}
+}
+
 void Game::callbackFn(CallbackData data)
 {
 	Window* modal = new Window("Add cube", glm::vec2(), glm::vec2(250.0f, 250.0f), "segoeui");
 	Layout* layout = data.sender->getLayout();
 
-	Button* okButton = new Button(glm::vec2(250.0f - 10.0f - 50.0f, 215.0f), glm::vec2(50, 25), "segoeui");
+	Button* okButton = new Button(glm::vec2(250.0f - 10.0f - 80.0f, 210.0f), glm::vec2(80, 30), "segoeui");
 	okButton->setText("Ok");
 	modal->addChild(okButton);
 

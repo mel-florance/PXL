@@ -65,6 +65,9 @@
     <Filter Include="src\ui\nanovg">
       <UniqueIdentifier>{749a9261-465e-4131-9eb9-c711cc49675a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\editor\components">
+      <UniqueIdentifier>{9bc792fb-a5c8-4a62-baff-61aa6cd49893}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PXL.rc">
@@ -156,9 +159,6 @@
     <ClCompile Include="./src/editor/editor.cpp">
       <Filter>src\editor</Filter>
     </ClCompile>
-    <ClCompile Include="./src/editor/outliner.cpp">
-      <Filter>src\editor</Filter>
-    </ClCompile>
     <ClCompile Include="./src/game/game.cpp">
       <Filter>src\game</Filter>
     </ClCompile>
@@ -167,9 +167,6 @@
     </ClCompile>
     <ClCompile Include="./src/events/eventListener.cpp">
       <Filter>src\events</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/editor/viewport.cpp">
-      <Filter>src\editor</Filter>
     </ClCompile>
     <ClCompile Include="./src/editor/EditorComponent.cpp">
       <Filter>src\editor</Filter>
@@ -250,6 +247,18 @@
       <Filter>src\ui\widgets</Filter>
     </ClCompile>
     <ClCompile Include="./src/ui/widgets/checkbox.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/projectManager.cpp">
+      <Filter>src\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/components/outliner.cpp">
+      <Filter>src\editor\components</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/components/viewport.cpp">
+      <Filter>src\editor\components</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/tooltip.cpp">
       <Filter>src\ui\widgets</Filter>
     </ClCompile>
   </ItemGroup>
@@ -362,9 +371,6 @@
     <ClInclude Include="./src/editor/editor.h">
       <Filter>src\editor</Filter>
     </ClInclude>
-    <ClInclude Include="./src/editor/outliner.h">
-      <Filter>src\editor</Filter>
-    </ClInclude>
     <ClInclude Include="./src/game/game.h">
       <Filter>src\game</Filter>
     </ClInclude>
@@ -373,9 +379,6 @@
     </ClInclude>
     <ClInclude Include="./src/events/eventListener.h">
       <Filter>src\events</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/editor/viewport.h">
-      <Filter>src\editor</Filter>
     </ClInclude>
     <ClInclude Include="./src/editor/editorLayout.h">
       <Filter>src\editor</Filter>
@@ -466,6 +469,18 @@
       <Filter>src\ui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="./src/ui/widgets/checkbox.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/projectManager.h">
+      <Filter>src\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/components/viewport.h">
+      <Filter>src\editor\components</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/components/outliner.h">
+      <Filter>src\editor\components</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/tooltip.h">
       <Filter>src\ui\widgets</Filter>
     </ClInclude>
   </ItemGroup>

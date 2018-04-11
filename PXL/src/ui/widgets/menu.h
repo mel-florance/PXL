@@ -14,14 +14,17 @@ class Menu : public Widget
 public:
 	Menu(const glm::vec2& position, const glm::vec2& size, const std::string& font);
 
-	struct MenuItem 
+	struct MenuItem : public EventListener
 	{
-		MenuItem(const std::string& data, const std::string& shortcut = "", const std::string& icon = "") 
+		MenuItem(const std::string& data, EventListenerFnPtr callback = NULL, const std::string& shortcut = "", const std::string& icon = "")
 		{ 
 			m_data = data; 
 			m_shortcut = shortcut;
 			m_opened = false;
 			m_isSeparator = false;
+			
+			if(callback != NULL)
+				this->addEventListener("mouseUp", callback);
 
 			if (icon.size() > 0)
 				m_icon = new Icon(icon, glm::vec2(), glm::vec2(20.0f, 20.0f));
@@ -52,9 +55,9 @@ public:
 				m_icon->setSymbol(name);
 		}
 
-		inline MenuItem* addChild(const std::string& data, const std::string& shortcut = "", const std::string& icon = "") 
+		inline MenuItem* addChild(const std::string& data, EventListenerFnPtr callback = NULL, const std::string& shortcut = "", const std::string& icon = "")
 		{
-			MenuItem* item = new MenuItem(data, shortcut, icon);
+			MenuItem* item = new MenuItem(data, callback, shortcut, icon);
 			m_children.emplace_back(item);
 			return item;
 		}
@@ -109,9 +112,9 @@ public:
 	void update(double delta);
 	void draw(NVGcontext* ctx, double delta);
 
-	inline MenuItem* addMenuItem(const std::string& data, const std::string& shortcut = "") 
+	inline MenuItem* addMenuItem(const std::string& data, EventListenerFnPtr callback = NULL, const std::string& shortcut = "")
 	{
-		MenuItem* item = new MenuItem(data, shortcut);
+		MenuItem* item = new MenuItem(data, callback, shortcut);
 		m_items.emplace_back(item);
 		return item;
 	}

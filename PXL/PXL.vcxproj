@@ -173,8 +173,8 @@
     <ClCompile Include="./src/ui/core/layerManager.cpp" />
     <ClCompile Include="./src/ui/widgets/button.cpp" />
     <ClCompile Include="./src/editor/editor.cpp" />
-    <ClCompile Include="./src/editor/outliner.cpp" />
-    <ClCompile Include="./src/editor/viewport.cpp" />
+    <ClCompile Include="./src/editor/components/outliner.cpp" />
+    <ClCompile Include="./src/editor/components/viewport.cpp" />
     <ClCompile Include="./src/events/eventEmitter.cpp" />
     <ClCompile Include="./src/events/eventListener.cpp" />
     <ClCompile Include="./src/editor/EditorComponent.cpp" />
@@ -189,6 +189,8 @@
     <ClCompile Include="./src/ui/widgets/table.cpp" />
     <ClCompile Include="./src/ui/widgets/menu.cpp" />
     <ClCompile Include="./src/ui/widgets/checkbox.cpp" />
+    <ClCompile Include="./src/editor/projectManager.cpp" />
+    <ClCompile Include="./src/ui/widgets/tooltip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/assets/assetManager.h" />
@@ -246,8 +248,8 @@
     <ClInclude Include="./src/ui/widgets/button.h" />
     <ClInclude Include="./src/ui/core/layerManager.h" />
     <ClInclude Include="./src/editor/editor.h" />
-    <ClInclude Include="./src/editor/outliner.h" />
-    <ClInclude Include="./src/editor/viewport.h" />
+    <ClInclude Include="./src/editor/components/outliner.h" />
+    <ClInclude Include="./src/editor/components/viewport.h" />
     <ClInclude Include="./src/events/eventEmitter.h" />
     <ClInclude Include="./src/events/eventListener.h" />
     <ClInclude Include="./src/editor/EditorComponent.h" />
@@ -262,7 +264,9 @@
     <ClInclude Include="./src/ui/widgets/table.h" />
     <ClInclude Include="./src/ui/widgets/menu.h" />
     <ClInclude Include="./src/ui/widgets/checkbox.h" />
+    <ClInclude Include="./src/editor/projectManager.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="./src/ui/widgets/tooltip.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\icon_big.ico" />

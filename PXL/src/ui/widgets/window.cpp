@@ -14,8 +14,9 @@ Window::Window(const std::string& text = "window", glm::vec2& position = glm::ve
 	m_header.color = nvgRGBA(255, 255, 255, 128);
 	m_header.rect = new Rect(glm::vec2(position.x + 1, position.y + 1), glm::vec2(size.x - 2, 30));
 
-	m_background = nvgRGB(28, 28, 28);//nvgRGBA(28, 28, 28, 255);
 	m_drawingShadow = true;
+	m_opacity = 1.0f;
+	m_background = nvgRGB(28, 28, 28);
 	m_borderRadius = 0.0f;
 
 	const glm::vec2 iconPosition = glm::vec2(
@@ -51,7 +52,7 @@ void Window::draw(NVGcontext* ctx, double delta)
 		m_borderRadius
 	);
 
-	nvgFillColor(ctx, m_background);
+	nvgFillColor(ctx, nvgRGBAf(m_background.r, m_background.g, m_background.b, m_opacity));
 	nvgFill(ctx);
 
 	if (this->isDrawingShadow())
@@ -205,6 +206,12 @@ void Window::onMouseMove(const SDL_Event& event)
 
 		this->getIcon()->setState("hovered", rect.intersects(m_mouse));
 	}
+
+	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
+	if (this->getState("hovered"))
+		layerManager->addWidget(0, this);
+	else
+		layerManager->removeWidget(0, this);
 }
 
 void Window::onClosed(CallbackData data)
@@ -216,11 +223,6 @@ void Window::onMouseDown(const SDL_Event& event)
 {
 	this->setState("hovered", this->intersects(m_mouse));
 
-	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
-	if (this->getState("hovered"))
-		layerManager->addWidget(0, this);
-	else
-		layerManager->removeWidget(0, this);
 
 	if (this->getState("draggable") && event.button.button == SDL_BUTTON_LEFT && !this->getState("dragged"))
 	{

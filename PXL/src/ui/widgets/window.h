@@ -31,10 +31,14 @@ public:
 	void setDrawingShadow(bool state) { m_drawingShadow = state; }
 	bool isDrawingShadow() { return m_drawingShadow; }
 
+	void setOpacity(float value) { m_opacity = value; }
+	float getOpacity() { return m_opacity; }
+
 private:
 	NVGpaint m_shadowPaint;
 	NVGpaint m_headerPaint;
 	bool m_drawingShadow;
+	float m_opacity;
 
 	struct WindowHeader {
 		Rect* rect;

@@ -40,6 +40,9 @@ public:
 
 	static void callbackFn(CallbackData data);
 	static void createCube(CallbackData data);
+	static void newProject(CallbackData data);
+	static void setFullscreen(CallbackData data);
+	static void exitApplication(CallbackData data);
 
 	void update(double delta);
 	AssetManager* m_assetManager;

@@ -26,7 +26,6 @@ void Menu::onMouseMove(const SDL_Event& event)
 	m_mouse = glm::vec2(event.motion.x, event.motion.y);
 	glm::vec2 position = this->getRelativePosition();
 
-
 	unsigned int i = 0;
 	float stackedWidth = 0.0f;
 	for (auto& item : m_items)
@@ -42,24 +41,27 @@ void Menu::onMouseMove(const SDL_Event& event)
 
 		item->m_hovered = rect.intersects(m_mouse);
 
-		unsigned int j = 0;
-		for (auto& child : item->m_children)
+		if (item->m_opened == true)
 		{
-			float y = position.y + this->getSize().y + (j * 25.0f);
-			Rect childRect(
-				glm::vec2(x - 15.0f, y),
-				glm::vec2(230.0f, 25.0f)
-			);
+			unsigned int j = 0;
+			for (auto& child : item->m_children)
+			{
+				float y = position.y + this->getSize().y + (j * 25.0f);
+				Rect childRect(
+					glm::vec2(x - 15.0f, y),
+					glm::vec2(230.0f, 25.0f)
+				);
 
-			child->m_hovered = childRect.intersects(m_mouse);
-			child->m_opened = child->m_hovered;
-			j++;
+				child->m_hovered = childRect.intersects(m_mouse);
+				child->m_opened = child->m_hovered;
+				j++;
 
-			if (child->m_isSeparator == true)
-				j--;
+				if (child->m_isSeparator == true)
+					j--;
+			}
+
+			i++;
 		}
-
-		i++;
 	}
 }
 
@@ -84,7 +86,7 @@ void Menu::onMouseUp(const SDL_Event& event)
 		float stackedWidth = 0.0f;
 		for (auto& item : m_items)
 		{
-			stackedWidth += item->m_width + 15.0f + 6.0f;
+			stackedWidth += item->m_width + 15.0f;
 			float x = position.x + stackedWidth - item->m_width;
 			i++;
 
@@ -93,25 +95,32 @@ void Menu::onMouseUp(const SDL_Event& event)
 				glm::vec2(item->m_width + 15.0f, this->getSize().y - 8.0f)
 			);
 
-			item->m_hovered = rect.intersects(m_mouse);
-			item->m_opened = item->m_hovered;
 
 			unsigned int j = 0;
 			for (auto& child : item->m_children)
 			{
 				float y = position.y + this->getSize().y + (j * 25.0f);
 				Rect childRect(
-					glm::vec2(x + 6.0f - 7.5f, y),
+					glm::vec2(x - 15.0f, y),
 					glm::vec2(230.0f, 25.0f)
 				);
 
 				child->m_hovered = childRect.intersects(m_mouse);
 				child->m_opened = child->m_hovered;
+
+				if (child->m_hovered == true && item->m_opened == true)
+				{
+					child->handleEventListener("mouseUp", { this });
+				}
+
 				j++;
 
 				if (child->m_isSeparator == true)
 					j--;
 			}
+
+			item->m_hovered = rect.intersects(m_mouse);
+			item->m_opened = item->m_hovered;
 		}
 	}
 }

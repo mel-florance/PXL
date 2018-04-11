@@ -1,6 +1,6 @@
 #pragma once
 
-#include "editorComponent.h"
+#include "../editorComponent.h"
 
 class Outliner : public EditorComponent
 {

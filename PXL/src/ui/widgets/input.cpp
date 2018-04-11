@@ -150,6 +150,7 @@ void Input::drawText(NVGcontext* ctx, glm::vec2& position)
 		text.c_str(),
 		NULL
 	);
+
 }
 
 void Input::drawCaret(NVGcontext* ctx, glm::vec2& position)
@@ -179,13 +180,19 @@ void Input::drawIcon(NVGcontext* ctx, glm::vec2 & position)
 {
 	if (this->hasIcon() && m_text.text.size() > 0)
 	{
+		nvgResetScissor(ctx);
+
+		if (this->getIcon()->getState("hovered"))
+			nvgFillColor(ctx, nvgRGBA(255, 255, 255, 128));
+		else
+			nvgFillColor(ctx, nvgRGBA(255, 255, 255, 50));
+
 		nvgFontSize(ctx, 32.0f);
 		nvgFontFace(ctx, "entypo");
-		nvgFillColor(ctx, nvgRGBA(255, 255, 255, 128));
 		nvgTextAlign(ctx, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
 
 		nvgText(ctx,
-			position.x + this->getSize().x -this->getSize().y * 0.48f,
+			position.x + this->getSize().x - this->getSize().y * 0.48f,
 			position.y + this->getSize().y * 0.55f,
 			this->getIcon()->get(),
 			NULL
@@ -229,12 +236,23 @@ void Input::onMouseMove(const SDL_Event& event)
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	this->setState("hovered", this->intersects(m_mouse));
 
+	glm::vec2 position = this->getRelativePosition();
 
-	if (this->getState("hovered")) {
-		SDL_SetCursor(this->getWindow()->getCursor("IBEAM"));
+	if (this->getState("hovered")) 
+	{
+		Rect rect(
+			glm::vec2(position.x + this->getSize().x - this->getSize().y  * 1.0f, position.y),
+			glm::vec2(this->getSize().y, this->getSize().y)
+		);
+
+		bool iconIntersect = rect.intersects(m_mouse);
+		this->getIcon()->setState("hovered", iconIntersect);
+
+		SDL_SetCursor(this->getWindow()->getCursor(this->getText().size() > 0 && iconIntersect ? "HAND" : "IBEAM"));
 	}
 	else {
 		SDL_SetCursor(SDL_GetDefaultCursor());
+		this->getIcon()->setState("hovered", false);
 	}
 }
 
@@ -257,6 +275,16 @@ void Input::onMouseUp(const SDL_Event& event)
 {
 	bool intersect = this->intersects(m_mouse);
 	this->setState("hovered", intersect);
+
+	glm::vec2 position = this->getRelativePosition();
+
+	Rect rect(
+		glm::vec2(position.x + this->getSize().x - this->getSize().y  * 1.0f, position.y),
+		glm::vec2(this->getSize().y, this->getSize().y)
+	);
+
+	if (rect.intersects(m_mouse) && event.button.button == SDL_BUTTON_LEFT)
+		this->clearText();
 
 	if (!this->getState("focused"))
 	{

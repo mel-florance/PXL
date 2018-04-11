@@ -15,10 +15,10 @@ Renderer::Renderer(Display* window, Loader* loader, ShaderManager* shaderManager
 void Renderer::render(Scene* scene, double delta)
 {
 	glEnable(GL_SCISSOR_TEST);
-	GLsizei w = 1420;
+	GLsizei w = 1620;
 	GLsizei h = (1080 - 300);
 
-	glScissor(200, 300, w, h);
+	glScissor(0, 300, w, h);
 
 	m_skyboxRenderer->render(scene, delta);
 
