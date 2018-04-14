@@ -7,14 +7,14 @@
 class Text : public Widget
 {
 public:
-	Text(const std::string& text, glm::vec4& color, glm::vec2& position, const std::string& font);
+	Text(const std::string& text, NVGcolor& color, glm::vec2& position, const std::string& font);
 	~Text();
 
 	inline void setText(const std::string& text) { m_text = text; }
 	inline const std::string getText() { return m_text; }
 	
-	inline void setFontSize(float& size) { m_fontSize = size; }
-	inline float& getFontsize() { return m_fontSize; }
+	inline void setFontSize(float size) { m_fontSize = size; }
+	inline float getFontsize() { return m_fontSize; }
 
 	void draw(NVGcontext* ctx, double delta);
 
@@ -26,7 +26,7 @@ public:
 	void onMouseUp(const SDL_Event& event) {}
 
 private:
-	glm::vec4 m_color;
+	NVGcolor m_color;
 	std::string m_text;
 	std::string m_font;
 	float m_fontSize;

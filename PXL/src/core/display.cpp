@@ -19,21 +19,19 @@ Display::Display(Uint32 width, Uint32 height, const std::string& title, const st
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		width, height,
-		SDL_WINDOW_OPENGL		 | 
-		SDL_WINDOW_RESIZABLE	 | 
-		SDL_RENDERER_ACCELERATED |
+		SDL_WINDOW_OPENGL		  |
+		SDL_WINDOW_RESIZABLE	  | 
+		SDL_RENDERER_ACCELERATED  |
 		SDL_WINDOW_MAXIMIZED
-		//SDL_WINDOW_FULLSCREEN_DESKTOP |
 	);
 
 	addIcon(icon);
-
 	m_glContext = SDL_GL_CreateContext(m_window);	
-	SDL_GL_SetSwapInterval(0);
 
-	GLenum status = glewInit();
+	// Vsync
+	SDL_GL_SetSwapInterval(-1);
 
-	if (status != GLEW_OK)
+	if (glewInit() != GLEW_OK)
 		std::cerr << "Glew failed to initialize!" << std::endl;
 	else 
 		m_isClosed = false;
@@ -98,7 +96,8 @@ bool Display::addIcon(const std::string& filename)
 	SDL_Surface* icon = SDL_CreateRGBSurfaceFrom((void*)iconData, iconWidth, iconHeight, depth, pitch, rmask, gmask, bmask, amask);
 	SDL_SetWindowIcon(m_window, icon);
 
-	if (icon == NULL) {
+	if (icon == NULL)
+	{
 		SDL_Log("Creating window icon surface failed: %s", SDL_GetError());
 		stbi_image_free(iconData);
 		return false;

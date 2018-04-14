@@ -95,54 +95,54 @@ Game::Game(Engine* engine)
 
 	//Image* image = new Image(guiManager->getContext(), "./res/textures/icon_big.png", glm::vec2(0.0f, 0.0f), glm::vec2(48.0f, 48.0f));
 
-	const std::string font = "segoeui";
-	m_fpsText = new Text("Fps:", white, glm::vec2(20.0f, 100.0f), font);
-	
-	m_profGame = new Text("Game:", white, glm::vec2(20, 120), font);
-	m_profInput = new Text("Input:", white, glm::vec2(20, 140), font);
-	m_profRender = new Text("Render:", white, glm::vec2(20, 160), font);
-	m_profSwapBuffer = new Text("SwapBuffer:", white, glm::vec2(20, 180), font);
-	m_profSleep = new Text("Sleep:", white, glm::vec2(20, 200), font);
+	//const std::string font = "segoeui";
+	//m_fpsText = new Text("Fps:", white, glm::vec2(20.0f, 100.0f), font);
+	//
+	//m_profGame = new Text("Game:", white, glm::vec2(20, 120), font);
+	//m_profInput = new Text("Input:", white, glm::vec2(20, 140), font);
+	//m_profRender = new Text("Render:", white, glm::vec2(20, 160), font);
+	//m_profSwapBuffer = new Text("SwapBuffer:", white, glm::vec2(20, 180), font);
+	//m_profSleep = new Text("Sleep:", white, glm::vec2(20, 200), font);
 
 	//m_labelName = new Label(glm::vec2(20, 20.0f), glm::vec2(210, 35), "Name", font);
-	m_inputName = new Input(glm::vec2(0, 30), glm::vec2(299, 35), font);
-	m_inputName->setPlaceholder("Search...");
+	//m_inputName = new Input(glm::vec2(0, 30), glm::vec2(299, 35), font);
+	//m_inputName->setPlaceholder("Search...");
 
-	outliner->addChild(m_inputName);
+	//outliner->addChild(m_inputName);
 
-	m_label = new Label(glm::vec2(20, 35.0f), glm::vec2(210, 35), "My super label", font);
-	m_input = new Input(glm::vec2(0, 30), glm::vec2(210, 35), font);
-	m_label->addChild(m_input);
-
-
-	m_button = new Button(glm::vec2(10.0f, 40.0f), glm::vec2(180, 30), font);
-	m_button->setText("Cube");
-
-	m_button->addEventListener("mouseUp", &Game::callbackFn);
-
-	//toolsPanel->addChild(image);
-	toolsPanel->addChild(m_fpsText);
-	toolsPanel->addChild(m_profGame);
-	toolsPanel->addChild(m_profInput);
-	toolsPanel->addChild(m_profRender);
-	toolsPanel->addChild(m_profSwapBuffer);
-	toolsPanel->addChild(m_profSleep);
-
-	//outliner->addChild(m_label);
-	//outliner->addChild(m_labelName);
-	toolsPanel->addChild(m_button);
+	//m_label = new Label(glm::vec2(20, 35.0f), glm::vec2(210, 35), "My super label", font);
+	//m_input = new Input(glm::vec2(0, 30), glm::vec2(210, 35), font);
+	//m_label->addChild(m_input);
 
 
-	m_layout->addWidget(toolsPanel);
-	m_layout->addWidget(outliner);
-	m_layout->addWidget(assets);
-	m_layout->addWidget(main_menu);
+	//m_button = new Button(glm::vec2(10.0f, 40.0f), glm::vec2(180, 30), font);
+	//m_button->setText("Cube");
 
-	m_angle = 0.0f;
+	//m_button->addEventListener("mouseUp", &Game::callbackFn);
 
-	json j = "{ \"happy\": true, \"pi\": 3.141 }"_json;
-	std::string s = j.dump();
-	std::cout << j.dump(4) << std::endl;
+	////toolsPanel->addChild(image);
+	//toolsPanel->addChild(m_fpsText);
+	//toolsPanel->addChild(m_profGame);
+	//toolsPanel->addChild(m_profInput);
+	//toolsPanel->addChild(m_profRender);
+	//toolsPanel->addChild(m_profSwapBuffer);
+	//toolsPanel->addChild(m_profSleep);
+
+	////outliner->addChild(m_label);
+	////outliner->addChild(m_labelName);
+	//toolsPanel->addChild(m_button);
+
+
+	//m_layout->addWidget(toolsPanel);
+	//m_layout->addWidget(outliner);
+	//m_layout->addWidget(assets);
+	//m_layout->addWidget(main_menu);
+
+	//m_angle = 0.0f;
+
+	//json j = "{ \"happy\": true, \"pi\": 3.141 }"_json;
+	//std::string s = j.dump();
+	//std::cout << j.dump(4) << std::endl;
 }
 
 void Game::exitApplication(CallbackData data)
@@ -251,7 +251,7 @@ void Game::createCube(CallbackData data)
 
 void Game::update(double delta)
 {
-	m_angle += (float)delta * 0.3f;
+	/*m_angle += (float)delta * 0.3f;
 
 	if (m_fpsText != nullptr)
 		m_fpsText->setText("Fps: " + std::to_string((int)round(m_engine->getFps())));
@@ -269,7 +269,7 @@ void Game::update(double delta)
 		m_profSwapBuffer->setText("SwapBuffer: " + std::to_string(m_engine->getProfiler()->getReport("swapBuffer")));
 
 	if (m_profSleep != nullptr)
-		m_profSleep->setText("Sleep: " + std::to_string(m_engine->getProfiler()->getReport("sleep")));
+		m_profSleep->setText("Sleep: " + std::to_string(m_engine->getProfiler()->getReport("sleep")));*/
 }
 
 Game::~Game()

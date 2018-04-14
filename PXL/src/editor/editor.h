@@ -1,20 +1,59 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include <algorithm>
 
-#include "editorLayout.h"
+#include <nlohmann/json.hpp>
+
+#include "../core/engine.h"
+#include "../cameras/FPSCamera.h"
+
+#include "components/mainMenu.h"
+#include "components/viewport.h"
+#include "components/outliner.h"
+
+using json = nlohmann::json;
 
 class Editor
 {
 public:
 	Editor();
+
+	typedef std::map<std::string, EditorComponent*> ComponentList;
+	typedef std::map<std::string, EditorComponent*(*)(Engine*)> ComponentRegister;
+	
+	void init();
+	void update(double delta);
+
+	template<typename T>
+	static EditorComponent* registerComponent(Engine* engine) { return new T(engine); }
+
+	template<typename T>
+	T* createComponent(const std::string& name, const std::string& componentName) 
+	{
+		T* component = (T*)m_register[componentName](m_engine);
+		m_components[name] = component;
+		return component;
+	}
+
+	inline EditorComponent* getComponentByName(const std::string& name)
+	{
+		ComponentList::iterator it;
+		for (it = m_components.begin(); it != m_components.end(); it++)
+			if(it->first == name)
+				return it->second;
+
+		return nullptr;
+	}
+
 	~Editor();
 
-	void addLayout(EditorLayout* layout);
-	void removeLayout(EditorLayout* layout);
-
 private:
-	std::vector<class EditorLayout*> m_layouts;
-};
+	Engine* m_engine;
+	Layout* m_mainLayout;
 
+	std::vector<class EditorLayout*> m_layouts;
+	ComponentRegister m_register;
+	ComponentList m_components;
+};

@@ -19,6 +19,9 @@ public:
 	bool isClosed();
 	inline void setIsClosed(bool value) { m_isClosed = value; }
 
+	inline bool isFullscreen() { return m_isFullscreen; }
+	inline void setIsFullscreen(bool state) { m_isFullscreen = state; }
+
 	void clear(const glm::vec4& color);
 	void swapBuffers();
 
@@ -46,6 +49,7 @@ private:
 	SDL_Cursor* m_currentCursor;
 
 	bool m_isClosed;
+	bool m_isFullscreen;
 	glm::vec2 m_size;
 };
 

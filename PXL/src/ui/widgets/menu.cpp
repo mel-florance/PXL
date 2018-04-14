@@ -5,6 +5,8 @@ Menu::Menu(const glm::vec2& position, const glm::vec2& size, const std::string& 
 {
 	m_background = nvgRGB(28, 28, 28);
 	m_borderRadius = 3.0f;
+	m_minHeight = 30.0f;
+	m_minFontSize = 18.0f;
 	m_margin = glm::vec4(
 		8.0f, // Top
 		5.0f, // Right
@@ -21,22 +23,34 @@ Menu::Menu(const glm::vec2& position, const glm::vec2& size, const std::string& 
 	this->setDrawingShadow(true);
 }
 
+void Menu::onKeyDown(const SDL_Event& event)
+{
+	if (event.key.keysym.sym == SDLK_c && this->getState("hovered")) {
+		this->setState("visible", this->getState("visible") == false);
+	}
+}
+
 void Menu::onMouseMove(const SDL_Event& event)
 {
 	m_mouse = glm::vec2(event.motion.x, event.motion.y);
 	glm::vec2 position = this->getRelativePosition();
 
+
+	float sizeY = this->getLayout()->getComputedSize().y;
+	sizeY = sizeY < m_minHeight ? m_minHeight : sizeY;
+
 	unsigned int i = 0;
-	float stackedWidth = 0.0f;
+	float stackedWidth = -7.5f;
+
 	for (auto& item : m_items)
 	{
-		stackedWidth += item->m_width + 15.0f;
+		stackedWidth += item->m_width + 15.0f + 9.0f;
 		float x = position.x + stackedWidth - item->m_width;
 		i++;
 
 		Rect rect(
 			glm::vec2(x - 7.5f, position.y + 5.0f),
-			glm::vec2(item->m_width + 15.0f, this->getSize().y - 8.0f)
+			glm::vec2(item->m_width + 15.0f, sizeY - 8.0f)
 		);
 
 		item->m_hovered = rect.intersects(m_mouse);
@@ -46,7 +60,7 @@ void Menu::onMouseMove(const SDL_Event& event)
 			unsigned int j = 0;
 			for (auto& child : item->m_children)
 			{
-				float y = position.y + this->getSize().y + (j * 25.0f);
+				float y = position.y + sizeY + (j * 25.0f);
 				Rect childRect(
 					glm::vec2(x - 15.0f, y),
 					glm::vec2(230.0f, 25.0f)
@@ -59,20 +73,30 @@ void Menu::onMouseMove(const SDL_Event& event)
 				if (child->m_isSeparator == true)
 					j--;
 			}
-
-			i++;
 		}
 	}
 }
 
 void Menu::onMouseDown(const SDL_Event& event)
 {
-	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
+	if (event.button.button == SDL_BUTTON_LEFT)
+	{
+		LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
 
-	if (this->intersects(m_mouse))
-		layerManager->addWidget(0, this);
-	else
-		layerManager->removeWidget(0, this);
+		Rect rect(
+			this->getRelativePosition(),
+			this->getLayout()->getComputedSize()
+		);
+
+		if (rect.intersects(m_mouse)) {
+			std::cout << "added" << std::endl;
+			layerManager->addWidget(0, this);
+		}
+		else {
+			std::cout << "removed" << std::endl;
+			layerManager->removeWidget(0, this);
+		}
+	}
 }
 
 void Menu::onMouseUp(const SDL_Event& event)
@@ -83,23 +107,28 @@ void Menu::onMouseUp(const SDL_Event& event)
 		glm::vec2 position = this->getRelativePosition();
 
 		unsigned int i = 0;
-		float stackedWidth = 0.0f;
+		float stackedWidth = -7.5f;
+
+		float sizeY = this->getLayout()->getComputedSize().y;
+		sizeY = sizeY < m_minHeight ? m_minHeight : sizeY;
+
+
 		for (auto& item : m_items)
 		{
-			stackedWidth += item->m_width + 15.0f;
-			float x = position.x + stackedWidth - item->m_width;
+			stackedWidth += item->m_width + 15.0f + 9.0f;
 			i++;
+			float x = position.x + stackedWidth - item->m_width;
+
 
 			Rect rect(
 				glm::vec2(x - 7.5f, position.y + 5.0f),
-				glm::vec2(item->m_width + 15.0f, this->getSize().y - 8.0f)
+				glm::vec2(item->m_width + 15.0f, sizeY - 8.0f)
 			);
-
 
 			unsigned int j = 0;
 			for (auto& child : item->m_children)
 			{
-				float y = position.y + this->getSize().y + (j * 25.0f);
+				float y = position.y + sizeY + (j * 25.0f);
 				Rect childRect(
 					glm::vec2(x - 15.0f, y),
 					glm::vec2(230.0f, 25.0f)
@@ -135,19 +164,24 @@ void Menu::draw(NVGcontext* ctx, double delta)
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
+	float sizeY = this->getLayout()->getComputedSize().y;
+	sizeY = sizeY < m_minHeight ? m_minHeight : sizeY;
 
 	nvgBeginPath(ctx);
 	nvgRect(ctx,
 		position.x,
 		position.y,
-		this->getSize().x,
-		this->getSize().y
+		this->getLayout()->getComputedSize().x,
+		sizeY
 	);
 
 	nvgFillColor(ctx, m_background);
 	nvgFill(ctx);
 
-	nvgFontSize(ctx, m_fontSize);
+	float fontSize = 0.01f * this->getWindow()->getSize().x;
+	fontSize = fontSize < m_minFontSize ? m_minFontSize : fontSize;
+
+	nvgFontSize(ctx, fontSize);
 	nvgFontFace(ctx, m_font.c_str());
 	nvgTextAlign(ctx, m_align);
 	nvgFontBlur(ctx, m_blur);
@@ -169,7 +203,7 @@ void Menu::draw(NVGcontext* ctx, double delta)
 				x - 7.5f,
 				position.y + 5.0f,
 				item->m_width + 15.0f,
-				this->getSize().y - 8.0f,
+				sizeY - 8.0f,
 				m_borderRadius
 			);
 
@@ -185,7 +219,7 @@ void Menu::draw(NVGcontext* ctx, double delta)
 		// Draw menu item text
 		nvgText(ctx,
 			x,
-			position.y + (this->getSize().y * 0.5f),
+			position.y + (sizeY * 0.5f),
 			item->m_data.c_str(),
 			NULL
 		);
@@ -208,7 +242,7 @@ void Menu::draw(NVGcontext* ctx, double delta)
 					h,
 					m_borderRadius,
 					8.0f,
-					nvgRGBA(0, 0, 0, 255),
+					nvgRGBA(0, 0, 0, 64),
 					nvgRGBA(0, 0, 0, 0)
 				);
 
@@ -289,7 +323,7 @@ void Menu::draw(NVGcontext* ctx, double delta)
 				// Draw child icon
 				if (child->hasIcon()) 
 				{
-					nvgFontSize(ctx, 32.0f);
+					nvgFontSize(ctx, fontSize);
 					nvgFontFace(ctx, "entypo");
 
 					if (child->m_hovered)
@@ -301,7 +335,7 @@ void Menu::draw(NVGcontext* ctx, double delta)
 
 					nvgText(ctx,
 						x + 7.5f,
-						y + 17.0f,
+						y + 18.0f,
 						child->m_icon->get(),
 						NULL
 					);
@@ -319,14 +353,14 @@ void Menu::draw(NVGcontext* ctx, double delta)
 					else
 						nvgFillColor(ctx, nvgRGB(150, 150, 150));
 
-					nvgFontSize(ctx, m_fontSize);
+					nvgFontSize(ctx, fontSize);
 					nvgFontFace(ctx, m_font.c_str());
 					nvgTextAlign(ctx, m_align);
 					nvgFontBlur(ctx, m_blur);
 
 					nvgText(ctx,
 						x + (item->getNbChildIcons() > 0 ? 25.0f : 5.0f),
-						y + 17.0f,
+						y + 18.0f,
 						child->m_data.c_str(),
 						NULL
 					);
@@ -340,7 +374,7 @@ void Menu::draw(NVGcontext* ctx, double delta)
 
 						nvgText(ctx,
 							x + w - shortcutWidth - 15.0f,
-							y + 17.0f,
+							y + 18.0f,
 							child->m_shortcut.c_str(),
 							NULL
 						);

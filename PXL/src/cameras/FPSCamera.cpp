@@ -10,8 +10,8 @@ FPSCamera::FPSCamera(Display* window, glm::vec3& position, float fov, float aspe
 	m_viewFriction = 0.0f;
 	m_moveFriction = 0.85f;
 
-	m_moveSpeed = 1.0f;
-	m_maxSpeed = 1.0f;
+	m_moveSpeed = 0.5f;
+	m_maxSpeed = 0.5f;
 	m_sensitivity = 0.1f;
 
 	m_keys["FORWARD"] = SDLK_z;
@@ -190,7 +190,7 @@ void FPSCamera::onMouseUp(Uint8 button)
 
 void FPSCamera::onMouseWheel(const SDL_Event& event)
 {
-	m_moveSpeed += event.wheel.y * 0.1f;
+	m_moveSpeed += event.wheel.y * 0.01f;
 
 	if (m_moveSpeed < 0)
 		m_moveSpeed = 0;

@@ -105,6 +105,7 @@ public:
 	void onMouseMove(const SDL_Event& event);
 	void onMouseDown(const SDL_Event& event);
 	void onMouseUp(const SDL_Event& event);
+	void onKeyDown(const SDL_Event& event);
 
 	inline void setDrawingShadow(bool state) { m_drawingShadow = state; }
 	inline bool isDrawingShadow() { return m_drawingShadow; }
@@ -128,6 +129,8 @@ private:
 	bool m_drawingShadow;
 
 	float m_borderRadius;
+	float m_minHeight;
+	float m_minFontSize;
 	glm::vec4 m_margin;
 	NVGalign m_align;
 	std::string m_font;

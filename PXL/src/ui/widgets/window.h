@@ -5,7 +5,7 @@
 class Window : public Widget
 {
 public:
-	Window(const std::string& text, glm::vec2& position, glm::vec2& size, const std::string& font);
+	Window(const std::string& text, const glm::vec2& position, const glm::vec2& size, const std::string& font);
 	~Window();
 
 	void onKeyDown(const SDL_Event& event);
@@ -34,6 +34,9 @@ public:
 	void setOpacity(float value) { m_opacity = value; }
 	float getOpacity() { return m_opacity; }
 
+	void setHeaderFixedBottom(bool state) { m_header.isFixedBottom = state; }
+	bool getHeaderFixedBottom() { return m_header.isFixedBottom; }
+
 private:
 	NVGpaint m_shadowPaint;
 	NVGpaint m_headerPaint;
@@ -48,6 +51,7 @@ private:
 		float fontSize;
 		float blur;
 		NVGcolor color;
+		bool isFixedBottom;
 	} m_header;
 
 	NVGcolor m_background;

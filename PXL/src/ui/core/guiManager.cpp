@@ -66,6 +66,15 @@ void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 
 		for (unsigned int i = 0; i < layouts.size(); i++) 
 		{
+			switch (event.window.event) {
+				case SDL_WINDOWEVENT_RESIZED:
+					layouts[i]->onWindowResized(event);
+					break;
+				case SDL_WINDOWEVENT_SIZE_CHANGED:
+					layouts[i]->onWindowSizeChanged(event);
+					break;
+			}
+
 			std::vector<Widget*> widgets = layouts[i]->getWidgets();
 			for (unsigned int j = 0; j < widgets.size(); j++)
 			{
@@ -75,6 +84,7 @@ void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 	}
 }
 
+
 Widget* GuiManager::getWidgetByName(const std::string& name)
 {
 	for (unsigned int i = 0; i < m_layouts.size(); i++)
@@ -83,15 +93,13 @@ Widget* GuiManager::getWidgetByName(const std::string& name)
 
 		for (unsigned int j = 0; j < widgets.size(); j++) {
 
-			std::cout << "first level: " << widgets[j]->getName() << " str: " << name << std::endl;
-
-
+			//std::cout << "first level: " << widgets[j]->getName() << " str: " << name << std::endl;
 
 			std::vector<class Widget*> childs = widgets[j]->getChildren();
 
 			for (unsigned int z = 0; z < childs.size(); z++) {
 
-				std::cout << "second level: " << childs[z]->getName() << std::endl;
+				//std::cout << "second level: " << childs[z]->getName() << std::endl;
 
 				if (childs[z]->getName() == name)
 					return childs[z];

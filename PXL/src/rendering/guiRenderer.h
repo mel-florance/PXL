@@ -12,6 +12,7 @@ public:
 
 	void updateWidget(Widget* widget, double delta);
 	void render(Scene* scene, double delta);
+	void renderLayout(Layout* layout, double delta);
 
 private:
 	Display* m_window;

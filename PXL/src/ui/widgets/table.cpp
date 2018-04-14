@@ -1,9 +1,10 @@
 #include "table.h"
+#include "layout.h"
 
 Table::Table(const glm::vec2& position, const glm::vec2& size, const std::string& font) : Widget(position, size)
 {
 	m_margin = glm::vec4(
-		8.0f, // Top
+		30.0f, // Top
 		5.0f, // Right
 		8.0f, // Bottom
 		5.0f  // Left
@@ -33,8 +34,8 @@ void Table::draw(NVGcontext* ctx, double delta)
 	nvgBeginPath(ctx);
 	nvgRect(ctx,
 		pos.x,
-		pos.y,
-		this->getSize().x,
+		pos.y + m_margin.x,
+		this->getLayout()->getComputedSize().x,
 		this->getSize().y
 	);
 
@@ -49,15 +50,15 @@ void Table::draw(NVGcontext* ctx, double delta)
 	{
 		i++;
 		unsigned int cs = m_rows[r]->m_columns.size();
-		float y = pos.y + (lh * i);
-		cw = ceil(this->getSize().x / cs);
+		float y = pos.y + m_margin.x + (lh * i);
+		cw = ceil(this->getLayout()->getComputedSize().x / cs);
 
 		if (i % 2 == 0) {
 			nvgBeginPath(ctx);
 			nvgRect(ctx,
 				pos.x,
 				y - lh,
-				this->getSize().x,
+				this->getLayout()->getComputedSize().x,
 				lh
 			);
 

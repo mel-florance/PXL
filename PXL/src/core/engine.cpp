@@ -1,10 +1,10 @@
 #include "engine.h"
-#include "../game/game.h"
+#include "../editor/editor.h"
 
 #define WIDTH 1280
 #define HEIGHT 720
 
-Engine::Engine() : m_running(false), m_frameTime(1.0 / 60)
+Engine::Engine() : m_running(false), m_frameTime(1.0 / 60.0)
 {
 	m_window = new Display(WIDTH, HEIGHT, "PXL Engine", "./res/textures/icon.png");
 	m_clock = new Clock();
@@ -21,15 +21,14 @@ Engine::Engine() : m_running(false), m_frameTime(1.0 / 60)
 	m_renderer = new Renderer(m_window, m_loader, m_shaderManager, m_assetManager, m_guiManager);
 	m_profiler = new Profiler(m_clock);
 
+	m_profiler->addTimer("frame");
 	m_profiler->addTimer("input");
-	m_profiler->addTimer("game");
+	m_profiler->addTimer("editor");
 	m_profiler->addTimer("render");
 	m_profiler->addTimer("swapBuffer");
 	m_profiler->addTimer("sleep");
 
 	std::cout << "Engine started!" << std::endl;
-
-	m_game = new Game(this);
 }
 
 void Engine::start()
@@ -62,12 +61,14 @@ void Engine::start()
 			unprocessedTime += m_passedTime;
 			frameCounter += m_passedTime;
 
-			if (frameCounter >= 1.0f)
+			if (frameCounter >= 0.3f)
 			{
 				m_fps = 1.0 / m_passedTime;
 				frames = 0;
 				frameCounter = 0;
 			}
+
+			m_profiler->startTimer("frame");
 
 			while (unprocessedTime > m_frameTime)
 			{
@@ -77,10 +78,10 @@ void Engine::start()
 					m_inputManager->update();
 				m_profiler->stopTimer("input");
 
-				m_profiler->startTimer("game");
-					if (m_game != nullptr)
-						m_game->update(m_frameTime);
-				m_profiler->stopTimer("game");
+				m_profiler->startTimer("editor");
+					if (m_editor != nullptr)
+						m_editor->update(m_frameTime);
+				m_profiler->stopTimer("editor");
 
 				render = true;
 				unprocessedTime -= m_frameTime;
@@ -105,6 +106,8 @@ void Engine::start()
 					SDL_Delay(1);
 				m_profiler->stopTimer("sleep");
 			}
+
+			m_profiler->stopTimer("frame");
 		}
 	}
 }
@@ -114,11 +117,23 @@ void Engine::stop()
 	m_running = false;
 }
 
+void Engine::setEditor(Editor * editor)
+{
+	m_editor = editor;
+
+	if (m_renderer != nullptr) {
+		EditorComponent* viewport = editor->getComponentByName("viewport");
+		
+		if(viewport != nullptr)
+			m_renderer->setViewport((Viewport*)viewport);
+	}
+}
+
 Engine::~Engine()
 {
 	delete m_window;
 	delete m_clock;
-	delete m_game;
+	delete m_editor;
 	delete m_sceneManager;
 	delete m_shaderManager;
 	delete m_assetManager;

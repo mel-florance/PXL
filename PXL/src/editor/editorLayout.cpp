@@ -1,8 +1,10 @@
 #include "editorLayout.h"
+#include "components/outliner.h"
+#include "components/viewport.h"
 
 EditorLayout::EditorLayout()
 {
-
+	
 }
 
 void EditorLayout::loadLayout()
@@ -10,14 +12,14 @@ void EditorLayout::loadLayout()
 
 }
 
-void EditorLayout::addComponent(EditorComponent* component)
+void EditorLayout::addComponent(const std::string& name)
 {
-	m_components.push_back(component);
+
 }
 
-void EditorLayout::removeComponent(EditorComponent* component)
+void EditorLayout::removeComponent(const std::string& name)
 {
-	m_components.erase(std::remove(m_components.begin(), m_components.end(), component), m_components.end());
+
 }
 
 EditorLayout::~EditorLayout()

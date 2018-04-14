@@ -1,6 +1,8 @@
 #pragma once
 
+#include <map>
 #include <vector>
+#include <string>
 #include <algorithm>
 
 #include "EditorComponent.h"
@@ -11,11 +13,13 @@ public:
 	EditorLayout();
 	~EditorLayout();
 
+
+
 	void loadLayout();
 	
-	void addComponent(EditorComponent* component);
-	void removeComponent(EditorComponent* component);
+	void addComponent(const std::string& name);
+	void removeComponent(const std::string& name);
 
 private:
-	std::vector<class EditorComponent*> m_components;
+
 };

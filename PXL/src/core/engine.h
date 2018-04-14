@@ -17,8 +17,8 @@
 
 #include "../rendering/renderer.h"
 
+class Editor;
 
-class Game;
 class Engine
 {
 public:
@@ -34,7 +34,6 @@ public:
 	inline Loader* getLoader() { return m_loader; }
 	inline Profiler* getProfiler() { return m_profiler; }
 
-
 	inline SceneManager* getSceneManager() { return m_sceneManager; }
 	inline ShaderManager* getShaderManager() { return m_shaderManager; }
 	inline AssetManager* getAssetManager() { return m_assetManager; }
@@ -42,16 +41,17 @@ public:
 	inline FontManager* getFontManager() { return m_fontManager; }
 	inline InputManager* getInputManager() { return m_inputManager; }
 
+	void setEditor(Editor* editor);
+
 	inline double getFps() { return m_fps; }
 
 private:
 	Display* m_window;
 	Clock* m_clock;
-	Game* m_game;
 	Renderer* m_renderer;
 	Loader* m_loader;
 	Profiler* m_profiler;
-
+	Editor* m_editor;
 
 	SceneManager* m_sceneManager;
 	ShaderManager* m_shaderManager;

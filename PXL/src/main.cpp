@@ -1,9 +1,8 @@
-#include "core/engine.h"
+#include "editor/editor.h"
 
 int main(int argc, char* argv[]) 
 {
-	Engine* engine = new Engine();
-	engine->start();
+	Editor* editor = new Editor();
 
 	return 0;
 }

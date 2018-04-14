@@ -14,23 +14,25 @@ Renderer::Renderer(Display* window, Loader* loader, ShaderManager* shaderManager
 
 void Renderer::render(Scene* scene, double delta)
 {
-	glEnable(GL_SCISSOR_TEST);
-	GLsizei w = 1620;
-	GLsizei h = (1080 - 300);
+	if (m_viewport != nullptr) 
+	{
+		glViewport(0, 0, (GLsizei)m_window->getSize().x, (GLsizei)m_window->getSize().y);
+		glEnable(GL_SCISSOR_TEST);
 
-	glScissor(0, 300, w, h);
+		GLsizei w = (GLsizei)m_viewport->getLayout()->getComputedSize().x;
+		GLsizei h = (GLsizei)(m_viewport->getLayout()->getComputedSize().y - 60.0f);
+		GLint x = 0;
+		GLint y = 30;
 
-	m_skyboxRenderer->render(scene, delta);
+		glScissor(x, y, w, h);
 
+		m_skyboxRenderer->render(scene, delta);
+		m_entityRenderer->render(scene, delta);
 
+		glDisable(GL_SCISSOR_TEST);
 
-	m_entityRenderer->render(scene, delta);
-
-	
-
-	glDisable(GL_SCISSOR_TEST);
-
-	m_guiRenderer->render(scene, delta);
+		m_guiRenderer->render(scene, delta);
+	}	
 }
 
 Renderer::~Renderer()

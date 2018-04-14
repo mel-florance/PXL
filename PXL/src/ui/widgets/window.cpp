@@ -4,7 +4,7 @@
 #include "../core/guiManager.h"
 #include <iostream>
 
-Window::Window(const std::string& text = "window", glm::vec2& position = glm::vec2(), glm::vec2& size = glm::vec2(250.0f, 250.0f), const std::string& font = "segoeui") : Widget(position, size)
+Window::Window(const std::string& text = "window", const glm::vec2& position = glm::vec2(0.0f), const glm::vec2& size = glm::vec2(250.0f, 250.0f), const std::string& font = "segoeui") : Widget(position, size)
 {
 	m_header.text = text;
 	m_header.font = font;
@@ -13,6 +13,7 @@ Window::Window(const std::string& text = "window", glm::vec2& position = glm::ve
 	m_header.align = NVG_ALIGN_LEFT;
 	m_header.color = nvgRGBA(255, 255, 255, 128);
 	m_header.rect = new Rect(glm::vec2(position.x + 1, position.y + 1), glm::vec2(size.x - 2, 30));
+	m_header.isFixedBottom = false;
 
 	m_drawingShadow = true;
 	m_opacity = 1.0f;
@@ -41,29 +42,29 @@ void Window::draw(NVGcontext* ctx, double delta)
 {
 	nvgSave(ctx);
 
-	glm::vec2 position = this->getRelativePosition();
+	glm::vec2 position = this->getLayout()->getComputedPosition();
 
 	nvgBeginPath(ctx);
 	nvgRoundedRect(ctx,
 		position.x,
 		position.y,
-		this->getSize().x,
-		this->getSize().y,
+		this->getLayout()->getComputedSize().x,
+		this->getLayout()->getComputedSize().y,
 		m_borderRadius
 	);
 
 	nvgFillColor(ctx, nvgRGBAf(m_background.r, m_background.g, m_background.b, m_opacity));
 	nvgFill(ctx);
 
-	if (this->isDrawingShadow())
+	if (m_drawingShadow == true)
 	{
 		// Shadow
 		m_shadowPaint = nvgBoxGradient(
 			ctx,
 			position.x,
 			position.y + 2,
-			this->getSize().x,
-			this->getSize().y,
+			this->getLayout()->getComputedSize().x,
+			this->getLayout()->getComputedSize().y,
 			m_borderRadius * 2,
 			8.0f,
 			nvgRGBA(0, 0, 0, 255),
@@ -74,15 +75,15 @@ void Window::draw(NVGcontext* ctx, double delta)
 		nvgRect(ctx,
 			position.x - 10,
 			position.y - 10,
-			this->getSize().x + 20,
-			this->getSize().y + 30
+			this->getLayout()->getComputedSize().x + 20,
+			this->getLayout()->getComputedSize().y + 30
 		);
 
 		nvgRoundedRect(ctx,
 			position.x,
 			position.y,
-			this->getSize().x,
-			this->getSize().y,
+			this->getLayout()->getComputedSize().x,
+			this->getLayout()->getComputedSize().y,
 			m_borderRadius
 		);
 
@@ -90,27 +91,30 @@ void Window::draw(NVGcontext* ctx, double delta)
 		nvgFillPaint(ctx, m_shadowPaint);
 		nvgFill(ctx);
 	}
-	
-	m_header.rect->setPosition(glm::vec2(
-		position.x + 1,
-		position.y + 1)
-	);
-	m_header.rect->setSize(glm::vec2(this->getSize().x - 2, 30));
+
+	glm::vec2 pos;
+	if (m_header.isFixedBottom == false)
+		pos = glm::vec2(position.x, position.y);
+	else
+		pos = glm::vec2(position.x, position.y + (this->getLayout()->getComputedSize().y - m_header.rect->getSize().y) - m_header.rect->getSize().y);
+
+	m_header.rect->setPosition(pos);
+	m_header.rect->setSize(glm::vec2(this->getLayout()->getComputedSize().x, 30));
 
 	// Header
 	m_headerPaint = nvgLinearGradient(ctx,
-		position.x,
-		position.y,
-		position.x,
-		position.y + 30,
+		pos.x,
+		pos.y,
+		pos.x,
+		pos.y,
 		nvgRGBA(60, 60, 60, 255),
 		nvgRGBA(20, 20, 20, 255)
 	);
 
 	nvgBeginPath(ctx);
 	nvgRoundedRect(ctx,
-		m_header.rect->getPosition().x,
-		m_header.rect->getPosition().y,
+		pos.x,
+		pos.y,
 		m_header.rect->getSize().x,
 		m_header.rect->getSize().y,
 		m_borderRadius - 1
@@ -119,12 +123,12 @@ void Window::draw(NVGcontext* ctx, double delta)
 	nvgFill(ctx);
 	nvgBeginPath(ctx);
 	nvgMoveTo(ctx,
-		position.x + 0.5f,
-		position.y + 0.5f + 30
+		pos.x + 0.5f,
+		pos.y + 0.5f 
 	);
 	nvgLineTo(ctx,
-		position.x + 0.5f + this->getSize().x - 1,
-		position.y + 0.5f + 30
+		pos.x + 0.5f + this->getLayout()->getComputedSize().x - 1,
+		pos.y + 0.5f 
 	);
 	nvgStrokeColor(ctx, nvgRGBA(0, 0, 0, 32));
 	nvgStroke(ctx);
@@ -137,8 +141,8 @@ void Window::draw(NVGcontext* ctx, double delta)
 	nvgFillColor(ctx, m_header.color);
 
 	nvgText(ctx,
-		position.x + 10.0f,
-		position.y + m_header.rect->getSize().y * 0.66f,
+		pos.x + 10.0f,
+		pos.y + m_header.rect->getSize().y * 0.66f,
 		m_header.text.c_str(),
 		NULL
 	);
@@ -207,11 +211,6 @@ void Window::onMouseMove(const SDL_Event& event)
 		this->getIcon()->setState("hovered", rect.intersects(m_mouse));
 	}
 
-	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
-	if (this->getState("hovered"))
-		layerManager->addWidget(0, this);
-	else
-		layerManager->removeWidget(0, this);
 }
 
 void Window::onClosed(CallbackData data)
@@ -237,6 +236,13 @@ void Window::onMouseDown(const SDL_Event& event)
 				this->setState("dragged", true);
 		}
 	}
+
+	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
+	if (this->getState("hovered"))
+		layerManager->addWidget(0, this);
+	else
+		layerManager->removeWidget(0, this);
+
 }
 
 void Window::onMouseUp(const SDL_Event& event)

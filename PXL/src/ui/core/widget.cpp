@@ -13,7 +13,7 @@ glm::vec2 Widget::getRelativePosition()
 	glm::vec2 pos = this->getPosition();
 
 	if (this->getParent() != nullptr)
-		pos += this->getParent()->getRelativePosition();
+		pos += this->getParent()->getLayout()->getComputedPosition();
 
 	return pos;
 }
