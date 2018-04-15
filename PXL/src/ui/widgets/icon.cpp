@@ -19,6 +19,7 @@ Icon::Icon(const std::string& name, const glm::vec2& position, const glm::vec2& 
 	m_icons["HELP_CIRCLED"] = 0xe704;
 	m_icons["RESIZE_FULL"] = 0xe744;
 	m_icons["PLUS_CIRCLED"] = 0x2795;
+	m_icons["RIGHT_DIR"] = 0x25b8;
 
 	this->setSymbol(name);
 }
