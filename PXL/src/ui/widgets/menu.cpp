@@ -25,16 +25,14 @@ Menu::Menu(const glm::vec2& position, const glm::vec2& size, const std::string& 
 
 void Menu::onKeyDown(const SDL_Event& event)
 {
-	if (event.key.keysym.sym == SDLK_c && this->getState("hovered")) {
+	if (event.key.keysym.sym == SDLK_c && this->getState("hovered"))
 		this->setState("visible", this->getState("visible") == false);
-	}
 }
 
 void Menu::onMouseMove(const SDL_Event& event)
 {
 	m_mouse = glm::vec2(event.motion.x, event.motion.y);
 	glm::vec2 position = this->getRelativePosition();
-
 
 	float sizeY = this->getLayout()->getComputedSize().y;
 	sizeY = sizeY < m_minHeight ? m_minHeight : sizeY;
@@ -61,6 +59,7 @@ void Menu::onMouseMove(const SDL_Event& event)
 			for (auto& child : item->m_children)
 			{
 				float y = position.y + sizeY + (j * 25.0f);
+
 				Rect childRect(
 					glm::vec2(x - 15.0f, y),
 					glm::vec2(230.0f, 25.0f)
@@ -129,6 +128,7 @@ void Menu::onMouseUp(const SDL_Event& event)
 			for (auto& child : item->m_children)
 			{
 				float y = position.y + sizeY + (j * 25.0f);
+
 				Rect childRect(
 					glm::vec2(x - 15.0f, y),
 					glm::vec2(230.0f, 25.0f)
@@ -138,9 +138,7 @@ void Menu::onMouseUp(const SDL_Event& event)
 				child->m_opened = child->m_hovered;
 
 				if (child->m_hovered == true && item->m_opened == true)
-				{
 					child->handleEventListener("mouseUp", { this });
-				}
 
 				j++;
 
@@ -178,14 +176,13 @@ void Menu::draw(NVGcontext* ctx, double delta)
 	nvgFillColor(ctx, m_background);
 	nvgFill(ctx);
 
-	float fontSize = 0.01f * this->getWindow()->getSize().x;
+	float fontSize = 18.0f;
 	fontSize = fontSize < m_minFontSize ? m_minFontSize : fontSize;
 
 	nvgFontSize(ctx, fontSize);
 	nvgFontFace(ctx, m_font.c_str());
 	nvgTextAlign(ctx, m_align);
 	nvgFontBlur(ctx, m_blur);
-
 
 	// Draw menu items - First depth
 	float stackedWidth = -7.5f;
@@ -323,7 +320,7 @@ void Menu::draw(NVGcontext* ctx, double delta)
 				// Draw child icon
 				if (child->hasIcon()) 
 				{
-					nvgFontSize(ctx, fontSize);
+					nvgFontSize(ctx, 32.0f);
 					nvgFontFace(ctx, "entypo");
 
 					if (child->m_hovered)

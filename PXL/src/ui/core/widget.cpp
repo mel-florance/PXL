@@ -6,6 +6,10 @@ Widget::Widget(const glm::vec2& position, const glm::vec2& size) : Rect(position
 {
 	m_name = "";
 	m_units = "px";
+	m_expandModeX = ExpandMode::LAYOUT;
+	m_expandModeY = ExpandMode::LAYOUT;
+	m_positionModeX = ExpandMode::LAYOUT;
+	m_positionModeY = ExpandMode::LAYOUT;
 }
 
 glm::vec2 Widget::getRelativePosition()
@@ -13,7 +17,7 @@ glm::vec2 Widget::getRelativePosition()
 	glm::vec2 pos = this->getPosition();
 
 	if (this->getParent() != nullptr)
-		pos += this->getParent()->getLayout()->getComputedPosition();
+		pos += this->getParent()->getRelativePosition();
 
 	return pos;
 }

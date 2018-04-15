@@ -14,7 +14,7 @@ Table::Table(const glm::vec2& position, const glm::vec2& size, const std::string
 	m_fontSize = 20.0f;
 	m_blur = 0.0f;
 	m_align = NVG_ALIGN_LEFT;
-	m_color = nvgRGB(150, 150, 150);
+	m_color = nvgRGBA(255, 255, 255, 100);
 	m_background = nvgRGB(40, 40, 40);
 	m_stripLines = nvgRGB(35, 35, 35);
 	m_borderColor = nvgRGB(70, 70, 70);
@@ -30,6 +30,62 @@ void Table::draw(NVGcontext* ctx, double delta)
 	nvgSave(ctx);
 
 	glm::vec2 pos = this->getRelativePosition();
+	glm::vec2 size = this->getSize();
+
+	switch (this->getExpandModeX())
+	{
+	case ExpandMode::LAYOUT:
+		size.x = this->getLayout()->getComputedSize().x;
+		break;
+	case ExpandMode::PARENT:
+		size.x = this->getParent()->getSize().x;
+		break;
+	case ExpandMode::FIXED:
+		size.x = this->getSize().x;
+		break;
+	}
+
+	switch (this->getExpandModeY())
+	{
+	case ExpandMode::LAYOUT:
+		size.y = this->getLayout()->getComputedSize().y;
+		break;
+	case ExpandMode::PARENT:
+		size.y = this->getParent()->getSize().y;
+		break;
+	case ExpandMode::FIXED:
+		size.y = this->getSize().y;
+		break;
+	}
+
+
+
+	switch (this->getPositionModeX())
+	{
+	case ExpandMode::LAYOUT:
+		pos.x = this->getLayout()->getComputedPosition().x;
+		break;
+	case ExpandMode::PARENT:
+		pos.x = this->getParent()->getPosition().x;
+		break;
+	case ExpandMode::FIXED:
+		pos.x = this->getPosition().x;
+		break;
+	}
+
+	switch (this->getPositionModeY())
+	{
+	case ExpandMode::LAYOUT:
+		pos.y = this->getLayout()->getComputedPosition().y;
+		break;
+	case ExpandMode::PARENT:
+		pos.y = this->getParent()->getPosition().y;
+		break;
+	case ExpandMode::FIXED:
+		pos.y = this->getPosition().y;
+		break;
+	}
+
 
 	nvgBeginPath(ctx);
 	nvgRect(ctx,

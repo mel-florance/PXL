@@ -6,7 +6,7 @@ Scene::Scene(const std::string& name)
 	m_name = name;
 	m_clearColor = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	m_fogColor = glm::vec3(0.65f, 0.65f, 0.65f);
-	m_fogGradient = 1.5f;
+	m_fogGradient = 0.015f;
 	m_fogDensity = 0.0f;
 }
 

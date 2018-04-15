@@ -42,14 +42,67 @@ void Window::draw(NVGcontext* ctx, double delta)
 {
 	nvgSave(ctx);
 
-	glm::vec2 position = this->getLayout()->getComputedPosition();
+	glm::vec2 position = this->getRelativePosition();
+	glm::vec2 size = this->getSize();
+
+	switch (this->getExpandModeX())
+	{
+	case ExpandMode::LAYOUT:
+		size.x = this->getLayout()->getComputedSize().x;
+		break;
+	case ExpandMode::PARENT:
+		size.x = this->getParent()->getSize().x;
+		break;
+	case ExpandMode::FIXED:
+		size.x = this->getSize().x;
+		break;
+	}
+
+	switch (this->getExpandModeY())
+	{
+	case ExpandMode::LAYOUT:
+		size.y = this->getLayout()->getComputedSize().y;
+		break;
+	case ExpandMode::PARENT:
+		size.y = this->getParent()->getSize().y;
+		break;
+	case ExpandMode::FIXED:
+		size.y = this->getSize().y;
+		break;
+	}
+
+	switch (this->getPositionModeX())
+	{
+	case ExpandMode::LAYOUT:
+		position.x = this->getLayout()->getComputedPosition().x;
+		break;
+	case ExpandMode::PARENT:
+		position.x = this->getParent()->getPosition().x;
+		break;
+	case ExpandMode::FIXED:
+		position.x = this->getPosition().x;
+		break;
+	}
+
+	switch (this->getPositionModeY())
+	{
+	case ExpandMode::LAYOUT:
+		position.y = this->getLayout()->getComputedPosition().y;
+		break;
+	case ExpandMode::PARENT:
+		position.y = this->getParent()->getPosition().y;
+		break;
+	case ExpandMode::FIXED:
+		position.y = this->getPosition().y;
+		break;
+	}
 
 	nvgBeginPath(ctx);
 	nvgRoundedRect(ctx,
 		position.x,
 		position.y,
-		this->getLayout()->getComputedSize().x,
-		this->getLayout()->getComputedSize().y,
+		size.x,
+		size.y,
 		m_borderRadius
 	);
 
@@ -99,7 +152,7 @@ void Window::draw(NVGcontext* ctx, double delta)
 		pos = glm::vec2(position.x, position.y + (this->getLayout()->getComputedSize().y - m_header.rect->getSize().y) - m_header.rect->getSize().y);
 
 	m_header.rect->setPosition(pos);
-	m_header.rect->setSize(glm::vec2(this->getLayout()->getComputedSize().x, 30));
+	m_header.rect->setSize(glm::vec2(size.x, 30));
 
 	// Header
 	m_headerPaint = nvgLinearGradient(ctx,
@@ -115,7 +168,7 @@ void Window::draw(NVGcontext* ctx, double delta)
 	nvgRoundedRect(ctx,
 		pos.x,
 		pos.y,
-		m_header.rect->getSize().x,
+		size.x,
 		m_header.rect->getSize().y,
 		m_borderRadius - 1
 	);
@@ -127,7 +180,7 @@ void Window::draw(NVGcontext* ctx, double delta)
 		pos.y + 0.5f 
 	);
 	nvgLineTo(ctx,
-		pos.x + 0.5f + this->getLayout()->getComputedSize().x - 1,
+		pos.x + 0.5f + size.x - 1,
 		pos.y + 0.5f 
 	);
 	nvgStrokeColor(ctx, nvgRGBA(0, 0, 0, 32));
@@ -210,7 +263,6 @@ void Window::onMouseMove(const SDL_Event& event)
 
 		this->getIcon()->setState("hovered", rect.intersects(m_mouse));
 	}
-
 }
 
 void Window::onClosed(CallbackData data)
@@ -221,7 +273,6 @@ void Window::onClosed(CallbackData data)
 void Window::onMouseDown(const SDL_Event& event)
 {
 	this->setState("hovered", this->intersects(m_mouse));
-
 
 	if (this->getState("draggable") && event.button.button == SDL_BUTTON_LEFT && !this->getState("dragged"))
 	{
@@ -237,12 +288,14 @@ void Window::onMouseDown(const SDL_Event& event)
 		}
 	}
 
-	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
-	if (this->getState("hovered"))
-		layerManager->addWidget(0, this);
-	else
-		layerManager->removeWidget(0, this);
-
+	if (event.button.button == SDL_BUTTON_LEFT)
+	{
+		LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
+		if (this->getState("hovered"))
+			layerManager->addWidget(0, this);
+		else
+			layerManager->removeWidget(0, this);
+	}
 }
 
 void Window::onMouseUp(const SDL_Event& event)

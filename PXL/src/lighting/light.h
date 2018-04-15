@@ -2,7 +2,6 @@
 
 #include <glm\glm.hpp>
 
-
 class Light
 {
 public:
@@ -17,14 +16,14 @@ public:
 
 	enum LightType { DIRECTIONAL, POINT, SPOT };
 
-	virtual inline const glm::vec3& getPosition() { return m_position; }
-	virtual inline void setPosition(glm::vec3& position) { m_position = position; }
+	virtual inline glm::vec3& getPosition() { return m_position; }
+	virtual inline void setPosition(const glm::vec3& position) { m_position = position; }
 
-	virtual inline const glm::vec3& getColor() { return m_color; }
-	virtual inline void setColor(glm::vec3& color) { m_color = color; }
+	virtual inline glm::vec3& getColor() { return m_color; }
+	virtual inline void setColor(const glm::vec3& color) { m_color = color; }
 
 	virtual inline glm::vec3& getAttenuation() { return m_attenuation; }
-	virtual inline void setAttenuation(glm::vec3& attenuation) { m_attenuation = attenuation; }
+	virtual inline void setAttenuation(const glm::vec3& attenuation) { m_attenuation = attenuation; }
 
 	virtual inline LightType& getType() { return m_type; }
 	virtual inline void setType(const LightType& type) { m_type = type; }

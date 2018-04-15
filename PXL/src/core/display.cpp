@@ -29,7 +29,7 @@ Display::Display(Uint32 width, Uint32 height, const std::string& title, const st
 	m_glContext = SDL_GL_CreateContext(m_window);	
 
 	// Vsync
-	SDL_GL_SetSwapInterval(-1);
+	SDL_GL_SetSwapInterval(0);
 
 	if (glewInit() != GLEW_OK)
 		std::cerr << "Glew failed to initialize!" << std::endl;

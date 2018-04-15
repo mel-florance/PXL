@@ -29,6 +29,20 @@ public:
 	Widget(const glm::vec2& position, const glm::vec2& size);
 	~Widget();
 
+	enum ExpandMode{ LAYOUT, PARENT, FIXED };
+
+	inline ExpandMode getExpandModeX() { return m_expandModeX; }
+	inline void setExpandModeX(ExpandMode mode) { m_expandModeX = mode; }
+
+	inline ExpandMode getExpandModeY() { return m_expandModeY; }
+	inline void setExpandModeY(ExpandMode mode) { m_expandModeY = mode; }
+
+	inline ExpandMode getPositionModeX() { return m_positionModeX; }
+	inline void setPositionModeX(ExpandMode mode) { m_positionModeX = mode; }
+
+	inline ExpandMode getPositionModeY() { return m_positionModeY; }
+	inline void setPositionModeY(ExpandMode mode) { m_positionModeY = mode; }
+
 	const std::string& getName() { return m_name; }
 	void setName(const std::string& name) { m_name = name; }
 
@@ -82,13 +96,20 @@ public:
 	glm::vec2 m_mouseRel;
 
 private:
+	ExpandMode m_positionModeX;
+	ExpandMode m_positionModeY;
+	ExpandMode m_expandModeX;
+	ExpandMode m_expandModeY;
+
 	std::string m_name;
+	Icon* m_icon;
+
 	Display* m_window;
 	Layout* m_layout;
 	Widget* m_parent;
-	Icon* m_icon;
-	std::string m_units;
 
+	std::string m_units;
 	glm::vec2 m_screen;
+
 	std::vector<class Widget*> m_children;
 };

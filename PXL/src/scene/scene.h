@@ -8,6 +8,7 @@
 
 
 #include "../mesh/mesh.h"
+#include "../core/util.h"
 #include "../materials/material.h"
 
 #include "../lighting/light.h"

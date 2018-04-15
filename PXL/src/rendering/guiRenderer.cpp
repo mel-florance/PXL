@@ -39,11 +39,6 @@ void GuiRenderer::render(Scene* scene, double delta)
 {
 	nvgBeginFrame(m_guiManager->getContext(), (int)m_window->getSize().x, (int)m_window->getSize().y, 1.0f);
 
-	
-	std::vector<class Layout*> layouts = m_guiManager->getLayouts();
-
-	for (unsigned int i = 0; i < layouts.size(); i++)
-		this->renderLayout(layouts[i], delta);
 
 	std::vector<Widget*> firstLayer = m_guiManager->getLayerManager()->getLayers()[0];
 
@@ -52,6 +47,12 @@ void GuiRenderer::render(Scene* scene, double delta)
 		for (unsigned int i = 0; i < firstLayer.size(); i++)
 			this->updateWidget(firstLayer[i], delta);
 	}
+
+
+	std::vector<class Layout*> layouts = m_guiManager->getLayouts();
+
+	for (unsigned int i = 0; i < layouts.size(); i++)
+		this->renderLayout(layouts[i], delta);
 
 
 	nvgEndFrame(m_guiManager->getContext());

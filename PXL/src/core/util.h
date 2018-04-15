@@ -20,7 +20,18 @@ public:
 		if (lastdot == std::string::npos) return filename;
 		return filename.substr(0, lastdot);
 	}
+	static void gen_random(char* str, const int len) 
+	{
+		static const char alphanum[] =
+			"0123456789"
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			"abcdefghijklmnopqrstuvwxyz";
 
+		for (int i = 0; i < len; ++i)
+			str[i] = alphanum[rand() % (sizeof(alphanum) - 1)];
+
+		str[len] = 0;
+	}
 
 	static inline float mapValues(float rangeA[], float rangeB[], float value, unsigned int size = 2)
 	{

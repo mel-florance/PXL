@@ -194,6 +194,8 @@
     <ClCompile Include="./src/editor/components/mainMenu.cpp" />
     <ClCompile Include="./src/core/fileSystem.cpp" />
     <ClCompile Include="./src/core/shortcutManager.cpp" />
+    <ClCompile Include="./src/editor/components/assetBrowser.cpp" />
+    <ClCompile Include="./src/ui/widgets/treeView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/assets/assetManager.h" />
@@ -270,9 +272,11 @@
     <ClInclude Include="./src/editor/projectManager.h" />
     <ClInclude Include="./src/editor/components/mainMenu.h" />
     <ClInclude Include="./src/core/fileSystem.h" />
+    <ClInclude Include="./src/editor/components/assetBrowser.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="./src/ui/widgets/tooltip.h" />
     <ClInclude Include="./src/core/shortcutManager.h" />
+    <ClInclude Include="./src/ui/widgets/treeView.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\icon_big.ico" />

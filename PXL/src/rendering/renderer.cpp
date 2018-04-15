@@ -20,11 +20,11 @@ void Renderer::render(Scene* scene, double delta)
 		glEnable(GL_SCISSOR_TEST);
 
 		GLsizei w = (GLsizei)m_viewport->getLayout()->getComputedSize().x;
-		GLsizei h = (GLsizei)(m_viewport->getLayout()->getComputedSize().y - 60.0f);
+		GLsizei h = (GLsizei)(m_viewport->getLayout()->getComputedSize().y);
 		GLint x = 0;
-		GLint y = 30;
+		GLint y = -30;
 
-		glScissor(x, y, w, h);
+		glScissor(x, (GLint)((m_window->getSize().y - h) + y), w, h);
 
 		m_skyboxRenderer->render(scene, delta);
 		m_entityRenderer->render(scene, delta);

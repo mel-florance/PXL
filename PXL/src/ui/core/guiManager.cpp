@@ -60,26 +60,24 @@ void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 		for (unsigned int i = 0; i < firstLayer.size(); i++)
 			this->handleWidgetEvent(firstLayer[i], event, name);
 	}
-	else
+
+	std::vector<Layout*> layouts = this->getLayouts();
+
+	for (unsigned int i = 0; i < layouts.size(); i++)
 	{
-		std::vector<Layout*> layouts = this->getLayouts();
+		switch (event.window.event) {
+		case SDL_WINDOWEVENT_RESIZED:
+			layouts[i]->onWindowResized(event);
+			break;
+		case SDL_WINDOWEVENT_SIZE_CHANGED:
+			layouts[i]->onWindowSizeChanged(event);
+			break;
+		}
 
-		for (unsigned int i = 0; i < layouts.size(); i++) 
+		std::vector<Widget*> widgets = layouts[i]->getWidgets();
+		for (unsigned int j = 0; j < widgets.size(); j++)
 		{
-			switch (event.window.event) {
-				case SDL_WINDOWEVENT_RESIZED:
-					layouts[i]->onWindowResized(event);
-					break;
-				case SDL_WINDOWEVENT_SIZE_CHANGED:
-					layouts[i]->onWindowSizeChanged(event);
-					break;
-			}
-
-			std::vector<Widget*> widgets = layouts[i]->getWidgets();
-			for (unsigned int j = 0; j < widgets.size(); j++)
-			{
-				this->handleWidgetEvent(widgets[j], event, name);
-			}
+			this->handleWidgetEvent(widgets[j], event, name);
 		}
 	}
 }

@@ -8,6 +8,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <SDL2/SDL.h>
 #include "../core/display.h"
+#include "../editor/components/viewport.h"
 
 class Camera
 {
@@ -19,19 +20,22 @@ public:
 	enum Direction { UP, DOWN, LEFT, RIGHT, FORWARD, BACKWARD };
 
 	inline float& getFov() { return m_fov; }
-	inline void setFov(float& value) { m_fov = value; }
+	inline void setFov(float value) { m_fov = value; }
 
-	inline float& getAspect() { return m_aspect; }
-	inline void setAspect(float& value) { m_aspect = value; }
+	inline void setViewport(Viewport* viewport) { m_viewport = viewport; }
+	inline Viewport* getViewport() { return m_viewport; }
 
-	inline float& getNear() { return m_near; }
-	inline void setNear(float& value) { m_near = value; }
+	inline float getAspect() { return m_aspect; }
+	inline void setAspect(float value) { m_aspect = value; }
 
-	inline float& getFar() { return m_far; }
-	inline void setFar(float& value) { m_far = value; }
+	inline float getNear() { return m_near; }
+	inline void setNear(float value) { m_near = value; }
 
-	inline Mode& getMode() { return m_mode; }
-	inline void setMode(Mode& mode) { m_mode = mode; }
+	inline float getFar() { return m_far; }
+	inline void setFar(float value) { m_far = value; }
+
+	inline Mode getMode() { return m_mode; }
+	inline void setMode(Mode mode) { m_mode = mode; }
 
 	virtual inline const glm::mat4& getProjectionMatrix() { return m_projMatrix; }
 	virtual inline void setProjectionMatrix(const glm::mat4& matrix) { m_projMatrix = matrix; }
@@ -51,6 +55,8 @@ public:
 	virtual inline void onKeyDown(const SDL_Keycode& keycode) {}
 	virtual inline void onKeyUp(const SDL_Keycode& keycode) {}
 	virtual inline void onMouseWheel(const SDL_Event& event) {}
+	virtual inline void onWindowResized(const SDL_Event& event);
+	virtual inline void onWindowSizeChanged(const SDL_Event& event);
 
 	virtual inline Display* getWindow() { return m_window; }
 	virtual inline void update(double delta) {}
@@ -58,6 +64,7 @@ public:
 private:
 	bool m_active;
 	Display* m_window;
+	Viewport* m_viewport;
 	glm::vec3 m_position;
 
 	Mode m_mode;

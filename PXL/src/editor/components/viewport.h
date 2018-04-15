@@ -23,6 +23,7 @@ public:
 
 private:
 	Window* m_window;
+	Window* m_toolsPanel;
 	Text* m_fpsText;
 	Text* m_frameText;
 };

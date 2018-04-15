@@ -6,6 +6,7 @@ Mesh::Mesh(const std::string& name, GLuint& vao, GLuint& vertexCount)
 	m_vao = vao;
 	m_vertexCount = vertexCount;
 	m_transform = new Transform();
+	m_visible = true;
 }
 
 void Mesh::draw()

@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <string>
 
 #include <nlohmann/json.hpp>
 
@@ -12,6 +13,7 @@
 #include "components/mainMenu.h"
 #include "components/viewport.h"
 #include "components/outliner.h"
+#include "components/assetBrowser.h"
 
 using json = nlohmann::json;
 
@@ -52,8 +54,12 @@ public:
 private:
 	Engine* m_engine;
 	Layout* m_mainLayout;
+	Mesh* m_cube;
+	Light* m_light;
 
 	std::vector<class EditorLayout*> m_layouts;
 	ComponentRegister m_register;
 	ComponentList m_components;
+	float m_angle;
+
 };

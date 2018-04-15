@@ -78,11 +78,20 @@ void InputManager::update()
 			case SDL_WINDOWEVENT_RESIZED:
 				m_window->setSize(glm::vec2(e.window.data1, e.window.data2));
 				m_guiManager->handleEvent("windowResized", e);
+
+				if (m_camera != nullptr)
+					m_camera->onWindowResized(e);
+
 				break;
+
 			case SDL_WINDOWEVENT_SIZE_CHANGED:
 				m_window->setSize(glm::vec2(e.window.data1, e.window.data2));
 				glViewport(0, 0, e.window.data1, e.window.data2);
 				m_guiManager->handleEvent("windowSizeChanged", e);
+
+				if (m_camera != nullptr)
+					m_camera->onWindowSizeChanged(e);
+
 				break;
 
 			case SDL_WINDOWEVENT_SHOWN:
