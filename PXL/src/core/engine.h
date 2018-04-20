@@ -14,6 +14,7 @@
 #include "../shaders/shaderManager.h"
 #include "../assets/assetManager.h"
 #include "../ui/core/guiManager.h"
+#include "../audio/soundManager.h"
 
 #include "../rendering/renderer.h"
 
@@ -22,7 +23,7 @@ class Editor;
 class Engine
 {
 public:
-	Engine();
+	Engine(glm::vec2& windowSize);
 	~Engine();
 
 	void start();
@@ -40,8 +41,7 @@ public:
 	inline GuiManager* getGuiManager() { return m_guiManager; }
 	inline FontManager* getFontManager() { return m_fontManager; }
 	inline InputManager* getInputManager() { return m_inputManager; }
-
-	void setEditor(Editor* editor);
+	inline SoundManager* getSoundManager() { return m_soundManager; }
 
 	inline double getFps() { return m_fps; }
 
@@ -59,7 +59,9 @@ private:
 	GuiManager* m_guiManager;
 	InputManager* m_inputManager;
 	FontManager* m_fontManager;
+	SoundManager* m_soundManager;
 
+	glm::vec2 m_windowSize;
 	bool m_running;
 	double m_fps;
 	double m_frameTime;

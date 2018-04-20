@@ -28,20 +28,37 @@ public:
 	void draw(NVGcontext* ctx, double delta);
 	void update(double delta);
 
-	void setDrawingShadow(bool state) { m_drawingShadow = state; }
-	bool isDrawingShadow() { return m_drawingShadow; }
+	inline void setDrawingShadow(bool state) { m_drawingShadow = state; }
+	inline bool isDrawingShadow() { return m_drawingShadow; }
 
-	void setOpacity(float value) { m_opacity = value; }
-	float getOpacity() { return m_opacity; }
+	inline void setOpacity(float value) { m_opacity = value; }
+	inline float getOpacity() { return m_opacity; }
 
-	void setHeaderFixedBottom(bool state) { m_header.isFixedBottom = state; }
-	bool getHeaderFixedBottom() { return m_header.isFixedBottom; }
+	inline void setHeaderFixedBottom(bool state) { m_header.isFixedBottom = state; }
+	inline bool getHeaderFixedBottom() { return m_header.isFixedBottom; }
+
+	inline void setMargin(const glm::vec4& margin) { m_margin = margin; }
+	inline glm::vec4& getMargin() { return m_margin; }
+
+	inline void setMarginTop(float value) { m_margin.x = value; }
+	inline float getMarginTop() { return m_margin.x; }
+
+	inline void setMarginRight(float value) { m_margin.y = value; }
+	inline float getMarginRight() { return m_margin.y; }
+
+	inline void setMarginBottom(float value) { m_margin.z = value; }
+	inline float getMarginBottom() { return m_margin.z; }
+
+	inline void setMarginLeft(float value) { m_margin.w = value; }
+	inline float getMarginLeft() { return m_margin.w; }
 
 private:
 	NVGpaint m_shadowPaint;
 	NVGpaint m_headerPaint;
 	bool m_drawingShadow;
 	float m_opacity;
+
+	glm::vec4 m_margin;
 
 	struct WindowHeader {
 		Rect* rect;

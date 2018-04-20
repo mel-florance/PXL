@@ -190,7 +190,7 @@ void FPSCamera::onMouseUp(Uint8 button)
 
 void FPSCamera::onMouseWheel(const SDL_Event& event)
 {
-	m_moveSpeed += event.wheel.y * 0.01f;
+	m_moveSpeed += event.wheel.y * 0.1f;
 
 	if (m_moveSpeed < 0)
 		m_moveSpeed = 0;

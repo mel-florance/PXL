@@ -41,6 +41,50 @@ GuiManager::GuiManager(Display* window, FontManager* fontManager, AssetManager* 
 	}
 }
 
+void GuiManager::initLayout(Layout* layout) 
+{
+	Layout* parent = layout->getParent();
+
+	if (parent != nullptr)
+	{
+		layout->computeSize();
+		layout->computePosition();
+	}
+
+	for (const auto& child : layout->getChildren())
+		this->initLayout(child);
+}
+
+void GuiManager::handleLayoutEvent(const std::string& name, const SDL_Event& event, Layout* layout)
+{
+	switch (event.window.event) 
+	{
+		case SDL_WINDOWEVENT_RESIZED:
+			layout->onWindowResized(event);
+			break;
+		case SDL_WINDOWEVENT_SIZE_CHANGED:
+			layout->onWindowSizeChanged(event);
+			break;
+	}
+
+	if (layout->getSplitter() != nullptr)
+		layout->getSplitter()->handleEvent(name, event);
+
+	std::vector<Widget*> widgets = layout->getWidgets();
+	for (unsigned int j = 0; j < widgets.size(); j++)
+	{
+		this->handleWidgetEvent(widgets[j], event, name);
+	}
+
+	for (auto child : layout->getChildren())
+		this->handleLayoutEvent(name, event, child);
+}
+
+void GuiManager::init()
+{
+	this->initLayout(m_mainLayout);
+}
+
 void GuiManager::handleWidgetEvent(Widget* widget, const SDL_Event& event, const std::string& name)
 {
 	widget->handleEvent(name, event);
@@ -53,6 +97,8 @@ void GuiManager::handleWidgetEvent(Widget* widget, const SDL_Event& event, const
 
 void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 {
+	this->handleLayoutEvent(name, event, m_mainLayout);
+
 	std::vector<Widget*> firstLayer = this->getLayerManager()->getLayers()[0];
 
 	if (firstLayer.size() > 0)
@@ -61,51 +107,53 @@ void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 			this->handleWidgetEvent(firstLayer[i], event, name);
 	}
 
-	std::vector<Layout*> layouts = this->getLayouts();
-
-	for (unsigned int i = 0; i < layouts.size(); i++)
-	{
-		switch (event.window.event) {
-		case SDL_WINDOWEVENT_RESIZED:
-			layouts[i]->onWindowResized(event);
-			break;
-		case SDL_WINDOWEVENT_SIZE_CHANGED:
-			layouts[i]->onWindowSizeChanged(event);
-			break;
-		}
-
-		std::vector<Widget*> widgets = layouts[i]->getWidgets();
-		for (unsigned int j = 0; j < widgets.size(); j++)
-		{
-			this->handleWidgetEvent(widgets[j], event, name);
-		}
-	}
 }
 
 
 Widget* GuiManager::getWidgetByName(const std::string& name)
 {
-	for (unsigned int i = 0; i < m_layouts.size(); i++)
-	{
-		std::vector<class Widget*> widgets = m_layouts[i]->getWidgets();
+	//for (unsigned int i = 0; i < m_layouts.size(); i++)
+	//{
+	//	std::vector<class Widget*> widgets = m_layouts[i]->getWidgets();
 
-		for (unsigned int j = 0; j < widgets.size(); j++) {
+	//	for (unsigned int j = 0; j < widgets.size(); j++) {
 
-			//std::cout << "first level: " << widgets[j]->getName() << " str: " << name << std::endl;
+	//		//std::cout << "first level: " << widgets[j]->getName() << " str: " << name << std::endl;
 
-			std::vector<class Widget*> childs = widgets[j]->getChildren();
+	//		std::vector<class Widget*> childs = widgets[j]->getChildren();
 
-			for (unsigned int z = 0; z < childs.size(); z++) {
+	//		for (unsigned int z = 0; z < childs.size(); z++) {
 
-				//std::cout << "second level: " << childs[z]->getName() << std::endl;
+	//			//std::cout << "second level: " << childs[z]->getName() << std::endl;
 
-				if (childs[z]->getName() == name)
-					return childs[z];
-			}
-		}
-	}
+	//			if (childs[z]->getName() == name)
+	//				return childs[z];
+	//		}
+	//	}
+	//}
 
 	return (Widget*)NULL;
+}
+
+Layout* GuiManager::findPrevious(Layout* fromLevel, Layout* layout) 
+{
+	Layout* previous = nullptr;
+	auto childs = fromLevel->getChildren();
+
+	for (unsigned int i = 0; i < childs.size(); i++)
+	{
+		if (childs[i] == layout && i > 0)
+			return childs[i - 1];
+
+		this->findPrevious(childs[i], layout);
+	}
+
+	return previous;
+}
+
+Layout* GuiManager::getPrevious(Layout* layout)
+{
+	return this->findPrevious(m_mainLayout, layout);
 }
 
 void GuiManager::onSceneObjectAdded()
@@ -113,31 +161,9 @@ void GuiManager::onSceneObjectAdded()
 
 }
 
-Layout* GuiManager::createLayout(const std::string& name, const glm::vec2& position, const glm::vec2& size)
-{
-	Layout* layout = new Layout(name, m_window, position, size);
-	layout->setGuiManager(this);
-	return this->addLayout(layout);
-}
-
-Layout* GuiManager::addLayout(Layout* layout)
-{
-	std::vector<class Widget*> widgets = layout->getWidgets();
-
-	for (unsigned int j = 0; j < widgets.size(); j++)
-		widgets[j]->setWindow(m_window);
-
-	m_layouts.emplace_back(layout);
-	return layout;
-}
-
-void GuiManager::removeLayout(Layout* layout)
-{
-	m_layouts.erase(std::remove(m_layouts.begin(), m_layouts.end(), layout), m_layouts.end());
-}
-
 GuiManager::~GuiManager()
 {
 	delete m_layerManager;
 	delete m_quadTree;
+	delete m_mainLayout;
 }

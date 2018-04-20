@@ -20,7 +20,7 @@ using json = nlohmann::json;
 class Editor
 {
 public:
-	Editor();
+	Editor(Engine* engine);
 
 	typedef std::map<std::string, EditorComponent*> ComponentList;
 	typedef std::map<std::string, EditorComponent*(*)(Engine*)> ComponentRegister;

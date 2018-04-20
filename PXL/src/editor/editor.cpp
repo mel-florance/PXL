@@ -4,13 +4,12 @@
 #include "components/viewport.h"
 #include "components/outliner.h"
 #include "components/assetBrowser.h"
+#include "components/inspector.h"
+#include "../audio/sound.h"
 
-Editor::Editor()
+Editor::Editor(Engine* engine) : m_engine(engine)
 {
-	m_engine = new Engine();
 	this->init();
-	m_engine->setEditor(this);
-	m_engine->start();
 }
 
 void Editor::update(double delta)
@@ -60,7 +59,7 @@ void Editor::init()
 		glm::vec3(0.0f, 1.0f, -3.0f),
 		70.0f, 
 		(float)m_engine->getWindow()->getAspect(), 
-		0.01f, 
+		0.1f, 
 		1000.0f
 	);
 
@@ -68,7 +67,7 @@ void Editor::init()
 
 	Light* m_light = new Light();
 	m_light->setType(Light::POINT);
-	m_light->setPosition(glm::vec3(0.5f, 0.5f, 0.5f));
+	m_light->setPosition(glm::vec3(0.5f, 10.0f, 0.5f));
 	m_light->setColor(glm::vec3(2.0f, 2.0f, 2.0f));
 	m_light->setAttenuation(glm::vec3(1.0f, 0.001f, 0.0001f));
 	scene->addLight(m_light);
@@ -79,17 +78,13 @@ void Editor::init()
 	plane->getMaterial()->setTiling(glm::vec2(500.0f, 500.0f));
 	plane->getMaterial()->setBackFaceCulling(false);
 
-	m_cube = m_engine->getAssetManager()->importMesh("./res/models/cube.obj");
-	BasicMaterial* mat = (BasicMaterial*)m_cube->getMaterial();
-	mat->setKa(glm::vec3(0.12f));
-	mat->setKs(glm::vec3(0.0f));
-	mat->setKe(glm::vec3(0.0f));
-	m_cube->getTransform()->setPosition(glm::vec3(0.0f, 0.1f, 0.0f));
-	m_cube->getTransform()->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+	//m_engine->getAssetManager()->importMesh("./res/models/bushhouse.obj");
+	//m_cube->getTransform()->setPosition(glm::vec3(0.0f, 0.05f, 0.0f));
+	//m_cube->getTransform()->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
-	Mesh* lightMesh = m_cube->createInstance("lightMesh");
-	lightMesh->getTransform()->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
-	lightMesh->getTransform()->setPosition(m_light->getPosition());
+	//Mesh* lightMesh = m_cube->createInstance("lightMesh");
+	//lightMesh->getTransform()->setScale(glm::vec3(0.1f, 0.1f, 0.1f));
+	//lightMesh->getTransform()->setPosition(m_light->getPosition());
 
 	//cube->setVisible(false);
 
@@ -107,37 +102,117 @@ void Editor::init()
 	m_register["2_outliner"] = &registerComponent<Outliner>;
 	m_register["3_main_menu"] = &registerComponent<MainMenu>;
 	m_register["4_asset_browser"] = &registerComponent<AssetBrowser>;
+	m_register["5_inspector"] = &registerComponent<Inspector>;
 
-	m_mainLayout = m_engine->getGuiManager()->createLayout("editor_window");
+	m_mainLayout = new Layout("editor_window", m_engine->getWindow(), glm::vec2(0.0f), m_engine->getWindow()->getSize());
+	m_mainLayout->setGuiManager(m_engine->getGuiManager());
 
-	Layout* layoutB = m_engine->getGuiManager()->createLayout("layoutB", glm::vec2(0.0f, 3.0f), glm::vec2(84.375f, 73.0f));
-	Viewport* viewport = this->createComponent<Viewport>("viewport", "1_viewport");
-	viewport->setLayout(layoutB);
-	viewport->init();
-	camera->setViewport(viewport);
-	layoutB->addWidget(viewport->getWindow());
-	m_mainLayout->addChild(layoutB);
+	m_mainLayout->setPositionModeX(Layout::ExpandMode::WINDOW);
+	m_mainLayout->setPositionModeY(Layout::ExpandMode::WINDOW);
+	m_mainLayout->setExpandModeY(Layout::ExpandMode::WINDOW);
+	m_mainLayout->setExpandModeX(Layout::ExpandMode::WINDOW);
 
-	Layout* layoutD = m_engine->getGuiManager()->createLayout("layoutD", glm::vec2(0.0f, 73.0f), glm::vec2(84.375f, 27.0f));
-	AssetBrowser* assetBrowser = this->createComponent<AssetBrowser>("assetBrowser", "4_asset_browser");
-	assetBrowser->setLayout(layoutD);
-	assetBrowser->init();
-	layoutD->addWidget(assetBrowser->getTreeView());
-	m_mainLayout->addChild(layoutD);
 
-	Layout* layoutC = m_engine->getGuiManager()->createLayout("layoutC", glm::vec2(84.375f, 3.0f), glm::vec2(15.625f, 100.0f));
-	Outliner* outliner = this->createComponent<Outliner>("outliner", "2_outliner");
-	outliner->setLayout(layoutC);
-	outliner->init();
-	layoutC->addWidget(outliner->getWindow());
-	m_mainLayout->addChild(layoutC);
+	// Main menu
+	Layout* layoutA = new Layout("layoutA", m_engine->getWindow(), glm::vec2(0.0f, 0.0f), glm::vec2(100.0f, 3.0f));
+	layoutA->setMinHeight(30.0f);
+	layoutA->setGuiManager(m_engine->getGuiManager());
+	layoutA->setBackground(nvgRGBA(0, 0, 255, 100));
+	m_mainLayout->addChild(layoutA);
 
-	Layout* layoutA = m_engine->getGuiManager()->createLayout("layoutA", glm::vec2(0.0f), glm::vec2(100.0f, 3.0f));
 	MainMenu* mainMenu = this->createComponent<MainMenu>("mainMenu", "3_main_menu");
 	mainMenu->setLayout(layoutA);
 	mainMenu->init();
 	layoutA->addWidget(mainMenu->getMenu());
-	m_mainLayout->addChild(layoutA);
+
+
+	Layout* layoutB = new Layout("layoutB", m_engine->getWindow(), glm::vec2(0.0f, 0.0f), glm::vec2(100.0f, 97.0f));
+	layoutB->setGuiManager(m_engine->getGuiManager());
+	layoutB->setBackground(nvgRGBA(0, 255, 0, 255));
+	m_mainLayout->addChild(layoutB);
+
+
+
+
+
+	Layout* layoutC = new Layout("layoutC", m_engine->getWindow(), glm::vec2(0.0f, 0.0f), glm::vec2(82.0f, 100.0f));
+	layoutC->setGuiManager(m_engine->getGuiManager());
+	layoutC->setBackground(nvgRGB(255, 0, 0));
+	layoutC->setDirection(StackDirection::HORIZONTAL);
+
+
+	layoutB->addChild(layoutC);
+
+
+
+
+
+	Layout* layoutE = new Layout("layoutE", m_engine->getWindow(), glm::vec2(0.0f, 0.0f), glm::vec2(18.0f, 100.0f));
+	layoutE->setMinWidth(200.0f);
+	layoutE->setGuiManager(m_engine->getGuiManager());
+	layoutE->setBackground(nvgRGB(255, 255, 255));
+	layoutE->setDirection(StackDirection::HORIZONTAL);
+
+	Layout* layoutH = new Layout("layoutH", m_engine->getWindow(), glm::vec2(0.0f, 0.0f), glm::vec2(100.0f, 27.0f));
+	layoutH->setGuiManager(m_engine->getGuiManager());
+	layoutH->setBackground(nvgRGB(255, 0, 255));
+
+
+
+	Layout* layoutI= new Layout("layoutI", m_engine->getWindow(), glm::vec2(0.0f, 0.0f), glm::vec2(100.0f, 73.0f));
+	layoutI->setGuiManager(m_engine->getGuiManager());
+	layoutI->setBackground(nvgRGB(0, 255, 100));
+
+	layoutB->addChild(layoutE);
+	layoutE->addChild(layoutH);
+	layoutE->addChild(layoutI);
+
+	//Viewport
+	Layout* layoutF = new Layout("layoutF", m_engine->getWindow(), glm::vec2(0.0f, 0.0f), glm::vec2(100.0f, 73.0f));
+	layoutF->setGuiManager(m_engine->getGuiManager());
+	layoutF->setBackground(nvgRGB(0, 255, 255));
+
+	layoutC->addChild(layoutF);
+
+	// AssetManager
+	Layout* layoutG = new Layout("layoutG", m_engine->getWindow(), glm::vec2(0.0f, 0.0f), glm::vec2(100.0f, 27.0f));
+	layoutG->setGuiManager(m_engine->getGuiManager());
+	layoutG->setBackground(nvgRGBA(255, 255, 128, 128));
+
+	layoutC->addChild(layoutG);
+
+
+	m_engine->getGuiManager()->setMainLayout(m_mainLayout);
+
+	Viewport* viewport = this->createComponent<Viewport>("viewport", "1_viewport");
+	viewport->setLayout(layoutF);
+	viewport->init();
+	camera->setViewport(viewport);
+	layoutF->addWidget(viewport->getWindow());
+
+	AssetBrowser* assetBrowser = this->createComponent<AssetBrowser>("assetBrowser", "4_asset_browser");
+	assetBrowser->setLayout(layoutG);
+	assetBrowser->init();
+	layoutG->addWidget(assetBrowser->getTreeView());
+
+	Outliner* outliner = this->createComponent<Outliner>("outliner", "2_outliner");
+	outliner->setLayout(layoutH);
+	outliner->init();
+	layoutH->addWidget(outliner->getWindow());
+
+
+	Inspector* inspector = this->createComponent<Inspector>("inspector", "5_inspector");
+	inspector->setLayout(layoutI);
+	inspector->init();
+	layoutI->addWidget(inspector->getWindow());
+
+	SoundManager* soundManager = m_engine->getSoundManager();
+	soundManager->loadSound("drums", "./res/sounds/groove_drums.wav");
+	soundManager->play();
+	soundManager->playSound("drums", -1, -1);
+	
+
+	m_engine->getGuiManager()->init();
 }
 
 Editor::~Editor()

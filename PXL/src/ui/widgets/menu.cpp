@@ -3,7 +3,7 @@
 
 Menu::Menu(const glm::vec2& position, const glm::vec2& size, const std::string& font) : Widget(position, size)
 {
-	m_background = nvgRGB(28, 28, 28);
+	m_background = nvgRGB(40, 40, 40);
 	m_borderRadius = 3.0f;
 	m_minHeight = 30.0f;
 	m_minFontSize = 18.0f;
@@ -32,6 +32,7 @@ void Menu::onKeyDown(const SDL_Event& event)
 void Menu::onMouseMove(const SDL_Event& event)
 {
 	m_mouse = glm::vec2(event.motion.x, event.motion.y);
+	this->setState("hovered", this->intersects(m_mouse));
 	glm::vec2 position = this->getRelativePosition();
 
 	float sizeY = this->getLayout()->getComputedSize().y;
@@ -78,7 +79,7 @@ void Menu::onMouseMove(const SDL_Event& event)
 
 void Menu::onMouseDown(const SDL_Event& event)
 {
-	if (event.button.button == SDL_BUTTON_LEFT)
+	if (event.button.button == SDL_BUTTON_LEFT && this->getState("hovered"))
 	{
 		LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
 
@@ -301,9 +302,9 @@ void Menu::draw(NVGcontext* ctx, double delta)
 					);
 
 					if (child->m_hovered)
-						nvgFillColor(ctx, nvgRGB(40, 40, 40));
+						nvgFillColor(ctx, nvgRGB(50, 50, 50));
 					else
-						nvgFillColor(ctx, nvgRGB(28, 28, 28));
+						nvgFillColor(ctx, m_background);
 
 					nvgFill(ctx);
 				}

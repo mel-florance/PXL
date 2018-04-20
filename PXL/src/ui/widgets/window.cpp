@@ -6,6 +6,13 @@
 
 Window::Window(const std::string& text = "window", const glm::vec2& position = glm::vec2(0.0f), const glm::vec2& size = glm::vec2(250.0f, 250.0f), const std::string& font = "segoeui") : Widget(position, size)
 {
+	m_margin = glm::vec4(
+		0.0f, // Top
+		0.0f, // Right
+		0.0f, // Bottom
+		0.0f  // Left
+	);
+
 	m_header.text = text;
 	m_header.font = font;
 	m_header.fontSize = 20.0f;
@@ -17,7 +24,7 @@ Window::Window(const std::string& text = "window", const glm::vec2& position = g
 
 	m_drawingShadow = true;
 	m_opacity = 1.0f;
-	m_background = nvgRGB(28, 28, 28);
+	m_background = nvgRGB(40, 40, 40);
 	m_borderRadius = 0.0f;
 
 	const glm::vec2 iconPosition = glm::vec2(
@@ -43,59 +50,13 @@ void Window::draw(NVGcontext* ctx, double delta)
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
-	glm::vec2 size = this->getSize();
+	glm::vec2 size = this->getRelativeSize();
 
-	switch (this->getExpandModeX())
-	{
-	case ExpandMode::LAYOUT:
-		size.x = this->getLayout()->getComputedSize().x;
-		break;
-	case ExpandMode::PARENT:
-		size.x = this->getParent()->getSize().x;
-		break;
-	case ExpandMode::FIXED:
-		size.x = this->getSize().x;
-		break;
-	}
+	position.x += m_margin.w;
+	position.y += m_margin.x;
 
-	switch (this->getExpandModeY())
-	{
-	case ExpandMode::LAYOUT:
-		size.y = this->getLayout()->getComputedSize().y;
-		break;
-	case ExpandMode::PARENT:
-		size.y = this->getParent()->getSize().y;
-		break;
-	case ExpandMode::FIXED:
-		size.y = this->getSize().y;
-		break;
-	}
-
-	switch (this->getPositionModeX())
-	{
-	case ExpandMode::LAYOUT:
-		position.x = this->getLayout()->getComputedPosition().x;
-		break;
-	case ExpandMode::PARENT:
-		position.x = this->getParent()->getPosition().x;
-		break;
-	case ExpandMode::FIXED:
-		position.x = this->getPosition().x;
-		break;
-	}
-
-	switch (this->getPositionModeY())
-	{
-	case ExpandMode::LAYOUT:
-		position.y = this->getLayout()->getComputedPosition().y;
-		break;
-	case ExpandMode::PARENT:
-		position.y = this->getParent()->getPosition().y;
-		break;
-	case ExpandMode::FIXED:
-		position.y = this->getPosition().y;
-		break;
-	}
+	size.x -= m_margin.w + m_margin.y;
+	size.y -= m_margin.x + m_margin.z;
 
 	nvgBeginPath(ctx);
 	nvgRoundedRect(ctx,
@@ -149,7 +110,7 @@ void Window::draw(NVGcontext* ctx, double delta)
 	if (m_header.isFixedBottom == false)
 		pos = glm::vec2(position.x, position.y);
 	else
-		pos = glm::vec2(position.x, position.y + (this->getLayout()->getComputedSize().y - m_header.rect->getSize().y) - m_header.rect->getSize().y);
+		pos = glm::vec2(position.x, position.y + (this->getLayout()->getComputedSize().y - m_header.rect->getSize().y));
 
 	m_header.rect->setPosition(pos);
 	m_header.rect->setSize(glm::vec2(size.x, 30));
@@ -263,6 +224,7 @@ void Window::onMouseMove(const SDL_Event& event)
 
 		this->getIcon()->setState("hovered", rect.intersects(m_mouse));
 	}
+
 }
 
 void Window::onClosed(CallbackData data)
@@ -287,15 +249,6 @@ void Window::onMouseDown(const SDL_Event& event)
 				this->setState("dragged", true);
 		}
 	}
-
-	if (event.button.button == SDL_BUTTON_LEFT)
-	{
-		LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
-		if (this->getState("hovered"))
-			layerManager->addWidget(0, this);
-		else
-			layerManager->removeWidget(0, this);
-	}
 }
 
 void Window::onMouseUp(const SDL_Event& event)
@@ -312,6 +265,15 @@ void Window::onMouseUp(const SDL_Event& event)
 	}	
 
 	this->setState("hovered", this->intersects(m_mouse));
+
+	if (event.button.button == SDL_BUTTON_LEFT && this->getState("draggable"))
+	{
+		LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
+		if (this->getState("hovered"))
+			layerManager->addWidget(0, this);
+		else
+			layerManager->removeWidget(0, this);
+	}
 }
 
 void Window::onTextInput(const SDL_Event & event)

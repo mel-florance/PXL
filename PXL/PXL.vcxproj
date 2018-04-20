@@ -83,7 +83,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)/PXL/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -107,7 +107,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)/PXL/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
@@ -196,6 +196,11 @@
     <ClCompile Include="./src/core/shortcutManager.cpp" />
     <ClCompile Include="./src/editor/components/assetBrowser.cpp" />
     <ClCompile Include="./src/ui/widgets/treeView.cpp" />
+    <ClCompile Include="./src/ui/widgets/scrollbar.cpp" />
+    <ClCompile Include="./src/editor/components/inspector.cpp" />
+    <ClCompile Include="./src/ui/widgets/splitter.cpp" />
+    <ClCompile Include="./src/audio/soundManager.cpp" />
+    <ClCompile Include="./src/audio/sound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/assets/assetManager.h" />
@@ -273,10 +278,15 @@
     <ClInclude Include="./src/editor/components/mainMenu.h" />
     <ClInclude Include="./src/core/fileSystem.h" />
     <ClInclude Include="./src/editor/components/assetBrowser.h" />
+    <ClInclude Include="./src/editor/components/inspector.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="./src/ui/widgets/tooltip.h" />
     <ClInclude Include="./src/core/shortcutManager.h" />
     <ClInclude Include="./src/ui/widgets/treeView.h" />
+    <ClInclude Include="./src/ui/widgets/scrollbar.h" />
+    <ClInclude Include="./src/ui/widgets/splitter.h" />
+    <ClInclude Include="./src/audio/soundManager.h" />
+    <ClInclude Include="./src/audio/sound.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\icon_big.ico" />

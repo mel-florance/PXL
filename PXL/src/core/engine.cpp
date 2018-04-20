@@ -1,15 +1,14 @@
 #include "engine.h"
 #include "../editor/editor.h"
 
-#define WIDTH 1280
-#define HEIGHT 720
-
-Engine::Engine() : m_running(false), m_frameTime(1.0 / 60.0)
+Engine::Engine(glm::vec2& windowSize) : m_running(false), m_frameTime(1.0 / 60.0)
 {
-	m_window = new Display(WIDTH, HEIGHT, "PXL Engine", "./res/textures/icon.png");
+	m_windowSize = windowSize;
+	m_window = new Display(m_windowSize, "PXL Engine", "./res/textures/icon.png");
 	m_clock = new Clock();
 	m_loader = new Loader();
 
+	m_soundManager = new SoundManager();
 	m_fontManager = new FontManager();
 	m_sceneManager = new SceneManager();
 	m_shaderManager = new ShaderManager();
@@ -28,7 +27,12 @@ Engine::Engine() : m_running(false), m_frameTime(1.0 / 60.0)
 	m_profiler->addTimer("swapBuffer");
 	m_profiler->addTimer("sleep");
 
-	std::cout << "Engine started!" << std::endl;
+	m_editor = new Editor(this);
+
+	EditorComponent* viewport = m_editor->getComponentByName("viewport");
+
+	if (viewport != nullptr)
+		m_renderer->setViewport((Viewport*)viewport);
 }
 
 void Engine::start()
@@ -90,7 +94,7 @@ void Engine::start()
 			if (render)
 			{
 				m_profiler->startTimer("render");
-					m_window->clear(scene->getClearColor());
+					m_renderer->clear(scene->getClearColor());
 					m_renderer->render(scene, m_passedTime);
 				m_profiler->stopTimer("render");
 
@@ -103,7 +107,7 @@ void Engine::start()
 			else 
 			{
 				m_profiler->startTimer("sleep");
-					SDL_Delay(1);
+					SDL_Delay(0);
 				m_profiler->stopTimer("sleep");
 			}
 
@@ -115,18 +119,6 @@ void Engine::start()
 void Engine::stop()
 {
 	m_running = false;
-}
-
-void Engine::setEditor(Editor * editor)
-{
-	m_editor = editor;
-
-	if (m_renderer != nullptr) {
-		EditorComponent* viewport = editor->getComponentByName("viewport");
-		
-		if(viewport != nullptr)
-			m_renderer->setViewport((Viewport*)viewport);
-	}
 }
 
 Engine::~Engine()

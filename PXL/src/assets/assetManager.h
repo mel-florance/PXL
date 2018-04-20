@@ -22,8 +22,8 @@ public:
 	AssetManager(Loader* loader, ShaderManager* shaderManager, SceneManager* sceneManager);
 	~AssetManager();
 
-	Mesh* importMesh(const std::string& filename);
-	Mesh* processNode(aiNode* node, const aiScene* scene);
+	void importMesh(const std::string& filename);
+	void processNode(aiNode* node, const aiScene* scene);
 	Mesh* processMesh(const std::string& name, aiMesh* mesh, const aiScene* scene);
 
 	inline Loader* getLoader() { return m_loader; }

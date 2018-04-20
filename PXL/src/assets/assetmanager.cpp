@@ -18,7 +18,7 @@ AssetManager::AssetManager(Loader* loader, ShaderManager* shaderManager, SceneMa
 	m_sceneManager = sceneManager;
 }
 
-Mesh* AssetManager::importMesh(const std::string& filename)
+void AssetManager::importMesh(const std::string& filename)
 {
 	Assimp::Importer importer;
 
@@ -30,27 +30,22 @@ Mesh* AssetManager::importMesh(const std::string& filename)
 
 	if (!scene) {
 		std::cout << importer.GetErrorString() << std::endl;
-		return nullptr;
+		return;
 	}
 
-	return this->processNode(scene->mRootNode, scene);
+	this->processNode(scene->mRootNode, scene);
 }
 
-Mesh* AssetManager::processNode(aiNode* node, const aiScene* scene)
+void AssetManager::processNode(aiNode* node, const aiScene* scene)
 {
-	Mesh* mesh = nullptr;
-	for (GLuint i = 0; i < node->mChildren[0]->mNumMeshes; i++)
+	for (GLuint i = 0; i < node->mNumMeshes; i++)
 	{
-		aiMesh* aiMesh = scene->mMeshes[node->mChildren[0]->mMeshes[i]];
-		mesh = this->processMesh(node->mChildren[0]->mName.C_Str(), aiMesh, scene);
+		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		this->processMesh(node->mName.C_Str(), mesh, scene);
 	}
 
-	//for (GLuint i = 0; i < node->mNumChildren; i++)
-	//	this->processNode(node->mChildren[i], scene);
-
-	//std::cout << "OOOOK " << std::endl;
-
-	return mesh;
+	for (GLuint i = 0; i < node->mNumChildren; i++)
+		this->processNode(node->mChildren[i], scene);
 }
 
 Mesh* AssetManager::processMesh(const std::string& name, aiMesh* object, const aiScene* scene)

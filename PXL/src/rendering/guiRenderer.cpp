@@ -1,9 +1,11 @@
 #include "guiRenderer.h"
+#include "../ui/widgets/layout.h"
 
 GuiRenderer::GuiRenderer(GuiManager* guiManager, Display* window)
 {
 	m_guiManager = guiManager;
 	m_window = window;
+	m_drawLayouts = false;
 }
 
 void GuiRenderer::updateWidget(Widget* widget, double delta)
@@ -14,31 +16,55 @@ void GuiRenderer::updateWidget(Widget* widget, double delta)
 		widget->update(delta);
 		widget->draw(m_guiManager->getContext(), delta);
 
-		std::vector<class Widget*> childs = widget->getChildren();
-
-		for (unsigned int i = 0; i < childs.size(); i++)
-			this->updateWidget(childs[i], delta);
+		for (const auto& child : widget->getChildren())
+			this->updateWidget(child, delta);
 	}
 }
 
-void GuiRenderer::renderLayout(Layout* layout, double delta)
+void GuiRenderer::renderLayout(Layout* layout, Layout* previous, unsigned int index, unsigned int depth, double delta)
 {
+	NVGcontext* ctx = m_guiManager->getContext();
 
-	std::vector<class Widget*> widgets = layout->getWidgets();
+	if (layout->needRecomputeStackDirection())
+		layout->computeStackDirection(previous, index);
 
-	for (unsigned int j = 0; j < widgets.size(); j++)
-		this->updateWidget(widgets[j], delta);
+	if (m_drawLayouts)
+		layout->draw(ctx, previous, index, depth, delta);
 
-	std::vector<class Layout*> childs = layout->getChildren();
+	auto childs = layout->getChildren();
 
 	for (unsigned int i = 0; i < childs.size(); i++)
-		this->renderLayout(childs[i], delta);
+	{
+		Layout* previous = nullptr;
+
+		if(i > 0)
+			previous = childs[i - 1];
+
+		this->renderLayout(childs[i], previous, i, depth, delta);
+	}
+
+	for (const auto& widget : layout->getWidgets())
+		this->updateWidget(widget, delta);
+
+	depth++;
+}
+
+void GuiRenderer::renderLayoutSplitter(Layout* layout, unsigned int index, double delta)
+{
+	layout->drawSplitter(m_guiManager->getContext(), index, delta);
+
+	auto childs = layout->getChildren();
+
+	for (unsigned int i = 0; i < childs.size(); i++)
+		this->renderLayoutSplitter(childs[i], i, delta);
 }
 
 void GuiRenderer::render(Scene* scene, double delta)
 {
 	nvgBeginFrame(m_guiManager->getContext(), (int)m_window->getSize().x, (int)m_window->getSize().y, 1.0f);
 
+	this->renderLayout(m_guiManager->getMainLayout(), nullptr, 0, 0, delta);
+	this->renderLayoutSplitter(m_guiManager->getMainLayout(), 0, delta);
 
 	std::vector<Widget*> firstLayer = m_guiManager->getLayerManager()->getLayers()[0];
 
@@ -47,13 +73,6 @@ void GuiRenderer::render(Scene* scene, double delta)
 		for (unsigned int i = 0; i < firstLayer.size(); i++)
 			this->updateWidget(firstLayer[i], delta);
 	}
-
-
-	std::vector<class Layout*> layouts = m_guiManager->getLayouts();
-
-	for (unsigned int i = 0; i < layouts.size(); i++)
-		this->renderLayout(layouts[i], delta);
-
 
 	nvgEndFrame(m_guiManager->getContext());
 }

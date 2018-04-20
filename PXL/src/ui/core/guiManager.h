@@ -17,6 +17,7 @@
 #include "fontManager.h"
 #include "layerManager.h"
 #include "../widgets/layout.h"
+#include "../widgets/splitter.h"
 #include "widget.h"
 
 #include "../../core/display.h"
@@ -31,18 +32,20 @@ public:
 	GuiManager(Display* window, FontManager* fontManager, AssetManager* assetManager, SceneManager* sceneManager);
 	~GuiManager();
 
+	void init();
+	void initLayout(Layout* layout);
 	NVGcontext* getContext() { return m_ctx; }
 
-	inline std::vector<class Layout*> getLayouts() { return m_layouts; }
-	Layout* createLayout(const std::string& name, const glm::vec2& position = glm::vec2(0.0f, 0.0f), const glm::vec2& size = glm::vec2(0.0f, 0.0f));
-
-	Layout* addLayout(Layout* layout);
-	void removeLayout(Layout* layout);
-
+	void handleLayoutEvent(const std::string& name, const SDL_Event& event, Layout* layout);
 	void handleWidgetEvent(Widget* widget, const SDL_Event& event, const std::string& name);
 	void handleEvent(const std::string& name, const SDL_Event& event);
 
+	inline Layout* getMainLayout() { return m_mainLayout; }
+	inline void setMainLayout(Layout* layout) { m_mainLayout = layout; }
+
 	Widget* getWidgetByName(const std::string& name);
+
+	Layout* getPrevious(Layout* layout);
 
 	void onSceneObjectAdded();
 
@@ -52,13 +55,15 @@ public:
 	LayerManager* getLayerManager() { return m_layerManager; }
 
 private:
+	Layout * findPrevious(Layout* fromLevel, Layout* layout);
+
 	NVGcontext* m_ctx;
 	Display* m_window;
+	Layout* m_mainLayout;
 	FontManager* m_fontManager;
 	SceneManager* m_sceneManager;
 	AssetManager* m_assetManager;
 	LayerManager* m_layerManager;
 	QuadTree* m_quadTree;
-	std::vector<class Layout*> m_layouts;
 };
 

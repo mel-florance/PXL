@@ -45,7 +45,7 @@ void SkyboxMaterial::updateUniforms(Camera* camera, glm::vec4& clearColor, doubl
 void SkyboxMaterial::bindTextures(double delta)
 {
 	m_time += (float)delta * 1000.0f;
-	m_time = fmod(m_time, 24000.0f);
+	//m_time = fmod(m_time, 24000.0f);
 
 	Uint32 day = this->getCubemap();
 	Uint32 night = this->getCubemap2();

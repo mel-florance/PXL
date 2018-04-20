@@ -248,7 +248,7 @@ void Input::onMouseMove(const SDL_Event& event)
 		bool iconIntersect = rect.intersects(m_mouse);
 		this->getIcon()->setState("hovered", iconIntersect);
 
-		SDL_SetCursor(this->getWindow()->getCursor(this->getText().size() > 0 && iconIntersect ? "HAND" : "IBEAM"));
+		SDL_SetCursor(this->getWindow()->getMCursor(this->getText().size() > 0 && iconIntersect ? "HAND" : "IBEAM"));
 	}
 	else {
 		SDL_SetCursor(SDL_GetDefaultCursor());
@@ -264,7 +264,7 @@ void Input::onMouseDown(const SDL_Event& event)
 
 	if (this->getState("focused"))
 	{
-		// TODO: Place caret at mouse position.
+		// TODO: Place caret at mouse position.f
 		m_caret->blinking = true;
 		m_caret->blinkStart = SDL_GetTicks();
 		m_text.drawPlaceholder = false;

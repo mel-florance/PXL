@@ -56,6 +56,7 @@ public:
 	inline Widget* getParent() { return m_parent; }
 
 	glm::vec2 getRelativePosition();
+	glm::vec2 getRelativeSize();
 
 	virtual void setCentered();
 
@@ -86,6 +87,27 @@ public:
 	inline void setUnits(const std::string& units) { m_units = units; }
 	const std::string& getUnits() { return m_units; }
 
+	inline void setMinHeight(float value) { m_minHeight = value; }
+	inline float getMinHeigh() { return m_minHeight; }
+
+	inline void setMaxHeight(float value) { m_maxHeight = value; }
+	inline float getMaxHeight() { return m_maxHeight; }
+
+	inline void setMinWidth(float value) { m_minWidth = value; }
+	inline float getMinWidth() { return m_minWidth; }
+
+	inline void setMaxWidth(float value) { m_maxWidth = value; }
+	inline float getMaxWidth() { return m_maxWidth; }
+
+	void computePosition();
+	void computeSize();
+
+	inline void setComputedPosition(const glm::vec2& position) { m_computedPosition = position; }
+	inline glm::vec2& getComputedPosition() { return m_computedPosition; }
+
+	inline void setComputedSize(const glm::vec2& size) { m_computedSize = size; }
+	inline glm::vec2& getComputedSize() { return m_computedSize; }
+
 	glm::vec2 m_dragStart;
 	glm::vec2 m_dragEnd;
 	glm::vec2 m_dragDelta;
@@ -100,6 +122,14 @@ private:
 	ExpandMode m_positionModeY;
 	ExpandMode m_expandModeX;
 	ExpandMode m_expandModeY;
+
+	glm::vec2 m_computedPosition;
+	glm::vec2 m_computedSize;
+
+	float m_minWidth;
+	float m_minHeight;
+	float m_maxWidth;
+	float m_maxHeight;
 
 	std::string m_name;
 	Icon* m_icon;

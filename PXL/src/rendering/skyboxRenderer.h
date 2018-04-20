@@ -16,6 +16,7 @@ public:
 	void render(Scene* scene, double delta);
 
 private:
+	float m_time;
 	Loader* m_loader;
 	Mesh* m_mesh;
 	SkyboxMaterial* m_material;

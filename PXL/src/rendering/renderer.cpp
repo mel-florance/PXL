@@ -12,11 +12,18 @@ Renderer::Renderer(Display* window, Loader* loader, ShaderManager* shaderManager
 	glEnable(GL_MULTISAMPLE);
 }
 
+void Renderer::clear(const glm::vec4& color)
+{
+	glClearColor(color.r, color.g, color.b, color.a);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+}
+
 void Renderer::render(Scene* scene, double delta)
 {
+	glViewport(0, 0, (GLsizei)m_window->getSize().x, (GLsizei)m_window->getSize().y);
+
 	if (m_viewport != nullptr) 
 	{
-		glViewport(0, 0, (GLsizei)m_window->getSize().x, (GLsizei)m_window->getSize().y);
 		glEnable(GL_SCISSOR_TEST);
 
 		GLsizei w = (GLsizei)m_viewport->getLayout()->getComputedSize().x;
@@ -30,9 +37,9 @@ void Renderer::render(Scene* scene, double delta)
 		m_entityRenderer->render(scene, delta);
 
 		glDisable(GL_SCISSOR_TEST);
-
-		m_guiRenderer->render(scene, delta);
 	}	
+
+	m_guiRenderer->render(scene, delta);
 }
 
 Renderer::~Renderer()

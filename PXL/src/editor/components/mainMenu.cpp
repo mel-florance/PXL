@@ -28,6 +28,9 @@ void MainMenu::init()
 	editMenu->addChild("Cut", NULL, "Ctrl + X");
 	editMenu->addChild("Copy", NULL, "Ctrl + C");
 	editMenu->addChild("Paste", NULL, "Ctrl + V");
+	editMenu->addSeparator();
+	editMenu->addChild("Preferences...", NULL, "", "COG");
+
 
 	Menu::MenuItem* windowMenu = m_menu->addMenuItem("Window");
 	windowMenu->addChild("Fullscreen", &MainMenu::setFullscreen, "F11", "RESIZE_FULL");

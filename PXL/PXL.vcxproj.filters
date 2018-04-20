@@ -68,6 +68,9 @@
     <Filter Include="src\editor\components">
       <UniqueIdentifier>{9bc792fb-a5c8-4a62-baff-61aa6cd49893}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\audio">
+      <UniqueIdentifier>{3570377b-bab9-4ff8-a198-78883beb043e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PXL.rc">
@@ -275,6 +278,21 @@
     </ClCompile>
     <ClCompile Include="./src/ui/widgets/treeView.cpp">
       <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/scrollbar.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/components/inspector.cpp">
+      <Filter>src\editor\components</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/splitter.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/audio/soundManager.cpp">
+      <Filter>src\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/audio/sound.cpp">
+      <Filter>src\audio</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -512,6 +530,21 @@
     </ClInclude>
     <ClInclude Include="./src/ui/widgets/treeView.h">
       <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/scrollbar.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/components/inspector.h">
+      <Filter>src\editor\components</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/splitter.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/audio/soundManager.h">
+      <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/audio/sound.h">
+      <Filter>src\audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

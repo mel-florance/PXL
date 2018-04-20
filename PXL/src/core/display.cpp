@@ -1,9 +1,12 @@
 #include "display.h"
 
-Display::Display(Uint32 width, Uint32 height, const std::string& title, const std::string& icon)
+Display::Display(glm::vec2& size, const std::string& title, const std::string& icon)
 {
-	m_size = glm::vec2(width, height);
+	m_size = size;
 	SDL_Init(SDL_INIT_EVERYTHING);
+	
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -18,7 +21,7 @@ Display::Display(Uint32 width, Uint32 height, const std::string& title, const st
 		title.c_str(), 
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		width, height,
+		(Uint32)size.x, (Uint32)size.y,
 		SDL_WINDOW_OPENGL		  |
 		SDL_WINDOW_RESIZABLE	  | 
 		SDL_RENDERER_ACCELERATED  |
@@ -36,9 +39,18 @@ Display::Display(Uint32 width, Uint32 height, const std::string& title, const st
 	else 
 		m_isClosed = false;
 
-	m_cursors["IBEAM"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
 	m_cursors["ARROW"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_ARROW);
+	m_cursors["IBEAM"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_IBEAM);
 	m_cursors["HAND"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_HAND);
+	m_cursors["SIZENWSE"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENWSE);
+	m_cursors["SIZENESW"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENESW);
+	m_cursors["SIZEWE"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZEWE);
+	m_cursors["SIZENS"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZENS);
+	m_cursors["SIZEALL"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_SIZEALL);
+	m_cursors["NO"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_NO);
+	m_cursors["WAIT"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_WAITARROW);
+	m_cursors["CROSSHAIR"] = SDL_CreateSystemCursor(SDL_SYSTEM_CURSOR_CROSSHAIR);
+
 	SDL_SetCursor(m_cursors["ARROW"]);
 
 	SDL_ShowCursor(SDL_ENABLE);
@@ -47,12 +59,6 @@ Display::Display(Uint32 width, Uint32 height, const std::string& title, const st
 bool Display::isClosed()
 {
 	return m_isClosed;
-}
-
-void Display::clear(const glm::vec4& color)
-{
-	glClearColor(color.r, color.g, color.b, color.a);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 void Display::swapBuffers()
@@ -107,6 +113,15 @@ bool Display::addIcon(const std::string& filename)
 	stbi_image_free(iconData);
 
 	return true;
+}
+
+SDL_Cursor* Display::getMCursor(const std::string& name)
+{
+	auto search = m_cursors.find(name);
+	if (search != m_cursors.end())
+		return search->second;
+
+	return nullptr;
 }
 
 Display::~Display()

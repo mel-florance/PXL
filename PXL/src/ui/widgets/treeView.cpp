@@ -1,5 +1,6 @@
 #include "treeView.h"
 #include "layout.h"
+#include "../core/guiManager.h"
 
 TreeView::TreeView(const glm::vec2& position, const glm::vec2& size, const std::string& font = "segoeui") : Widget(position, size)
 {
@@ -16,10 +17,48 @@ TreeView::TreeView(const glm::vec2& position, const glm::vec2& size, const std::
 	m_align = NVG_ALIGN_LEFT;
 	m_color = nvgRGBA(255, 255, 255, 100);
 	m_textHoverColor = nvgRGB(47, 124, 202);
-	m_background = nvgRGB(35, 35, 35);
+	m_background = nvgRGB(40, 40, 40);
 	m_backgroundHoverColor = nvgRGB(50, 50, 50);
 	m_borderRadius = 0.0f;
 	m_opacity = 1.0f;
+	m_offsetScroll = 0.0f;
+
+	m_scrollbar = new Scrollbar(position, size);
+	m_scrollbar->setExpandModeX(Widget::ExpandMode::PARENT);
+	m_scrollbar->addEventListener("onMouseMove", &TreeView::onScrollbarDragged);
+
+	this->addChild(m_scrollbar);
+}
+
+void TreeView::onScrollbarDragged(CallbackData data)
+{
+	Scrollbar* sender = (Scrollbar*)data.sender;
+	TreeView* parent = (TreeView*)data.sender->getParent();
+
+	parent->setOffsetScroll(sender->getHandleDragOffset());
+}
+
+float TreeView::getTreeItemHeight(glm::vec2& position, TreeItem* item, unsigned int index)
+{
+	if (item == nullptr)
+		return 0.0f;
+
+	float lh = 30.0f;
+	float max = position.y + (lh * index);
+
+	if (item->m_opened && item->m_children.size() > 0)
+	{
+		index++;
+		for (auto child : item->m_children) 
+		{
+			float height = this->getTreeItemHeight(position, child, index++);
+			max = height > max ? height : max;
+		}
+
+		position.y += lh * item->m_children.size();
+	}
+
+	return max;
 }
 
 void TreeView::update(double delta)
@@ -32,59 +71,7 @@ void TreeView::draw(NVGcontext* ctx, double delta)
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
-	glm::vec2 size = this->getSize();
-
-	switch (this->getExpandModeX())
-	{
-	case ExpandMode::LAYOUT:
-		size.x = this->getLayout()->getComputedSize().x;
-		break;
-	case ExpandMode::PARENT:
-		size.x = this->getParent()->getSize().x;
-		break;
-	case ExpandMode::FIXED:
-		size.x = this->getSize().x;
-		break;
-	}
-
-	switch (this->getExpandModeY())
-	{
-	case ExpandMode::LAYOUT:
-		size.y = this->getLayout()->getComputedSize().y;
-		break;
-	case ExpandMode::PARENT:
-		size.y = this->getParent()->getSize().y;
-		break;
-	case ExpandMode::FIXED:
-		size.y = this->getSize().y;
-		break;
-	}
-
-	switch (this->getPositionModeX())
-	{
-	case ExpandMode::LAYOUT:
-		position.x = this->getLayout()->getComputedPosition().x;
-		break;
-	case ExpandMode::PARENT:
-		position.x = this->getParent()->getPosition().x;
-		break;
-	case ExpandMode::FIXED:
-		position.x = this->getPosition().x;
-		break;
-	}
-
-	switch (this->getPositionModeY())
-	{
-	case ExpandMode::LAYOUT:
-		position.y = this->getLayout()->getComputedPosition().y;
-		break;
-	case ExpandMode::PARENT:
-		position.y = this->getParent()->getPosition().y;
-		break;
-	case ExpandMode::FIXED:
-		position.y = this->getPosition().y;
-		break;
-	}
+	glm::vec2 size = this->getRelativeSize();
 
 	nvgBeginPath(ctx);
 	nvgRoundedRect(ctx,
@@ -98,14 +85,24 @@ void TreeView::draw(NVGcontext* ctx, double delta)
 	nvgFillColor(ctx, nvgRGBAf(m_background.r, m_background.g, m_background.b, m_opacity));
 	nvgFill(ctx);
 
-	int i = 0;
-	float lh = 20.0f;
-	for (auto& directory : m_directories)
-	{
-		i++;
-		float y = position.y + (lh * i);
+	nvgScissor(ctx, position.x, position.y + 30.0f, size.x, size.y - 30.0f);
 
-		if (directory->m_hovered) 
+	position.y -= m_offsetScroll;
+
+	this->drawTreeItem(ctx, position, size, m_root, 0, 1);
+	nvgResetScissor(ctx);
+
+	nvgRestore(ctx);
+}
+
+void TreeView::drawTreeItem(NVGcontext* ctx, glm::vec2& position, glm::vec2& size, TreeItem* item, unsigned int depth, unsigned int index)
+{
+	if (item != nullptr)
+	{
+		float lh = 20.0f;
+		float y = position.y + (lh * index);
+
+		if (item->m_hovered || item->m_selected)
 		{
 			nvgBeginPath(ctx);
 			nvgRect(ctx,
@@ -119,44 +116,46 @@ void TreeView::draw(NVGcontext* ctx, double delta)
 			nvgFill(ctx);
 		}
 
-		if (directory->m_icon != nullptr)
+		if (item->m_icon != nullptr)
 		{
 			nvgFontSize(ctx, 34.0f);
 			nvgFontFace(ctx, "entypo");
 			nvgTextAlign(ctx, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
 
-			nvgFillColor(ctx, directory->m_hovered ? m_textHoverColor : m_color);
-
-			if (directory->m_opened) 
-			{
-				nvgSave(ctx);
-				nvgRotate(ctx, (float)(M_PI / 2.0f));
-				nvgRestore(ctx);
-			}
+			nvgFillColor(ctx, item->m_hovered || item->m_selected ? m_textHoverColor : m_color);
 
 			nvgText(ctx,
-				position.x + 20.0f,
+				position.x + (depth * 15.0f) + 20.0f,
 				y + 30.0f,
-				directory->m_icon->get(),
+				item->m_icon->get(),
 				NULL
 			);
 		}
-	
+
 		nvgFontSize(ctx, m_fontSize);
 		nvgFontFace(ctx, m_font.c_str());
 		nvgTextAlign(ctx, m_align);
 		nvgFontBlur(ctx, m_blur);
-		nvgFillColor(ctx, directory->m_hovered ? m_textHoverColor : m_color);
+		nvgFillColor(ctx, item->m_hovered || item->m_selected ? m_textHoverColor : m_color);
 
 		nvgText(ctx,
-			position.x + 30.0f,
+			position.x + (depth * 15.0f) + 30.0f,
 			y + 35.0f,
-			directory->m_name.c_str(),
+			item->m_name.c_str(),
 			NULL
 		);
-	}
 
-	nvgRestore(ctx);
+		depth++;
+		if (item->m_opened && item->m_children.size() > 0)
+		{
+			index++;
+
+			for (auto child : item->m_children)
+				this->drawTreeItem(ctx, position, size, child, depth, index++);
+
+			position.y += lh * item->m_children.size();
+		}
+	}
 }
 
 void TreeView::onKeyDown(const SDL_Event & event)
@@ -174,61 +173,42 @@ void TreeView::onKeyUp(const SDL_Event & event)
 
 }
 
-void TreeView::onMouseMove(const SDL_Event & event)
+void TreeView::onTreeItemMouseMove(const SDL_Event& event, glm::vec2& position, glm::vec2& size, TreeItem* item, unsigned int depth, unsigned int index)
+{
+	if (item != nullptr)
+	{
+		float lh = 20.0f;
+		float y = position.y + (lh * index);
+
+		Rect rect(glm::vec2(position.x, y + lh), glm::vec2(size.x, lh));
+		item->m_hovered = rect.intersects(m_mouse);
+
+		depth++;
+		if (item->m_opened && item->m_children.size() > 0)
+		{
+			index++;
+
+			for (auto child : item->m_children)
+				this->onTreeItemMouseMove(event, position, size, child, depth, index++);
+
+			position.y += lh * item->m_children.size();
+		}
+	}
+}
+
+void TreeView::onMouseMove(const SDL_Event& event)
 {
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	this->setState("hovered", this->intersects(m_mouse));
 
-	unsigned int i = 0;
-	int lh = 20;
-	glm::vec2 position = this->getRelativePosition();
-	glm::vec2 size = this->getSize();
-
-	switch (this->getExpandModeX())
+	if (event.button.state != SDL_PRESSED)
 	{
-	case ExpandMode::LAYOUT:
-		size.x = this->getLayout()->getComputedSize().x;
-		break;
-	case ExpandMode::PARENT:
-		size.x = this->getParent()->getSize().x;
-		break;
-	case ExpandMode::FIXED:
-		size.x = this->getSize().x;
-		break;
-	}
-	switch (this->getPositionModeX())
-	{
-	case ExpandMode::LAYOUT:
-		position.x = this->getLayout()->getComputedPosition().x;
-		break;
-	case ExpandMode::PARENT:
-		position.x = this->getParent()->getPosition().x;
-		break;
-	case ExpandMode::FIXED:
-		position.x = this->getPosition().x;
-		break;
-	}
+		glm::vec2 position = this->getRelativePosition();
+		glm::vec2 size = this->getRelativeSize();
 
-	switch (this->getPositionModeY())
-	{
-	case ExpandMode::LAYOUT:
-		position.y = this->getLayout()->getComputedPosition().y;
-		break;
-	case ExpandMode::PARENT:
-		position.y = this->getParent()->getPosition().y;
-		break;
-	case ExpandMode::FIXED:
-		position.y = this->getPosition().y;
-		break;
-	}
+		position.y -= m_offsetScroll;
 
-	for (auto& directory : m_directories)
-	{
-		i++;
-		float y = position.y + (lh * i);
-
-		Rect rect(glm::vec2(position.x, y + lh), glm::vec2(size.x, lh));
-		directory->m_hovered = rect.intersects(m_mouse);
+		this->onTreeItemMouseMove(event, position, size, m_root, 0, 1);
 	}
 }
 
@@ -237,9 +217,72 @@ void TreeView::onMouseDown(const SDL_Event& event)
 
 }
 
+void TreeView::onTreeItemMouseUp(const SDL_Event& event, glm::vec2& position, glm::vec2& size, TreeItem* item, unsigned int depth, unsigned int index)
+{
+	if (item != nullptr)
+	{
+		float lh = 20.0f;
+		float y = position.y + (lh * index);
+
+		Rect rect(glm::vec2(position.x, y + lh), glm::vec2(size.x, lh));
+		item->m_hovered = rect.intersects(m_mouse);
+
+		if (item->m_hovered)
+		{
+			this->deselectAllItems(m_root);
+			item->m_selected = true;
+
+			if (event.button.clicks == 2)
+			{
+				item->m_opened = !item->m_opened;
+
+				if (item->m_opened)
+					this->loadTreeItem(item, item->m_path);
+				else
+					this->unloadTreeItem(item);
+			}
+
+			item->m_icon->setSymbol(item->m_opened == true ? "DOWN_DIR" : "RIGHT_DIR");
+		}
+
+		depth++;
+		if (item->m_opened && item->m_children.size() > 0)
+		{
+			index++;
+
+			for (auto child : item->m_children)
+				this->onTreeItemMouseUp(event, position, size, child, depth, index++);
+
+			position.y += lh * item->m_children.size();
+		}
+	}
+}
+
 void TreeView::onMouseUp(const SDL_Event& event)
 {
+	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
+	this->setState("hovered", this->intersects(m_mouse));
+	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
 
+	if (event.button.button == SDL_BUTTON_LEFT)
+	{
+		layerManager->addWidget(0, this);
+
+		unsigned int i = 0;
+		int lh = 20;
+		glm::vec2 position = this->getRelativePosition();
+		glm::vec2 size = this->getRelativeSize();
+		position.y -= m_offsetScroll;
+
+		this->onTreeItemMouseUp(event, position, size, m_root, 0, 1);
+
+		float height = this->getTreeItemHeight(glm::vec2(0.0f), this->getRoot(), 1);
+		float scrollMax = this->getRelativeSize().y - 30.0f;
+
+		m_scrollbar->computeHandleHeight(height, scrollMax);
+	}
+	else
+		layerManager->removeWidget(0, this);
 }
 
 void TreeView::onWindowResized(const SDL_Event& event)
@@ -249,10 +292,15 @@ void TreeView::onWindowResized(const SDL_Event& event)
 
 void TreeView::onWindowSizeChanged(const SDL_Event& event)
 {
+	float height = this->getTreeItemHeight(glm::vec2(0.0f), this->getRoot(), 1);
+	float scrollMax = this->getRelativeSize().y - 30.0f;
 
+	std::cout << "SCROLLMAX: " << this->getRelativeSize().y << std::endl;
+
+	m_scrollbar->computeHandleHeight(height, scrollMax);
 }
 
 TreeView::~TreeView()
 {
-	
+	delete m_scrollbar;
 }

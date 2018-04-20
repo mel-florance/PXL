@@ -20,6 +20,7 @@ public:
 
 	void setViewport(Viewport* viewport) { m_viewport = viewport; }
 
+	void clear(const glm::vec4& color);
 	void render(Scene* scene, double delta);
 
 private:
