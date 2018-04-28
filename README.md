@@ -1,5 +1,5 @@
 # PXL Engine
 
-![Screenshot](https://i.imgur.com/n4aX5H1.jpg)
+![Screenshot](https://github.com/Masterchoc/PXL/blob/master/Screenshots/screen_20_04_2017.jpg)
 
 Readme coming soon !
