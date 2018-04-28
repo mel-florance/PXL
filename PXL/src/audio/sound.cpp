@@ -1,12 +1,12 @@
 #include "sound.h"
 
-Sound::Sound(const std::string& path = "") : m_path(path), m_loaded(false)
+Sound::Sound(const std::string& name, const std::string& path, Mix_Chunk* data)
+	: m_path(path), m_name(name), m_loaded(false), m_playing(false)
 {
-
+	m_data = data;
 }
 
 Sound::~Sound()
 {
-	SDL_CloseAudio();
-	SDL_FreeWAV(m_wav_buffer);
+	Mix_FreeChunk(m_data);
 }

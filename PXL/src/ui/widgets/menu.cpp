@@ -163,6 +163,8 @@ void Menu::draw(NVGcontext* ctx, double delta)
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
+
+
 	float sizeY = this->getLayout()->getComputedSize().y;
 	sizeY = sizeY < m_minHeight ? m_minHeight : sizeY;
 
@@ -272,7 +274,7 @@ void Menu::draw(NVGcontext* ctx, double delta)
 			for (auto& child : item->m_children)
 			{
 				j++;
-				y = position.y + (j * lh);
+				y = position.y + (j * lh) + 1.0f;
 
 				if (child->m_isSeparator == true)
 				{

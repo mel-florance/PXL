@@ -24,6 +24,8 @@ void InputManager::update()
 		{
 			if (m_camera != nullptr)
 				m_camera->onMouseWheel(e);
+
+			m_guiManager->handleEvent("onMouseWheel", e);
 		}
 
 		if (e.type == SDL_KEYDOWN) {
@@ -47,7 +49,8 @@ void InputManager::update()
 			setMouse((float)e.motion.x, (float)e.motion.y);
 			setMouseRel((float)e.motion.xrel, (float)e.motion.yrel);
 
-			m_guiManager->handleEvent("onMouseMove", e);
+			if(m_mouseStates.z == 0)
+				m_guiManager->handleEvent("onMouseMove", e);
 
 			if (m_camera != nullptr)
 				m_camera->onMouseMove(getMouseRel());
@@ -58,8 +61,14 @@ void InputManager::update()
 			if (m_camera != nullptr)
 				m_camera->onMouseDown(e.button.button);
 
-			if(e.button.button == SDL_BUTTON_LEFT)
-				m_guiManager->handleEvent("onMouseDown", e);
+			m_guiManager->handleEvent("onMouseDown", e);
+
+			if (e.button.button == SDL_BUTTON_LEFT)
+				m_mouseStates.x = 1;
+			else if (e.button.button == SDL_BUTTON_MIDDLE)
+				m_mouseStates.y = 1;
+			else if (e.button.button == SDL_BUTTON_RIGHT)
+				m_mouseStates.z = 1;
 		}
 
 		if (e.type == SDL_MOUSEBUTTONUP)
@@ -67,8 +76,14 @@ void InputManager::update()
 			if (m_camera != nullptr)
 				m_camera->onMouseUp(e.button.button);
 
+			m_guiManager->handleEvent("onMouseUp", e);
+
 			if (e.button.button == SDL_BUTTON_LEFT)
-				m_guiManager->handleEvent("onMouseUp", e);
+				m_mouseStates.x = 0;
+			else if (e.button.button == SDL_BUTTON_MIDDLE)
+				m_mouseStates.y = 0;
+			else if (e.button.button == SDL_BUTTON_RIGHT)
+				m_mouseStates.z = 0;
 		}
 
 		if (e.type == SDL_WINDOWEVENT) 

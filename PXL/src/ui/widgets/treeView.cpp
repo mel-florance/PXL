@@ -12,7 +12,7 @@ TreeView::TreeView(const glm::vec2& position, const glm::vec2& size, const std::
 	);
 
 	m_font = font;
-	m_fontSize = 20.0f;
+	m_fontSize = 18.0f;
 	m_blur = 0.0f;
 	m_align = NVG_ALIGN_LEFT;
 	m_color = nvgRGBA(255, 255, 255, 100);
@@ -37,6 +37,8 @@ void TreeView::onScrollbarDragged(CallbackData data)
 
 	parent->setOffsetScroll(sender->getHandleDragOffset());
 }
+
+
 
 float TreeView::getTreeItemHeight(glm::vec2& position, TreeItem* item, unsigned int index)
 {
@@ -209,6 +211,28 @@ void TreeView::onMouseMove(const SDL_Event& event)
 		position.y -= m_offsetScroll;
 
 		this->onTreeItemMouseMove(event, position, size, m_root, 0, 1);
+	}
+}
+
+void TreeView::onMouseWheel(const SDL_Event& event)
+{
+	if (this->getState("hovered"))
+	{
+		glm::vec2 position = this->getRelativePosition();
+		glm::vec2 size = this->getRelativeSize();
+		float hy = position.y + 30.0f;
+		float drag = m_scrollbar->getHandleDragOffset();
+		float handleHeight = m_scrollbar->getHandleHeight();
+		drag += event.wheel.y * -3.0f;
+
+		if (hy + drag < hy)
+			drag = 0;
+
+		if (hy + drag + handleHeight > hy + (size.y - 30.0f))
+			drag = (size.y - 30.0f) - handleHeight;
+
+		m_scrollbar->setHandleDragOffset(drag);
+		this->setOffsetScroll(drag);
 	}
 }
 

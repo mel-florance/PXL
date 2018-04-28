@@ -11,7 +11,7 @@ Table::Table(const glm::vec2& position, const glm::vec2& size, const std::string
 	);
 
 	m_font = font;
-	m_fontSize = 20.0f;
+	m_fontSize = 18.0f;
 	m_blur = 0.0f;
 	m_align = NVG_ALIGN_LEFT;
 	m_color = nvgRGBA(255, 255, 255, 100);

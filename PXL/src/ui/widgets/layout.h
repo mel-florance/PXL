@@ -30,7 +30,7 @@ public:
 
 	inline ExpandMode getPositionModeY() { return m_positionModeY; }
 	inline void setPositionModeY(ExpandMode mode) { m_positionModeY = mode; }
-
+	
 	inline void setMinHeight(float value) { m_minHeight = value; }
 	inline float getMinHeigh() { return m_minHeight; }
 
@@ -49,15 +49,16 @@ public:
 	void setWidgetLayout(Widget* widget);
 	virtual void removeWidget(Widget* widget);
 
-	void setGuiManager(GuiManager* guiManager) { m_guiManager = guiManager; }
+	void setGuiManager(GuiManager* guiManager);
 	inline GuiManager* getGuiManager() { return m_guiManager; }
 
 	void setDirection(StackDirection direction) { m_direction = direction; }
 	StackDirection getDirection() { return m_direction; }
 
 	void update(double delta);
-	void draw(NVGcontext* ctx, Layout* previous, unsigned int index, unsigned int depth, double delta);
-	void drawSplitter(NVGcontext* ctx, unsigned int index, double delta);
+	void updateSplitter(double delta, unsigned int index);
+	void draw(NVGcontext* ctx);
+	void drawSplitter(NVGcontext* ctx, double delta);
 
 	inline void setPosition(const glm::vec2& position) { m_position = position; }
 	inline glm::vec2& getPosition() { return m_position; }
@@ -141,6 +142,6 @@ private:
 	std::string m_name;
 	Layout* m_parent;
 	Display* m_window;
-	std::vector<class Widget*> m_widgets;
-	std::vector<class Layout*> m_children;
+	std::vector<Widget*> m_widgets;
+	std::vector<Layout*> m_children;
 };

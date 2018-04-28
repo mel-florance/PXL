@@ -21,6 +21,7 @@ Icon::Icon(const std::string& name, const glm::vec2& position, const glm::vec2& 
 	m_icons["PLUS_CIRCLED"] = 0x2795;
 	m_icons["RIGHT_DIR"] = 0x25b8;
 	m_icons["DOWN_DIR"] = 0x25be;
+	m_icons["TOP_DIR"] = 0x25b4;
 	m_icons["COG"] = 0x2699;
 
 	this->setSymbol(name);

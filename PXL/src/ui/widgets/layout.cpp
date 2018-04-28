@@ -57,9 +57,8 @@ glm::vec2 Layout::getRelativeSize()
 	switch (this->getExpandModeX())
 	{
 	case WINDOW:
-		if (m_window != nullptr) {
+		if (m_window != nullptr)
 			size.x = this->getWindow()->getSize().x;
-		}
 		break;
 	case PARENT:
 		size.x = this->getComputedSize().x;
@@ -89,7 +88,7 @@ void Layout::addWidget(Widget* widget)
 	this->setWidgetLayout(widget);
 	this->setWidgetWindow(widget);
 	widget->setState("visible", true);
-	m_widgets.emplace_back(widget);
+	m_widgets.push_back(widget);
 }
 
 void Layout::update(double delta)
@@ -97,22 +96,7 @@ void Layout::update(double delta)
 
 }
 
-void Layout::draw(NVGcontext* ctx, Layout* previous, unsigned int index, unsigned int depth, double delta)
-{
-	nvgSave(ctx);
-
-	glm::vec2 pos = this->getRelativePosition();
-	glm::vec2 size = this->getRelativeSize();
-	
-	nvgBeginPath(ctx);
-	nvgRect(ctx, pos.x, pos.y, size.x, size.y);
-	nvgFillColor(ctx, m_background);
-	nvgFill(ctx);
-
-	nvgRestore(ctx);
-}
-
-void Layout::drawSplitter(NVGcontext* ctx, unsigned int index, double delta)
+void Layout::updateSplitter(double delta, unsigned int index)
 {
 	glm::vec2 pos = this->getComputedPosition();
 	glm::vec2 size = this->getComputedSize();
@@ -122,7 +106,7 @@ void Layout::drawSplitter(NVGcontext* ctx, unsigned int index, double delta)
 
 	if (parent != nullptr)
 	{
-		if (index != parent->getChildren().size())
+		if (index != parent->getChildren().size() - 1)
 		{
 			glm::vec2 splitterPos = glm::vec2(0.0f);
 			glm::vec2 splitterSize = glm::vec2(0.0f);
@@ -149,9 +133,31 @@ void Layout::drawSplitter(NVGcontext* ctx, unsigned int index, double delta)
 
 			m_splitter->setPosition(splitterPos);
 			m_splitter->setSize(splitterSize);
-			m_splitter->draw(ctx, delta);
 		}
 	}
+
+	if(m_splitter != nullptr)
+		m_splitter->update(delta);
+}
+
+void Layout::draw(NVGcontext* ctx)
+{
+	nvgSave(ctx);
+
+	glm::vec2 pos = this->getRelativePosition();
+	glm::vec2 size = this->getRelativeSize();
+	
+	nvgBeginPath(ctx);
+	nvgRect(ctx, pos.x, pos.y, size.x, size.y);
+	nvgFillColor(ctx, m_background);
+	nvgFill(ctx);
+
+	nvgRestore(ctx);
+}
+
+void Layout::drawSplitter(NVGcontext* ctx, double delta)
+{
+	m_splitter->draw(ctx, delta);
 }
 
 void Layout::computeStackDirection(Layout* previous, unsigned int index)
@@ -162,16 +168,13 @@ void Layout::computeStackDirection(Layout* previous, unsigned int index)
 	if (previous != nullptr)
 	{
 		if (this->getDirection() == VERTICAL)
-		{
 			pos.y = previous->getComputedSize().y;
-		}
 		else if (this->getDirection() == HORIZONTAL)
-		{
 			pos.x = previous->getComputedSize().x;
-		}
 	}
 
-	if (index > 0 && this->getParent() != nullptr) {
+	if (index > 0 && this->getParent() != nullptr) 
+	{
 		Layout* PP = this->getParent()->getParent();
 
 		if (PP != nullptr)
@@ -179,9 +182,7 @@ void Layout::computeStackDirection(Layout* previous, unsigned int index)
 			Layout* previous = this->getGuiManager()->getPrevious(PP);
 
 			if (previous != nullptr) 
-			{
 				pos.y += previous->getComputedSize().y;
-			}
 		}
 	}
 
@@ -236,9 +237,8 @@ void Layout::onWindowSizeChanged(const SDL_Event& event)
 {
 	Layout* root = this->getRoot();
 
-	if (root == this) {
+	if (root == this)
 		this->setSize(glm::vec2(event.window.data1, event.window.data2));
-	}
 	else if (root != nullptr)
 	{
 		this->computeSize();
@@ -273,7 +273,27 @@ void Layout::setWidgetLayout(Widget* widget)
 
 void Layout::removeWidget(Widget* widget)
 {
-	m_widgets.erase(std::remove(m_widgets.begin(), m_widgets.end(), widget), m_widgets.end());
+	std::vector<Widget*>::iterator position = std::find(m_widgets.begin(), m_widgets.end(), widget);
+
+	if (position != m_widgets.end())
+	{
+		std::cout << "widget deleted" << std::endl;
+
+		m_widgets.erase(position);
+	}
+
+}
+
+void Layout::setGuiManager(GuiManager* guiManager)
+{
+	m_guiManager = guiManager;
+	m_guiManager->addLayout(this);
+
+	if (m_splitter != nullptr) 
+	{
+		LayerManager* lm = guiManager->getLayerManager();
+		lm->addWidget(0, m_splitter);
+	}
 }
 
 Layout::~Layout()

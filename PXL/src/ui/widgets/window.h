@@ -59,6 +59,7 @@ private:
 	float m_opacity;
 
 	glm::vec4 m_margin;
+	glm::vec2 m_windowDragOffset;
 
 	struct WindowHeader {
 		Rect* rect;

@@ -16,8 +16,12 @@ public:
 	void onWindowResized(const SDL_Event& event);
 	void onWindowSizeChanged(const SDL_Event& event);
 
+	inline glm::vec2& getOffset() { return m_offset; }
+	inline void setOffset(const glm::vec2& offset) { m_offset = offset; }
+
 	~Splitter();
 
 private:
 	NVGcolor m_background;
+	glm::vec2 m_offset;
 };

@@ -13,7 +13,7 @@ GuiManager::GuiManager(Display* window, FontManager* fontManager, AssetManager* 
 	m_sceneManager = sceneManager;
 	m_layerManager = new LayerManager();
 	m_quadTree = new QuadTree(glm::vec2(2.0f, 2.0f), glm::vec2(8.0f, 8.0f));
-
+	m_activeLayout = nullptr;
 	/*Node a(glm::vec2(1, 1), 1);
 	Node b(glm::vec2(2, 5), 2);
 	Node c(glm::vec2(7, 6), 3);
@@ -57,27 +57,30 @@ void GuiManager::initLayout(Layout* layout)
 
 void GuiManager::handleLayoutEvent(const std::string& name, const SDL_Event& event, Layout* layout)
 {
-	switch (event.window.event) 
-	{
-		case SDL_WINDOWEVENT_RESIZED:
-			layout->onWindowResized(event);
-			break;
-		case SDL_WINDOWEVENT_SIZE_CHANGED:
-			layout->onWindowSizeChanged(event);
-			break;
-	}
-
-	if (layout->getSplitter() != nullptr)
-		layout->getSplitter()->handleEvent(name, event);
-
 	std::vector<Widget*> widgets = layout->getWidgets();
+
 	for (unsigned int j = 0; j < widgets.size(); j++)
-	{
 		this->handleWidgetEvent(widgets[j], event, name);
-	}
 
 	for (auto child : layout->getChildren())
 		this->handleLayoutEvent(name, event, child);
+}
+
+Layout* GuiManager::getHoveredLayout(const glm::vec2& mouse)
+{
+	Layout* hovered = nullptr;
+
+	for (unsigned int i = m_layouts.size() - 1; i > 0; --i) 
+	{
+		Layout* layout = m_layouts[i];
+
+		Rect area(layout->getComputedPosition(), layout->getComputedSize());
+
+		if (area.intersects(mouse) && layout->getChildren().size() == 0)
+			hovered = layout;
+	}
+
+	return hovered;
 }
 
 void GuiManager::init()
@@ -97,40 +100,63 @@ void GuiManager::handleWidgetEvent(Widget* widget, const SDL_Event& event, const
 
 void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
 {
-	this->handleLayoutEvent(name, event, m_mainLayout);
-
-	std::vector<Widget*> firstLayer = this->getLayerManager()->getLayers()[0];
-
-	if (firstLayer.size() > 0)
+	for (auto layer : this->getLayerManager()->getLayers())
 	{
-		for (unsigned int i = 0; i < firstLayer.size(); i++)
-			this->handleWidgetEvent(firstLayer[i], event, name);
+		std::vector<Widget*> widgets = layer.second;
+
+		for (unsigned i = widgets.size() - 1; widgets.size() > i; --i)
+			this->handleWidgetEvent(widgets[i], event, name);
 	}
 
+	if (event.window.event == SDL_WINDOWEVENT_RESIZED || event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+	{
+		for (auto layout : m_layouts) 
+		{
+			layout->onWindowResized(event);
+			layout->onWindowSizeChanged(event);
+		}
+	}
+	else
+	{
+		if (event.type == SDL_MOUSEMOTION) 
+		{
+			for (auto layout : m_layouts)
+				if (layout->getSplitter() != nullptr)
+					layout->getSplitter()->handleEvent(name, event);
+
+			Layout* currentLayout = this->getHoveredLayout(glm::vec2(event.motion.x, event.motion.y));
+		
+			if (currentLayout != nullptr)
+				m_activeLayout = currentLayout;
+		}
+
+		if(m_activeLayout != nullptr)
+			this->handleLayoutEvent(name, event, m_activeLayout);
+	}
 }
 
 
 Widget* GuiManager::getWidgetByName(const std::string& name)
 {
-	//for (unsigned int i = 0; i < m_layouts.size(); i++)
-	//{
-	//	std::vector<class Widget*> widgets = m_layouts[i]->getWidgets();
+	for (unsigned int i = 0; i < m_layouts.size(); i++)
+	{
+		std::vector<class Widget*> widgets = m_layouts[i]->getWidgets();
 
-	//	for (unsigned int j = 0; j < widgets.size(); j++) {
+		for (unsigned int j = 0; j < widgets.size(); j++) {
 
-	//		//std::cout << "first level: " << widgets[j]->getName() << " str: " << name << std::endl;
+			//std::cout << "first level: " << widgets[j]->getName() << " str: " << name << std::endl;
 
-	//		std::vector<class Widget*> childs = widgets[j]->getChildren();
+			std::vector<class Widget*> childs = widgets[j]->getChildren();
 
-	//		for (unsigned int z = 0; z < childs.size(); z++) {
+			for (unsigned int z = 0; z < childs.size(); z++) {
 
-	//			//std::cout << "second level: " << childs[z]->getName() << std::endl;
+				//std::cout << "second level: " << childs[z]->getName() << std::endl;
 
-	//			if (childs[z]->getName() == name)
-	//				return childs[z];
-	//		}
-	//	}
-	//}
+				if (childs[z]->getName() == name)
+					return childs[z];
+			}
+		}
+	}
 
 	return (Widget*)NULL;
 }

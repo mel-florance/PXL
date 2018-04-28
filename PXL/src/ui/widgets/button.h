@@ -22,8 +22,8 @@ public:
 
 	void update(double delta);
 	void draw(NVGcontext* ctx, double delta);
-	void drawBackground(NVGcontext* ctx, glm::vec2& position);
-	void drawText(NVGcontext* ctx, glm::vec2& position);
+	void drawBackground(NVGcontext* ctx, glm::vec2& position, glm::vec2& size);
+	void drawText(NVGcontext* ctx, glm::vec2& position, glm::vec2& size);
 
 	void onKeyDown(const SDL_Event& event);
 	void onTextInput(const SDL_Event& event);

@@ -83,7 +83,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)/PXL/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp-vc140-mt.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -201,6 +201,13 @@
     <ClCompile Include="./src/ui/widgets/splitter.cpp" />
     <ClCompile Include="./src/audio/soundManager.cpp" />
     <ClCompile Include="./src/audio/sound.cpp" />
+    <ClCompile Include="./src/ui/widgets/tabs.cpp" />
+    <ClCompile Include="./src/ui/widgets/group.cpp" />
+    <ClCompile Include="./src/ui/widgets/slider.cpp" />
+    <ClCompile Include="./src/ui/widgets/form.cpp" />
+    <ClCompile Include="./src/ui/widgets/accordion.cpp" />
+    <ClCompile Include="./src/ui/widgets/select.cpp" />
+    <ClCompile Include="./src/core/gameLoop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/assets/assetManager.h" />
@@ -287,6 +294,13 @@
     <ClInclude Include="./src/ui/widgets/splitter.h" />
     <ClInclude Include="./src/audio/soundManager.h" />
     <ClInclude Include="./src/audio/sound.h" />
+    <ClInclude Include="./src/ui/widgets/tabs.h" />
+    <ClInclude Include="./src/ui/widgets/group.h" />
+    <ClInclude Include="./src/ui/widgets/slider.h" />
+    <ClInclude Include="./src/ui/widgets/form.h" />
+    <ClInclude Include="./src/ui/widgets/accordion.h" />
+    <ClInclude Include="./src/ui/widgets/select.h" />
+    <ClInclude Include="./src/core/gameLoop.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\icon_big.ico" />

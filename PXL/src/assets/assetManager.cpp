@@ -28,7 +28,8 @@ void AssetManager::importMesh(const std::string& filename)
 		aiProcess_CalcTangentSpace
 	);
 
-	if (!scene) {
+	if (!scene) 
+	{
 		std::cout << importer.GetErrorString() << std::endl;
 		return;
 	}
@@ -50,45 +51,41 @@ void AssetManager::processNode(aiNode* node, const aiScene* scene)
 
 Mesh* AssetManager::processMesh(const std::string& name, aiMesh* object, const aiScene* scene)
 {
-	const aiVector3D aiZeroVector(0, 0, 0);
+	std::vector<int> indices;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
 	std::vector<glm::vec3> tangents;
-	std::vector<int> indices;
 
 	for (GLuint i = 0; i < object->mNumVertices; i++)
 	{
-		if (object->HasPositions()) {
-			const aiVector3D pos = object->mVertices[i];
-			vertices.push_back(glm::vec3(pos.x, pos.y, pos.z));
-		}
+		if (object->HasPositions())
+			vertices.push_back(glm::vec3(object->mVertices[i].x, object->mVertices[i].y, object->mVertices[i].z));
 
-		if (object->HasTextureCoords(0)) {
-			const aiVector3D texCoord = object->HasTextureCoords(0) ? object->mTextureCoords[0][i] : aiZeroVector;
-			uvs.push_back(glm::vec2(texCoord.x, texCoord.y));
-		}
+		if (object->HasTextureCoords(0)) 
+			uvs.push_back(glm::vec2(object->mTextureCoords[0][i].x, object->mTextureCoords[0][i].y));
 
-		if (object->HasNormals()) {
-			const aiVector3D normal = object->mNormals[i];
-			normals.push_back(glm::vec3(normal.x, normal.y, normal.z));
-		}
+		if (object->HasNormals())
+			normals.push_back(glm::vec3(object->mNormals[i].x, object->mNormals[i].y, object->mNormals[i].z));
 
-		if (object->HasTangentsAndBitangents()) {
-			const aiVector3D tangent = object->mTangents[i];
-			tangents.push_back(glm::vec3(tangent.x, tangent.y, tangent.z));
-		}
+		if (object->HasTangentsAndBitangents())
+			tangents.push_back(glm::vec3(object->mTangents[i].x, object->mTangents[i].y, object->mTangents[i].z));
 	}
 
 	if (object->HasFaces())
 	{
 		for (unsigned int i = 0; i < object->mNumFaces; i++)
 		{
-			const aiFace& face = object->mFaces[i];
-			indices.push_back(face.mIndices[0]);
-			indices.push_back(face.mIndices[1]);
-			indices.push_back(face.mIndices[2]);
+			indices.push_back(object->mFaces[i].mIndices[0]);
+			indices.push_back(object->mFaces[i].mIndices[1]);
+			indices.push_back(object->mFaces[i].mIndices[2]);
 		}
+	}
+
+	if (uvs.size() == 0) 
+	{
+		std::cout << "Object \"" << name << "\" has no uv coordinates, import cancelled.";
+		return nullptr;
 	}
 
 	Mesh* mesh = m_loader->loadToVAO(name, vertices, indices, uvs, normals, tangents);

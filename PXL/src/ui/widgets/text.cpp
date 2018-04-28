@@ -19,16 +19,9 @@ void Text::draw(NVGcontext* ctx, double delta)
 	nvgFontBlur(ctx, m_blur);
 	nvgFillColor(ctx, m_color);
 
-	float x = this->getPosition().x;
-	float y = this->getPosition().y;
+	glm::vec2 pos = this->getRelativePosition();
 
-	if (this->getParent() != nullptr) 
-	{
-		x = this->getParent()->getPosition().x + x;
-		y = this->getParent()->getPosition().y + y;
-	}
-
-	nvgText(ctx, x, y, m_text.c_str(), NULL);
+	nvgText(ctx, pos.x, pos.y, m_text.c_str(), NULL);
 }
 
 Text::~Text()

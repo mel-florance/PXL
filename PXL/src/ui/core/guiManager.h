@@ -39,6 +39,9 @@ public:
 	void handleLayoutEvent(const std::string& name, const SDL_Event& event, Layout* layout);
 	void handleWidgetEvent(Widget* widget, const SDL_Event& event, const std::string& name);
 	void handleEvent(const std::string& name, const SDL_Event& event);
+	void handleLayoutWindowEvent(Layout* layout, const SDL_Event& event, const std::string& name);
+
+	Layout* getHoveredLayout(const glm::vec2& mouse);
 
 	inline Layout* getMainLayout() { return m_mainLayout; }
 	inline void setMainLayout(Layout* layout) { m_mainLayout = layout; }
@@ -49,17 +52,24 @@ public:
 
 	void onSceneObjectAdded();
 
+	void addLayout(Layout* layout) { m_layouts.emplace_back(layout); }
+
+	inline std::vector<Layout*> getLayouts() { return m_layouts; }
+
 	FontManager* getFontManager() { return m_fontManager; }
 	SceneManager* getSceneManager() { return m_sceneManager; }
 	AssetManager* getAssetManager() { return m_assetManager; }
 	LayerManager* getLayerManager() { return m_layerManager; }
 
 private:
-	Layout * findPrevious(Layout* fromLevel, Layout* layout);
+	Layout* findPrevious(Layout* fromLevel, Layout* layout);
+	
+	Layout* m_activeLayout;
 
 	NVGcontext* m_ctx;
 	Display* m_window;
 	Layout* m_mainLayout;
+	std::vector<Layout*> m_layouts;
 	FontManager* m_fontManager;
 	SceneManager* m_sceneManager;
 	AssetManager* m_assetManager;

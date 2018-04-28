@@ -33,7 +33,6 @@ Input::Input(glm::vec2& position, glm::vec2& size, const std::string& font) : Wi
 	this->setIcon(icon);
 }
 
-
 void Input::update(double delta)
 {
 	if (this->getState("focused")) 
@@ -74,24 +73,25 @@ void Input::draw(NVGcontext* ctx, double delta)
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
+	glm::vec2 size = this->getRelativeSize();
 
-	this->drawBackground(ctx, position);
-	this->drawText(ctx, position);
-	this->drawCaret(ctx, position);
-	this->drawIcon(ctx, position);
+	this->drawBackground(ctx, position, size);
+	this->drawText(ctx, position, size);
+	this->drawCaret(ctx, position, size);
+	this->drawIcon(ctx, position, size);
 
 	nvgRestore(ctx);
 }
 
-void Input::drawBackground(NVGcontext* ctx, glm::vec2& position)
+void Input::drawBackground(NVGcontext* ctx, glm::vec2& position, glm::vec2& size)
 {
 	NVGpaint bg;
 
 	bg = nvgBoxGradient(ctx,
 		position.x + 1,
 		position.y + 1 + 1.5f,
-		this->getSize().x - 2,
-		this->getSize().y - 2, 3, 4,
+		size.x - 2,
+		size.y - 2, 3, 4,
 		m_background,
 		nvgRGBA(0, 0, 0, 50)
 	);
@@ -101,8 +101,8 @@ void Input::drawBackground(NVGcontext* ctx, glm::vec2& position)
 	nvgRoundedRect(ctx,
 		position.x + 1,
 		position.y + 1,
-		this->getSize().x - 2,
-		this->getSize().y - 2,
+		size.x - 2,
+		size.y - 2,
 		4 - 1
 	);
 
@@ -113,8 +113,8 @@ void Input::drawBackground(NVGcontext* ctx, glm::vec2& position)
 	nvgRoundedRect(ctx,
 		position.x + 0.5f,
 		position.y + 0.5f,
-		this->getSize().x - 1,
-		this->getSize().y - 1,
+		size.x - 1,
+		size.y - 1,
 		4 - 0.5f
 	);
 
@@ -122,7 +122,7 @@ void Input::drawBackground(NVGcontext* ctx, glm::vec2& position)
 	nvgStroke(ctx);
 }
 
-void Input::drawText(NVGcontext* ctx, glm::vec2& position)
+void Input::drawText(NVGcontext* ctx, glm::vec2& position, glm::vec2& size)
 {
 	std::string text = m_text.text;
 
@@ -131,8 +131,8 @@ void Input::drawText(NVGcontext* ctx, glm::vec2& position)
 
 	m_text.width = nvgTextBounds(ctx, position.x, position.y, text.c_str(), NULL, 0);
 
-	float diff = this->getSize().x - m_text.width;
-	float textX = m_text.width + m_margin.w > this->getSize().x
+	float diff = size.x - m_text.width;
+	float textX = m_text.width + m_margin.w > size.x
 		? position.x + diff - m_margin.w
 		: position.x + 5;
 
@@ -142,23 +142,22 @@ void Input::drawText(NVGcontext* ctx, glm::vec2& position)
 	nvgFontBlur(ctx, m_text.blur);
 	nvgFillColor(ctx, m_text.color);
 
-	nvgScissor(ctx, position.x, position.y, this->getSize().x, this->getSize().y - m_margin.x);
+	nvgScissor(ctx, position.x, position.y, size.x, size.y - m_margin.x);
 
 	nvgText(ctx,
 		textX,
-		position.y + (this->getSize().y * 0.5f) + 5,
+		position.y + (size.y * 0.5f) + 5,
 		text.c_str(),
 		NULL
 	);
-
 }
 
-void Input::drawCaret(NVGcontext* ctx, glm::vec2& position)
+void Input::drawCaret(NVGcontext* ctx, glm::vec2& position, glm::vec2& size)
 {
 	if (this->getState("focused"))
 	{
-		float caretX = m_text.width + m_margin.w > this->getSize().x
-			? position.x + this->getSize().x - m_margin.w
+		float caretX = m_text.width + m_margin.w > size.x
+			? position.x + size.x - m_margin.w
 			: position.x + m_text.width + m_margin.w;
 
 		nvgBeginPath(ctx);
@@ -176,7 +175,7 @@ void Input::drawCaret(NVGcontext* ctx, glm::vec2& position)
 	}
 }
 
-void Input::drawIcon(NVGcontext* ctx, glm::vec2 & position)
+void Input::drawIcon(NVGcontext* ctx, glm::vec2 & position, glm::vec2& size)
 {
 	if (this->hasIcon() && m_text.text.size() > 0)
 	{
@@ -192,8 +191,8 @@ void Input::drawIcon(NVGcontext* ctx, glm::vec2 & position)
 		nvgTextAlign(ctx, NVG_ALIGN_CENTER | NVG_ALIGN_MIDDLE);
 
 		nvgText(ctx,
-			position.x + this->getSize().x - this->getSize().y * 0.48f,
-			position.y + this->getSize().y * 0.55f,
+			position.x + size.x - size.y * 0.48f,
+			position.y + size.y * 0.55f,
 			this->getIcon()->get(),
 			NULL
 		);
@@ -237,12 +236,13 @@ void Input::onMouseMove(const SDL_Event& event)
 	this->setState("hovered", this->intersects(m_mouse));
 
 	glm::vec2 position = this->getRelativePosition();
+	glm::vec2 size = this->getRelativeSize();
 
 	if (this->getState("hovered")) 
 	{
 		Rect rect(
-			glm::vec2(position.x + this->getSize().x - this->getSize().y  * 1.0f, position.y),
-			glm::vec2(this->getSize().y, this->getSize().y)
+			glm::vec2(position.x + size.x - size.y  * 1.0f, position.y),
+			glm::vec2(size.y, size.y)
 		);
 
 		bool iconIntersect = rect.intersects(m_mouse);
@@ -277,10 +277,11 @@ void Input::onMouseUp(const SDL_Event& event)
 	this->setState("hovered", intersect);
 
 	glm::vec2 position = this->getRelativePosition();
+	glm::vec2 size = this->getRelativeSize();
 
 	Rect rect(
-		glm::vec2(position.x + this->getSize().x - this->getSize().y  * 1.0f, position.y),
-		glm::vec2(this->getSize().y, this->getSize().y)
+		glm::vec2(position.x + size.x - size.y  * 1.0f, position.y),
+		glm::vec2(size.y, size.y)
 	);
 
 	if (rect.intersects(m_mouse) && event.button.button == SDL_BUTTON_LEFT)

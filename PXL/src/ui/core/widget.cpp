@@ -16,8 +16,8 @@ glm::vec2 Widget::getRelativePosition()
 {
 	glm::vec2 pos = this->getPosition();
 
-	if (this->getParent() != nullptr)
-		pos += this->getParent()->getRelativePosition();
+	//if (this->getParent() != nullptr)
+	//	pos += this->getParent()->getRelativePosition();
 
 	switch (this->getPositionModeX())
 	{
@@ -25,7 +25,8 @@ glm::vec2 Widget::getRelativePosition()
 		pos.x = this->getLayout()->getComputedPosition().x;
 		break;
 	case PARENT:
-		pos.x = this->getParent()->getComputedPosition().x;
+		if (this->getParent() != nullptr)
+			pos.x += this->getParent()->getRelativePosition().x;
 		break;
 	case FIXED:
 		pos.x = this->getPosition().x;
@@ -38,7 +39,8 @@ glm::vec2 Widget::getRelativePosition()
 		pos.y = this->getLayout()->getComputedPosition().y;
 		break;
 	case PARENT:
-		pos.y = this->getParent()->getComputedPosition().y;
+		if (this->getParent() != nullptr)
+			pos.y += this->getParent()->getRelativePosition().y;
 		break;
 	case FIXED:
 		pos.y = this->getPosition().y;
@@ -103,9 +105,9 @@ void Widget::setCentered()
 
 	if (window != nullptr)
 	{
-		glm::vec2 size = this->getSize();
+		glm::vec2 size = this->getRelativeSize();
 		glm::vec2 position = (window->getSize() - size) * 0.5f;
-		this->setPosition(position);
+		this->setComputedPosition(position);
 	}
 }
 

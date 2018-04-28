@@ -15,7 +15,7 @@ Window::Window(const std::string& text = "window", const glm::vec2& position = g
 
 	m_header.text = text;
 	m_header.font = font;
-	m_header.fontSize = 20.0f;
+	m_header.fontSize = 18.0f;
 	m_header.blur = 0.0f;
 	m_header.align = NVG_ALIGN_LEFT;
 	m_header.color = nvgRGBA(255, 255, 255, 128);
@@ -26,6 +26,7 @@ Window::Window(const std::string& text = "window", const glm::vec2& position = g
 	m_opacity = 1.0f;
 	m_background = nvgRGB(40, 40, 40);
 	m_borderRadius = 0.0f;
+	m_windowDragOffset = glm::vec2(0.0f);
 
 	const glm::vec2 iconPosition = glm::vec2(
 		position.x + m_header.rect->getSize().x - m_header.rect->getSize().y * 0.55f,
@@ -35,14 +36,17 @@ Window::Window(const std::string& text = "window", const glm::vec2& position = g
 	Icon* icon = new Icon("CANCEL_SQUARED", iconPosition, iconSize);
 	icon->addEventListener("onClosed", &Window::onClosed);
 	this->setIcon(icon);
+
+	this->addEventListener("onClosed", &Window::onClosed);
 }
 
 void Window::update(double delta)
 {
-	if (this->getState("dragged"))
-	{
-		this->incrementPosition(m_mouse - this->getRelativePosition());
-	}	
+	//if (this->getState("dragged"))
+	//{
+	//	glm::vec2 pos = this->getRelativePosition();
+	//	this->setComputedPosition(pos + (m_mouse - pos));
+	//}	
 }
 
 void Window::draw(NVGcontext* ctx, double delta)
@@ -57,6 +61,8 @@ void Window::draw(NVGcontext* ctx, double delta)
 
 	size.x -= m_margin.w + m_margin.y;
 	size.y -= m_margin.x + m_margin.z;
+
+
 
 	nvgBeginPath(ctx);
 	nvgRoundedRect(ctx,
@@ -77,8 +83,8 @@ void Window::draw(NVGcontext* ctx, double delta)
 			ctx,
 			position.x,
 			position.y + 2,
-			this->getLayout()->getComputedSize().x,
-			this->getLayout()->getComputedSize().y,
+			size.x,
+			size.y,
 			m_borderRadius * 2,
 			8.0f,
 			nvgRGBA(0, 0, 0, 255),
@@ -89,15 +95,15 @@ void Window::draw(NVGcontext* ctx, double delta)
 		nvgRect(ctx,
 			position.x - 10,
 			position.y - 10,
-			this->getLayout()->getComputedSize().x + 20,
-			this->getLayout()->getComputedSize().y + 30
+			size.x + 20,
+			size.y + 30
 		);
 
 		nvgRoundedRect(ctx,
 			position.x,
 			position.y,
-			this->getLayout()->getComputedSize().x,
-			this->getLayout()->getComputedSize().y,
+			size.x,
+			size.y,
 			m_borderRadius
 		);
 
@@ -206,24 +212,28 @@ void Window::onKeyDown(const SDL_Event& event)
 
 void Window::onMouseMove(const SDL_Event& event)
 {
-	if (this->getState("dragged"))
-	{
-		m_dragEnd = m_mouse;
-		m_dragDelta = m_dragEnd - m_dragStart;
-	}
-
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	this->setState("hovered", this->intersects(m_mouse));
+	glm::vec2 position = this->getRelativePosition();
+
+	if (this->getState("dragged"))
+	{
+		glm::vec2 offset = m_mouse - position;
+		m_windowDragOffset = offset - m_dragDelta;
+
+		position += m_windowDragOffset;
+		this->setPosition(position);
+	}
 
 	if (this->getState("closable"))
 	{
-		glm::vec2 position = this->getRelativePosition();
 		glm::vec2 pos = glm::vec2(position.x + m_header.rect->getSize().x - m_header.rect->getSize().y * 1.0f, position.y);
 		glm::vec2 size = glm::vec2(m_header.rect->getSize().y, m_header.rect->getSize().y);
 		Rect rect(pos, size);
 
 		this->getIcon()->setState("hovered", rect.intersects(m_mouse));
 	}
+
 
 }
 
@@ -234,46 +244,72 @@ void Window::onClosed(CallbackData data)
 
 void Window::onMouseDown(const SDL_Event& event)
 {
-	this->setState("hovered", this->intersects(m_mouse));
-
-	if (this->getState("draggable") && event.button.button == SDL_BUTTON_LEFT && !this->getState("dragged"))
+	if (this->getState("hovered"))
 	{
-		if (m_header.rect->intersects(m_mouse)) 
+		if (this->getState("draggable") && event.button.button == SDL_BUTTON_LEFT)
 		{
-			m_dragStart = m_mouse;
+			LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
+			layerManager->addWidget(0, this);
 
-			if(this->getState("closable"))
-				if (this->getIcon()->getState("hovered"))
-					this->setState("dragged", false);
-			else
-				this->setState("dragged", true);
+			glm::vec2 position = this->getRelativePosition();
+			glm::vec2 size = this->getRelativeSize();
+			position += m_windowDragOffset;
+
+			position.x += m_margin.w;
+			position.y += m_margin.x;
+
+
+			size.x -= m_margin.w + m_margin.y;
+			size.y -= m_margin.x + m_margin.z;
+
+			m_header.rect->setPosition(glm::vec2(position.x + 1, position.y + 1));
+			m_header.rect->setSize(glm::vec2(size.x - 2, 30));
+
+			if (m_header.rect->intersects(m_mouse))
+			{
+				if (this->getState("closable"))
+				{
+					if (this->getIcon()->getState("hovered"))
+						this->setState("dragged", false);
+					else
+					{
+						std::cout << "intersects!" << std::endl;
+
+						this->setState("dragged", true);
+						glm::vec2 pos = position + m_windowDragOffset;
+						m_dragDelta = m_mouse - pos;
+					}
+				}
+			}
 		}
 	}
 }
 
 void Window::onMouseUp(const SDL_Event& event)
 {
-	m_dragStart = glm::vec2();
-	m_dragEnd = m_mouse;
+	if (this->getIcon()->getState("hovered"))
+	{
+		if (event.button.button == SDL_BUTTON_LEFT) 
+		{
+			if (this->hasListener("onClosed")) 
+			{
+				LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
+				layerManager->removeWidget(0, this);
+
+				this->getLayout()->removeWidget(this);
+			}
+		}
+	}
+
+	m_windowDragOffset = glm::vec2(0.0f);
 	this->setState("dragged", false);
 
-	if (this->getIcon()->getState("hovered")) {
+	//if (this->getState("hovered") == false && this->getState("draggable") && event.button.button == SDL_BUTTON_LEFT)
+	//{
+	//	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
+	//	layerManager->removeWidget(0, this);
+	//}
 
-		if (event.button.button == SDL_BUTTON_LEFT) {
-			this->getIcon()->handleEventListener("onClosed", { this });
-		}
-	}	
-
-	this->setState("hovered", this->intersects(m_mouse));
-
-	if (event.button.button == SDL_BUTTON_LEFT && this->getState("draggable"))
-	{
-		LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
-		if (this->getState("hovered"))
-			layerManager->addWidget(0, this);
-		else
-			layerManager->removeWidget(0, this);
-	}
 }
 
 void Window::onTextInput(const SDL_Event & event)

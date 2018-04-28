@@ -67,7 +67,7 @@ public:
 
 
 	void addChild(Widget* child);
-	inline std::vector<Widget*> getChildren() { return m_children; }
+	inline std::vector<Widget*>& getChildren() { return m_children; }
 
 	virtual inline void draw(NVGcontext* ctx, double delta) {}
 	virtual inline void update(double delta) {}

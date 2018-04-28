@@ -1,5 +1,6 @@
 #include "button.h"
 #include "layout.h"
+#include "../core/guiManager.h"
 
 Button::Button(glm::vec2& position, glm::vec2& size, const std::string& font) : Widget(position, size)
 {
@@ -8,10 +9,10 @@ Button::Button(glm::vec2& position, glm::vec2& size, const std::string& font) : 
 	m_borderRadius = 4.0f;
 
 	m_margin = glm::vec4(
-		8.0f, // Top
-		5.0f, // Right
-		8.0f, // Bottom
-		5.0f  // Left
+		40.0f, // Top
+		0.0f, // Right
+		0.0f, // Bottom
+		10.0f  // Left
 	);
 
 	m_text.font = font;
@@ -49,14 +50,21 @@ void Button::draw(NVGcontext* ctx, double delta)
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
+	glm::vec2 size = this->getRelativeSize();
 
-	this->drawBackground(ctx, position);
-	this->drawText(ctx, position);
+	position.x += m_margin.w;
+	position.y += m_margin.x;
+
+	size.x -= m_margin.w + m_margin.y;
+	//size.y -= (m_margin.x + m_margin.z);
+
+	this->drawBackground(ctx, position, size);
+	this->drawText(ctx, position, size);
 
 	nvgRestore(ctx);
 }
 
-void Button::drawBackground(NVGcontext* ctx, glm::vec2& position)
+void Button::drawBackground(NVGcontext* ctx, glm::vec2& position, glm::vec2& size)
 {
 	NVGpaint bg;
 
@@ -66,7 +74,7 @@ void Button::drawBackground(NVGcontext* ctx, glm::vec2& position)
 		position.x,
 		position.y,
 		position.x,
-		position.y + this->getSize().y,
+		position.y + size.y,
 		m_hightlight,
 		m_background
 	);
@@ -75,8 +83,8 @@ void Button::drawBackground(NVGcontext* ctx, glm::vec2& position)
 	nvgRoundedRect(ctx, 
 		position.x + 1, 
 		position.y + 1, 
-		this->getSize().x - 1,
-		this->getSize().y - 1,
+		size.x - 1,
+		size.y - 1,
 		m_borderRadius - 1
 	);
 	nvgFillPaint(ctx, bg);
@@ -86,8 +94,8 @@ void Button::drawBackground(NVGcontext* ctx, glm::vec2& position)
 	nvgRoundedRect(ctx,
 		position.x + 0.5f,
 		position.y + 0.5f,
-		this->getSize().x - 1,
-		this->getSize().y - 1,
+		size.x - 1,
+		size.y - 1,
 		4 - 0.5f
 	);
 
@@ -95,7 +103,7 @@ void Button::drawBackground(NVGcontext* ctx, glm::vec2& position)
 	nvgStroke(ctx);
 }
 
-void Button::drawText(NVGcontext* ctx, glm::vec2& position)
+void Button::drawText(NVGcontext* ctx, glm::vec2& position, glm::vec2& size)
 {
 	nvgFontSize(ctx, m_text.fontSize);
 	nvgFontFace(ctx, m_text.font.c_str());
@@ -106,13 +114,13 @@ void Button::drawText(NVGcontext* ctx, glm::vec2& position)
 	nvgScissor(ctx, 
 		position.x,
 		position.y, 
-		this->getSize().x, 
-		this->getSize().y
+		size.x, 
+		size.y
 	);
 
 	nvgText(ctx,
-		position.x + (this->getSize().x - m_text.width) * 0.5f + 2.5f,
-		position.y + (this->getSize().y * 0.5f) - 1,
+		position.x + (size.x - m_text.width) * 0.5f + 2.5f,
+		position.y + (size.y * 0.5f) - 1,
 		m_text.text.c_str(),
 		NULL
 	);
@@ -120,8 +128,8 @@ void Button::drawText(NVGcontext* ctx, glm::vec2& position)
 	nvgFillColor(ctx, m_text.color);
 
 	nvgText(ctx,
-		position.x + (this->getSize().x - m_text.width) * 0.5f + 2.5f,
-		position.y + (this->getSize().y * 0.5f),
+		position.x + (size.x - m_text.width) * 0.5f + 2.5f,
+		position.y + (size.y * 0.5f),
 		m_text.text.c_str(),
 		NULL
 	);
@@ -136,26 +144,36 @@ void Button::onMouseMove(const SDL_Event& event)
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	m_mouseRel = glm::vec2((float)event.motion.xrel, (float)event.motion.yrel);
 
-	this->setState("hovered", this->intersects(m_mouse));
+	glm::vec2 position = this->getRelativePosition();
+	glm::vec2 size = this->getRelativeSize();
+
+	position.x += m_margin.w;
+	position.y += m_margin.x;
+
+	Rect rect(position, size);
+
+	this->setState("hovered", rect.intersects(m_mouse));
 }
 
 void Button::onMouseDown(const SDL_Event& event)
 {
-	if(event.button.button == SDL_BUTTON_LEFT && this->getState("hovered"))
+	if (event.button.button == SDL_BUTTON_LEFT && this->getState("hovered")) {
+
 		this->setState("active", true);
+	}
 }
 
 void Button::onMouseUp(const SDL_Event& event)
 {
 	this->setState("active", false);
 
-	if (event.button.button == SDL_BUTTON_LEFT )
+	if (event.button.button == SDL_BUTTON_LEFT)
 	{
-		if (this->getState("hovered")) {
+		if (this->getState("hovered")) 
+		{
 			if (this->hasListener("onClosed"))
 				this->handleEventListener("onClosed", { this });
-
-			if (this->getState("hovered"))
+			else if (this->hasListener("mouseUp"))
 				this->handleEventListener("mouseUp", { this });
 		}
 	}

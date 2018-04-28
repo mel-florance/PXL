@@ -101,6 +101,7 @@ public:
 	void onTextInput(const SDL_Event& event);
 	void onKeyUp(const SDL_Event& event);
 	void onMouseMove(const SDL_Event& event);
+	void onMouseWheel(const SDL_Event& event);
 	void onMouseDown(const SDL_Event& event);
 	void onMouseUp(const SDL_Event& event);
 	void onWindowResized(const SDL_Event& event);

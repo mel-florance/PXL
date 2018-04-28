@@ -294,6 +294,27 @@
     <ClCompile Include="./src/audio/sound.cpp">
       <Filter>src\audio</Filter>
     </ClCompile>
+    <ClCompile Include="./src/ui/widgets/tabs.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/group.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/slider.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/core/gameLoop.cpp">
+      <Filter>src\core</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/select.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/form.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/ui/widgets/accordion.cpp">
+      <Filter>src\ui\widgets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/main.h">
@@ -545,6 +566,27 @@
     </ClInclude>
     <ClInclude Include="./src/audio/sound.h">
       <Filter>src\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/tabs.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/group.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/slider.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/core/gameLoop.h">
+      <Filter>src\core</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/select.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/form.h">
+      <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/ui/widgets/accordion.h">
+      <Filter>src\ui\widgets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

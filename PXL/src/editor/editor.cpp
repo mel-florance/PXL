@@ -59,20 +59,22 @@ void Editor::init()
 		glm::vec3(0.0f, 1.0f, -3.0f),
 		70.0f, 
 		(float)m_engine->getWindow()->getAspect(), 
-		0.1f, 
+		0.01f, 
 		1000.0f
 	);
 
 	m_engine->getSceneManager()->getSceneByName("Scene 1")->addCamera(camera);
 
 	Light* m_light = new Light();
-	m_light->setType(Light::POINT);
-	m_light->setPosition(glm::vec3(0.5f, 10.0f, 0.5f));
-	m_light->setColor(glm::vec3(2.0f, 2.0f, 2.0f));
-	m_light->setAttenuation(glm::vec3(1.0f, 0.001f, 0.0001f));
+	m_light->setType(Light::DIRECTIONAL);
+	m_light->setPosition(glm::vec3(10.0f, 30.0f, 25.0f));
+	m_light->setColor(glm::vec3(10.0f, 10.0f, 10.0f));
+	m_light->setAttenuation(glm::vec3(2.0f, 0.05f, 0.005f));
 	scene->addLight(m_light);
 
 	m_engine->getAssetManager()->importMesh("./res/models/plane.obj");
+	m_engine->getAssetManager()->importMesh("./res/models/menger.obj");
+
 	Mesh* plane = scene->getMeshByName("Plane");
 	plane->getTransform()->setScale(glm::vec3(5.0f, 5.0f, 5.0f));
 	plane->getMaterial()->setTiling(glm::vec2(500.0f, 500.0f));
@@ -207,9 +209,14 @@ void Editor::init()
 	layoutI->addWidget(inspector->getWindow());
 
 	SoundManager* soundManager = m_engine->getSoundManager();
-	soundManager->loadSound("drums", "./res/sounds/groove_drums.wav");
-	soundManager->play();
-	soundManager->playSound("drums", -1, -1);
+	//soundManager->loadSound("hope", "./res/sounds/hope.ogg");
+	//soundManager->loadSound("aze", "./res/sounds/groove_drums.wav");
+	//soundManager->loadSound("hope", "./res/sounds/hope.ogg");
+	//soundManager->play();
+	//soundManager->playSound("hope", -1, -1);
+
+	//SDL_Delay(2000);
+	//soundManager->playSound("aze", -1, -1);
 	
 
 	m_engine->getGuiManager()->init();

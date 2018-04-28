@@ -29,7 +29,7 @@ void GuiRenderer::renderLayout(Layout* layout, Layout* previous, unsigned int in
 		layout->computeStackDirection(previous, index);
 
 	if (m_drawLayouts)
-		layout->draw(ctx, previous, index, depth, delta);
+		layout->draw(ctx);
 
 	auto childs = layout->getChildren();
 
@@ -51,7 +51,8 @@ void GuiRenderer::renderLayout(Layout* layout, Layout* previous, unsigned int in
 
 void GuiRenderer::renderLayoutSplitter(Layout* layout, unsigned int index, double delta)
 {
-	layout->drawSplitter(m_guiManager->getContext(), index, delta);
+	layout->updateSplitter(delta, index);
+	layout->drawSplitter(m_guiManager->getContext(), delta);
 
 	auto childs = layout->getChildren();
 
@@ -66,12 +67,12 @@ void GuiRenderer::render(Scene* scene, double delta)
 	this->renderLayout(m_guiManager->getMainLayout(), nullptr, 0, 0, delta);
 	this->renderLayoutSplitter(m_guiManager->getMainLayout(), 0, delta);
 
-	std::vector<Widget*> firstLayer = m_guiManager->getLayerManager()->getLayers()[0];
-
-	if (firstLayer.size() > 0)
+	for (auto layer : m_guiManager->getLayerManager()->getLayers())
 	{
-		for (unsigned int i = 0; i < firstLayer.size(); i++)
-			this->updateWidget(firstLayer[i], delta);
+		std::vector<Widget*> widgets = layer.second;
+
+		for (unsigned i = widgets.size() - 1; widgets.size() > i; --i)
+			this->updateWidget(widgets[i], delta);
 	}
 
 	nvgEndFrame(m_guiManager->getContext());

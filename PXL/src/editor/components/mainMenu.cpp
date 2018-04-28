@@ -29,15 +29,13 @@ void MainMenu::init()
 	editMenu->addChild("Copy", NULL, "Ctrl + C");
 	editMenu->addChild("Paste", NULL, "Ctrl + V");
 	editMenu->addSeparator();
-	editMenu->addChild("Preferences...", NULL, "", "COG");
-
+	editMenu->addChild("Preferences...", &MainMenu::openPreferencesModal, "", "COG");
 
 	Menu::MenuItem* windowMenu = m_menu->addMenuItem("Window");
 	windowMenu->addChild("Fullscreen", &MainMenu::setFullscreen, "F11", "RESIZE_FULL");
 
 	Menu::MenuItem* helpMenu = m_menu->addMenuItem("Help");
 	helpMenu->addChild("Documentation", NULL, "", "HELP_CIRCLED");
-
 
 	this->getLayout()->addWidget(m_menu);
 }

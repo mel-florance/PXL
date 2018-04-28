@@ -18,24 +18,26 @@ void SoundManager::play()
 	while (Mix_PlayingMusic());
 }
 
-bool SoundManager::loadSound(const std::string& name, const std::string& path)
+Sound* SoundManager::loadSound(const std::string& name, const std::string& path)
 {
-	Mix_Chunk* sound = Mix_LoadWAV(path.c_str());
+	Mix_Chunk* chunk = Mix_LoadWAV(path.c_str());
 
-	if (sound != NULL)
+	if (chunk != NULL && name.size() > 0 )
 	{
+		Sound* sound = new Sound(name, path, chunk);
+
 		m_sounds[name] = sound;
 		std::cout << "Loaded sound: '" << name << "', '" << path << "'"  << std::endl;
-		return true;
+		return sound;
 	}
 
 	std::cout << "Failed to load sound: '" << path << "'" << std::endl;
-	return false;
+	return nullptr;
 }
 
 void SoundManager::playSound(const std::string& name, int channel, int loop)
 {
-	Mix_PlayChannel(channel, m_sounds[name], loop);
+	Mix_PlayChannel(channel, m_sounds[name]->getData(), loop);
 	std::cout << "Playing sound: " << name << std::endl;
 }
 
@@ -43,11 +45,10 @@ SoundManager::~SoundManager()
 {
 	//Mix_FreeMusic(music);
 
-	std::map<std::string, Mix_Chunk*>::iterator it;
+	std::map<std::string, Sound*>::iterator it;
 
-	for (it = m_sounds.begin(); it != m_sounds.end(); it++) {
-		Mix_FreeChunk(it->second);
-	}
+	for (it = m_sounds.begin(); it != m_sounds.end(); it++)
+		Mix_FreeChunk(it->second->getData());
 
 	Mix_CloseAudio();
 }

@@ -16,13 +16,16 @@ public:
 	void onTextInput(const SDL_Event& event);
 	void onKeyUp(const SDL_Event& event);
 	void onMouseMove(const SDL_Event& event);
+	void onMouseWheel(const SDL_Event& event);
 	void onMouseDown(const SDL_Event& event);
 	void onMouseUp(const SDL_Event& event);
 	void onWindowResized(const SDL_Event& event);
 	void onWindowSizeChanged(const SDL_Event& event);
 
 	void computeHandleHeight(float parentHeight, float scrollMax);
+	inline float getHandleHeight() { return m_handleHeight; }
 	inline float getHandleDragOffset() { return m_handleDragOffset; }
+	inline void setHandleDragOffset(float offset) { m_handleDragOffset = offset; }
 
 	~Scrollbar();
 private:

@@ -8,6 +8,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
+#include "sound.h"
+
 class SoundManager
 {
 public:
@@ -15,12 +17,11 @@ public:
 
 	void play();
 
-	bool loadSound(const std::string& name, const std::string& path);
+	Sound* loadSound(const std::string& name, const std::string& path);
 	void playSound(const std::string& name, int channel = -1, int loop = 0);
 
 	~SoundManager();
 
 private:
-	std::map<std::string, Mix_Chunk*> m_sounds;
-
+	std::map<std::string, Sound*> m_sounds;
 };
