@@ -1,39 +1,26 @@
-#ifndef _EDITORCOMPONENT_H
-#define _EDITORCOMPONENT_H
+#pragma once
 
+#include "../ui/widgets/layout.h"
 
 class Engine;
-class Layout;
 
-class EditorComponent {
-  public:
-     EditorComponent(Engine & engine);
+class EditorComponent
+{
+public:
 
-    virtual  ~EditorComponent();
+	EditorComponent(Engine* engine);
+	virtual ~EditorComponent();
 
-    inline virtual void init();
+	virtual void init() {}
+	virtual void update(double delta) {}
 
-    inline virtual void update(double delta);
+	void setLayout(Layout* layout);
+	Layout* getLayout();
 
-    void setLayout(Layout & layout);
+	void setEngine(Engine* engine);
+	Engine* getEngine();
 
-    Layout getLayout();
-
-    void setEngine(Engine & engine);
-
-    Engine getEngine();
-
-
-  private:
-    Layout * m_layout;
-
-    Engine * m_engine;
-
+private:
+	Layout* m_layout;
+	Engine* m_engine;
 };
-inline void EditorComponent::init() {
-}
-
-inline void EditorComponent::update(double delta) {
-}
-
-#endif

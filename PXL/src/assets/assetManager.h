@@ -1,46 +1,38 @@
-#ifndef _ASSETMANAGER_H
-#define _ASSETMANAGER_H
+#pragma once
 
+#include <string>
+#include <iostream>
+#include <vector>
+#include <cassert>
 
-#include "manager.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
-class Loader;
-class ShaderManager;
+#include "loader.h"
+
+#include "../assets/texture.h"
+#include "../materials/basicMaterial.h"
+#include "../shaders/shaderManager.h"
 class SceneManager;
-class Mesh;
-class Texture;
 
-class AssetManager : public Manager {
-  public:
-     AssetManager(Loader & loader, ShaderManager & shaderManager, SceneManager & sceneManager);
+class AssetManager : public Manager
+{
+public:
+	AssetManager(Loader* loader, ShaderManager* shaderManager, SceneManager* sceneManager);
+	~AssetManager();
 
-     ~AssetManager();
+	void importMesh(const std::string& filename);
+	void processNode(aiNode* node, const aiScene* scene);
+	Mesh* processMesh(const std::string& name, aiMesh* mesh, const aiScene* scene);
 
-    void importMesh(const std::string & filename);
+	inline Loader* getLoader() { return m_loader; }
+	ShaderManager* getShaderManager() { return m_shaderManager; }
 
-    void processNode(aiNode & node, const aiScene & scene);
-
-    Mesh processMesh(const std::string & name, aiMesh & object, const aiScene & scene);
-
-    inline Loader getLoader();
-
-    inline ShaderManager getShaderManager();
-
-
-  private:
-    Loader * m_loader;
-
-    ShaderManager * m_shaderManager;
-
-    SceneManager * m_sceneManager;
-
-    class Texture* m_textures;
-
+private:
+	Loader* m_loader;
+	ShaderManager* m_shaderManager;
+	SceneManager* m_sceneManager;
+	std::vector<class Texture*> m_textures;
 };
-inline Loader AssetManager::getLoader() {
-}
 
-inline ShaderManager AssetManager::getShaderManager() {
-}
-
-#endif

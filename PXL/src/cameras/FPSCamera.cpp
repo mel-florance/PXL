@@ -1,9 +1,7 @@
-
 #include "FPSCamera.h"
-#include "display.h"
 
- FPSCamera::FPSCamera(Display & window, glm::vec3 & position, float fov, float aspect, float near, float far) {
-
+FPSCamera::FPSCamera(Display* window, glm::vec3& position, float fov, float aspect, float near, float far) : Camera(window, fov, aspect, near, far)
+{
 	m_position = position;
 	m_up = glm::vec3(0.0f, 1.0f, 0.0f);
 	m_direction = glm::vec3(0.0f, 0.0f, 1.0f);
@@ -14,7 +12,7 @@
 
 	m_moveSpeed = 0.1f;
 	m_maxSpeed = 0.1f;
-	m_sensitivity = 0.15f;
+	m_sensitivity = 0.1f;
 
 	m_keys["FORWARD"] = SDLK_z;
 	m_keys["BACKWARD"] = SDLK_s;
@@ -35,33 +33,23 @@
 	//this->lockCursor(true);
 }
 
- FPSCamera::~FPSCamera() {
-
-
+void FPSCamera::lockCursor(bool value)
+{
+	if (value == true)
+	{
+		SDL_SetRelativeMouseMode(SDL_TRUE);
+		SDL_WarpMouseInWindow(
+			this->getWindow()->getWindow(),
+			(int)(this->getWindow()->getSize().x * 0.5f), 
+			(int)(this->getWindow()->getSize().y * 0.5f)
+		);
+	}
+	else
+		SDL_SetRelativeMouseMode(SDL_FALSE);
 }
 
-void FPSCamera::setPitch(float degrees) {
-
-	m_pitch -= degrees;
-
-	if (m_pitch > 360.0f)
-		m_pitch -= 360.0f;
-	else if (m_pitch < -360.0f)
-		m_pitch += 360.0f;
-}
-
-void FPSCamera::setYaw(float degrees) {
-
-	m_yaw -= degrees;
-
-	if (m_yaw > 360.0f)
-		m_yaw -= 360.0f;
-	else if (m_yaw < -360.0f)
-		m_yaw += 360.0f;
-}
-
-void FPSCamera::move(const Direction & dir) {
-
+void FPSCamera::move(Direction dir)
+{
 	if (this->getMode() == PERSPECTIVE)
 	{
 		float speed = m_moveSpeed * (float)m_delta;
@@ -90,75 +78,28 @@ void FPSCamera::move(const Direction & dir) {
 	}
 }
 
-void FPSCamera::onKeyDown(const SDL_Keycode & keycode) {
+void FPSCamera::setPitch(float degrees)
+{
+	m_pitch -= degrees;
 
-	for (const auto &key : m_keys)
-		if (keycode == key.second)
-			m_keys_states[key.first] = true;
+	if (m_pitch > 360.0f)
+		m_pitch -= 360.0f;
+	else if (m_pitch < -360.0f)
+		m_pitch += 360.0f;
 }
 
-void FPSCamera::onKeyUp(const SDL_Keycode & keycode) {
+void FPSCamera::setYaw(float degrees)
+{
+	m_yaw -= degrees;
 
-	for (const auto &key : m_keys)
-		if (keycode == key.second)
-			m_keys_states[key.first] = false;
+	if (m_yaw > 360.0f)
+		m_yaw -= 360.0f;
+	else if (m_yaw < -360.0f)
+		m_yaw += 360.0f;
 }
 
-void FPSCamera::onMouseMove(const glm::vec2 & mouse) {
-
-	if (this->isActive())
-	{
-		this->setPitch(mouse.y * ((float)m_delta * m_sensitivity));
-		this->setYaw(mouse.x * ((float)m_delta * m_sensitivity));
-	}
-}
-
-void FPSCamera::onMouseDown(const Uint8 & button) {
-
-	if (button == SDL_BUTTON_RIGHT)
-	{
-		this->lockCursor(true);
-		this->setActive(true);
-	}
-}
-
-void FPSCamera::onMouseUp(const Uint8 & button) {
-
-	if (button == SDL_BUTTON_RIGHT)
-	{
-		this->lockCursor(false);
-		this->setActive(false);
-	}
-}
-
-void FPSCamera::onMouseWheel(const SDL_Event & event) {
-
-	if (this->isActive())
-	{
-		m_moveSpeed += event.wheel.y * 0.1f;
-
-		if (m_moveSpeed < 0)
-			m_moveSpeed = 0;
-	}
-}
-
-void FPSCamera::lockCursor(bool value) {
-
-	if (value == true)
-	{
-		SDL_SetRelativeMouseMode(SDL_TRUE);
-		SDL_WarpMouseInWindow(
-			this->getWindow()->getWindow(),
-			(int)(this->getWindow()->getSize().x * 0.5f), 
-			(int)(this->getWindow()->getSize().y * 0.5f)
-		);
-	}
-	else
-		SDL_SetRelativeMouseMode(SDL_FALSE);
-}
-
-void FPSCamera::update(double delta) {
-
+void FPSCamera::update(double delta)
+{
 	if (this->isActive())
 	{
 		if (m_keys_states["FORWARD"])
@@ -206,3 +147,56 @@ void FPSCamera::update(double delta) {
 	this->setViewMatrix(glm::lookAt(m_position, m_target, m_up));
 }
 
+void FPSCamera::onKeyDown(const SDL_Keycode& keycode)
+{
+	for (const auto &key : m_keys)
+		if (keycode == key.second)
+			m_keys_states[key.first] = true;
+}
+
+void FPSCamera::onKeyUp(const SDL_Keycode& keycode)
+{
+	for (const auto &key : m_keys)
+		if (keycode == key.second)
+			m_keys_states[key.first] = false;
+}
+
+void FPSCamera::onMouseMove(const glm::vec2& mouse)
+{
+	if (this->isActive())
+	{
+		this->setPitch(mouse.y * ((float)m_delta * m_sensitivity));
+		this->setYaw(mouse.x * ((float)m_delta * m_sensitivity));
+	}
+}
+
+void FPSCamera::onMouseDown(Uint8 button)
+{
+	if (button == SDL_BUTTON_RIGHT)
+	{
+		this->lockCursor(true);
+		this->setActive(true);
+	}
+}
+
+void FPSCamera::onMouseUp(Uint8 button)
+{
+	if (button == SDL_BUTTON_RIGHT)
+	{
+		this->lockCursor(false);
+		this->setActive(false);
+	}
+}
+
+void FPSCamera::onMouseWheel(const SDL_Event& event)
+{
+	m_moveSpeed += event.wheel.y * 0.1f;
+
+	if (m_moveSpeed < 0)
+		m_moveSpeed = 0;
+}
+
+FPSCamera::~FPSCamera()
+{
+
+}

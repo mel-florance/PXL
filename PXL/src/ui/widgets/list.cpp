@@ -1,8 +1,7 @@
-
 #include "list.h"
 
- List::List(const glm::vec2 & position, const glm::vec2 & size, const std::string & font) {
-
+List::List(const glm::vec2& position, const glm::vec2& size, const std::string& font) : Widget(position, size)
+{
 
 	m_margin = glm::vec4(
 		8.0f, // Top
@@ -19,18 +18,18 @@
 	m_background = nvgRGBA(40, 40, 40, 255);
 }
 
- List::~List() {
-
-
-}
-
-void List::update(double delta) {
-
+void List::update(double delta)
+{
 
 }
 
-void List::draw(NVGcontext & ctx, double delta) {
+void List::addItem(const std::string& name)
+{
+	m_list.push_back(name);
+}
 
+void List::draw(NVGcontext* ctx, double delta)
+{
 	nvgSave(ctx);
 
 	glm::vec2 pos = this->getRelativePosition();
@@ -76,8 +75,7 @@ void List::draw(NVGcontext & ctx, double delta) {
 	nvgRestore(ctx);
 }
 
-void List::addItem(const std::string & name) {
+List::~List()
+{
 
-	m_list.push_back(name);
 }
-

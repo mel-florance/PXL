@@ -1,11 +1,8 @@
-
 #include "tabs.h"
-#include "eventListener.h"
-#include "icon.h"
-#include "scrollbar.h"
+#include "../core/guiManager.h"
 
- Tabs::Tabs(const glm::vec2 & position, const glm::vec2 & size) {
-
+Tabs::Tabs(const glm::vec2& position, const glm::vec2& size) : Widget(position, size)
+{
 	m_background = nvgRGBA(255, 255, 255, 0);
 	m_margin = glm::vec4(
 		17.0f, // Top
@@ -20,38 +17,15 @@
 	m_align = NVG_ALIGN_MIDDLE;
 	m_color = nvgRGB(150, 150, 150);
 	m_activeTab = 0;
-
-	m_scrollbar = new Scrollbar(glm::vec2(0.0f), glm::vec2(13.0f, 100.0f));
-
-	m_scrollbar->setMarginTop(52.0f);
-	m_scrollbar->setHandleMarginTop(40.0f);
-	m_scrollbar->setExpandModeX(Widget::ExpandMode::FIXED);
-	m_scrollbar->setExpandModeY(Widget::ExpandMode::LAYOUT);
-	m_scrollbar->setPositionModeX(Widget::ExpandMode::LAYOUT);
-	m_scrollbar->setPositionModeY(Widget::ExpandMode::LAYOUT);
-	m_scrollbar->setAlignment(Widget::Alignment::TOP_RIGHT);
-
-	m_scrollbar->addEventListener("onMouseMove", &Tabs::onScrollbarDragged);
-
-	this->addChild(m_scrollbar);
 }
 
-void Tabs::onScrollbarDragged(const CallbackData & data)
+void Tabs::update(double delta)
 {
 
-	Scrollbar* sender = (Scrollbar*)data.sender;
-	Tabs* parent = (Tabs*)data.sender->getParent();
-
-	parent->setOffsetScroll(sender->getHandleDragOffset());
 }
 
-void Tabs::update(double delta) {
-
-
-}
-
-void Tabs::draw(NVGcontext & ctx, double delta) {
-
+void Tabs::draw(NVGcontext* ctx, double delta)
+{
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
@@ -59,7 +33,6 @@ void Tabs::draw(NVGcontext & ctx, double delta) {
 
 	position.x += m_margin.w;
 	position.y += m_margin.x;
-
 
 	//size.x -= (m_margin.w + m_margin.y);
 	//size.y -= (m_margin.x + m_margin.z);
@@ -155,8 +128,8 @@ void Tabs::draw(NVGcontext & ctx, double delta) {
 	nvgRestore(ctx);
 }
 
-void Tabs::onMouseMove(const SDL_Event & event) {
-
+void Tabs::onMouseMove(const SDL_Event& event)
+{
 	m_mouse = glm::vec2(event.motion.x, event.motion.y);
 	this->setState("hovered", this->intersects(m_mouse));
 	glm::vec2 position = this->getRelativePosition();
@@ -167,7 +140,6 @@ void Tabs::onMouseMove(const SDL_Event & event) {
 
 	float stackedWidth = 0.0f;
 	float itemWidth = ceil(size.x / m_tabs.size());
-	unsigned int i = 0;
 
 	for (auto tab : m_tabs)
 	{
@@ -181,119 +153,33 @@ void Tabs::onMouseMove(const SDL_Event & event) {
 		);
 
 		tab->m_header->m_hovered = rect.intersects(m_mouse);
-
-		if (i == m_activeTab)
-		{
-			if (tab->m_content != nullptr) {
-				if (tab->m_content->m_widget != nullptr) {
-					tab->m_content->m_widget->handleEvent("onMouseMove", event);
-				}
-			}
-		}
-
-		i++;
 	}
 }
 
-void Tabs::onMouseDown(const SDL_Event & event) {
-
-	m_mouse = glm::vec2(event.motion.x, event.motion.y);
-	this->setState("hovered", this->intersects(m_mouse));
-	glm::vec2 position = this->getRelativePosition();
-	glm::vec2 size = this->getRelativeSize();
-
-	position.x += m_margin.w;
-	position.y += m_margin.x;
-
-	float stackedWidth = 0.0f;
-	float itemWidth = ceil(size.x / m_tabs.size());
-	unsigned int i = 0;
-
-	for (auto tab : m_tabs)
-	{
-		tab->m_header->m_width = itemWidth;
-		stackedWidth += tab->m_header->m_width;
-		float x = position.x + stackedWidth - tab->m_header->m_width;
-
-		Rect rect(
-			glm::vec2(x, position.y + 13.0f),
-			glm::vec2(tab->m_header->m_width, size.y - 8.0f)
-		);
-
-		if (i == m_activeTab)
-		{
-			if (tab->m_content != nullptr) {
-				if (tab->m_content->m_widget != nullptr) {
-					tab->m_content->m_widget->handleEvent("onMouseDown", event);
-				}
-			}
-		}
-
-		i++;
-	}
+void Tabs::onMouseDown(const SDL_Event& event)
+{
 
 }
 
-void Tabs::onMouseUp(const SDL_Event & event) {
-
+void Tabs::onMouseUp(const SDL_Event& event)
+{
 	for (unsigned int i = 0; i < m_tabs.size(); i++)
 		if (m_tabs[i]->m_header->m_hovered && i != m_activeTab)
 			m_activeTab = i;
-
-	m_mouse = glm::vec2(event.motion.x, event.motion.y);
-	this->setState("hovered", this->intersects(m_mouse));
-	glm::vec2 position = this->getRelativePosition();
-	glm::vec2 size = this->getRelativeSize();
-
-	position.x += m_margin.w;
-	position.y += m_margin.x;
-
-	float stackedWidth = 0.0f;
-	float itemWidth = ceil(size.x / m_tabs.size());
-	unsigned int i = 0;
-
-	for (auto tab : m_tabs)
-	{
-		tab->m_header->m_width = itemWidth;
-		stackedWidth += tab->m_header->m_width;
-		float x = position.x + stackedWidth - tab->m_header->m_width;
-
-		Rect rect(
-			glm::vec2(x, position.y + 13.0f),
-			glm::vec2(tab->m_header->m_width, size.y - 8.0f)
-		);
-
-		if (i == m_activeTab)
-		{
-			if (tab->m_content != nullptr) {
-				if (tab->m_content->m_widget != nullptr) {
-					tab->m_content->m_widget->handleEvent("onMouseUp", event);
-				}
-			}
-		}
-
-		i++;
-	}
 }
 
-void Tabs::onWindowResized(const SDL_Event & event) {
+void Tabs::onWindowResized(const SDL_Event& event)
+{
 
-	float height = this->getLayout()->getRelativeSize().y;
-	float scrollMax = this->getRelativeSize().y - 30.0f;
-
-	m_scrollbar->computeHandleHeight(height, scrollMax);
 }
 
-void Tabs::onWindowSizeChanged(const SDL_Event & event) {
+void Tabs::onWindowSizeChanged(const SDL_Event& event)
+{
 
-	float height = this->getLayout()->getRelativeSize().y;
-	float scrollMax = this->getRelativeSize().y - 30.0f;
-
-	m_scrollbar->computeHandleHeight(height, scrollMax);
 }
 
-Tabs::Tab Tabs::addTab(const std::string & name) {
-
+Tabs::Tab* Tabs::addTab(const std::string & name)
+{
 	TabHeader* header = new TabHeader(name);
 	TabContent* content = new TabContent(name);
 	Tab* tab = new Tab(name, header, content);
@@ -302,8 +188,8 @@ Tabs::Tab Tabs::addTab(const std::string & name) {
 	return tab;
 }
 
- Tabs::~Tabs() {
 
-	delete m_scrollbar;
+Tabs::~Tabs()
+{
+
 }
-

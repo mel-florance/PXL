@@ -1,11 +1,7 @@
-
 #include "skyboxMaterial.h"
-#include "shader.h"
-#include "camera.h"
-#include "transform.h"
 
- SkyboxMaterial::SkyboxMaterial(const std::string & name, Shader & shader) {
-
+SkyboxMaterial::SkyboxMaterial(const std::string& name, Shader* shader) : Material(name, shader)
+{
 	this->getShader()->addUniform("mView");
 	this->getShader()->addUniform("mProj");
 	this->getShader()->addUniform("mTransform");
@@ -26,21 +22,28 @@
 	m_time = 0.0f;
 }
 
- SkyboxMaterial::~SkyboxMaterial() {
-
-	delete m_transform;
-}
-
-void SkyboxMaterial::SkyboxMaterial::updateUniforms(Camera & camera, glm::vec4 & clearColor, double delta) {
-}
-
-void SkyboxMaterial::bindAttributes() {
-
+void SkyboxMaterial::bindAttributes()
+{
 	this->getShader()->bindAttribute(0, "position");
 }
 
-void SkyboxMaterial::bindTextures(double delta) {
+void SkyboxMaterial::updateUniforms(Camera* camera, glm::vec4& clearColor, double delta)
+{
+	m_rotation += m_rotSpeed * (float)delta;
+	m_transform->setPosition(camera->getPosition());
+	m_transform->setRotation(glm::vec3(0.0f, m_rotation, 0.0f));
 
+	this->getShader()->setUniformMat4fv("mProj", camera->getProjectionMatrix());
+	this->getShader()->setUniformMat4fv("mView", camera->getViewMatrix());
+	this->getShader()->setUniformMat4fv("mTransform", m_transform->getTransformation());
+
+	this->getShader()->setUniform4fv("clearColor", clearColor);
+	this->getShader()->setUniform1f("blendFactor", this->getBlendFactor());
+	this->getShader()->setUniform2fv("limits", this->getLimits());
+}
+
+void SkyboxMaterial::bindTextures(double delta)
+{
 	m_time += (float)delta * 1000.0f;
 	//m_time = fmod(m_time, 24000.0f);
 
@@ -83,3 +86,7 @@ void SkyboxMaterial::bindTextures(double delta) {
 	this->getShader()->setUniform1f("blendFactor", m_blendFactor);
 }
 
+SkyboxMaterial::~SkyboxMaterial()
+{
+	delete m_transform;
+}

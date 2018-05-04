@@ -1,18 +1,11 @@
-
 #include "guiManager.h"
-#include "engine.h"
-#include "display.h"
-#include "fontManager.h"
-#include "assetManager.h"
-#include "sceneManager.h"
-#include "layout.h"
-#include "widget.h"
-#include "layerManager.h"
-#include "quadTree.h"
 
- GuiManager::GuiManager(Engine & engine, Display & window, FontManager & fontManager, AssetManager & assetManager, SceneManager & sceneManager) {
+#include "../nanovg/nanovg.h"
+#define NANOVG_GL3_IMPLEMENTATION
+#include "../nanovg/nanovg_gl.h"
 
-	m_engine = engine;
+GuiManager::GuiManager(Display* window, FontManager* fontManager, AssetManager* assetManager, SceneManager* sceneManager) : Manager()
+{
 	m_window = window;
 	m_ctx = nvgCreateGL3(NVG_ANTIALIAS | NVG_STENCIL_STROKES);
 	m_fontManager = fontManager;
@@ -48,40 +41,22 @@
 	}
 }
 
- GuiManager::~GuiManager() {
+void GuiManager::initLayout(Layout* layout) 
+{
+	Layout* parent = layout->getParent();
 
-	delete m_layerManager;
-	delete m_quadTree;
-	delete m_mainLayout;
-}
-
-void GuiManager::init() {
-
-	for (auto& layout : m_layouts)
+	if (parent != nullptr)
 	{
-		Layout* parent = layout->getParent();
-
-		if (parent != nullptr)
-		{
-			layout->computeSize();
-			layout->computePosition();
-		}
-	}
-}
-
-void GuiManager::initLayout(Layout & layout) {
-
-	
-}
-
-void GuiManager::handleLayoutEvent(const std::string & name, const SDL_Event & event, Layout & layout) {
-
-	if (event.window.event == SDL_WINDOWEVENT_RESIZED || event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-	{
-		layout->onWindowResized(event);
-		layout->onWindowSizeChanged(event);
+		layout->computeSize();
+		layout->computePosition();
 	}
 
+	for (const auto& child : layout->getChildren())
+		this->initLayout(child);
+}
+
+void GuiManager::handleLayoutEvent(const std::string& name, const SDL_Event& event, Layout* layout)
+{
 	std::vector<Widget*> widgets = layout->getWidgets();
 
 	for (unsigned int j = 0; j < widgets.size(); j++)
@@ -91,8 +66,30 @@ void GuiManager::handleLayoutEvent(const std::string & name, const SDL_Event & e
 		this->handleLayoutEvent(name, event, child);
 }
 
-void GuiManager::handleWidgetEvent(Widget & widget, const SDL_Event & event, const std::string & name) {
+Layout* GuiManager::getHoveredLayout(const glm::vec2& mouse)
+{
+	Layout* hovered = nullptr;
 
+	for (unsigned int i = m_layouts.size() - 1; i > 0; --i) 
+	{
+		Layout* layout = m_layouts[i];
+
+		Rect area(layout->getComputedPosition(), layout->getComputedSize());
+
+		if (area.intersects(mouse) && layout->getChildren().size() == 0)
+			hovered = layout;
+	}
+
+	return hovered;
+}
+
+void GuiManager::init()
+{
+	this->initLayout(m_mainLayout);
+}
+
+void GuiManager::handleWidgetEvent(Widget* widget, const SDL_Event& event, const std::string& name)
+{
 	widget->handleEvent(name, event);
 
 	std::vector<class Widget*> childs = widget->getChildren();
@@ -101,8 +98,8 @@ void GuiManager::handleWidgetEvent(Widget & widget, const SDL_Event & event, con
 		this->handleWidgetEvent(childs[i], event, name);
 }
 
-void GuiManager::handleEvent(const std::string & name, const SDL_Event & event) {
-
+void GuiManager::handleEvent(const std::string& name, const SDL_Event& event)
+{
 	for (auto layer : this->getLayerManager()->getLayers())
 	{
 		std::vector<Widget*> widgets = layer.second;
@@ -113,8 +110,11 @@ void GuiManager::handleEvent(const std::string & name, const SDL_Event & event) 
 
 	if (event.window.event == SDL_WINDOWEVENT_RESIZED || event.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
 	{
-		this->handleLayoutEvent("onWindowResized", event, m_mainLayout);
-		this->handleLayoutEvent("onWindowSizeChanged", event, m_mainLayout);
+		for (auto layout : m_layouts) 
+		{
+			layout->onWindowResized(event);
+			layout->onWindowSizeChanged(event);
+		}
 	}
 	else
 	{
@@ -135,28 +135,9 @@ void GuiManager::handleEvent(const std::string & name, const SDL_Event & event) 
 	}
 }
 
-void GuiManager::handleLayoutWindowEvent(Layout & layout, const SDL_Event & event, const std::string & name) {
-}
 
-Layout GuiManager::getHoveredLayout(const glm::vec2 & mouse) {
-
-	Layout* hovered = nullptr;
-
-	for (unsigned int i = m_layouts.size() - 1; i > 0; --i) 
-	{
-		Layout* layout = m_layouts[i];
-
-		Rect area(layout->getComputedPosition(), layout->getComputedSize());
-
-		if (area.intersects(mouse) && layout->getChildren().size() == 0)
-			hovered = layout;
-	}
-
-	return hovered;
-}
-
-Widget GuiManager::getWidgetByName(const std::string & name) {
-
+Widget* GuiManager::getWidgetByName(const std::string& name)
+{
 	for (unsigned int i = 0; i < m_layouts.size(); i++)
 	{
 		std::vector<class Widget*> widgets = m_layouts[i]->getWidgets();
@@ -180,27 +161,8 @@ Widget GuiManager::getWidgetByName(const std::string & name) {
 	return (Widget*)NULL;
 }
 
-Layout GuiManager::getPrevious(Layout & layout) {
-
-	return this->findPrevious(m_mainLayout, layout);
-}
-
-void GuiManager::onSceneObjectAdded() {
-
-
-}
-
-Layout GuiManager::getLayoutByName(const std::string & name) {
-
-	for (auto& layout : m_layouts)
-		if (layout->getName() == name)
-			return layout;
-
-	return nullptr;
-}
-
-Layout GuiManager::findPrevious(Layout & fromLevel, Layout & layout) {
-
+Layout* GuiManager::findPrevious(Layout* fromLevel, Layout* layout) 
+{
 	Layout* previous = nullptr;
 	auto childs = fromLevel->getChildren();
 
@@ -215,3 +177,19 @@ Layout GuiManager::findPrevious(Layout & fromLevel, Layout & layout) {
 	return previous;
 }
 
+Layout* GuiManager::getPrevious(Layout* layout)
+{
+	return this->findPrevious(m_mainLayout, layout);
+}
+
+void GuiManager::onSceneObjectAdded()
+{
+
+}
+
+GuiManager::~GuiManager()
+{
+	delete m_layerManager;
+	delete m_quadTree;
+	delete m_mainLayout;
+}

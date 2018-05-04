@@ -1,30 +1,21 @@
-#ifndef _TIMER_H
-#define _TIMER_H
+#pragma once
 
+#include "clock.h"
 
-class Clock;
+class Timer
+{
+public:
+	Timer(Clock* clock);
+	~Timer();
 
-class Timer {
-  public:
-     Timer(Clock & clock);
+	void start();
+	void stop();
+	double report(double divisor);
 
-     ~Timer();
-
-    void start();
-
-    void stop();
-
-    double report(double divisor);
-
-
-  private:
-    int m_calls;
-
-    Clock * m_clock;
-
-    double m_startTime;
-
-    double m_totalTime;
-
+private:
+	int m_calls;
+	Clock* m_clock;	
+	double m_startTime;
+	double m_totalTime;
 };
-#endif
+

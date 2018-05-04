@@ -1,28 +1,19 @@
-#ifndef _MESHRENDERER_H
-#define _MESHRENDERER_H
-
+#pragma once
 
 #include "entityComponent.h"
-#include "mesh.h"
-#include "material.h"
+#include "mesh/mesh.h"
 
-class MeshRenderer : public EntityComponent {
-  public:
-    inline  MeshRenderer(const Mesh & mesh, const Material & material);
+class MeshRenderer : public EntityComponent
+{
+public:
+	MeshRenderer(const Mesh& mesh, const Material& material) :
+		m_mesh(mesh),
+		m_material(material) {}
 
-    inline  ~MeshRenderer();
+	~MeshRenderer() {}
 
-
-  private:
-    Mesh m_mesh;
-
-    Material m_material;
-
+private:
+	Mesh m_mesh;
+	Material m_material;
 };
-inline  MeshRenderer::MeshRenderer(const Mesh & mesh, const Material & material) {
-}
 
-inline  MeshRenderer::~MeshRenderer() {
-}
-
-#endif

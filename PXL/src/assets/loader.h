@@ -1,39 +1,40 @@
-#ifndef _LOADER_H
-#define _LOADER_H
+#pragma once
 
+#include <vector>
+#include <string>
 
-class Mesh;
+#include <glm\glm.hpp>
+#include <GL\glew.h>
 
-class Loader {
-  public:
-     Loader();
+#include "../mesh/mesh.h"
 
-     ~Loader();
+class Loader
+{
+public:
+	Loader();
+	~Loader();
 
-    Mesh loadToVAO(const std::string & name, const std::vector<glm::vec3> & vertices);
+	Mesh* loadToVAO(const std::string& name, std::vector<glm::vec3> vertices);
+	Mesh* loadToVAO(const std::string& name, std::vector<glm::vec2> vertices);
 
-    Mesh loadToVAO(const std::string & name, const std::vector<glm::vec2> & vertices);
+	Mesh* loadToVAO(
+		const std::string& name,
+		std::vector<glm::vec3> vertices,
+		std::vector<int> indices,
+		std::vector<glm::vec2> uvs,
+		std::vector<glm::vec3> normals,
+		std::vector<glm::vec3> tangents
+	);
 
-    Mesh loadToVAO(const std::string & name, const std::vector<glm::vec3> & vertices, const std::vector<GLuint> & indices, const std::vector<glm::vec2> & uvs, const std::vector<glm::vec3> & normals, const std::vector<glm::vec3> & tangents);
+	Uint32 loadCubeMap(std::vector<std::string> textures);
 
-    Uint32 loadCubeMap(const std::vector<std::string> & textures);
+	inline void unbindVAO() { glBindVertexArray(0); }
 
-    inline void unbindVAO();
+private:
+	void storeDataInAttributeList(GLuint location, int size, void* data, int dataSize);
+	void bindIndicesBuffer(int* indices, GLuint& count);
+	GLuint createVAO();
 
-
-  private:
-    void storeDataInAttributeList(const GLuint & location, int size, void data, int dataSize);
-
-    void bindIndicesBuffer(GLuint & indices, GLuint & count);
-
-    GLuint createVAO();
-
-    GLuint m_vaos;
-
-    GLuint m_vbos;
-
+	std::vector<GLuint> m_vaos;
+	std::vector<GLuint> m_vbos;
 };
-inline void Loader::unbindVAO() {
-}
-
-#endif

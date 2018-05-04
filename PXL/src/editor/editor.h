@@ -1,65 +1,65 @@
-#ifndef _EDITOR_H
-#define _EDITOR_H
+#pragma once
 
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <string>
 
-#include "editorComponent.h"
+#include <nlohmann/json.hpp>
 
-class Engine;
-class Layout;
-class Mesh;
-class Light;
-class EditorLayout;
+#include "../core/engine.h"
+#include "../cameras/FPSCamera.h"
 
-typedef nlohmann::json typedef1;
-class jsontypedef1 {
-};
-class Editor {
-  public:
-     Editor(Engine & engine);
+#include "components/mainMenu.h"
+#include "components/viewport.h"
+#include "components/outliner.h"
+#include "components/assetBrowser.h"
 
-    typedef EditorComponent ComponentList;
+using json = nlohmann::json;
 
-    typedef EditorComponent ComponentRegister;
-
-    void init();
-
-    void update(double delta);
-
-    static inline EditorComponent registerComponent(Engine & engine);
-
-    inline T createComponent(const std::string & name, const std::string & componentName);
-
-    inline EditorComponent getComponentByName(const std::string & name);
-
-     ~Editor();
-
-
-  private:
-    Engine * m_engine;
-
-    Layout * m_mainLayout;
-
-    Mesh * m_cube;
-
-    Light * m_light;
-
-    class EditorLayout* m_layouts;
-
-    ComponentRegister m_register;
-
-    ComponentList m_components;
-
-    float m_angle;
-
-};
-inline EditorComponent Editor::registerComponent(Engine & engine)
+class Editor
 {
-}
+public:
+	Editor(Engine* engine);
 
-inline T Editor::createComponent(const std::string & name, const std::string & componentName) {
-}
+	typedef std::map<std::string, EditorComponent*> ComponentList;
+	typedef std::map<std::string, EditorComponent*(*)(Engine*)> ComponentRegister;
+	
+	void init();
+	void update(double delta);
 
-inline EditorComponent Editor::getComponentByName(const std::string & name) {
-}
+	template<typename T>
+	static EditorComponent* registerComponent(Engine* engine) { return new T(engine); }
 
-#endif
+	template<typename T>
+	T* createComponent(const std::string& name, const std::string& componentName) 
+	{
+		T* component = (T*)m_register[componentName](m_engine);
+		m_components[name] = component;
+		return component;
+	}
+
+	inline EditorComponent* getComponentByName(const std::string& name)
+	{
+		ComponentList::iterator it;
+		for (it = m_components.begin(); it != m_components.end(); it++)
+			if(it->first == name)
+				return it->second;
+
+		return nullptr;
+	}
+
+	~Editor();
+
+private:
+	Engine* m_engine;
+	Layout* m_mainLayout;
+	Mesh* m_cube;
+	Light* m_light;
+
+	std::vector<class EditorLayout*> m_layouts;
+	ComponentRegister m_register;
+	ComponentList m_components;
+	float m_angle;
+
+};

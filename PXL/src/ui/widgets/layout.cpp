@@ -1,12 +1,9 @@
-
 #include "layout.h"
-#include "display.h"
-#include "widget.h"
-#include "guiManager.h"
-#include "splitter.h"
+#include "../../assets/assetManager.h"
+#include "../widgets/splitter.h"
 
- Layout::Layout(const std::string & name, Display & window, const glm::vec2 & position, const glm::vec2 & size) {
-
+Layout::Layout(const std::string& name, Display* window = nullptr, const glm::vec2& position = glm::vec2(0.0f), const glm::vec2& size = glm::vec2(100.0f, 100.0f))
+{
 	m_name = name;
 	m_window = window;
 	m_direction = VERTICAL;
@@ -22,65 +19,85 @@
 	m_splitter->setLayout(this);
 }
 
-void Layout::addWidget(Widget & widget) {
+glm::vec2 Layout::getRelativePosition()
+{
+	glm::vec2 pos = this->getPosition();
 
+	switch (this->getPositionModeX())
+	{
+	case WINDOW:
+		pos.x = 0.0f;
+		break;
+	case PARENT:
+		pos.x = this->getParent()->getComputedPosition().x;
+		break;
+	case FIXED:
+		break;
+	}
+
+	switch (this->getPositionModeY())
+	{
+	case WINDOW:
+		pos.y = 0.0f;
+		break;
+	case PARENT:
+		pos.y = this->getParent()->getComputedPosition().y;
+		break;
+	case FIXED:
+		break;
+	}
+
+	return pos;
+}
+
+glm::vec2 Layout::getRelativeSize()
+{
+	glm::vec2 size = this->getSize();
+
+	switch (this->getExpandModeX())
+	{
+	case WINDOW:
+		if (m_window != nullptr)
+			size.x = this->getWindow()->getSize().x;
+		break;
+	case PARENT:
+		size.x = this->getComputedSize().x;
+		break;
+	case FIXED:
+		break;
+	}
+
+	switch (this->getExpandModeY())
+	{
+	case WINDOW:
+		if (m_window != nullptr)
+			size.y = this->getWindow()->getSize().y;
+		break;
+	case PARENT:
+		size.y = this->getComputedSize().y;
+		break;
+	case FIXED:
+		break;
+	}
+
+	return size;
+}
+
+void Layout::addWidget(Widget* widget)
+{
 	this->setWidgetLayout(widget);
 	this->setWidgetWindow(widget);
 	widget->setState("visible", true);
 	m_widgets.push_back(widget);
 }
 
-void Layout::setWidgetWindow(Widget & widget) {
-
-	if (m_window != nullptr) 
-	{
- 		widget->setWindow(m_window);
-
-		std::vector<class Widget*> childs = widget->getChildren();
-
-		for (unsigned int i = 0; i < childs.size(); i++)
-			this->setWidgetWindow(childs[i]);
-	}
-}
-
-void Layout::setWidgetLayout(Widget & widget) {
-
-	widget->setLayout(this);
-
-	std::vector<class Widget*> childs = widget->getChildren();
-
-	for (unsigned int i = 0; i < childs.size(); i++)
-		this->setWidgetLayout(childs[i]);
-}
-
-void Layout::removeWidget(Widget & widget) {
-
-	std::vector<Widget*>::iterator position = std::find(m_widgets.begin(), m_widgets.end(), widget);
-
-	if (position != m_widgets.end())
-		m_widgets.erase(position);
+void Layout::update(double delta)
+{
 
 }
 
-void Layout::setGuiManager(GuiManager & guiManager) {
-
-	m_guiManager = guiManager;
-	m_guiManager->addLayout(this);
-
-	if (m_splitter != nullptr) 
-	{
-		LayerManager* lm = guiManager->getLayerManager();
-		lm->addWidget(0, m_splitter);
-	}
-}
-
-void Layout::update(double delta) {
-
-
-}
-
-void Layout::updateSplitter(double delta, unsigned int index) {
-
+void Layout::updateSplitter(double delta, unsigned int index)
+{
 	glm::vec2 pos = this->getComputedPosition();
 	glm::vec2 size = this->getComputedSize();
 
@@ -123,8 +140,8 @@ void Layout::updateSplitter(double delta, unsigned int index) {
 		m_splitter->update(delta);
 }
 
-void Layout::draw(NVGcontext & ctx) {
-
+void Layout::draw(NVGcontext* ctx)
+{
 	nvgSave(ctx);
 
 	glm::vec2 pos = this->getRelativePosition();
@@ -138,13 +155,13 @@ void Layout::draw(NVGcontext & ctx) {
 	nvgRestore(ctx);
 }
 
-void Layout::drawSplitter(NVGcontext & ctx, double delta) {
-
+void Layout::drawSplitter(NVGcontext* ctx, double delta)
+{
 	m_splitter->draw(ctx, delta);
 }
 
-void Layout::computeStackDirection(Layout & previous, unsigned int index) {
-
+void Layout::computeStackDirection(Layout* previous, unsigned int index)
+{
 	glm::vec2 pos = this->getRelativePosition();
 	glm::vec2 size = this->getRelativeSize();
 
@@ -173,13 +190,33 @@ void Layout::computeStackDirection(Layout & previous, unsigned int index) {
 	this->setNeedRecomputeStackDirection(false);
 }
 
-void Layout::computePosition() {
+void Layout::addChild(Layout* layout)
+{
+	layout->setParent(this);
+	layout->computeSize();
+	layout->computePosition();
 
+	m_children.emplace_back(layout);
+}
+
+void Layout::toggleAllWidgets()
+{
+	for (unsigned int i = 0; i < m_widgets.size(); i++)
+		m_widgets[i]->setState("visible", m_widgets[i]->getState("visible") != false);
+}
+
+void Layout::onWindowResized(const SDL_Event& event)
+{
+
+}
+
+void Layout::computePosition()
+{
 	this->setComputedPosition((this->getPosition() * this->getParent()->getSize()) / 100.0f);
 }
 
-void Layout::computeSize() {
-
+void Layout::computeSize()
+{
 	glm::vec2 parentSize = this->getParent()->getRelativeSize();
 	glm::vec2 size = (parentSize * this->getSize()) / 100.0f;
 
@@ -196,92 +233,8 @@ void Layout::computeSize() {
 	this->setComputedSize(size);
 }
 
-glm::vec2 Layout::getRelativePosition() {
-
-	glm::vec2 pos = this->getPosition();
-
-	switch (this->getPositionModeX())
-	{
-	case WINDOW:
-		pos.x = 0.0f;
-		break;
-	case PARENT:
-		pos.x = this->getParent()->getComputedPosition().x;
-		break;
-	case FIXED:
-		break;
-	}
-
-	switch (this->getPositionModeY())
-	{
-	case WINDOW:
-		pos.y = 0.0f;
-		break;
-	case PARENT:
-		pos.y = this->getParent()->getComputedPosition().y;
-		break;
-	case FIXED:
-		break;
-	}
-
-	return pos;
-}
-
-glm::vec2 Layout::getRelativeSize() {
-
-	glm::vec2 size = this->getSize();
-
-	switch (this->getExpandModeX())
-	{
-	case WINDOW:
-		if (m_window != nullptr)
-			size.x = this->getWindow()->getSize().x;
-		break;
-	case PARENT:
-		size.x = this->getComputedSize().x;
-		break;
-	case FIXED:
-		break;
-	}
-
-	switch (this->getExpandModeY())
-	{
-	case WINDOW:
-		if (m_window != nullptr)
-			size.y = this->getWindow()->getSize().y;
-		break;
-	case PARENT:
-		size.y = this->getComputedSize().y;
-		break;
-	case FIXED:
-		break;
-	}
-
-	return size;
-}
-
-void Layout::addChild(Layout & layout) {
-
-	layout->setParent(this);
-	layout->computeSize();
-	layout->computePosition();
-
-	m_children.emplace_back(layout);
-}
-
-void Layout::toggleAllWidgets() {
-
-	for (unsigned int i = 0; i < m_widgets.size(); i++)
-		m_widgets[i]->setState("visible", m_widgets[i]->getState("visible") != false);
-}
-
-void Layout::onWindowResized(const SDL_Event & event) {
-
-
-}
-
-void Layout::onWindowSizeChanged(const SDL_Event & event) {
-
+void Layout::onWindowSizeChanged(const SDL_Event& event)
+{
 	Layout* root = this->getRoot();
 
 	if (root == this)
@@ -295,8 +248,55 @@ void Layout::onWindowSizeChanged(const SDL_Event & event) {
 	this->setNeedRecomputeStackDirection(true);
 }
 
- Layout::~Layout() {
+void Layout::setWidgetWindow(Widget* widget) 
+{
+	if (m_window != nullptr) 
+	{
+ 		widget->setWindow(m_window);
 
-	delete m_splitter;
+		std::vector<class Widget*> childs = widget->getChildren();
+
+		for (unsigned int i = 0; i < childs.size(); i++)
+			this->setWidgetWindow(childs[i]);
+	}
 }
 
+void Layout::setWidgetLayout(Widget* widget)
+{
+	widget->setLayout(this);
+
+	std::vector<class Widget*> childs = widget->getChildren();
+
+	for (unsigned int i = 0; i < childs.size(); i++)
+		this->setWidgetLayout(childs[i]);
+}
+
+void Layout::removeWidget(Widget* widget)
+{
+	std::vector<Widget*>::iterator position = std::find(m_widgets.begin(), m_widgets.end(), widget);
+
+	if (position != m_widgets.end())
+	{
+		std::cout << "widget deleted" << std::endl;
+
+		m_widgets.erase(position);
+	}
+
+}
+
+void Layout::setGuiManager(GuiManager* guiManager)
+{
+	m_guiManager = guiManager;
+	m_guiManager->addLayout(this);
+
+	if (m_splitter != nullptr) 
+	{
+		LayerManager* lm = guiManager->getLayerManager();
+		lm->addWidget(0, m_splitter);
+	}
+}
+
+Layout::~Layout()
+{
+	delete m_splitter;
+}

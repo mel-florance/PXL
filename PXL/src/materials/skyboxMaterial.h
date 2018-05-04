@@ -1,112 +1,47 @@
-#ifndef _SKYBOXMATERIAL_H
-#define _SKYBOXMATERIAL_H
-
+#pragma once
 
 #include "material.h"
 
-class Shader;
-class Camera;
-class Transform;
+class SkyboxMaterial : public Material
+{
+public:
+	SkyboxMaterial(const std::string& name, Shader* shader);
+	~SkyboxMaterial();
 
-class SkyboxMaterial : public Material {
-  public:
-     SkyboxMaterial(const std::string & name, Shader & shader);
+	void SkyboxMaterial::updateUniforms(Camera* camera, glm::vec4& clearColor, double delta);
+	void bindAttributes();
+	void bindTextures(double delta);
 
-     ~SkyboxMaterial();
+	inline void setLimits(glm::vec2& limits) { m_limits = limits; }
+	inline glm::vec2& getLimits() { return m_limits; }
 
-    void SkyboxMaterial::updateUniforms(Camera & camera, glm::vec4 & clearColor, double delta);
+	inline void setBlendFactor(float value) { m_blendFactor = value; }
+	inline float& getBlendFactor() { return m_blendFactor; }
 
-    void bindAttributes();
+	inline void setRotSpeed(float value) { m_rotSpeed = value; }
+	inline float& getRotSpeed() { return m_rotSpeed; }
 
-    void bindTextures(double delta);
+	inline void setRotation(float value) { m_rotation = value; }
+	inline float& getRotation() { return m_rotation; }
 
-    inline void setLimits(glm::vec2 & limits);
+	inline void setTime(float value) { m_time = value; }
+	inline float& getTime() { return m_time; }
 
-    inline glm::vec2 getLimits();
+	inline void setCubemap(Uint32 id) { m_cubemap = id; }
+	inline Uint32& getCubemap() { return m_cubemap; }
 
-    inline void setBlendFactor(float value);
+	inline void setCubemap2(Uint32 id) { m_cubemap2 = id; }
+	inline Uint32& getCubemap2() { return m_cubemap2; }
 
-    inline float getBlendFactor();
+private:
+	Transform* m_transform;
+	glm::vec2 m_limits;
+	float m_blendFactor;
+	float m_rotSpeed;
+	float m_rotation;
+	float m_time;
 
-    inline void setRotSpeed(float value);
-
-    inline float getRotSpeed();
-
-    inline void setRotation(float value);
-
-    inline float getRotation();
-
-    inline void setTime(float value);
-
-    inline float getTime();
-
-    inline void setCubemap(const Uint32 & id);
-
-    inline Uint32 getCubemap();
-
-    inline void setCubemap2(const Uint32 & id);
-
-    inline Uint32 getCubemap2();
-
-
-  private:
-    Transform * m_transform;
-
-    glm::vec2 m_limits;
-
-    float m_blendFactor;
-
-    float m_rotSpeed;
-
-    float m_rotation;
-
-    float m_time;
-
-    Uint32 m_cubemap;
-
-    Uint32 m_cubemap2;
-
+	Uint32 m_cubemap;
+	Uint32 m_cubemap2;
 };
-inline void SkyboxMaterial::setLimits(glm::vec2 & limits) {
-}
 
-inline glm::vec2 SkyboxMaterial::getLimits() {
-}
-
-inline void SkyboxMaterial::setBlendFactor(float value) {
-}
-
-inline float SkyboxMaterial::getBlendFactor() {
-}
-
-inline void SkyboxMaterial::setRotSpeed(float value) {
-}
-
-inline float SkyboxMaterial::getRotSpeed() {
-}
-
-inline void SkyboxMaterial::setRotation(float value) {
-}
-
-inline float SkyboxMaterial::getRotation() {
-}
-
-inline void SkyboxMaterial::setTime(float value) {
-}
-
-inline float SkyboxMaterial::getTime() {
-}
-
-inline void SkyboxMaterial::setCubemap(const Uint32 & id) {
-}
-
-inline Uint32 SkyboxMaterial::getCubemap() {
-}
-
-inline void SkyboxMaterial::setCubemap2(const Uint32 & id) {
-}
-
-inline Uint32 SkyboxMaterial::getCubemap2() {
-}
-
-#endif

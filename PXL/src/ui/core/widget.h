@@ -1,326 +1,145 @@
-#ifndef _WIDGET_H
-#define _WIDGET_H
+#pragma once
 
+#include <map>
+#include <vector>
+#include <string>
 
-#include "rect.h"
-#include "eventListener.h"
-#include "widgetEvent.h"
+#include <glm\glm.hpp>
+#include <SDL2\SDL.h>
+#include "../nanovg/nanovg.h"
+
+#include "../../core/display.h"
+#include "../../core/util.h"
+#include "../../events/eventListener.h"
+
 #include "widgetState.h"
-#include "nanovg.h"
+#include "widgetEvent.h"
 
-class Display;
+#include "../shapes/rect.h"
+
+
+class Row;
 class Layout;
-struct CallbackData;
 class Icon;
+class MenuItem;
 
-class Widget : public Rect, public EventListener, public WidgetEvent, public WidgetState {
-  public:
-     Widget(const glm::vec2 & position, const glm::vec2 & size);
+class Widget : public Rect, public EventListener, public WidgetEvent, public WidgetState
+{
+public:
+	Widget(const glm::vec2& position, const glm::vec2& size);
+	~Widget();
 
-     ~Widget();
+	enum ExpandMode{ LAYOUT, PARENT, FIXED };
 
-    enum ExpandMode {
-      LAYOUT,
-      PARENT,
-      FIXED
-    };
+	inline ExpandMode getExpandModeX() { return m_expandModeX; }
+	inline void setExpandModeX(ExpandMode mode) { m_expandModeX = mode; }
 
-    enum Alignment {
-      TOP_LEFT,
-      TOP,
-      TOP_RIGHT,
-      RIGHT,
-      BOTTOM_RIGHT,
-      BOTTOM,
-      BOTTOM_LEFT,
-      LEFT
-    };
+	inline ExpandMode getExpandModeY() { return m_expandModeY; }
+	inline void setExpandModeY(ExpandMode mode) { m_expandModeY = mode; }
 
-    inline ExpandMode getExpandModeX();
+	inline ExpandMode getPositionModeX() { return m_positionModeX; }
+	inline void setPositionModeX(ExpandMode mode) { m_positionModeX = mode; }
 
-    inline void setExpandModeX(ExpandMode mode);
+	inline ExpandMode getPositionModeY() { return m_positionModeY; }
+	inline void setPositionModeY(ExpandMode mode) { m_positionModeY = mode; }
 
-    inline ExpandMode getExpandModeY();
+	const std::string& getName() { return m_name; }
+	void setName(const std::string& name) { m_name = name; }
 
-    inline void setExpandModeY(ExpandMode mode);
+	inline void setWindow(Display* window) { m_window = window; }
+	inline Display* getWindow() { return m_window; }
 
-    inline ExpandMode getPositionModeX();
+	virtual inline void setScreen(const glm::vec2& screen) { m_screen = screen; }
+	virtual inline glm::vec2& getScreen() { return m_screen; }
 
-    inline void setPositionModeX(ExpandMode mode);
+	inline void setParent(Widget* parent) { m_parent = parent; }
+	inline Widget* getParent() { return m_parent; }
 
-    inline ExpandMode getPositionModeY();
+	glm::vec2 getRelativePosition();
+	glm::vec2 getRelativeSize();
 
-    inline void setPositionModeY(ExpandMode mode);
+	virtual void setCentered();
 
-    inline Alignment getAlignement();
+	bool intersects(const glm::vec2& point);
 
-    inline void setAlignment(Alignment alignment);
+	inline void setLayout(Layout* layout) { m_layout = layout; }
+	inline Layout* getLayout() { return m_layout;  }
 
-    inline std::string getName();
 
-    inline void setName(const std::string & name);
+	void addChild(Widget* child);
+	inline std::vector<Widget*>& getChildren() { return m_children; }
 
-    inline void setWindow(Display & window);
+	virtual inline void draw(NVGcontext* ctx, double delta) {}
+	virtual inline void update(double delta) {}
 
-    inline Display getWindow();
+	static void onClosed(CallbackData data);
 
-    inline virtual void setScreen(const glm::vec2 & screen);
+	void setIcon(Icon* icon);
+	Icon* getIcon();
+	inline bool hasIcon() { return m_icon != nullptr; }
 
-    inline virtual glm::vec2 getScreen();
+	virtual inline void* addRow() { return nullptr; }
+	virtual inline void addItem(const std::string& item) {}
+	virtual inline MenuItem* addMenuItem(std::string& item) { return (MenuItem*)NULL; }
 
-    inline void setParent(Widget & parent);
+	virtual inline const std::string getText() { return ""; }
 
-    inline Widget getParent();
+	inline void setUnits(const std::string& units) { m_units = units; }
+	const std::string& getUnits() { return m_units; }
 
-    glm::vec2 getRelativePosition();
+	inline void setMinHeight(float value) { m_minHeight = value; }
+	inline float getMinHeigh() { return m_minHeight; }
 
-    glm::vec2 getRelativeSize();
+	inline void setMaxHeight(float value) { m_maxHeight = value; }
+	inline float getMaxHeight() { return m_maxHeight; }
 
-    virtual void setCentered();
+	inline void setMinWidth(float value) { m_minWidth = value; }
+	inline float getMinWidth() { return m_minWidth; }
 
-    bool intersects(const glm::vec2 & point);
+	inline void setMaxWidth(float value) { m_maxWidth = value; }
+	inline float getMaxWidth() { return m_maxWidth; }
 
-    inline void setLayout(Layout & layout);
+	void computePosition();
+	void computeSize();
 
-    inline Layout getLayout();
+	inline void setComputedPosition(const glm::vec2& position) { m_computedPosition = position; }
+	inline glm::vec2& getComputedPosition() { return m_computedPosition; }
 
-    void addChild(Widget & child);
+	inline void setComputedSize(const glm::vec2& size) { m_computedSize = size; }
+	inline glm::vec2& getComputedSize() { return m_computedSize; }
 
-    inline std::vector<Widget*> getChildren();
+	glm::vec2 m_dragStart;
+	glm::vec2 m_dragEnd;
+	glm::vec2 m_dragDelta;
 
-    inline virtual void draw(NVGcontext & ctx, double delta);
+	glm::vec2 m_mouseDelta;
+	glm::vec3 m_mouseStates;
+	glm::vec2 m_mouse;
+	glm::vec2 m_mouseRel;
 
-    inline virtual void update(double delta);
+private:
+	ExpandMode m_positionModeX;
+	ExpandMode m_positionModeY;
+	ExpandMode m_expandModeX;
+	ExpandMode m_expandModeY;
 
-    static void onClosed(const CallbackData & data);
+	glm::vec2 m_computedPosition;
+	glm::vec2 m_computedSize;
 
-    void setIcon(Icon & icon);
+	float m_minWidth;
+	float m_minHeight;
+	float m_maxWidth;
+	float m_maxHeight;
 
-    Icon getIcon();
+	std::string m_name;
+	Icon* m_icon;
 
-    inline bool hasIcon();
+	Display* m_window;
+	Layout* m_layout;
+	Widget* m_parent;
 
-    inline virtual void addRow();
+	std::string m_units;
+	glm::vec2 m_screen;
 
-    inline virtual void addItem(const std::string & item);
-
-    inline virtual MenuItem addMenuItem(std::string & item);
-
-    inline virtual std::string getText();
-
-    inline void setUnits(const std::string & units);
-
-    inline std::string getUnits();
-
-    inline void setMinHeight(float value);
-
-    inline float getMinHeigh();
-
-    inline void setMaxHeight(float value);
-
-    inline float getMaxHeight();
-
-    inline void setMinWidth(float value);
-
-    inline float getMinWidth();
-
-    inline void setMaxWidth(float value);
-
-    inline float getMaxWidth();
-
-    void computePosition();
-
-    void computeSize();
-
-    inline void setComputedPosition(const glm::vec2 & position);
-
-    inline glm::vec2 getComputedPosition();
-
-    inline void setComputedSize(const glm::vec2 & size);
-
-    inline glm::vec2 getComputedSize();
-
-    glm::vec2 m_dragStart;
-
-    glm::vec2 m_dragEnd;
-
-    glm::vec2 m_dragDelta;
-
-    glm::vec2 m_mouseDelta;
-
-    glm::vec3 m_mouseStates;
-
-    glm::vec2 m_mouse;
-
-    glm::vec2 m_mouseRel;
-
-
-  private:
-    Alignment m_alignment;
-
-    ExpandMode m_positionModeX;
-
-    ExpandMode m_positionModeY;
-
-    ExpandMode m_expandModeX;
-
-    ExpandMode m_expandModeY;
-
-    glm::vec2 m_computedPosition;
-
-    glm::vec2 m_computedSize;
-
-    float m_minWidth;
-
-    float m_minHeight;
-
-    float m_maxWidth;
-
-    float m_maxHeight;
-
-    bool m_visible;
-
-    std::string m_name;
-
-    Icon * m_icon;
-
-    Display * m_window;
-
-    Layout * m_layout;
-
-    Widget * m_parent;
-
-    std::string m_units;
-
-    glm::vec2 m_screen;
-
-    class Widget* m_children;
-
+	std::vector<class Widget*> m_children;
 };
-inline Widget::ExpandMode Widget::getExpandModeX() {
-}
-
-inline void Widget::setExpandModeX(Widget::ExpandMode mode) {
-}
-
-inline Widget::ExpandMode Widget::getExpandModeY() {
-}
-
-inline void Widget::setExpandModeY(Widget::ExpandMode mode) {
-}
-
-inline Widget::ExpandMode Widget::getPositionModeX() {
-}
-
-inline void Widget::setPositionModeX(Widget::ExpandMode mode) {
-}
-
-inline Widget::ExpandMode Widget::getPositionModeY() {
-}
-
-inline void Widget::setPositionModeY(Widget::ExpandMode mode) {
-}
-
-inline Widget::Alignment Widget::getAlignement() {
-}
-
-inline void Widget::setAlignment(Widget::Alignment alignment) {
-}
-
-inline std::string Widget::getName() {
-}
-
-inline void Widget::setName(const std::string & name) {
-}
-
-inline void Widget::setWindow(Display & window) {
-}
-
-inline Display Widget::getWindow() {
-}
-
-inline void Widget::setScreen(const glm::vec2 & screen) {
-}
-
-inline glm::vec2 Widget::getScreen() {
-}
-
-inline void Widget::setParent(Widget & parent) {
-}
-
-inline Widget Widget::getParent() {
-}
-
-inline void Widget::setLayout(Layout & layout) {
-}
-
-inline Layout Widget::getLayout() {
-}
-
-inline std::vector<Widget*> Widget::getChildren() {
-}
-
-inline void Widget::draw(NVGcontext & ctx, double delta) {
-}
-
-inline void Widget::update(double delta) {
-}
-
-inline bool Widget::hasIcon() {
-}
-
-inline void Widget::addRow() {
-}
-
-inline void Widget::addItem(const std::string & item) {
-}
-
-inline MenuItem Widget::addMenuItem(std::string & item) {
-}
-
-inline std::string Widget::getText() {
-}
-
-inline void Widget::setUnits(const std::string & units) {
-}
-
-inline std::string Widget::getUnits() {
-}
-
-inline void Widget::setMinHeight(float value) {
-}
-
-inline float Widget::getMinHeigh() {
-}
-
-inline void Widget::setMaxHeight(float value) {
-}
-
-inline float Widget::getMaxHeight() {
-}
-
-inline void Widget::setMinWidth(float value) {
-}
-
-inline float Widget::getMinWidth() {
-}
-
-inline void Widget::setMaxWidth(float value) {
-}
-
-inline float Widget::getMaxWidth() {
-}
-
-inline void Widget::setComputedPosition(const glm::vec2 & position) {
-}
-
-inline glm::vec2 Widget::getComputedPosition() {
-}
-
-inline void Widget::setComputedSize(const glm::vec2 & size) {
-}
-
-inline glm::vec2 Widget::getComputedSize() {
-}
-
-#endif

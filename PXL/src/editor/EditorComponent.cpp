@@ -1,35 +1,32 @@
+#include "EditorComponent.h"
+#include "../core/engine.h"
 
-#include "editorComponent.h"
-#include "engine.h"
-#include "layout.h"
-
- EditorComponent::EditorComponent(Engine & engine) {
-
+EditorComponent::EditorComponent(Engine* engine) : m_engine(engine)
+{
 
 }
 
- EditorComponent::~EditorComponent() {
-
-
-}
-
-void EditorComponent::setLayout(Layout & layout) {
-
+void EditorComponent::setLayout(Layout* layout)
+{
 	m_layout = layout;
 }
 
-Layout EditorComponent::getLayout() {
-
+Layout* EditorComponent::getLayout()
+{
 	return m_layout;
 }
 
-void EditorComponent::setEngine(Engine & engine) {
-
+void EditorComponent::setEngine(Engine* engine)
+{
 	m_engine = engine;
 }
 
-Engine EditorComponent::getEngine() {
-
+Engine* EditorComponent::getEngine()
+{
 	return m_engine;
 }
 
+EditorComponent::~EditorComponent()
+{
+
+}

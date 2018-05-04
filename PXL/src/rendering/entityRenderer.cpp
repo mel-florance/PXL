@@ -1,26 +1,22 @@
+﻿#include "entityRenderer.h"
+#include "../scene/scene.h"
+#include "../assets/assetManager.h"
 
-#include "entityRenderer.h"
-#include "shadermanager.h"
-#include "scene.h"
-#include "shader.h"
-
- EntityRenderer::EntityRenderer(ShaderManager & shaderManager) {
-
+EntityRenderer::EntityRenderer(ShaderManager* shaderManager)
+{
 	m_shaderManager = shaderManager;
 	m_basicShader = m_shaderManager->getShader("basic");
 }
 
- EntityRenderer::~EntityRenderer() {
-
-
-}
-
-void EntityRenderer::render(Scene & scene, double delta) {
+void EntityRenderer::render(Scene* scene, double delta)
+{
 
 	glEnable(GL_DEPTH_TEST);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	m_basicShader->bind();
 
 	std::vector<class Mesh*> meshes = scene->getMeshes();
 
@@ -28,7 +24,6 @@ void EntityRenderer::render(Scene & scene, double delta) {
 	{
 		Mesh* mesh = meshes[i];
 		Material* material = mesh->getMaterial();
-		material->getShader()->bind();
 
 		if (material->getBackFaceCulling() == true)
 		{
@@ -38,7 +33,7 @@ void EntityRenderer::render(Scene & scene, double delta) {
 
 		glBindVertexArray(mesh->getVao());
 		mesh->toggleAttributes(true);
-		material->getShader()->setUniformMat4fv("mTransform", mesh->getTransform()->getTransformation());
+		m_basicShader->setUniformMat4fv("mTransform", mesh->getTransform()->getTransformation());
 		material->preUpdate(scene);
 
 		if (mesh->isVisible())
@@ -48,7 +43,7 @@ void EntityRenderer::render(Scene & scene, double delta) {
 		{
 			if (mesh->getInstances()[j]->isVisible())
 			{
-				material->getShader()->setUniformMat4fv("mTransform", mesh->getInstances()[j]->getTransform()->getTransformation());
+				m_basicShader->setUniformMat4fv("mTransform", mesh->getInstances()[j]->getTransform()->getTransformation());
 				mesh->getInstances()[j]->draw();
 			}
 		}
@@ -59,7 +54,14 @@ void EntityRenderer::render(Scene & scene, double delta) {
 		mesh->toggleAttributes(false);
 		material->postUpdate();
 		glBindVertexArray(0);
-		material->getShader()->unbind();
+		
 	}
+
+	m_basicShader->unbind();
+
 }
 
+EntityRenderer::~EntityRenderer()
+{
+
+}

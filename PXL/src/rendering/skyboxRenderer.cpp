@@ -1,14 +1,7 @@
-
 #include "skyboxRenderer.h"
-#include "loader.h"
-#include "shadermanager.h"
-#include "scene.h"
-#include "mesh.h"
-#include "skyboxMaterial.h"
-#include "shader.h"
 
- SkyboxRenderer::SkyboxRenderer(Loader & loader, ShaderManager & shaderManager) {
-
+SkyboxRenderer::SkyboxRenderer(Loader* loader, ShaderManager* shaderManager)
+{
 	m_loader = loader;
 	m_shaderManager = shaderManager;
 	m_skyboxShader = shaderManager->getShader("skybox");
@@ -36,13 +29,8 @@
 	m_material->setCubemap2(m_loader->loadCubeMap(night));
 }
 
- SkyboxRenderer::~SkyboxRenderer() {
-
-	delete m_material;
-}
-
-void SkyboxRenderer::render(Scene & scene, double delta) {
-
+void SkyboxRenderer::render(Scene* scene, double delta)
+{
 	m_skyboxShader->bind();
 	glBindVertexArray(m_mesh->getVao());
 	glEnableVertexAttribArray(0);
@@ -56,3 +44,7 @@ void SkyboxRenderer::render(Scene & scene, double delta) {
 	m_skyboxShader->unbind();
 }
 
+SkyboxRenderer::~SkyboxRenderer()
+{
+	delete m_material;
+}

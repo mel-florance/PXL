@@ -1,14 +1,11 @@
-#ifndef _FORM_H
-#define _FORM_H
+#pragma once
 
+#include "../core/widget.h"
 
-#include "widget.h"
-
-class Form : public Widget {
-  public:
-     Form(const glm::vec2 & position, const glm::vec2 & size);
-
-     ~Form();
-
+class Form : public Widget
+{
+public:
+	Form(const glm::vec2& position, const glm::vec2& size);
+	~Form();
 };
-#endif
+

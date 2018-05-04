@@ -1,26 +1,23 @@
-#ifndef _FONTMANAGER_H
-#define _FONTMANAGER_H
+#pragma once
 
+#include <iostream>
+#include <filesystem>
+#include <dirent.h>
 
-#include "manager.h"
-#include "nanovg.h"
+#include "../nanovg/nanovg.h"
+#include "../../core/manager.h"
 
-class FontManager : public Manager {
-  public:
-     FontManager();
+class FontManager : public Manager
+{
+public:
+	FontManager();
 
-    inline void setContext(NVGcontext & ctx);
+	inline void setContext(NVGcontext* ctx) { m_ctx = ctx; }
+	void loadFonts(char* path);
 
-    void loadFonts(char & path);
+	virtual ~FontManager();
 
-    virtual  ~FontManager();
-
-
-  private:
-    NVGcontext * m_ctx;
-
+private:
+	NVGcontext* m_ctx;
 };
-inline void FontManager::setContext(NVGcontext & ctx) {
-}
 
-#endif

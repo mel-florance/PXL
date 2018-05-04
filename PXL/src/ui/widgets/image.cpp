@@ -1,20 +1,15 @@
-
 #include "image.h"
+#include <iostream>
 
- Image::Image(NVGcontext & ctx, const std::string & name, glm::vec2 & position, glm::vec2 & size) {
-
+Image::Image(NVGcontext* ctx, const std::string& name, glm::vec2& position, glm::vec2& size) : Widget(position, size)
+{
 	m_ctx = ctx;
 	m_name = name;
 	m_image = nvgCreateImage(ctx, name.c_str(), NVG_IMAGE_GENERATE_MIPMAPS);
 }
 
- Image::~Image() {
-
-
-}
-
-void Image::draw(NVGcontext & ctx, double delta) {
-
+void Image::draw(NVGcontext* ctx, double delta)
+{
 	nvgSave(ctx);
 
 	float x = this->getPosition().x;
@@ -45,3 +40,7 @@ void Image::draw(NVGcontext & ctx, double delta) {
 	nvgRestore(ctx);
 }
 
+Image::~Image()
+{
+
+}

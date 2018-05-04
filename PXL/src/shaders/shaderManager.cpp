@@ -1,21 +1,12 @@
+#include "shaderManager.h"
 
-#include "shadermanager.h"
-#include "shader.h"
-
- ShaderManager::ShaderManager() {
-
+ShaderManager::ShaderManager() : Manager()
+{
 	this->loadShaders("./res/shaders/");
 }
 
- ShaderManager::~ShaderManager() {
-
-	std::set<std::string>::iterator i;
-	for (i = m_shadersList.begin(); i != m_shadersList.end(); ++i)
-		delete m_shaders[*i];
-}
-
-void ShaderManager::loadShaders(const std::string & path) {
-
+void ShaderManager::loadShaders(const std::string& path)
+{
 	DIR *dir;
 	struct dirent* directory;
 	dir = opendir(path.c_str());
@@ -43,3 +34,9 @@ void ShaderManager::loadShaders(const std::string & path) {
 	}
 }
 
+ShaderManager::~ShaderManager()
+{
+	std::set<std::string>::iterator i;
+	for (i = m_shadersList.begin(); i != m_shadersList.end(); ++i)
+		delete m_shaders[*i];
+}

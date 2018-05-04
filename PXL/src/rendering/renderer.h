@@ -1,56 +1,34 @@
-#ifndef PXL_RENDERING_RENDERER_H
-#define PXL_RENDERING_RENDERER_H
+#pragma once
 
+#include "../core/display.h"
+#include "../scene/scene.h"
+#include "../shaders/shaderManager.h"
+#include "../shaders/shader.h"
+#include "../assets/assetManager.h"
+#include "../ui/core/guiManager.h"
 
-class Display;
-class Loader;
-class ShaderManager;
-class AssetManager;
-class GuiManager;
-class Viewport;
-class Scene;
-class EntityRenderer;
-class SkyboxRenderer;
-class GuiRenderer;
+#include "guiRenderer.h"
+#include "entityRenderer.h"
+#include "skyboxRenderer.h"
+#include "../editor/components/viewport.h"
 
-namespace PXL {
+class Renderer
+{
+public:
+	Renderer(Display* window, Loader* loader, ShaderManager* shaderManager, AssetManager* assetManager, GuiManager* guiManager);
+	~Renderer();
 
-namespace Rendering {
+	void setViewport(Viewport* viewport) { m_viewport = viewport; }
 
-class Renderer {
-  public:
-     Renderer(::Display & window, ::Loader & loader, ::ShaderManager & shaderManager, ::AssetManager & assetManager, ::GuiManager & guiManager);
+	void clear(const glm::vec4& color);
+	void render(Scene* scene, double delta);
 
-     ~Renderer();
-
-    inline void setViewport(::Viewport & viewport);
-
-    void clear(const glm::vec4 & color);
-
-    void render(::Scene & scene, double delta);
-
-
-  private:
-    ::Display * m_window;
-
-    ::Loader * m_loader;
-
-    ::Viewport * m_viewport;
-
-    ::EntityRenderer * m_entityRenderer;
-
-    ::SkyboxRenderer * m_skyboxRenderer;
-
-    ::GuiRenderer * m_guiRenderer;
-
-    ::GuiManager * m_guiManager;
-
+private:
+	Display* m_window;
+	Loader* m_loader;
+	Viewport* m_viewport;
+	EntityRenderer* m_entityRenderer;
+	SkyboxRenderer* m_skyboxRenderer;
+	GuiRenderer* m_guiRenderer;
 };
-inline void Renderer::setViewport(::Viewport & viewport) {
-}
 
-
-} // namespace PXL::Rendering
-
-} // namespace PXL
-#endif

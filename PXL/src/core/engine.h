@@ -1,129 +1,70 @@
-#ifndef _ENGINE_H
-#define _ENGINE_H
+#pragma once
 
+#include <iostream>
+#include <string>
+#include <vector>
+#include <functional>
 
-class GameLoop;
-class Display;
-namespace PXL { namespace Rendering { class Renderer; }  } 
-class Loader;
-class Database;
+#include "profiler.h"
+#include "clock.h"
+#include "display.h"
+#include "gameLoop.h"
+#include "inputManager.h"
+
+#include "../scene/sceneManager.h"
+#include "../shaders/shaderManager.h"
+#include "../assets/assetManager.h"
+#include "../ui/core/guiManager.h"
+#include "../audio/soundManager.h"
+
+#include "../rendering/renderer.h"
+
 class Editor;
-class SceneManager;
-class ShaderManager;
-class AssetManager;
-class GuiManager;
-class FontManager;
-class InputManager;
-class SoundManager;
 
-class Engine {
-  public:
-     Engine(glm::vec2 & windowSize);
+class Engine
+{
+public:
+	Engine(glm::vec2& windowSize);
+	~Engine();
 
-     ~Engine();
+	void start();
+	static void update(GameLoop* loop, Engine* self);
+	static void render(GameLoop* loop, Engine* self);
+	void stop();
 
-    void start();
+	inline Display* getWindow() { return m_window; }
+	inline Renderer* getRenderer() { return m_renderer; }
+	inline Loader* getLoader() { return m_loader; }
+	inline GameLoop* getLoop() { return m_gameLoop; }
 
-    static void update(GameLoop & loop, Engine & self);
-
-    static void render(GameLoop & loop, Engine & self);
-
-    void stop();
-
-    inline Display getWindow();
-
-    inline PXL::Rendering::Renderer getRenderer();
-
-    inline Loader getLoader();
-
-    inline GameLoop getLoop();
-
-    inline Database getDatabase();
-
-    inline Editor getEditor();
-
-    inline SceneManager getSceneManager();
-
-    inline ShaderManager getShaderManager();
-
-    inline AssetManager getAssetManager();
-
-    inline GuiManager getGuiManager();
-
-    inline FontManager getFontManager();
-
-    inline InputManager getInputManager();
-
-    inline SoundManager getSoundManager();
+	inline SceneManager* getSceneManager() { return m_sceneManager; }
+	inline ShaderManager* getShaderManager() { return m_shaderManager; }
+	inline AssetManager* getAssetManager() { return m_assetManager; }
+	inline GuiManager* getGuiManager() { return m_guiManager; }
+	inline FontManager* getFontManager() { return m_fontManager; }
+	inline InputManager* getInputManager() { return m_inputManager; }
+	inline SoundManager* getSoundManager() { return m_soundManager; }
 
 
-  private:
-    Database * m_database;
 
-    GameLoop * m_gameLoop;
 
-    Loader * m_loader;
+private:
+	GameLoop* m_gameLoop;
+	Loader* m_loader;
 
-    Display * m_window;
+	Display* m_window;
+	Renderer* m_renderer;
+	Editor* m_editor;
+	InputManager* m_inputManager;
+	SceneManager* m_sceneManager;
 
-    PXL::Rendering::Renderer * m_renderer;
+	ShaderManager* m_shaderManager;
+	AssetManager* m_assetManager;
+	GuiManager* m_guiManager;
 
-    Editor * m_editor;
+	FontManager* m_fontManager;
+	SoundManager* m_soundManager;
 
-    InputManager * m_inputManager;
-
-    SceneManager * m_sceneManager;
-
-    ShaderManager * m_shaderManager;
-
-    AssetManager * m_assetManager;
-
-    GuiManager * m_guiManager;
-
-    FontManager * m_fontManager;
-
-    SoundManager * m_soundManager;
-
-    glm::vec2 m_windowSize;
-
+	glm::vec2 m_windowSize;
 };
-inline Display Engine::getWindow() {
-}
 
-inline PXL::Rendering::Renderer Engine::getRenderer() {
-}
-
-inline Loader Engine::getLoader() {
-}
-
-inline GameLoop Engine::getLoop() {
-}
-
-inline Database Engine::getDatabase() {
-}
-
-inline Editor Engine::getEditor() {
-}
-
-inline SceneManager Engine::getSceneManager() {
-}
-
-inline ShaderManager Engine::getShaderManager() {
-}
-
-inline AssetManager Engine::getAssetManager() {
-}
-
-inline GuiManager Engine::getGuiManager() {
-}
-
-inline FontManager Engine::getFontManager() {
-}
-
-inline InputManager Engine::getInputManager() {
-}
-
-inline SoundManager Engine::getSoundManager() {
-}
-
-#endif

@@ -1,21 +1,7 @@
-
 #include "game.h"
-#include "engine.h"
-#include "eventListener.h"
-#include "assetManager.h"
-#include "light.h"
-#include "text.h"
-#include "scene.h"
-#include "widget.h"
-#include "FPSCamera.h"
-#include "mesh.h"
-#include "layout.h"
-#include "label.h"
-#include "input.h"
-#include "button.h"
 
- Game::Game(Engine & engine) {
-
+Game::Game(Engine* engine)
+{
 	//m_engine = engine;
 
 	//Display* window = engine->getWindow();
@@ -159,14 +145,44 @@
 	//std::cout << j.dump(4) << std::endl;
 }
 
- Game::~Game() {
-
-
+void Game::exitApplication(CallbackData data)
+{
+	data.sender->getWindow()->setIsClosed(true);
 }
 
-void Game::callbackFn(const CallbackData & data)
+void Game::setFullscreen(CallbackData data)
 {
+	SDL_SetWindowFullscreen(data.sender->getWindow()->getWindow(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+}
 
+void Game::newProject(CallbackData data)
+{
+	Window* modal = new Window("New Project", glm::vec2(), glm::vec2(450.0f, 350.0f), "segoeui");
+	Layout* layout = data.sender->getLayout();
+
+	Button* createButton = new Button(glm::vec2(450.0f - 80.0f - 10.0f, 350.0f - 30.0f - 10.0f), glm::vec2(80, 30), "segoeui");
+	createButton->setText("Create");
+	modal->addChild(createButton);
+
+	Label* labelSize = new Label(glm::vec2(10, 35.0f), glm::vec2(430, 35), "Name", "segoeui");
+	Input* inputSize = new Input(glm::vec2(0, 30), glm::vec2(430, 35), "segoeui");
+
+	labelSize->setName("labelSize");
+	labelSize->addChild(inputSize);
+	modal->addChild(labelSize);
+
+	if (layout != nullptr)
+	{
+		layout->addWidget(modal);
+		modal->setCentered();
+		modal->setState("draggable", true);
+		modal->setState("closable", true);
+		createButton->addEventListener("onClosed", &Game::createCube);
+	}
+}
+
+void Game::callbackFn(CallbackData data)
+{
 	Window* modal = new Window("Add cube", glm::vec2(), glm::vec2(250.0f, 250.0f), "segoeui");
 	Layout* layout = data.sender->getLayout();
 
@@ -198,9 +214,8 @@ void Game::callbackFn(const CallbackData & data)
 	}
 }
 
-void Game::createCube(const CallbackData & data)
+void Game::createCube(CallbackData data)
 {
-
 	/*GuiManager* gm = data.sender->getLayout()->getGuiManager();
 	Mesh* cube = gm->getAssetManager()->importMesh("./res/models/cube.obj");
 
@@ -234,47 +249,8 @@ void Game::createCube(const CallbackData & data)
 	data.sender->getLayout()->removeWidget(data.sender->getParent());*/
 }
 
-void Game::newProject(const CallbackData & data)
+void Game::update(double delta)
 {
-
-	Window* modal = new Window("New Project", glm::vec2(), glm::vec2(450.0f, 350.0f), "segoeui");
-	Layout* layout = data.sender->getLayout();
-
-	Button* createButton = new Button(glm::vec2(450.0f - 80.0f - 10.0f, 350.0f - 30.0f - 10.0f), glm::vec2(80, 30), "segoeui");
-	createButton->setText("Create");
-	modal->addChild(createButton);
-
-	Label* labelSize = new Label(glm::vec2(10, 35.0f), glm::vec2(430, 35), "Name", "segoeui");
-	Input* inputSize = new Input(glm::vec2(0, 30), glm::vec2(430, 35), "segoeui");
-
-	labelSize->setName("labelSize");
-	labelSize->addChild(inputSize);
-	modal->addChild(labelSize);
-
-	if (layout != nullptr)
-	{
-		layout->addWidget(modal);
-		modal->setCentered();
-		modal->setState("draggable", true);
-		modal->setState("closable", true);
-		createButton->addEventListener("onClosed", &Game::createCube);
-	}
-}
-
-void Game::setFullscreen(const CallbackData & data)
-{
-
-	SDL_SetWindowFullscreen(data.sender->getWindow()->getWindow(), SDL_WINDOW_FULLSCREEN_DESKTOP);
-}
-
-void Game::exitApplication(const CallbackData & data)
-{
-
-	data.sender->getWindow()->setIsClosed(true);
-}
-
-void Game::update(double delta) {
-
 	/*m_angle += (float)delta * 0.3f;
 
 	if (m_fpsText != nullptr)
@@ -296,3 +272,7 @@ void Game::update(double delta) {
 		m_profSleep->setText("Sleep: " + std::to_string(m_engine->getProfiler()->getReport("sleep")));*/
 }
 
+Game::~Game()
+{
+
+}

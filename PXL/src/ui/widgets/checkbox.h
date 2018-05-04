@@ -1,31 +1,24 @@
-#ifndef _CHECKBOX_H
-#define _CHECKBOX_H
+#pragma once
 
+#include <glm\glm.hpp>
 
-#include "widget.h"
-#include "nanovg.h"
+#include "../core/widget.h"
 
-class Checkbox : public Widget {
-  public:
-     Checkbox(const glm::vec2 & position, const glm::vec2 & size);
+class Checkbox : public Widget
+{
+public:
+	Checkbox(const glm::vec2& position, const glm::vec2& size);
 
-    void onMouseMove(const SDL_Event & event);
+	void onMouseMove(const SDL_Event& event);
+	void onMouseDown(const SDL_Event& event);
+	void onMouseUp(const SDL_Event& event);
 
-    void onMouseDown(const SDL_Event & event);
+	void update(double delta);
+	void draw(NVGcontext* ctx, double delta);
 
-    void onMouseUp(const SDL_Event & event);
+	~Checkbox();
 
-    void update(double delta);
-
-    void draw(NVGcontext & ctx, double delta);
-
-     ~Checkbox();
-
-
-  private:
-    NVGcolor m_background;
-
-    float m_borderRadius;
-
+private:
+	NVGcolor m_background;
+	float m_borderRadius;
 };
-#endif

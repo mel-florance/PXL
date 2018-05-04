@@ -1,24 +1,19 @@
-#ifndef _ENTITYRENDERER_H
-#define _ENTITYRENDERER_H
+#pragma once
+
+#include "../shaders/shaderManager.h"
+#include "../mesh/mesh.h"
 
 
-class ShaderManager;
-class Scene;
-class Shader;
+class EntityRenderer
+{
+public:
+	EntityRenderer(ShaderManager* shaderManager);
+	~EntityRenderer();
 
-class EntityRenderer {
-  public:
-     EntityRenderer(ShaderManager & shaderManager);
+	void render(Scene* scene, double delta);
 
-     ~EntityRenderer();
-
-    void render(Scene & scene, double delta);
-
-
-  private:
-    ShaderManager * m_shaderManager;
-
-    Shader * m_basicShader;
-
+private:
+	ShaderManager* m_shaderManager;
+	Shader* m_basicShader;
 };
-#endif
+

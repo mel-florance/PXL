@@ -71,30 +71,6 @@
     <Filter Include="src\audio">
       <UniqueIdentifier>{3570377b-bab9-4ff8-a198-78883beb043e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\database">
-      <UniqueIdentifier>{72e1b672-6ff2-4d07-91e6-e733fdfa6214}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\editor\components\console">
-      <UniqueIdentifier>{a8f2ef86-fda2-4b05-9592-38ba707432da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\editor\components\assetBrowser">
-      <UniqueIdentifier>{b3d06f73-b5f2-4a9f-9069-35dbb76373d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\editor\components\inspector">
-      <UniqueIdentifier>{8836cfc5-df68-4a53-b500-0c37d0e99fe9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\editor\components\mainMenu">
-      <UniqueIdentifier>{ea5bebcc-039a-4792-84e7-0f97255dfef3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\editor\components\outliner">
-      <UniqueIdentifier>{414d8efb-2511-4310-ba02-a1f8cf59a49c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\editor\components\viewport">
-      <UniqueIdentifier>{cdbb2c74-83fe-406c-9c1c-e6b6fbaed232}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\particles">
-      <UniqueIdentifier>{06acb6ed-8f30-4c9a-a35f-64c2819a0d27}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="PXL.rc">
@@ -279,8 +255,17 @@
     <ClCompile Include="./src/editor/projectManager.cpp">
       <Filter>src\editor</Filter>
     </ClCompile>
+    <ClCompile Include="./src/editor/components/outliner.cpp">
+      <Filter>src\editor\components</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/components/viewport.cpp">
+      <Filter>src\editor\components</Filter>
+    </ClCompile>
     <ClCompile Include="./src/ui/widgets/tooltip.cpp">
       <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/components/mainMenu.cpp">
+      <Filter>src\editor\components</Filter>
     </ClCompile>
     <ClCompile Include="./src/core/fileSystem.cpp">
       <Filter>src\core</Filter>
@@ -288,11 +273,17 @@
     <ClCompile Include="./src/core/shortcutManager.cpp">
       <Filter>src\core</Filter>
     </ClCompile>
+    <ClCompile Include="./src/editor/components/assetBrowser.cpp">
+      <Filter>src\editor\components</Filter>
+    </ClCompile>
     <ClCompile Include="./src/ui/widgets/treeView.cpp">
       <Filter>src\ui\widgets</Filter>
     </ClCompile>
     <ClCompile Include="./src/ui/widgets/scrollbar.cpp">
       <Filter>src\ui\widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="./src/editor/components/inspector.cpp">
+      <Filter>src\editor\components</Filter>
     </ClCompile>
     <ClCompile Include="./src/ui/widgets/splitter.cpp">
       <Filter>src\ui\widgets</Filter>
@@ -323,42 +314,6 @@
     </ClCompile>
     <ClCompile Include="./src/ui/widgets/accordion.cpp">
       <Filter>src\ui\widgets</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/rendering/forwardRenderer.cpp">
-      <Filter>src\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/rendering/deferredRenderer.cpp">
-      <Filter>src\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/rendering/frameBuffer.cpp">
-      <Filter>src\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/materials/gridMaterial.cpp">
-      <Filter>src\materials</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/database/database.cpp">
-      <Filter>src\database</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/editor/components/assetBrowser/assetBrowser.cpp">
-      <Filter>src\editor\components\assetBrowser</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/editor/components/console/console.cpp">
-      <Filter>src\editor\components\console</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/editor/components/inspector/inspector.cpp">
-      <Filter>src\editor\components\inspector</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/editor/components/mainMenu/mainMenu.cpp">
-      <Filter>src\editor\components\mainMenu</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/editor/components/outliner/outliner.cpp">
-      <Filter>src\editor\components\outliner</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/editor/components/viewport/viewport.cpp">
-      <Filter>src\editor\components\viewport</Filter>
-    </ClCompile>
-    <ClCompile Include="./src/mesh/meshData.cpp">
-      <Filter>src\mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -573,8 +528,17 @@
     <ClInclude Include="./src/editor/projectManager.h">
       <Filter>src\editor</Filter>
     </ClInclude>
+    <ClInclude Include="./src/editor/components/viewport.h">
+      <Filter>src\editor\components</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/components/outliner.h">
+      <Filter>src\editor\components</Filter>
+    </ClInclude>
     <ClInclude Include="./src/ui/widgets/tooltip.h">
       <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/components/mainMenu.h">
+      <Filter>src\editor\components</Filter>
     </ClInclude>
     <ClInclude Include="./src/core/fileSystem.h">
       <Filter>src\core</Filter>
@@ -582,11 +546,17 @@
     <ClInclude Include="./src/core/shortcutManager.h">
       <Filter>src\core</Filter>
     </ClInclude>
+    <ClInclude Include="./src/editor/components/assetBrowser.h">
+      <Filter>src\editor\components</Filter>
+    </ClInclude>
     <ClInclude Include="./src/ui/widgets/treeView.h">
       <Filter>src\ui\widgets</Filter>
     </ClInclude>
     <ClInclude Include="./src/ui/widgets/scrollbar.h">
       <Filter>src\ui\widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="./src/editor/components/inspector.h">
+      <Filter>src\editor\components</Filter>
     </ClInclude>
     <ClInclude Include="./src/ui/widgets/splitter.h">
       <Filter>src\ui\widgets</Filter>
@@ -617,42 +587,6 @@
     </ClInclude>
     <ClInclude Include="./src/ui/widgets/accordion.h">
       <Filter>src\ui\widgets</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/rendering/forwardRenderer.h">
-      <Filter>src\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/rendering/deferredRenderer.h">
-      <Filter>src\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/rendering/frameBuffer.h">
-      <Filter>src\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/materials/gridMaterial.h">
-      <Filter>src\materials</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/database/database.h">
-      <Filter>src\database</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/editor/components/assetBrowser/assetBrowser.h">
-      <Filter>src\editor\components\assetBrowser</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/editor/components/console/console.h">
-      <Filter>src\editor\components\console</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/editor/components/inspector/inspector.h">
-      <Filter>src\editor\components\inspector</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/editor/components/mainMenu/mainMenu.h">
-      <Filter>src\editor\components\mainMenu</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/editor/components/outliner/outliner.h">
-      <Filter>src\editor\components\outliner</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/editor/components/outliner/viewport.h">
-      <Filter>src\editor\components\viewport</Filter>
-    </ClInclude>
-    <ClInclude Include="./src/mesh/meshData.h">
-      <Filter>src\mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

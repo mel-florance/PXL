@@ -1,15 +1,13 @@
-
 #include "table.h"
-#include "eventListener.h"
-#include "scrollbar.h"
+#include "layout.h"
 
- Table::Table(const glm::vec2 & position, const glm::vec2 & size, const std::string & font) {
-
+Table::Table(const glm::vec2& position, const glm::vec2& size, const std::string& font) : Widget(position, size)
+{
 	m_margin = glm::vec4(
 		30.0f, // Top
-		0.0f, // Right
-		0.0f, // Bottom
-		0.0f  // Left
+		5.0f, // Right
+		8.0f, // Bottom
+		5.0f  // Left
 	);
 
 	m_font = font;
@@ -20,48 +18,81 @@
 	m_background = nvgRGB(40, 40, 40);
 	m_stripLines = nvgRGB(35, 35, 35);
 	m_borderColor = nvgRGB(70, 70, 70);
-
-	m_scrollbar = new Scrollbar(glm::vec2(0.0f), glm::vec2(13.0f, 100.0f));
-	m_scrollbar->setExpandModeX(Widget::ExpandMode::FIXED);
-	m_scrollbar->setExpandModeY(Widget::ExpandMode::PARENT);
-	m_scrollbar->setPositionModeX(Widget::ExpandMode::LAYOUT);
-	m_scrollbar->setPositionModeY(Widget::ExpandMode::LAYOUT);
-	m_scrollbar->setAlignment(Widget::Alignment::TOP_RIGHT);
-	m_scrollbar->addEventListener("onMouseMove", &Table::onScrollbarDragged);
-
-	this->addChild(m_scrollbar);
 }
 
- Table::~Table() {
-
+void Table::update(double delta)
+{
 
 }
 
-void Table::update(double delta) {
-
-
-}
-
-void Table::draw(NVGcontext & ctx, double delta) {
-
+void Table::draw(NVGcontext* ctx, double delta)
+{
 	nvgSave(ctx);
 
 	glm::vec2 pos = this->getRelativePosition();
-	glm::vec2 size = this->getRelativeSize();
+	glm::vec2 size = this->getSize();
 
-	pos.x += m_margin.w;
-	pos.y += m_margin.x;
+	switch (this->getExpandModeX())
+	{
+	case ExpandMode::LAYOUT:
+		size.x = this->getLayout()->getComputedSize().x;
+		break;
+	case ExpandMode::PARENT:
+		size.x = this->getParent()->getSize().x;
+		break;
+	case ExpandMode::FIXED:
+		size.x = this->getSize().x;
+		break;
+	}
 
-	nvgScissor(ctx, pos.x, pos.y, size.x, size.y);
+	switch (this->getExpandModeY())
+	{
+	case ExpandMode::LAYOUT:
+		size.y = this->getLayout()->getComputedSize().y;
+		break;
+	case ExpandMode::PARENT:
+		size.y = this->getParent()->getSize().y;
+		break;
+	case ExpandMode::FIXED:
+		size.y = this->getSize().y;
+		break;
+	}
 
-	pos.y -= m_offsetScroll;
+
+
+	switch (this->getPositionModeX())
+	{
+	case ExpandMode::LAYOUT:
+		pos.x = this->getLayout()->getComputedPosition().x;
+		break;
+	case ExpandMode::PARENT:
+		pos.x = this->getParent()->getPosition().x;
+		break;
+	case ExpandMode::FIXED:
+		pos.x = this->getPosition().x;
+		break;
+	}
+
+	switch (this->getPositionModeY())
+	{
+	case ExpandMode::LAYOUT:
+		pos.y = this->getLayout()->getComputedPosition().y;
+		break;
+	case ExpandMode::PARENT:
+		pos.y = this->getParent()->getPosition().y;
+		break;
+	case ExpandMode::FIXED:
+		pos.y = this->getPosition().y;
+		break;
+	}
+
 
 	nvgBeginPath(ctx);
 	nvgRect(ctx,
 		pos.x,
-		pos.y,
-		size.x,
-		size.y
+		pos.y + m_margin.x,
+		this->getLayout()->getComputedSize().x,
+		this->getSize().y
 	);
 
 	nvgFillColor(ctx, m_background);
@@ -75,15 +106,15 @@ void Table::draw(NVGcontext & ctx, double delta) {
 	{
 		i++;
 		unsigned int cs = m_rows[r]->m_columns.size();
-		float y = pos.y + (lh * i);
-		cw = ceil(size.x / cs);
+		float y = pos.y + m_margin.x + (lh * i);
+		cw = ceil(this->getLayout()->getComputedSize().x / cs);
 
 		if (i % 2 == 0) {
 			nvgBeginPath(ctx);
 			nvgRect(ctx,
 				pos.x,
 				y - lh,
-				size.x,
+				this->getLayout()->getComputedSize().x,
 				lh
 			);
 
@@ -115,23 +146,16 @@ void Table::draw(NVGcontext & ctx, double delta) {
 			nvgFontBlur(ctx, m_blur);
 			nvgFillColor(ctx, m_color);
 
-			NVGtextRow rows[1];
-			const char* text = m_rows[r]->m_columns[c]->m_data.c_str();
-			const char* start;
-			const char* end;
-
-			start = text;
-			end = text + strlen(text);
-
-			int nrows = nvgTextBreakLines(ctx, start, end, cw - 10, rows, 1);
-			NVGtextRow* row = &rows[0];
+			nvgScissor(ctx, x, y - lh, cw - 10, lh);
 
 			nvgText(ctx,
 				x + 10,
 				y - 7,
-				row->start,
-				row->end
+				m_rows[r]->m_columns[c]->m_data.c_str(),
+				NULL
 			);
+			
+			nvgResetScissor(ctx);
 
 			j++;
 		}
@@ -139,52 +163,10 @@ void Table::draw(NVGcontext & ctx, double delta) {
 		j = 0;
 	}
 
-	nvgResetScissor(ctx);
 	nvgRestore(ctx);
 }
 
-void Table::onScrollbarDragged(const CallbackData & data)
+Table::~Table()
 {
 
-	Scrollbar* sender = (Scrollbar*)data.sender;
-	Table* parent = (Table*)data.sender->getParent();
-
-	parent->setOffsetScroll(sender->getHandleDragOffset());
 }
-
-void Table::onMouseWheel(const SDL_Event & event) {
-
-	if (this->getState("hovered"))
-	{
-		glm::vec2 position = this->getRelativePosition();
-		glm::vec2 size = this->getRelativeSize();
-		float hy = position.y + 30.0f;
-		float drag = m_scrollbar->getHandleDragOffset();
-		float handleHeight = m_scrollbar->getHandleHeight();
-		drag += event.wheel.y * -3.0f;
-
-		if (hy + drag < hy)
-			drag = 0;
-
-		if (hy + drag + handleHeight > hy + (size.y - 30.0f))
-			drag = (size.y - 30.0f) - handleHeight;
-
-		m_scrollbar->setHandleDragOffset(drag);
-		this->setOffsetScroll(drag);
-	}
-}
-
-void Table::onMouseMove(const SDL_Event & event) {
-
-	m_mouse = glm::vec2(event.motion.x, event.motion.y);
-	this->setState("hovered", this->intersects(m_mouse));
-}
-
-void Table::onMouseUp(const SDL_Event & event) {
-
-}
-
-void Table::onMouseDown(const SDL_Event & event) {
-
-}
-

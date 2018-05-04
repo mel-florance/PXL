@@ -1,34 +1,27 @@
-#ifndef _SHADERMANAGER_H
-#define _SHADERMANAGER_H
+#pragma once
 
+#include <string>
+#include <map>
+#include <filesystem>
+#include <iostream>
+#include <set>
+#include <dirent.h>
 
-#include "manager.h"
+#include "shader.h"
+#include "../core/manager.h"
 
-class Shader;
+class ShaderManager : public Manager
+{
+public:
+	ShaderManager();
+	~ShaderManager();
 
-class ShaderManager : public Manager {
-  public:
-     ShaderManager();
+	void loadShaders(const std::string& path);
+	inline void addShader(const std::string& name, Shader* shader) { m_shaders[name] = shader; }
+	inline Shader* getShader(const std::string& name) { return m_shaders[name]; }
 
-     ~ShaderManager();
-
-    void loadShaders(const std::string & path);
-
-    inline void addShader(const std::string & name, Shader & shader);
-
-    inline Shader getShader(const std::string & name);
-
-
-  private:
-    Shader * m_shaders;
-
-    std::string m_shadersList;
-
+private:
+	std::map<std::string, Shader*> m_shaders;
+	std::set<std::string> m_shadersList;
 };
-inline void ShaderManager::addShader(const std::string & name, Shader & shader) {
-}
 
-inline Shader ShaderManager::getShader(const std::string & name) {
-}
-
-#endif

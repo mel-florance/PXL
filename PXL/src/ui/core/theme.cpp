@@ -1,13 +1,13 @@
-
 #include "theme.h"
 
- Theme::Theme() {
+//Todo: Implement theme
 
-
-}
-
- Theme::~Theme() {
-
+Theme::Theme()
+{
 
 }
 
+Theme::~Theme()
+{
+
+}

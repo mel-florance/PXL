@@ -1,31 +1,24 @@
-#ifndef _PROFILER_H
-#define _PROFILER_H
+#pragma once
 
+#include <map>
+#include <string>
 
-class Clock;
-class Timer;
+#include "timer.h"
 
-class Profiler {
-  public:
-     Profiler(Clock & clock);
+class Profiler
+{
+public:
+	Profiler(Clock* clock);
+	~Profiler();
 
-     ~Profiler();
+	Timer* getTimer(const std::string& name);
+	void addTimer(const std::string& name);
+	void stopTimer(const std::string& name);
+	void startTimer(const std::string& name);
+	double getReport(const std::string& name);
 
-    Timer getTimer(const std::string & name);
-
-    void addTimer(const std::string & name);
-
-    void stopTimer(const std::string & name);
-
-    void startTimer(const std::string & name);
-
-    double getReport(const std::string & name);
-
-
-  private:
-    Clock * m_clock;
-
-    Timer * m_timers;
-
+private:
+	Clock* m_clock;
+	std::map<std::string, Timer*> m_timers;
 };
-#endif
+

@@ -1,149 +1,67 @@
-#ifndef _ACCORDION_H
-#define _ACCORDION_H
+#pragma once
 
+#include <vector>
+#include <string>
+#include <algorithm>
 
-#include "widget.h"
-#include "nanovg.h"
+#include "../core/widget.h"
+#include "icon.h"
 
-class Icon;
+class Accordion : public Widget
+{
+public:
+	Accordion(const glm::vec2& position, const glm::vec2& size);
 
-class Accordion : public Widget {
-  public:
-     Accordion(const glm::vec2 & position, const glm::vec2 & size);
+	void update(double delta);
+	void draw(NVGcontext* ctx, double delta);
 
-    void update(double delta);
+	struct Section 
+	{
+		Section(const std::string& title) : m_title(title), m_opened(true) 
+		{
+			m_icon = new Icon("RIGHT_DIR", glm::vec2(0.0f), glm::vec2(0.0f));
+		}
 
-    void draw(NVGcontext & ctx, double delta);
+		~Section() 
+		{
+			delete m_icon;
+		}
+	
+		enum StackDirection { HORIZONTAL, VERTICAL };
+		
+		inline void addWidget(Widget* widget) { m_widgets.emplace_back(widget); }
+		inline bool removeWidget(Widget* widget) 
+		{
+			auto exists = std::find(m_widgets.begin(), m_widgets.end(), widget);
 
-    struct Section {
-        inline  Section(const std::string & title);
+			if (exists != m_widgets.end())
+				m_widgets.erase(exists);
+		}
 
-        inline  ~Section();
+		bool m_opened;
+		std::string m_title;
+		Icon* m_icon;
+		StackDirection m_direction;
+		std::vector<Widget*> m_widgets;
+	};
 
-        enum StackDirection {
-          HORIZONTAL,
-          VERTICAL
-        };
+	inline void addSection(const std::string& title)
+	{
+		Accordion::Section* section = new Section(title);
+		m_sections[title] = section;
+	}
 
-        inline void addWidget(Widget & widget);
+	inline bool removeSection(const std::string& name)
+	{
+		auto exists = m_sections.find(name);
 
-        inline bool removeWidget(Widget & widget);
+		if (exists != m_sections.end())
+			m_sections.erase(exists);
+	}
 
-        inline float getWidgetHeight(Widget & widget, float & height);
+	~Accordion();
 
-        inline float getWidgetsHeight();
-
-        bool m_opened;
-
-        bool m_hovered;
-
-        std::string m_title;
-
-        Icon * m_icon;
-
-        StackDirection m_direction;
-
-        Widget * m_widgets;
-
-    };
-    
-    void drawSectionWidget(NVGcontext & ctx, double delta, Widget & widget);
-
-    inline Section addSection(const std::string & title);
-
-    inline bool removeSection(const std::string & name);
-
-    void onMouseMove(const SDL_Event & event);
-
-    void onMouseDown(const SDL_Event & event);
-
-    void onMouseUp(const SDL_Event & event);
-
-    void onWindowResized(const SDL_Event & event);
-
-    void onWindowSizeChanged(const SDL_Event & event);
-
-    inline void setMargin(const glm::vec4 & margin);
-
-    inline glm::vec4 getMargin();
-
-    inline void setMarginTop(float value);
-
-    inline float getMarginTop();
-
-    inline void setMarginRight(float value);
-
-    inline float getMarginRight();
-
-    inline void setMarginBottom(float value);
-
-    inline float getMarginBottom();
-
-    inline void setMarginLeft(float value);
-
-    inline float getMarginLeft();
-
-     ~Accordion();
-
-
-  private:
-    glm::vec4 m_margin;
-
-    Section * m_sections;
-
+private:
+	std::map<std::string, Section*> m_sections;
 };
-inline  Accordion::Section::Section(const std::string & title) {
-}
 
-inline  Accordion::Section::~Section() {
-}
-
-inline void Accordion::Section::addWidget(Widget & widget) {
-}
-
-inline bool Accordion::Section::removeWidget(Widget & widget) {
-}
-
-inline float Accordion::Section::getWidgetHeight(Widget & widget, float & height) {
-}
-
-inline float Accordion::Section::getWidgetsHeight() {
-}
-
-inline Accordion::Section Accordion::addSection(const std::string & title) {
-}
-
-inline bool Accordion::removeSection(const std::string & name) {
-}
-
-inline void Accordion::setMargin(const glm::vec4 & margin) {
-}
-
-inline glm::vec4 Accordion::getMargin() {
-}
-
-inline void Accordion::setMarginTop(float value) {
-}
-
-inline float Accordion::getMarginTop() {
-}
-
-inline void Accordion::setMarginRight(float value) {
-}
-
-inline float Accordion::getMarginRight() {
-}
-
-inline void Accordion::setMarginBottom(float value) {
-}
-
-inline float Accordion::getMarginBottom() {
-}
-
-inline void Accordion::setMarginLeft(float value) {
-}
-
-inline float Accordion::getMarginLeft() {
-}
-
-#endif

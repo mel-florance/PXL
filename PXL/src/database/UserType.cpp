@@ -1,3 +1,0 @@
-
-#include "UserType.h"
-

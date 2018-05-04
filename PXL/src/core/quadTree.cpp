@@ -1,8 +1,7 @@
-
 #include "quadTree.h"
 
- QuadTree::QuadTree() {
-
+QuadTree::QuadTree()
+{
 	m_topLeft = glm::vec2();
 	m_botRight = glm::vec2();
 	m_node = nullptr;
@@ -12,8 +11,8 @@
 	m_botRightTree = nullptr;
 }
 
- QuadTree::QuadTree(const glm::vec2 & topLeft, const glm::vec2 & botRight) {
-
+QuadTree::QuadTree(const glm::vec2& topLeft, const glm::vec2& botRight)
+{
 	m_node = nullptr;
 	m_topLeftTree = nullptr;
 	m_topRightTree = nullptr;
@@ -23,8 +22,8 @@
 	m_botRight = botRight;
 }
 
-void QuadTree::insert(Node & node) {
-
+void QuadTree::insert(Node* node)
+{
 	if (node == nullptr)
 		return;
 
@@ -95,8 +94,8 @@ void QuadTree::insert(Node & node) {
 	}
 }
 
-Node QuadTree::search(const glm::vec2 & position) {
-
+Node* QuadTree::search(const glm::vec2& position)
+{
 	if (!inBoundary(position))
 		return nullptr;
 
@@ -136,16 +135,16 @@ Node QuadTree::search(const glm::vec2 & position) {
 	}
 }
 
-bool QuadTree::inBoundary(const glm::vec2 & position) {
-
+bool QuadTree::inBoundary(const glm::vec2& position)
+{
 	return (position.x >= m_topLeft.x &&
 		position.x <= m_botRight.x &&
 		position.y >= m_topLeft.y &&
 		position.y <= m_botRight.y);
 }
 
- QuadTree::~QuadTree() {
-
+QuadTree::~QuadTree()
+{
 	if (m_node != nullptr)
 		delete m_node;
 	if (m_topLeftTree != nullptr)
@@ -157,4 +156,3 @@ bool QuadTree::inBoundary(const glm::vec2 & position) {
 	if (m_botRightTree != nullptr)
 		delete m_botRightTree;
 }
-

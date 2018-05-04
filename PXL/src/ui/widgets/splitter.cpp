@@ -1,14 +1,14 @@
-
 #include "splitter.h"
+#include "layout.h"
 
- Splitter::Splitter(const glm::vec2 & position, const glm::vec2 & size) {
-
+Splitter::Splitter(const glm::vec2& position, const glm::vec2& size) : Widget(position, size)
+{
 	m_background = nvgRGB(0, 0, 0);
 	m_offset = glm::vec2(0.0f);
 }
 
-void Splitter::update(double delta) {
-
+void Splitter::update(double delta)
+{
 	if (this->getState("hovered")) 
 	{
 		m_background = nvgRGB(47, 124, 202);
@@ -38,8 +38,8 @@ void Splitter::update(double delta) {
 	}
 }
 
-void Splitter::draw(NVGcontext & ctx, double delta) {
-
+void Splitter::draw(NVGcontext* ctx, double delta)
+{
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getPosition();
@@ -58,8 +58,8 @@ void Splitter::draw(NVGcontext & ctx, double delta) {
 	nvgRestore(ctx);
 }
 
-void Splitter::onMouseMove(const SDL_Event & event) {
-
+void Splitter::onMouseMove(const SDL_Event& event)
+{
 	m_mouse = glm::vec2(event.motion.x, event.motion.y);
 	glm::vec2 position = this->getPosition();
 	glm::vec2 size = this->getSize();
@@ -82,31 +82,30 @@ void Splitter::onMouseMove(const SDL_Event & event) {
 	}
 }
 
-void Splitter::onMouseDown(const SDL_Event & event) {
-
+void Splitter::onMouseDown(const SDL_Event& event)
+{
 	if (this->getState("hovered") && event.button.button == SDL_BUTTON_LEFT)
 	{
 		this->setState("dragged", true);
 	}
 }
 
-void Splitter::onMouseUp(const SDL_Event & event) {
-
+void Splitter::onMouseUp(const SDL_Event& event)
+{
 	this->setState("dragged", false);
 }
 
-void Splitter::onWindowResized(const SDL_Event & event) {
-
-
-}
-
-void Splitter::onWindowSizeChanged(const SDL_Event & event) {
-
+void Splitter::onWindowResized(const SDL_Event& event)
+{
 
 }
 
- Splitter::~Splitter() {
-
+void Splitter::onWindowSizeChanged(const SDL_Event& event)
+{
 
 }
 
+Splitter::~Splitter()
+{
+
+}

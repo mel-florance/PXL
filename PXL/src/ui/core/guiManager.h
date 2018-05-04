@@ -1,123 +1,79 @@
-#ifndef _GUIMANAGER_H
-#define _GUIMANAGER_H
+#pragma once
+
+#include <map>
+#include <set>
+#include <vector>
+#include <string>
+#include <functional>	
+#include <iostream>
+
+#include <GL/glew.h>
+#include <SDL2/SDL.h>
+#include <glm/glm.hpp>
+
+#include "../nanovg/nanovg.h"
+#include "../../assets/assetManager.h"
+#include "../../scene/sceneManager.h"
+#include "fontManager.h"
+#include "layerManager.h"
+#include "../widgets/layout.h"
+#include "../widgets/splitter.h"
+#include "widget.h"
+
+#include "../../core/display.h"
+#include "../../core/quadTree.h"
+#include "../../core/manager.h"
 
 
-#include "manager.h"
-#include "nanovg.h"
 
-class Engine;
-class Display;
-class FontManager;
-class AssetManager;
-class SceneManager;
-class Layout;
-class Widget;
-class LayerManager;
-class QuadTree;
+class GuiManager : public Manager
+{
+public:
+	GuiManager(Display* window, FontManager* fontManager, AssetManager* assetManager, SceneManager* sceneManager);
+	~GuiManager();
 
-class GuiManager : public Manager {
-  public:
-     GuiManager(Engine & engine, Display & window, FontManager & fontManager, AssetManager & assetManager, SceneManager & sceneManager);
+	void init();
+	void initLayout(Layout* layout);
+	NVGcontext* getContext() { return m_ctx; }
 
-     ~GuiManager();
+	void handleLayoutEvent(const std::string& name, const SDL_Event& event, Layout* layout);
+	void handleWidgetEvent(Widget* widget, const SDL_Event& event, const std::string& name);
+	void handleEvent(const std::string& name, const SDL_Event& event);
+	void handleLayoutWindowEvent(Layout* layout, const SDL_Event& event, const std::string& name);
 
-    void init();
+	Layout* getHoveredLayout(const glm::vec2& mouse);
 
-    void initLayout(Layout & layout);
+	inline Layout* getMainLayout() { return m_mainLayout; }
+	inline void setMainLayout(Layout* layout) { m_mainLayout = layout; }
 
-    inline NVGcontext getContext();
+	Widget* getWidgetByName(const std::string& name);
 
-    void handleLayoutEvent(const std::string & name, const SDL_Event & event, Layout & layout);
+	Layout* getPrevious(Layout* layout);
 
-    void handleWidgetEvent(Widget & widget, const SDL_Event & event, const std::string & name);
+	void onSceneObjectAdded();
 
-    void handleEvent(const std::string & name, const SDL_Event & event);
+	void addLayout(Layout* layout) { m_layouts.emplace_back(layout); }
 
-    void handleLayoutWindowEvent(Layout & layout, const SDL_Event & event, const std::string & name);
+	inline std::vector<Layout*> getLayouts() { return m_layouts; }
 
-    Layout getHoveredLayout(const glm::vec2 & mouse);
+	FontManager* getFontManager() { return m_fontManager; }
+	SceneManager* getSceneManager() { return m_sceneManager; }
+	AssetManager* getAssetManager() { return m_assetManager; }
+	LayerManager* getLayerManager() { return m_layerManager; }
 
-    inline Layout getMainLayout();
+private:
+	Layout* findPrevious(Layout* fromLevel, Layout* layout);
+	
+	Layout* m_activeLayout;
 
-    inline void setMainLayout(Layout & layout);
-
-    Widget getWidgetByName(const std::string & name);
-
-    Layout getPrevious(Layout & layout);
-
-    void onSceneObjectAdded();
-
-    inline void addLayout(Layout & layout);
-
-    inline std::vector<Layout*> getLayouts();
-
-    Layout getLayoutByName(const std::string & name);
-
-    inline FontManager getFontManager();
-
-    inline SceneManager getSceneManager();
-
-    inline AssetManager getAssetManager();
-
-    inline LayerManager getLayerManager();
-
-    inline Engine getEngine();
-
-
-  private:
-    Layout findPrevious(Layout & fromLevel, Layout & layout);
-
-    Layout * m_activeLayout;
-
-    NVGcontext * m_ctx;
-
-    Display * m_window;
-
-    Layout * m_mainLayout;
-
-    Layout * m_layouts;
-
-    FontManager * m_fontManager;
-
-    SceneManager * m_sceneManager;
-
-    AssetManager * m_assetManager;
-
-    LayerManager * m_layerManager;
-
-    QuadTree * m_quadTree;
-
-    Engine * m_engine;
-
+	NVGcontext* m_ctx;
+	Display* m_window;
+	Layout* m_mainLayout;
+	std::vector<Layout*> m_layouts;
+	FontManager* m_fontManager;
+	SceneManager* m_sceneManager;
+	AssetManager* m_assetManager;
+	LayerManager* m_layerManager;
+	QuadTree* m_quadTree;
 };
-inline NVGcontext GuiManager::getContext() {
-}
 
-inline Layout GuiManager::getMainLayout() {
-}
-
-inline void GuiManager::setMainLayout(Layout & layout) {
-}
-
-inline void GuiManager::addLayout(Layout & layout) {
-}
-
-inline std::vector<Layout*> GuiManager::getLayouts() {
-}
-
-inline FontManager GuiManager::getFontManager() {
-}
-
-inline SceneManager GuiManager::getSceneManager() {
-}
-
-inline AssetManager GuiManager::getAssetManager() {
-}
-
-inline LayerManager GuiManager::getLayerManager() {
-}
-
-inline Engine GuiManager::getEngine() {
-}
-
-#endif

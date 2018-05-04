@@ -1,38 +1,30 @@
-#ifndef _ICON_H
-#define _ICON_H
+#pragma once
 
+#include <map>
+#include <algorithm>
+#include <string>
 
-#include "widget.h"
+#include <glm\glm.hpp>
+#include "../core/widget.h"
+#include "../../core/util.h"
 
-class Icon : public Widget {
-  public:
-    typedef std::map<std::string, int> SymbolsMap;
+class Icon : public Widget
+{
+public:
+	typedef std::map<std::string, int> SymbolsMap;
 
-     Icon(const std::string & name, const glm::vec2 & position, const glm::vec2 & size);
+	Icon(const std::string& name, const glm::vec2& position, const glm::vec2& size);
 
-    void onMouseMove(const SDL_Event & event);
+	void onMouseMove(const SDL_Event& event);
 
-    inline void setSymbol(const std::string & name);
+	inline void setSymbol(const std::string& name) { m_symbol = m_icons[name]; }
+	virtual char* get();
+	inline int getSymbol() { return m_symbol; }
 
-    virtual char get();
+	~Icon();
 
-    inline int getSymbol();
-
-     ~Icon();
-
-
-  private:
-    int m_symbol;
-
-    char m_str[8];
-
-    SymbolsMap m_icons;
-
+private:
+	int m_symbol;
+	char m_str[8];
+	SymbolsMap m_icons;
 };
-inline void Icon::setSymbol(const std::string & name) {
-}
-
-inline int Icon::getSymbol() {
-}
-
-#endif

@@ -83,7 +83,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)/PXL/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp-vc140-mt.lib;SDL2_mixer.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp-vc140-mt.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -107,7 +107,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp-vc140-mt.lib;SDL2_mixer.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;glew32s.lib;SDL2.lib;SDL2main.lib;SDL2test.lib;OpenGL32.lib;assimp.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)/PXL/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SubSystem>Windows</SubSystem>
     </Link>
@@ -173,11 +173,11 @@
     <ClCompile Include="./src/ui/core/layerManager.cpp" />
     <ClCompile Include="./src/ui/widgets/button.cpp" />
     <ClCompile Include="./src/editor/editor.cpp" />
-    <ClCompile Include="./src/editor/components/outliner/outliner.cpp" />
-    <ClCompile Include="./src/editor/components/viewport/viewport.cpp" />
+    <ClCompile Include="./src/editor/components/outliner.cpp" />
+    <ClCompile Include="./src/editor/components/viewport.cpp" />
     <ClCompile Include="./src/events/eventEmitter.cpp" />
     <ClCompile Include="./src/events/eventListener.cpp" />
-    <ClCompile Include="./src/editor/editorComponent.cpp" />
+    <ClCompile Include="./src/editor/EditorComponent.cpp" />
     <ClCompile Include="./src/editor/editorLayout.cpp" />
     <ClCompile Include="./src/core/manager.cpp" />
     <ClCompile Include="./src/ui/core/widgetState.cpp" />
@@ -191,13 +191,13 @@
     <ClCompile Include="./src/ui/widgets/checkbox.cpp" />
     <ClCompile Include="./src/editor/projectManager.cpp" />
     <ClCompile Include="./src/ui/widgets/tooltip.cpp" />
-    <ClCompile Include="./src/editor/components/mainMenu/mainMenu.cpp" />
+    <ClCompile Include="./src/editor/components/mainMenu.cpp" />
     <ClCompile Include="./src/core/fileSystem.cpp" />
     <ClCompile Include="./src/core/shortcutManager.cpp" />
-    <ClCompile Include="./src/editor/components/assetBrowser/assetBrowser.cpp" />
+    <ClCompile Include="./src/editor/components/assetBrowser.cpp" />
     <ClCompile Include="./src/ui/widgets/treeView.cpp" />
     <ClCompile Include="./src/ui/widgets/scrollbar.cpp" />
-    <ClCompile Include="./src/editor/components/inspector/inspector.cpp" />
+    <ClCompile Include="./src/editor/components/inspector.cpp" />
     <ClCompile Include="./src/ui/widgets/splitter.cpp" />
     <ClCompile Include="./src/audio/soundManager.cpp" />
     <ClCompile Include="./src/audio/sound.cpp" />
@@ -208,14 +208,6 @@
     <ClCompile Include="./src/ui/widgets/accordion.cpp" />
     <ClCompile Include="./src/ui/widgets/select.cpp" />
     <ClCompile Include="./src/core/gameLoop.cpp" />
-    <ClCompile Include="./src/rendering/forwardRenderer.cpp" />
-    <ClCompile Include="./src/rendering/deferredRenderer.cpp" />
-    <ClCompile Include="./src/rendering/frameBuffer.cpp" />
-    <ClCompile Include="./src/materials/gridMaterial.cpp" />
-    <ClCompile Include="./src/database/database.cpp" />
-    <ClCompile Include="./src/editor/components/console/console.cpp" />
-    <ClCompile Include="./src/mesh/meshData.cpp" />
-    <ClCompile Include="./src/particles/particle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="./src/assets/assetManager.h" />
@@ -273,11 +265,11 @@
     <ClInclude Include="./src/ui/widgets/button.h" />
     <ClInclude Include="./src/ui/core/layerManager.h" />
     <ClInclude Include="./src/editor/editor.h" />
-    <ClInclude Include="./src/editor/components/outliner/outliner.h" />
-    <ClInclude Include="./src/editor/components/outliner/viewport.h" />
+    <ClInclude Include="./src/editor/components/outliner.h" />
+    <ClInclude Include="./src/editor/components/viewport.h" />
     <ClInclude Include="./src/events/eventEmitter.h" />
     <ClInclude Include="./src/events/eventListener.h" />
-    <ClInclude Include="./src/editor/editorComponent.h" />
+    <ClInclude Include="./src/editor/EditorComponent.h" />
     <ClInclude Include="./src/editor/editorLayout.h" />
     <ClInclude Include="./src/core/manager.h" />
     <ClInclude Include="./src/ui/core/widgetState.h" />
@@ -290,10 +282,10 @@
     <ClInclude Include="./src/ui/widgets/menu.h" />
     <ClInclude Include="./src/ui/widgets/checkbox.h" />
     <ClInclude Include="./src/editor/projectManager.h" />
-    <ClInclude Include="./src/editor/components/mainMenu/mainMenu.h" />
+    <ClInclude Include="./src/editor/components/mainMenu.h" />
     <ClInclude Include="./src/core/fileSystem.h" />
-    <ClInclude Include="./src/editor/components/assetBrowser/assetBrowser.h" />
-    <ClInclude Include="./src/editor/components/inspector/inspector.h" />
+    <ClInclude Include="./src/editor/components/assetBrowser.h" />
+    <ClInclude Include="./src/editor/components/inspector.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="./src/ui/widgets/tooltip.h" />
     <ClInclude Include="./src/core/shortcutManager.h" />
@@ -309,14 +301,6 @@
     <ClInclude Include="./src/ui/widgets/accordion.h" />
     <ClInclude Include="./src/ui/widgets/select.h" />
     <ClInclude Include="./src/core/gameLoop.h" />
-    <ClInclude Include="./src/rendering/forwardRenderer.h" />
-    <ClInclude Include="./src/rendering/deferredRenderer.h" />
-    <ClInclude Include="./src/rendering/frameBuffer.h" />
-    <ClInclude Include="./src/materials/gridMaterial.h" />
-    <ClInclude Include="./src/database/database.h" />
-    <ClInclude Include="./src/editor/components/console/console.h" />
-    <ClInclude Include="./src/mesh/meshData.h" />
-    <ClInclude Include="./src/particles/particle.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\textures\icon_big.ico" />

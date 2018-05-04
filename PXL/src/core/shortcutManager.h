@@ -1,12 +1,9 @@
-#ifndef _SHORTCUTMANAGER_H
-#define _SHORTCUTMANAGER_H
+#pragma once
 
-
-class ShortcutManager {
-  public:
-     ShortcutManager();
-
-     ~ShortcutManager();
-
+class ShortcutManager
+{
+public:
+	ShortcutManager();
+	~ShortcutManager();
 };
-#endif
+

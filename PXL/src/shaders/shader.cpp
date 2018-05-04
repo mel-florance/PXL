@@ -1,8 +1,7 @@
-
 #include "shader.h"
 
- Shader::Shader(const std::string & filename) {
-
+Shader::Shader(const std::string& filename)
+{
 	m_program = glCreateProgram();
 	m_shaders[0] = createShader(loadShader(filename + "_VS.glsl"), GL_VERTEX_SHADER);
 	m_shaders[1] = createShader(loadShader(filename + "_FS.glsl"), GL_FRAGMENT_SHADER);
@@ -17,33 +16,77 @@
 	checkShaderError(m_program, GL_VALIDATE_STATUS, true, "Shader Error: the program is invalid.");
 }
 
- Shader::~Shader() {
+GLuint Shader::createShader(const std::string& text, GLenum type)
+{
+	GLuint shader = glCreateShader(type);
 
-	for (unsigned int i = 0; i < NUM_SHADERS; ++i) {
-		glDetachShader(m_program, m_shaders[i]);
-		glDeleteShader(m_shaders[i]);
-	}
+	if (shader == 0)
+		std::cerr << "Shader Error: shader creation failed." << std::endl;
 
-	glDeleteProgram(m_program);
+	const GLchar* sourceStrings[1];
+	GLint sourceStringLengths[1];
+	sourceStrings[0] = text.c_str();
+	sourceStringLengths[0] = text.length();
+
+	glShaderSource(shader, 1, sourceStrings, sourceStringLengths);
+	glCompileShader(shader);
+
+	checkShaderError(shader, GL_COMPILE_STATUS, false, "Shader Error: shader compilation failed.");
+
+	return shader;
 }
 
-void Shader::bind() {
+void Shader::addUniform(const std::string& name)
+{
+	m_uniforms[name] = glGetUniformLocation(m_program, name.c_str());
+}
 
+void Shader::setUniformMat4fv(const std::string& name, const glm::mat4& mat)
+{
+	glUniformMatrix4fv(m_uniforms[name], 1, GL_FALSE, &mat[0][0]);
+}
+
+void Shader::setUniform4fv(const std::string& name, const glm::vec4& vec)
+{
+	glUniform4fv(m_uniforms[name], 1, &vec[0]);
+}
+
+void Shader::setUniform3fv(const std::string& name, const glm::vec3& vec)
+{
+	glUniform3fv(m_uniforms[name], 1, &vec[0]);
+}
+
+void Shader::setUniform2fv(const std::string& name, const glm::vec2& vec)
+{
+	glUniform2fv(m_uniforms[name], 1, &vec[0]);
+}
+
+void Shader::setUniform1f(const std::string& name, float& value)
+{
+	glUniform1f(m_uniforms[name], value);
+}
+
+void Shader::setUniform1i(const std::string& name, int value)
+{
+	glUniform1i(m_uniforms[name], value);
+}
+
+void Shader::bind()
+{
 	glUseProgram(m_program);
-}
-
-void Shader::unbind() {
-
+}	
+void Shader::unbind()
+{
 	glUseProgram(0);
 }
 
-void Shader::bindAttribute(const GLuint & location, const std::string & name) {
-
+void Shader::bindAttribute(GLuint location, const std::string& name)
+{
 	glBindAttribLocation(m_program, location, name.c_str());
 }
 
-std::string Shader::loadShader(const std::string & filename) {
-
+std::string Shader::loadShader(const std::string& filename)
+{
 	std::ifstream file;
 	file.open(filename.c_str());
 
@@ -63,8 +106,8 @@ std::string Shader::loadShader(const std::string & filename) {
 	return output;
 }
 
-void Shader::checkShaderError(const GLuint & shader, const GLuint & flag, bool isProgram, const std::string & message) {
-
+void Shader::checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& message)
+{
 	GLint success = 0;
 	GLchar error[1024] = { 0 };
 
@@ -83,60 +126,12 @@ void Shader::checkShaderError(const GLuint & shader, const GLuint & flag, bool i
 	}
 }
 
-GLuint Shader::createShader(const std::string & text, const GLenum & type) {
+Shader::~Shader()
+{
+	for (unsigned int i = 0; i < NUM_SHADERS; ++i) {
+		glDetachShader(m_program, m_shaders[i]);
+		glDeleteShader(m_shaders[i]);
+	}
 
-	GLuint shader = glCreateShader(type);
-
-	if (shader == 0)
-		std::cerr << "Shader Error: shader creation failed." << std::endl;
-
-	const GLchar* sourceStrings[1];
-	GLint sourceStringLengths[1];
-	sourceStrings[0] = text.c_str();
-	sourceStringLengths[0] = text.length();
-
-	glShaderSource(shader, 1, sourceStrings, sourceStringLengths);
-	glCompileShader(shader);
-
-	checkShaderError(shader, GL_COMPILE_STATUS, false, "Shader Error: shader compilation failed.");
-
-	return shader;
+	glDeleteProgram(m_program);
 }
-
-void Shader::addUniform(const std::string & name) {
-
-	m_uniforms[name] = glGetUniformLocation(m_program, name.c_str());
-}
-
-void Shader::setUniformMat4fv(const std::string & name, const glm::mat4 & mat) {
-
-	glUniformMatrix4fv(m_uniforms[name], 1, GL_FALSE, &mat[0][0]);
-}
-
-void Shader::setUniform4fv(const std::string & name, const glm::vec4 & vec) {
-
-	glUniform4fv(m_uniforms[name], 1, &vec[0]);
-}
-
-void Shader::setUniform3fv(const std::string & name, const glm::vec3 & vec) {
-
-	glUniform3fv(m_uniforms[name], 1, &vec[0]);
-}
-
-void Shader::setUniform2fv(const std::string & name, const glm::vec2 & vec) {
-
-	glUniform2fv(m_uniforms[name], 1, &vec[0]);
-}
-
-void Shader::setUniform1f(const std::string & name, float & value) {
-
-	glUniform1f(m_uniforms[name], value);
-}
-
-void Shader::setUniform1i(const std::string & name, int value) {
-
-	glUniform1i(m_uniforms[name], value);
-}
-
-const unsigned int Shader::NUM_SHADERS=  2;
-

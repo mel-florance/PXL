@@ -1,52 +1,33 @@
-#ifndef _RECT_H
-#define _RECT_H
+#pragma once
 
+#include <glm\glm.hpp>
+#include <iostream>
 
-class Rect {
-  public:
-     Rect(const glm::vec2 & position, const glm::vec2 & size);
+class Rect
+{
+public:
+	Rect(const glm::vec2& position, const glm::vec2& size);
+	~Rect();
 
-     ~Rect();
+	inline void setPosition(const glm::vec2& position) { m_position = position; }
+	inline void incrementPosition(const glm::vec2& position) { m_position += position; }
+	inline glm::vec2& getPosition() { return m_position; }
 
-    inline void setPosition(const glm::vec2 & position);
+	inline void setSize(const glm::vec2& size) { m_size = size; }
+	inline glm::vec2& getSize() { return m_size; }
 
-    inline void incrementPosition(const glm::vec2 & position);
+	bool intersects(const glm::vec2& point);
 
-    inline glm::vec2 getPosition();
+	inline void print() { 
+		std::cout << 
+			"x: "      << this->getPosition().x << "\n" <<  
+			"y: "      << this->getPosition().y << "\n" << 
+			"width: "  << this->getSize().x     << "\n" << 
+			"height: " << this->getSize().y     << "\n"
+		<< std::endl;
+	}
 
-    inline void setSize(const glm::vec2 & size);
-
-    inline glm::vec2 getSize();
-
-    bool intersects(const glm::vec2 & point);
-
-    bool intersects(Rect & rect);
-
-    inline void print();
-
-
-  private:
-    glm::vec2 m_position;
-
-    glm::vec2 m_size;
-
+private:
+	glm::vec2 m_position;
+	glm::vec2 m_size;
 };
-inline void Rect::setPosition(const glm::vec2 & position) {
-}
-
-inline void Rect::incrementPosition(const glm::vec2 & position) {
-}
-
-inline glm::vec2 Rect::getPosition() {
-}
-
-inline void Rect::setSize(const glm::vec2 & size) {
-}
-
-inline glm::vec2 Rect::getSize() {
-}
-
-inline void Rect::print() {
-}
-
-#endif

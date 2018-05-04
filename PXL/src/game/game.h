@@ -1,84 +1,78 @@
-#ifndef _GAME_H
-#define _GAME_H
+#pragma once
+
+#include <iostream>
+#include <algorithm>  
+
+#include "../core/display.h"
+#include "../core/engine.h"
+#include "../shaders/shader.h"
+#include "../mesh/mesh.h"
+#include "../cameras/FPSCamera.h"
+#include "../materials/basicMaterial.h"
+#include "../lighting/light.h"
+
+#include "../ui/core/widget.h"
+#include "../ui/widgets/text.h"
+#include "../ui/widgets/window.h"
+#include "../ui/widgets/image.h"
+#include "../ui/widgets/input.h"
+#include "../ui/widgets/button.h"
+#include "../ui/widgets/label.h"
+#include "../ui/widgets/layout.h"
 
 
-class Engine;
-struct CallbackData;
-class AssetManager;
-class Light;
-class Text;
-class Scene;
-class Widget;
-class FPSCamera;
-class Mesh;
-class Layout;
-class Label;
-class Input;
-class Button;
+#include "../events/eventListener.h"
+#include "../ui/widgets/menu.h"
+#include "../ui/widgets/list.h"
+#include "../ui/widgets/table.h"
+#include "../ui/widgets/icon.h"
+#include "../ui/widgets/checkbox.h"
 
-class Game {
-  public:
-     Game(Engine & engine);
+#include <nlohmann/json.hpp>
 
-     ~Game();
+using json = nlohmann::json;
 
-    static void callbackFn(const CallbackData & data);
+class Game
+{ 
+public:
+	Game(Engine* engine);
+	~Game();
 
-    static void createCube(const CallbackData & data);
+	static void callbackFn(CallbackData data);
+	static void createCube(CallbackData data);
+	static void newProject(CallbackData data);
+	static void setFullscreen(CallbackData data);
+	static void exitApplication(CallbackData data);
 
-    static void newProject(const CallbackData & data);
-
-    static void setFullscreen(const CallbackData & data);
-
-    static void exitApplication(const CallbackData & data);
-
-    void update(double delta);
-
-    AssetManager * m_assetManager;
+	void update(double delta);
+	AssetManager* m_assetManager;
+private:
 
 
-  private:
-    Engine * m_engine;
+	Engine* m_engine;
+	float m_angle;
+	Light* m_light;
+	Light* m_lightS;
+	Light* m_lightR;
+	Text* m_fpsText;
+	Scene* m_scene;
+	Widget* m_logo;
+	FPSCamera* m_camera;
+	Mesh* m_dread;
 
-    float m_angle;
+	Text* m_profGame;
+	Text* m_profRender;
+	Text* m_profInput;
+	Text* m_profSwapBuffer;
+	Text* m_profSleep;
 
-    Light * m_light;
+	Layout* m_layout;
 
-    Light * m_lightS;
+	Label* m_label;
+	Input* m_input;
 
-    Light * m_lightR;
+	Button* m_button;
 
-    Text * m_fpsText;
-
-    Scene * m_scene;
-
-    Widget * m_logo;
-
-    FPSCamera * m_camera;
-
-    Mesh * m_dread;
-
-    Text * m_profGame;
-
-    Text * m_profRender;
-
-    Text * m_profInput;
-
-    Text * m_profSwapBuffer;
-
-    Text * m_profSleep;
-
-    Layout * m_layout;
-
-    Label * m_label;
-
-    Input * m_input;
-
-    Button * m_button;
-
-    Label * m_labelName;
-
-    Input * m_inputName;
-
+	Label* m_labelName;
+	Input* m_inputName;
 };
-#endif

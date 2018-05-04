@@ -1,12 +1,9 @@
-#ifndef _THEME_H
-#define _THEME_H
+#pragma once
 
-
-class Theme {
-  public:
-     Theme();
-
-    virtual  ~Theme();
-
+class Theme
+{
+public:
+	Theme();
+	virtual ~Theme();
 };
-#endif
+

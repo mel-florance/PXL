@@ -1,55 +1,25 @@
-#ifndef _ENTITYCOMPONENT_H
-#define _ENTITYCOMPONENT_H
+#pragma once
 
+#include "entity.h"
+#include "../core/transform.h"
 
-class Transform;
-class Entity;
+class EntityComponent
+{
+public:
+	EntityComponent() : m_parent(0) {}
+	virtual ~EntityComponent() {}
 
-class EntityComponent {
-  public:
-    inline  EntityComponent();
+	virtual void update(float delta) {}
 
-    inline virtual  ~EntityComponent();
+	inline Transform* getTransform() { return m_parent->getTransform(); }
+	inline const Transform& getTransform() const { return *m_parent->getTransform(); }
 
-    inline virtual void update(float delta);
+	virtual void setParent(Entity* parent) { m_parent = parent; }
 
-    inline Transform getTransform();
+private:
+	Entity* m_parent;
 
-    inline Transform getTransform() const;
-
-    inline virtual void setParent(Entity & parent);
-
-
-  private:
-    Entity * m_parent;
-
-    inline  EntityComponent(const EntityComponent & other);
-
-    inline void operator =(const EntityComponent & other);
-
+	EntityComponent(const EntityComponent& other) {}
+	void operator=(const EntityComponent& other) {}
 };
-inline  EntityComponent::EntityComponent() {
-}
 
-inline  EntityComponent::~EntityComponent() {
-}
-
-inline void EntityComponent::update(float delta) {
-}
-
-inline Transform EntityComponent::getTransform() {
-}
-
-inline Transform EntityComponent::getTransform() const {
-}
-
-inline void EntityComponent::setParent(Entity & parent) {
-}
-
-inline  EntityComponent::EntityComponent(const EntityComponent & other) {
-}
-
-inline void EntityComponent::operator =(const EntityComponent & other) {
-}
-
-#endif

@@ -1,103 +1,56 @@
-#ifndef _MESH_H
-#define _MESH_H
+#pragma once
 
+#include <string>
+#include <vector>
 
-class Transform;
-class Material;
+#include <GL\glew.h>
 
-class Mesh {
-  public:
-     Mesh(const std::string & name, GLuint & vao, GLuint & vertexCount);
+#include "../materials/material.h"
+#include "../core/transform.h"
 
-     ~Mesh();
+class Mesh
+{
+public:
+	Mesh(const std::string& name, GLuint& vao, GLuint& vertexCount);
+	~Mesh();
 
-    inline unsigned long getId();
+	inline const unsigned long getId() { return (unsigned long)this; }
 
-    inline GLuint getVao();
+	inline GLuint getVao() { return m_vao; }
+	inline GLuint getVertexCount() { return m_vertexCount; }
 
-    inline GLuint getVertexCount();
+	inline std::string& getName() { return m_name; }
+	inline void setName(const std::string& name) { m_name = name; }
 
-    inline std::string getName();
+	inline Transform* getTransform() { return m_transform; }
+	inline void setTransform(Transform* transform) { m_transform = transform; }
 
-    inline void setName(const std::string & name);
+	inline Material* getMaterial() { return m_material; }
+	inline void setMaterial(Material* material) { m_material = material; }
 
-    inline Transform getTransform();
+	inline bool isVisible() { return m_visible; }
+	inline void setVisible(bool state) { m_visible = state; }
 
-    inline void setTransform(Transform & transform);
+	void draw();
+	void toggleAttributes(bool state);
 
-    inline Material getMaterial();
+	void addChild(Mesh* child);
 
-    inline void setMaterial(Material & material);
+	inline std::vector<class Mesh*>& getInstances() { return m_instances; }
 
-    inline bool isVisible();
+	Mesh* createInstance(const std::string& name);
 
-    inline void setVisible(bool state);
+private:
+	std::string m_name;
+	std::string m_id;
+	GLuint m_vao;
+	GLuint m_vertexCount;
+	bool m_visible;
 
-    void draw();
+	std::vector<class Mesh*> m_children;
+	std::vector<class Mesh*> m_instances;
 
-    void toggleAttributes(bool state);
-
-    void addChild(Mesh & child);
-
-    inline std::vector<class Mesh*> getInstances();
-
-    Mesh createInstance(const std::string & name);
-
-
-  private:
-    std::string m_name;
-
-    std::string m_id;
-
-    GLuint m_vao;
-
-    GLuint m_vertexCount;
-
-    bool m_visible;
-
-    class Mesh* m_children;
-
-    class Mesh* m_instances;
-
-    Material * m_material;
-
-    Transform * m_transform;
-
+	Material* m_material;
+	Transform* m_transform;
 };
-inline unsigned long Mesh::getId() {
-}
 
-inline GLuint Mesh::getVao() {
-}
-
-inline GLuint Mesh::getVertexCount() {
-}
-
-inline std::string Mesh::getName() {
-}
-
-inline void Mesh::setName(const std::string & name) {
-}
-
-inline Transform Mesh::getTransform() {
-}
-
-inline void Mesh::setTransform(Transform & transform) {
-}
-
-inline Material Mesh::getMaterial() {
-}
-
-inline void Mesh::setMaterial(Material & material) {
-}
-
-inline bool Mesh::isVisible() {
-}
-
-inline void Mesh::setVisible(bool state) {
-}
-
-inline std::vector<class Mesh*> Mesh::getInstances() {
-}
-
-#endif
