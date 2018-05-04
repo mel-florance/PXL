@@ -1,16 +1,30 @@
+
 #include "loader.h"
+#include "mesh.h"
 
-#include "../core/util.h"
-#include "../stb/stb_image.h"
+ Loader::Loader() {
 
-Loader::Loader()
-{
 	m_vaos.clear();
 	m_vbos.clear();
 }
 
-Mesh* Loader::loadToVAO(const std::string& name, std::vector<glm::vec3> vertices)
-{
+ Loader::~Loader() {
+
+	while (m_vbos.size() > 0)
+	{
+		glDeleteBuffers(1, &m_vbos.back());
+		m_vbos.pop_back();
+	}
+
+	while (m_vaos.size() > 0)
+	{
+		glDeleteVertexArrays(1, &m_vaos.back());
+		m_vaos.pop_back();
+	}
+}
+
+Mesh Loader::loadToVAO(const std::string & name, const std::vector<glm::vec3> & vertices) {
+
 	GLuint vao = this->createVAO();
 	unsigned int size = vertices.size();
 
@@ -20,8 +34,8 @@ Mesh* Loader::loadToVAO(const std::string& name, std::vector<glm::vec3> vertices
 	return new Mesh(name, vao, size);
 }
 
-Mesh* Loader::loadToVAO(const std::string& name, std::vector<glm::vec2> vertices)
-{
+Mesh Loader::loadToVAO(const std::string & name, const std::vector<glm::vec2> & vertices) {
+
 	GLuint vao = this->createVAO();
 	unsigned int size = vertices.size();
 
@@ -31,15 +45,8 @@ Mesh* Loader::loadToVAO(const std::string& name, std::vector<glm::vec2> vertices
 	return new Mesh(name, vao, size);
 }
 
-Mesh* Loader::loadToVAO(
-	const std::string& name,
-	std::vector<glm::vec3> vertices,
-	std::vector<int> indices,
-	std::vector<glm::vec2> uvs,
-	std::vector<glm::vec3> normals,
-	std::vector<glm::vec3> tangents
-)
-{
+Mesh Loader::loadToVAO(const std::string & name, const std::vector<glm::vec3> & vertices, const std::vector<GLuint> & indices, const std::vector<glm::vec2> & uvs, const std::vector<glm::vec3> & normals, const std::vector<glm::vec3> & tangents) {
+
 	GLuint vao = this->createVAO();
 	GLuint indicesSize = indices.size();
 	
@@ -59,8 +66,8 @@ Mesh* Loader::loadToVAO(
 	return new Mesh(name, vao, indicesSize);
 }
 
-Uint32 Loader::loadCubeMap(std::vector<std::string> textures)
-{
+Uint32 Loader::loadCubeMap(const std::vector<std::string> & textures) {
+
 	Uint32 id;
 	glActiveTexture(GL_TEXTURE0);
 	glEnable(GL_TEXTURE_CUBE_MAP);
@@ -97,8 +104,8 @@ Uint32 Loader::loadCubeMap(std::vector<std::string> textures)
 	return id;
 }
 
-void Loader::storeDataInAttributeList(GLuint location, int size, void* data, int dataSize)
-{
+void Loader::storeDataInAttributeList(const GLuint & location, int size, void data, int dataSize) {
+
 	GLuint vbo;
 
 	glGenBuffers(1, &vbo);
@@ -108,8 +115,8 @@ void Loader::storeDataInAttributeList(GLuint location, int size, void* data, int
 	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, 0, nullptr);
 }
 
-void Loader::bindIndicesBuffer(int* indices, GLuint& count)
-{
+void Loader::bindIndicesBuffer(GLuint & indices, GLuint & count) {
+
 	GLuint vbo;
 
 	glGenBuffers(1, &vbo);
@@ -118,8 +125,8 @@ void Loader::bindIndicesBuffer(int* indices, GLuint& count)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * count, indices, GL_STATIC_DRAW);
 }
 
-GLuint Loader::createVAO()
-{
+GLuint Loader::createVAO() {
+
 	GLuint vao;
 
 	glGenVertexArrays(1, &vao);
@@ -129,17 +136,3 @@ GLuint Loader::createVAO()
 	return vao;
 }
 
-Loader::~Loader()
-{
-	while (m_vbos.size() > 0)
-	{
-		glDeleteBuffers(1, &m_vbos.back());
-		m_vbos.pop_back();
-	}
-
-	while (m_vaos.size() > 0)
-	{
-		glDeleteVertexArrays(1, &m_vaos.back());
-		m_vaos.pop_back();
-	}
-}

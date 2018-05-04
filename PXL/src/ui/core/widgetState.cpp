@@ -1,7 +1,8 @@
+
 #include "widgetState.h"
 
-WidgetState::WidgetState()
-{
+ WidgetState::WidgetState() {
+
 	this->addState("dragged");
 	this->addState("draggable");
 	this->addState("hovered");
@@ -13,7 +14,8 @@ WidgetState::WidgetState()
 	this->addState("checkable", true);
 }
 
-WidgetState::~WidgetState()
-{
+ WidgetState::~WidgetState() {
+
 
 }
+

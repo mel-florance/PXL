@@ -1,16 +1,16 @@
-#pragma once
+#ifndef _PROJECTMANAGER_H
+#define _PROJECTMANAGER_H
 
-#include <string>
 
-class ProjectManager
-{
-public:
-	ProjectManager();
-	~ProjectManager();
+class ProjectManager {
+  public:
+     ProjectManager();
 
-	void load(const std::string& name);
-	void save(const std::string& name);
+     ~ProjectManager();
 
-private:
+    void load(const std::string & name);
+
+    void save(const std::string & name);
+
 };
-
+#endif

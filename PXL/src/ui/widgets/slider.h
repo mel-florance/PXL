@@ -1,15 +1,22 @@
-#pragma once
+#ifndef _SLIDER_H
+#define _SLIDER_H
 
-#include "../core/widget.h"
 
-class Slider : public Widget
-{
-public:
-	Slider(const glm::vec2& position, const glm::vec2& size);
-	~Slider();
+#include "widget.h"
 
-private:
-	float m_min;
-	float m_max;
-	float m_step;
+class Slider : public Widget {
+  public:
+     Slider(const glm::vec2 & position, const glm::vec2 & size);
+
+     ~Slider();
+
+
+  private:
+    float m_min;
+
+    float m_max;
+
+    float m_step;
+
 };
+#endif

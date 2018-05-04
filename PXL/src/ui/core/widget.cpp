@@ -1,57 +1,101 @@
-#include "widget.h"
-#include "../widgets/icon.h"
-#include "../widgets/layout.h"
 
-Widget::Widget(const glm::vec2& position, const glm::vec2& size) : Rect(position, size)
-{
+#include "widget.h"
+#include "display.h"
+#include "layout.h"
+#include "icon.h"
+
+ Widget::Widget(const glm::vec2 & position, const glm::vec2 & size) {
+
 	m_name = "";
 	m_units = "px";
+	m_alignment = Alignment::TOP_LEFT;
 	m_expandModeX = ExpandMode::LAYOUT;
 	m_expandModeY = ExpandMode::LAYOUT;
 	m_positionModeX = ExpandMode::LAYOUT;
 	m_positionModeY = ExpandMode::LAYOUT;
 }
 
-glm::vec2 Widget::getRelativePosition()
-{
-	glm::vec2 pos = this->getPosition();
+ Widget::~Widget() {
 
-	//if (this->getParent() != nullptr)
-	//	pos += this->getParent()->getRelativePosition();
+	delete m_icon;
+}
+
+glm::vec2 Widget::getRelativePosition() {
+
+	glm::vec2 pos = this->getPosition();
+	glm::vec2 size = this->getRelativeSize();
 
 	switch (this->getPositionModeX())
 	{
-	case LAYOUT:
-		pos.x = this->getLayout()->getComputedPosition().x;
+		case LAYOUT:
+			switch (m_alignment)
+			{
+				case TOP:
+				case BOTTOM:
+					pos.x = this->getLayout()->getComputedPosition().x + (this->getLayout()->getComputedSize().x * 0.5f) - (size.x * 0.5f);
+					break;
+				case TOP_RIGHT:
+				case RIGHT:
+				case BOTTOM_RIGHT: 
+					pos.x += this->getLayout()->getComputedPosition().x + this->getLayout()->getComputedSize().x - (size.x * 2.0f);
+					break;
+				case TOP_LEFT:
+				case BOTTOM_LEFT:
+				case LEFT:
+					pos.x = this->getLayout()->getComputedPosition().x;
+					break;
+			}
 		break;
-	case PARENT:
-		if (this->getParent() != nullptr)
-			pos.x += this->getParent()->getRelativePosition().x;
+
+		case PARENT:
+			if (this->getParent() != nullptr)
+			{
+				switch (m_alignment)
+				{
+				case TOP:
+				case BOTTOM:
+					pos.x += this->getParent()->getRelativePosition().x + (this->getParent()->getRelativeSize().x * 0.5f) - (size.x * 0.5f);
+					break;
+				case TOP_RIGHT:
+				case RIGHT:
+				case BOTTOM_RIGHT:
+					pos.x += this->getParent()->getRelativePosition().x + this->getParent()->getRelativeSize().x - (size.x);
+					break;
+				case TOP_LEFT:
+				case BOTTOM_LEFT:
+				case LEFT:
+					pos.x += this->getParent()->getRelativePosition().x;
+					break;
+				}
+			}
+				
 		break;
-	case FIXED:
-		pos.x = this->getPosition().x;
+
+		case FIXED:
+			pos.x = this->getPosition().x;
 		break;
 	}
 
 	switch (this->getPositionModeY())
 	{
-	case LAYOUT:
-		pos.y = this->getLayout()->getComputedPosition().y;
-		break;
-	case PARENT:
-		if (this->getParent() != nullptr)
-			pos.y += this->getParent()->getRelativePosition().y;
-		break;
-	case FIXED:
-		pos.y = this->getPosition().y;
-		break;
+		case LAYOUT:
+			pos.y = this->getLayout()->getComputedPosition().y;
+			break;
+		case PARENT:
+			if (this->getParent() != nullptr) {
+				pos.y += this->getParent()->getRelativePosition().y;
+			}
+			break;
+		case FIXED:
+			pos.y = this->getPosition().y;
+			break;
 	}
 
 	return pos;
 }
 
-glm::vec2 Widget::getRelativeSize()
-{
+glm::vec2 Widget::getRelativeSize() {
+
 	glm::vec2 size = this->getSize();
 
 	switch (this->getExpandModeX())
@@ -60,7 +104,7 @@ glm::vec2 Widget::getRelativeSize()
 		size.x = this->getLayout()->getComputedSize().x;
 		break;
 	case PARENT:
-		size.x = this->getParent()->getSize().x;
+		size.x = this->getParent()->getRelativeSize().x;
 		break;
 	case FIXED:
 		size.x = this->getSize().x;
@@ -73,7 +117,7 @@ glm::vec2 Widget::getRelativeSize()
 		size.y = this->getLayout()->getComputedSize().y;
 		break;
 	case PARENT:
-		size.y = this->getParent()->getSize().y;
+		size.y = this->getParent()->getRelativeSize().y;
 		break;
 	case FIXED:
 		size.y = this->getSize().y;
@@ -83,24 +127,8 @@ glm::vec2 Widget::getRelativeSize()
 	return size;
 }
 
-void Widget::setIcon(Icon* icon)
-{
-	icon->setParent(this);
-	m_icon = icon;
-}
+void Widget::setCentered() {
 
-void Widget::onClosed(CallbackData data)
-{
-	data.sender->getLayout()->removeWidget(data.sender);
-}
-
-Icon* Widget::getIcon() 
-{
-	return m_icon;
-}
-
-void Widget::setCentered()
-{
 	Display* window = this->getWindow();
 
 	if (window != nullptr)
@@ -111,8 +139,8 @@ void Widget::setCentered()
 	}
 }
 
-bool Widget::intersects(const glm::vec2& point)
-{
+bool Widget::intersects(const glm::vec2 & point) {
+
 	glm::vec2 pos = this->getRelativePosition();
 
 	return point.x > pos.x
@@ -121,20 +149,37 @@ bool Widget::intersects(const glm::vec2& point)
 		&& point.y < pos.y + this->getRelativeSize().y;
 }
 
-void Widget::addChild(Widget* child)
-{
+void Widget::addChild(Widget & child) {
+
 	child->setParent(this);
 	child->setState("visible", true);
 	m_children.push_back(child);
 }
 
-void Widget::computePosition()
+void Widget::onClosed(const CallbackData & data)
 {
+
+	data.sender->getLayout()->removeWidget(data.sender);
+}
+
+void Widget::setIcon(Icon & icon) {
+
+	icon->setParent(this);
+	m_icon = icon;
+}
+
+Icon Widget::getIcon() {
+
+	return m_icon;
+}
+
+void Widget::computePosition() {
+
 	this->setComputedPosition((this->getPosition() * this->getParent()->getSize()) / 100.0f);
 }
 
-void Widget::computeSize()
-{
+void Widget::computeSize() {
+
 	glm::vec2 parentSize = this->getParent()->getRelativeSize();
 	glm::vec2 size = (parentSize * this->getSize()) / 100.0f;
 
@@ -154,7 +199,3 @@ void Widget::computeSize()
 	this->setComputedSize(size);
 }
 
-Widget::~Widget()
-{
-	delete m_icon;
-}

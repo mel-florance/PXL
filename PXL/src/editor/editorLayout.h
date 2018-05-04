@@ -1,25 +1,18 @@
-#pragma once
-
-#include <map>
-#include <vector>
-#include <string>
-#include <algorithm>
-
-#include "EditorComponent.h"
-
-class EditorLayout
-{
-public:
-	EditorLayout();
-	~EditorLayout();
+#ifndef _EDITORLAYOUT_H
+#define _EDITORLAYOUT_H
 
 
+class EditorLayout {
+  public:
+     EditorLayout();
 
-	void loadLayout();
-	
-	void addComponent(const std::string& name);
-	void removeComponent(const std::string& name);
+     ~EditorLayout();
 
-private:
+    void loadLayout();
+
+    void addComponent(const std::string & name);
+
+    void removeComponent(const std::string & name);
 
 };
+#endif

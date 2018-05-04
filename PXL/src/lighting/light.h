@@ -1,38 +1,75 @@
-#pragma once
+#ifndef _LIGHT_H
+#define _LIGHT_H
 
-#include <glm\glm.hpp>
 
-class Light
-{
-public:
-	Light(const glm::vec3& position = glm::vec3(), const glm::vec3& color = glm::vec3(1.0f)):
-		m_position(position), 
-		m_color(color),
-		m_type(DIRECTIONAL),
-		m_attenuation(glm::vec3(1.0f, 0.0f, 0.0f))
-	{};
+class Light {
+  public:
+    inline  Light(const glm::vec3 & position = glm::vec3(), const glm::vec3 & color = glm::vec3(1.0f));
 
-	~Light();
+     ~Light();
 
-	enum LightType { DIRECTIONAL, POINT, SPOT };
+    enum LightType {
+      DIRECTIONAL,
+      POINT,
+      SPOT
+    };
 
-	virtual inline glm::vec3& getPosition() { return m_position; }
-	virtual inline void setPosition(const glm::vec3& position) { m_position = position; }
+    inline virtual glm::vec3 getPosition();
 
-	virtual inline glm::vec3& getColor() { return m_color; }
-	virtual inline void setColor(const glm::vec3& color) { m_color = color; }
+    inline virtual void setPosition(const glm::vec3 & position);
 
-	virtual inline glm::vec3& getAttenuation() { return m_attenuation; }
-	virtual inline void setAttenuation(const glm::vec3& attenuation) { m_attenuation = attenuation; }
+    inline virtual glm::vec3 getColor();
 
-	virtual inline LightType& getType() { return m_type; }
-	virtual inline void setType(const LightType& type) { m_type = type; }
+    inline virtual void setColor(const glm::vec3 & color);
 
-private:
-	glm::vec3 m_position;
-	glm::vec3 m_color;
-	glm::vec3 m_attenuation;
-	LightType m_type;
-	float m_coneAngle;
-	float m_coneDirection;
+    inline virtual glm::vec3 getAttenuation();
+
+    inline virtual void setAttenuation(const glm::vec3 & attenuation);
+
+    inline virtual LightType getType();
+
+    inline virtual void setType(LightType type);
+
+
+  private:
+    glm::vec3 m_position;
+
+    glm::vec3 m_color;
+
+    glm::vec3 m_attenuation;
+
+    LightType m_type;
+
+    float m_coneAngle;
+
+    float m_coneDirection;
+
 };
+inline  Light::Light(const glm::vec3 & position, const glm::vec3 & color) {
+}
+
+inline glm::vec3 Light::getPosition() {
+}
+
+inline void Light::setPosition(const glm::vec3 & position) {
+}
+
+inline glm::vec3 Light::getColor() {
+}
+
+inline void Light::setColor(const glm::vec3 & color) {
+}
+
+inline glm::vec3 Light::getAttenuation() {
+}
+
+inline void Light::setAttenuation(const glm::vec3 & attenuation) {
+}
+
+inline Light::LightType Light::getType() {
+}
+
+inline void Light::setType(Light::LightType type) {
+}
+
+#endif

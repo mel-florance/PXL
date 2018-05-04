@@ -1,22 +1,35 @@
-#pragma once
+#ifndef _LABEL_H
+#define _LABEL_H
 
-#include "../core/widget.h"
 
-class Label : public Widget
-{
-public:
-	Label(glm::vec2& position, glm::vec2& size, const std::string& text, const std::string& font);
-	~Label();
+#include "widget.h"
+#include "nanovg.h"
 
-	void draw(NVGcontext* ctx, double delta);
-	void update(double delta);
+class Label : public Widget {
+  public:
+     Label(glm::vec2 & position, glm::vec2 & size, const std::string & text, const std::string & font);
 
-private:
-	glm::vec4 m_margin;
-	std::string m_text;
-	NVGalign m_align;
-	std::string m_font;
-	float m_fontSize;
-	float m_blur;
-	glm::vec4 m_color;
+     ~Label();
+
+    void draw(NVGcontext & ctx, double delta);
+
+    void update(double delta);
+
+
+  private:
+    glm::vec4 m_margin;
+
+    std::string m_text;
+
+    NVGalign m_align;
+
+    std::string m_font;
+
+    float m_fontSize;
+
+    float m_blur;
+
+    glm::vec4 m_color;
+
 };
+#endif

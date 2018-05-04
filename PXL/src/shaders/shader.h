@@ -1,48 +1,53 @@
-#pragma once
+#ifndef _SHADER_H
+#define _SHADER_H
 
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <string>
-#include <map>
 
-#include <GL/glew.h>
+class Shader {
+  public:
+     Shader(const std::string & filename);
 
-#include "../core/transform.h"
-#include "../cameras/camera.h"
-#include "../lighting/light.h"
+    virtual  ~Shader();
 
-class Shader
-{
-public:
-	Shader(const std::string& filename);
-	virtual ~Shader();
+    void bind();
 
-	void bind();
-	void unbind();
-	void bindAttribute(GLuint location, const std::string& name);
+    void unbind();
 
-	std::string loadShader(const std::string& filename);
-	void checkShaderError(GLuint shader, GLuint flag, bool isProgram, const std::string& message);
-	GLuint createShader(const std::string& text, GLenum type);
+    void bindAttribute(const GLuint & location, const std::string & name);
 
-	void addUniform(const std::string& name);
+    std::string loadShader(const std::string & filename);
 
-	void setUniformMat4fv(const std::string& name, const glm::mat4& mat);
-	void setUniform4fv(const std::string& name, const glm::vec4& vec);
-	void setUniform3fv(const std::string& name, const glm::vec3& vec);
-	void setUniform2fv(const std::string& name, const glm::vec2& vec);
-	void setUniform1f(const std::string& name, float& value);
-	void setUniform1i(const std::string& name, int value);
+    void checkShaderError(const GLuint & shader, const GLuint & flag, bool isProgram, const std::string & message);
 
-	inline GLuint getProgram() { return m_program; }
+    GLuint createShader(const std::string & text, const GLenum & type);
 
-private:
-	static const unsigned int NUM_SHADERS = 2;
+    void addUniform(const std::string & name);
 
-	GLuint m_program;
-	GLuint m_shaders[NUM_SHADERS];
+    void setUniformMat4fv(const std::string & name, const glm::mat4 & mat);
 
-	std::map<std::string, GLuint> m_uniforms;
+    void setUniform4fv(const std::string & name, const glm::vec4 & vec);
+
+    void setUniform3fv(const std::string & name, const glm::vec3 & vec);
+
+    void setUniform2fv(const std::string & name, const glm::vec2 & vec);
+
+    void setUniform1f(const std::string & name, float & value);
+
+    void setUniform1i(const std::string & name, int value);
+
+    inline GLuint getProgram();
+
+
+  private:
+    static const unsigned int NUM_SHADERS;
+
+    GLuint m_program;
+
+    GLuint m_shaders[NUM_SHADERS];
+
+    std::string, GLuint m_uniforms;
+
 };
+inline GLuint Shader::getProgram() {
+}
 
+#endif

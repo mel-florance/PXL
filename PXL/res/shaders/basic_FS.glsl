@@ -1,4 +1,4 @@
-#version 330
+#version 420
 #extension GL_OES_standard_derivatives : enable
 
 in vec2 fUvs;
@@ -34,7 +34,6 @@ uniform sampler2D normalTexture;
 vec4 normalMap = vec4(0.0, 0.0, 0.0, 1.0);
 vec4 texel = vec4(0.0, 0.0, 0.0, 1.0);
 
-
 void main() 
 {
     vec3 unitCamera = normalize(fToCamera);    
@@ -61,7 +60,7 @@ void main()
     vec3 totalSpecular = vec3(0.0);
 
 
-    for(int i = 0; i < 8; i++)
+    for(int i = 0; i < 1; i++)
     {
         float dist = length(fToLight[i]);
         float attenuationFactor = lightAttenuation[i].x + (lightAttenuation[i].y * dist) + (lightAttenuation[i].z * dist * dist);
@@ -79,7 +78,8 @@ void main()
         totalSpecular += (damping * exponent * lightColor[i]) / attenuationFactor;
     }
 
-    totalDiffuse = max(totalDiffuse, Ka.x);
+    totalSpecular *= Ks;
+    totalDiffuse *= Kd;
 
     if(hasSpecularTexture == 1)
     {
@@ -87,6 +87,12 @@ void main()
         totalSpecular *= specularMap.rgb;
     }
 
-    out_Color = vec4(totalDiffuse * Kd, 1.0) * texel + vec4(totalSpecular * Ks, 1.0); 
+    out_Color = vec4(Ka, 1.0) * texel + vec4(totalDiffuse, 1.0) * texel + vec4(totalSpecular, 1.0);
+    
+    float gamma = 2.2;
+    out_Color.rgb = pow(out_Color.rgb, vec3(1.0/gamma));
+
     out_Color = mix(vec4(fogColor, 1.0), out_Color, fVisibility);
+
+
 }

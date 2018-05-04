@@ -1,32 +1,65 @@
-#pragma once
+#ifndef _WIDGETEVENT_H
+#define _WIDGETEVENT_H
 
-#include <map>
-#include <string>
 
-#include <SDL2\SDL.h>
+class WidgetEvent {
+  public:
+     WidgetEvent();
 
-class WidgetEvent
-{
-public:
-	WidgetEvent();
+    typedef void EventFnPtr;
 
-	typedef void (WidgetEvent::*EventFnPtr)(const SDL_Event& event);
+    void handleEvent(const std::string & name, const SDL_Event & event);
 
-	void handleEvent(const std::string& name, const SDL_Event& event);
+    inline virtual void onKeyDown(const SDL_Event & event);
 
-	virtual void onKeyDown(const SDL_Event& event) {}
-	virtual void onTextInput(const SDL_Event& event) {}
-	virtual void onKeyUp(const SDL_Event& event) {}
-	virtual void onMouseWheel(const SDL_Event& event) {}
-	virtual void onMouseMove(const SDL_Event& event) {}
-	virtual void onMouseDown(const SDL_Event& event) {}
-	virtual void onMouseUp(const SDL_Event& event) {}
-	virtual void onWindowResized(const SDL_Event& event) {}
-	virtual void onWindowSizeChanged(const SDL_Event& event) {}
+    inline virtual void onTextInput(const SDL_Event & event);
 
-	~WidgetEvent();
+    inline virtual void onKeyUp(const SDL_Event & event);
 
-private:
-	std::map<std::string, EventFnPtr> m_events;
+    inline virtual void onMouseWheel(const SDL_Event & event);
+
+    inline virtual void onMouseMove(const SDL_Event & event);
+
+    inline virtual void onMouseDown(const SDL_Event & event);
+
+    inline virtual void onMouseUp(const SDL_Event & event);
+
+    inline virtual void onWindowResized(const SDL_Event & event);
+
+    inline virtual void onWindowSizeChanged(const SDL_Event & event);
+
+     ~WidgetEvent();
+
+
+  private:
+    EventFnPtr m_events;
+
 };
+inline void WidgetEvent::onKeyDown(const SDL_Event & event) {
+}
 
+inline void WidgetEvent::onTextInput(const SDL_Event & event) {
+}
+
+inline void WidgetEvent::onKeyUp(const SDL_Event & event) {
+}
+
+inline void WidgetEvent::onMouseWheel(const SDL_Event & event) {
+}
+
+inline void WidgetEvent::onMouseMove(const SDL_Event & event) {
+}
+
+inline void WidgetEvent::onMouseDown(const SDL_Event & event) {
+}
+
+inline void WidgetEvent::onMouseUp(const SDL_Event & event) {
+}
+
+inline void WidgetEvent::onWindowResized(const SDL_Event & event) {
+}
+
+inline void WidgetEvent::onWindowSizeChanged(const SDL_Event & event) {
+}
+
+#endif

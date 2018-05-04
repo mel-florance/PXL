@@ -1,13 +1,14 @@
-#pragma once
+#ifndef _GROUP_H
+#define _GROUP_H
 
-#include "../core/widget.h"
 
-class Group : public Widget
-{
-public:
-	Group(const glm::vec2& position, const glm::vec2& size);
-	~Group();
+#include "widget.h"
 
-private:
+class Group : public Widget {
+  public:
+     Group(const glm::vec2 & position, const glm::vec2 & size);
+
+     ~Group();
 
 };
+#endif

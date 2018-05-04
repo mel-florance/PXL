@@ -1,16 +1,16 @@
-#pragma once
+#ifndef _BOXLAYOUT_H
+#define _BOXLAYOUT_H
 
-#include <string>
 
 #include "layout.h"
 
-class BoxLayout : public Layout
-{
-public:
-	BoxLayout(const std::string & name, Display* window, const glm::vec2 & position, const glm::vec2 & size);
-	~BoxLayout();
+class Display;
 
-private:
+class BoxLayout : public Layout {
+  public:
+     BoxLayout(const std::string & name, Display & window, const glm::vec2 & position, const glm::vec2 & size);
+
+     ~BoxLayout();
 
 };
-
+#endif

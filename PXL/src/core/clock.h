@@ -1,17 +1,18 @@
-#pragma once
+#ifndef _CLOCK_H
+#define _CLOCK_H
 
-#include <chrono>
-#include <iostream>
-#include <SDL2/SDL.h>
 
-class Clock
-{
-public:
-	Clock();
-	~Clock();
+class Clock {
+  public:
+     Clock();
 
-	double getTime();
+     ~Clock();
 
-private:
-	std::chrono::steady_clock::time_point m_epoch;
+    double getTime();
+
+
+  private:
+    std::chrono::steady_clock::time_point m_epoch;
+
 };
+#endif

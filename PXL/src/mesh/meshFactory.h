@@ -1,75 +1,37 @@
-#pragma once
+#ifndef _MESHFACTORY_H
+#define _MESHFACTORY_H
 
-#include <vector>
-#include <glm\glm.hpp>
 
-class MeshFactory
-{
-public:
+class MeshData;
 
-	static std::vector<glm::vec2> getQuad() 
-	{
-		std::vector<glm::vec2> v = 
-		{
-			glm::vec2(-1.0f, 1.0f),
-			glm::vec2(-1.0f, -1.0f),
-			glm::vec2(1.0f, 1.0f),
-			glm::vec2(1.0f, -1.0f)
-		};
+class MeshFactory {
+  public:
+    const float pi=  std::atan(1.0f) * 4.0f;
 
-		return v;
-	};
+    static inline std::vector<glm::vec2> getQuad();
 
-	static std::vector<glm::vec3> getCube(float scale)
-	{
-		std::vector<glm::vec3> v =
-		{
-			glm::vec3(-scale, scale, -scale),
-			glm::vec3(-scale, -scale, -scale),
-			glm::vec3(scale, -scale, -scale),
-			glm::vec3(scale, -scale, -scale),
-			glm::vec3(scale, scale, -scale),
-			glm::vec3(-scale, scale, -scale),
+    static inline std::vector<glm::vec3> getCube(float scale);
 
-			glm::vec3(-scale, -scale, scale),
-			glm::vec3(-scale, -scale, -scale),
-			glm::vec3(-scale, scale, -scale),
-			glm::vec3(-scale, scale, -scale),
-			glm::vec3(-scale, scale, scale),
-			glm::vec3(-scale, -scale, scale),
+    static inline MeshData createSphere(float radius, int resolution);
 
-			glm::vec3(scale, -scale, -scale),
-			glm::vec3(scale, -scale, scale),
-			glm::vec3(scale, scale, scale),
-			glm::vec3(scale, scale, scale),
-			glm::vec3(scale, scale, -scale),
-			glm::vec3(scale, -scale, -scale),
 
-			glm::vec3(-scale, -scale, scale),
-			glm::vec3(-scale, scale, scale),
-			glm::vec3(scale, scale, scale),
-			glm::vec3(scale, scale, scale),
-			glm::vec3(scale, -scale, scale),
-			glm::vec3(-scale, -scale, scale),
+  private:
+    inline  MeshFactory();
 
-			glm::vec3(-scale, scale, -scale),
-			glm::vec3(scale, scale, -scale),
-			glm::vec3(scale, scale, scale),
-			glm::vec3(scale, scale, scale),
-			glm::vec3(-scale, scale, scale),
-			glm::vec3(-scale, scale, -scale),
-
-			glm::vec3(-scale, -scale, -scale),
-			glm::vec3(-scale, -scale, scale),
-			glm::vec3(scale, -scale, -scale),
-			glm::vec3(scale, -scale, -scale),
-			glm::vec3(-scale, -scale, scale),
-			glm::vec3(scale, -scale, scale)
-		};
-
-		return v;
-	}
-
-private:
-	MeshFactory() {}
 };
+inline std::vector<glm::vec2> MeshFactory::getQuad()
+{
+}
+
+inline std::vector<glm::vec3> MeshFactory::getCube(float scale)
+{
+}
+
+inline MeshData MeshFactory::createSphere(float radius, int resolution)
+{
+}
+
+inline  MeshFactory::MeshFactory() {
+}
+
+#endif

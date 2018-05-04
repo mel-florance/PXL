@@ -1,8 +1,8 @@
-#include "text.h"
-#include <iostream>
 
-Text::Text(const std::string& text, NVGcolor& color, glm::vec2& position, const std::string& font) : Widget(position, glm::vec2(0.0f))
-{
+#include "text.h"
+
+ Text::Text(const std::string & text, NVGcolor & color, glm::vec2 & position, const std::string & font) {
+
 	m_text = text;
 	m_color = color;
 	m_font = font;
@@ -11,8 +11,13 @@ Text::Text(const std::string& text, NVGcolor& color, glm::vec2& position, const 
 	m_align = NVG_ALIGN_LEFT;
 }
 
-void Text::draw(NVGcontext* ctx, double delta)
-{
+ Text::~Text() {
+
+
+}
+
+void Text::draw(NVGcontext & ctx, double delta) {
+
 	nvgFontSize(ctx, m_fontSize);
 	nvgFontFace(ctx, m_font.c_str());
 	nvgTextAlign(ctx, m_align);
@@ -24,7 +29,3 @@ void Text::draw(NVGcontext* ctx, double delta)
 	nvgText(ctx, pos.x, pos.y, m_text.c_str(), NULL);
 }
 
-Text::~Text()
-{
-
-}

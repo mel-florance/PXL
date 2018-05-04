@@ -1,57 +1,18 @@
+
 #include "editor.h"
+#include "engine.h"
+#include "layout.h"
+#include "mesh.h"
+#include "light.h"
+#include "editorLayout.h"
 
-#include "components/mainMenu.h"
-#include "components/viewport.h"
-#include "components/outliner.h"
-#include "components/assetBrowser.h"
-#include "components/inspector.h"
-#include "../audio/sound.h"
+ Editor::Editor(Engine & engine) {
 
-Editor::Editor(Engine* engine) : m_engine(engine)
-{
 	this->init();
 }
 
-void Editor::update(double delta)
-{
-	ComponentList::iterator it;
+void Editor::init() {
 
-	for (it = m_components.begin(); it != m_components.end(); it++) 
-		it->second->update(delta);
-
-	if (m_cube != nullptr && m_light != nullptr) {
-		std::vector<Mesh*> instances = m_cube->getInstances();
-		if (instances.size() > 0) {
-			instances[0]->getTransform()->setPosition(m_light->getPosition());
-			std::cout << "ok" << std::endl;
-		}
-	}
-
-	/*Scene* scene = m_engine->getSceneManager()->getCurrentScene();
-
-	if (scene != nullptr) {
-		Mesh* m = scene->getMeshByName("Cube");
-
-		std::vector<Mesh*> instances = m->getInstances();
-
-		m_angle += 0.001f;
-
-		unsigned int i = 0;
-		for (const auto& instance : m->getInstances()) {
-			i++;
-			float r = cosf(instance->getTransform()->getPosition().x / i) * sinf(instance->getTransform()->getPosition().y / i) * m_angle;
-
-			instance->getTransform()->setPosition(glm::vec3(
-				instance->getTransform()->getPosition().x, 
-				 r,
-				instance->getTransform()->getPosition().z)
-			);
-		}
-	}*/
-}
-
-void Editor::init()
-{
 	Scene* scene = m_engine->getSceneManager()->addScene("Scene 1");
 
 	Camera* camera = new FPSCamera(
@@ -63,22 +24,44 @@ void Editor::init()
 		1000.0f
 	);
 
-	m_engine->getSceneManager()->getSceneByName("Scene 1")->addCamera(camera);
+	scene->addCamera(camera);
 
 	Light* m_light = new Light();
-	m_light->setType(Light::DIRECTIONAL);
-	m_light->setPosition(glm::vec3(10.0f, 30.0f, 25.0f));
-	m_light->setColor(glm::vec3(10.0f, 10.0f, 10.0f));
-	m_light->setAttenuation(glm::vec3(2.0f, 0.05f, 0.005f));
+	m_light->setType(Light::POINT);
+	m_light->setPosition(glm::vec3(50.0f, 100.0f, 100.0f));
+	m_light->setColor(glm::vec3(100.0f, 100.0f, 100.0f));
+	m_light->setAttenuation(glm::vec3(1.0f, 0.05f, 0.005f));
 	scene->addLight(m_light);
 
-	m_engine->getAssetManager()->importMesh("./res/models/plane.obj");
-	m_engine->getAssetManager()->importMesh("./res/models/menger.obj");
+	m_engine->getAssetManager()->importMesh("./res/models/suzanne.blend");
 
-	Mesh* plane = scene->getMeshByName("Plane");
-	plane->getTransform()->setScale(glm::vec3(5.0f, 5.0f, 5.0f));
-	plane->getMaterial()->setTiling(glm::vec2(500.0f, 500.0f));
-	plane->getMaterial()->setBackFaceCulling(false);
+	MeshData meshData(MeshFactory::createSphere(2.0f, 64));
+
+	Mesh* sphere = m_engine->getAssetManager()->getLoader()->loadToVAO("sphere", 
+		meshData.getVertices(),
+		meshData.getIndices(),
+		meshData.getUvs(),
+		meshData.getNormals(), 
+		meshData.getTangents()
+	);
+	sphere->getTransform()->setPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	//sphere->getTransform()->setScale(glm::vec3(50.0f, 50.0f, 50.0f));
+
+	Material* mat = new BasicMaterial("sphere", m_engine->getShaderManager()->getShader("basic"));
+	sphere->setMaterial(mat);
+
+	scene->addMesh(sphere);
+
+
+	//m_engine->getAssetManager()->importMesh("./res/models/plane.obj");
+
+	//GridMaterial* gridMat = new GridMaterial("grid", m_engine->getShaderManager()->getShader("grid"));
+	//gridMat->setBackFaceCulling(false);
+
+	//Mesh* plane = scene->getMeshByName("Plane");
+	//plane->getTransform()->setScale(glm::vec3(5.0f, 5.0f, 5.0f));
+	//plane->setMaterial(gridMat);
+
 
 	//m_engine->getAssetManager()->importMesh("./res/models/bushhouse.obj");
 	//m_cube->getTransform()->setPosition(glm::vec3(0.0f, 0.05f, 0.0f));
@@ -105,9 +88,11 @@ void Editor::init()
 	m_register["3_main_menu"] = &registerComponent<MainMenu>;
 	m_register["4_asset_browser"] = &registerComponent<AssetBrowser>;
 	m_register["5_inspector"] = &registerComponent<Inspector>;
+	m_register["6_console"] = &registerComponent<Console>;
 
 	m_mainLayout = new Layout("editor_window", m_engine->getWindow(), glm::vec2(0.0f), m_engine->getWindow()->getSize());
 	m_mainLayout->setGuiManager(m_engine->getGuiManager());
+
 
 	m_mainLayout->setPositionModeX(Layout::ExpandMode::WINDOW);
 	m_mainLayout->setPositionModeY(Layout::ExpandMode::WINDOW);
@@ -174,6 +159,11 @@ void Editor::init()
 	layoutF->setGuiManager(m_engine->getGuiManager());
 	layoutF->setBackground(nvgRGB(0, 255, 255));
 
+	//layoutF->setPositionModeX(Layout::ExpandMode::FIXED);
+	//layoutF->setPositionModeY(Layout::ExpandMode::FIXED);
+	//layoutF->setExpandModeX(Layout::ExpandMode::WINDOW);
+	//layoutF->setExpandModeY(Layout::ExpandMode::WINDOW);
+
 	layoutC->addChild(layoutF);
 
 	// AssetManager
@@ -183,8 +173,8 @@ void Editor::init()
 
 	layoutC->addChild(layoutG);
 
-
 	m_engine->getGuiManager()->setMainLayout(m_mainLayout);
+
 
 	Viewport* viewport = this->createComponent<Viewport>("viewport", "1_viewport");
 	viewport->setLayout(layoutF);
@@ -208,6 +198,13 @@ void Editor::init()
 	inspector->init();
 	layoutI->addWidget(inspector->getWindow());
 
+	Console* console = this->createComponent<Console>("console", "6_console");
+	console->setLayout(m_mainLayout);
+	console->init();
+
+
+	//m_mainLayout->addWidget(console->getWindow());
+
 	SoundManager* soundManager = m_engine->getSoundManager();
 	//soundManager->loadSound("hope", "./res/sounds/hope.ogg");
 	//soundManager->loadSound("aze", "./res/sounds/groove_drums.wav");
@@ -222,8 +219,46 @@ void Editor::init()
 	m_engine->getGuiManager()->init();
 }
 
-Editor::~Editor()
-{
+void Editor::update(double delta) {
+
+	ComponentList::iterator it;
+
+	for (it = m_components.begin(); it != m_components.end(); it++) 
+		it->second->update(delta);
+
+	if (m_cube != nullptr && m_light != nullptr) {
+		std::vector<Mesh*> instances = m_cube->getInstances();
+		if (instances.size() > 0) {
+			instances[0]->getTransform()->setPosition(m_light->getPosition());
+			std::cout << "ok" << std::endl;
+		}
+	}
+
+	/*Scene* scene = m_engine->getSceneManager()->getCurrentScene();
+
+	if (scene != nullptr) {
+		Mesh* m = scene->getMeshByName("Cube");
+
+		std::vector<Mesh*> instances = m->getInstances();
+
+		m_angle += 0.001f;
+
+		unsigned int i = 0;
+		for (const auto& instance : m->getInstances()) {
+			i++;
+			float r = cosf(instance->getTransform()->getPosition().x / i) * sinf(instance->getTransform()->getPosition().y / i) * m_angle;
+
+			instance->getTransform()->setPosition(glm::vec3(
+				instance->getTransform()->getPosition().x, 
+				 r,
+				instance->getTransform()->getPosition().z)
+			);
+		}
+	}*/
+}
+
+ Editor::~Editor() {
+
 	delete m_engine;
 
 	ComponentRegister::iterator it;
@@ -232,27 +267,3 @@ Editor::~Editor()
 		m_register.erase(it, m_register.end());
 }
 
-
-// TODO: Serialize editor data for project export.
-
-//json j2 = {
-//	{ "pi", 3.141 },
-//	{ "happy", true },
-//	{ "name", "Niels" },
-//	{ "nothing", nullptr },
-//	{ 
-//		"answer", {
-//			{ "everything", 42 }
-//		} 
-//	},
-//	{ "list", { 1, 0, 2 } },
-//	{ 
-//		"object", {
-//			{ "currency", "USD" },
-//			{ "value", 42.99 }
-//		}
-//	}
-//};
-
-//std::string s = j2.dump(); 
-//std::cout << j2.dump(4) << std::endl;

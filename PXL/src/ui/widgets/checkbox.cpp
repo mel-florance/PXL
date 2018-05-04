@@ -1,8 +1,8 @@
-#include "checkbox.h"
-#include "icon.h"
 
-Checkbox::Checkbox(const glm::vec2& position, const glm::vec2& size) : Widget(position, size)
-{
+#include "checkbox.h"
+
+ Checkbox::Checkbox(const glm::vec2 & position, const glm::vec2 & size) {
+
 	m_background = nvgRGB(40, 40, 40);
 	m_borderRadius = 3.0f;
 
@@ -10,35 +10,35 @@ Checkbox::Checkbox(const glm::vec2& position, const glm::vec2& size) : Widget(po
 	this->setIcon(icon);
 }
 
-void Checkbox::onMouseMove(const SDL_Event & event)
-{
+void Checkbox::onMouseMove(const SDL_Event & event) {
+
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	this->setState("hovered", this->intersects(m_mouse));
 }
 
-void Checkbox::onMouseDown(const SDL_Event & event)
-{
+void Checkbox::onMouseDown(const SDL_Event & event) {
+
 	this->setState("hovered", this->intersects(m_mouse));
 
 	if (this->getState("checkable") && event.button.button == SDL_BUTTON_LEFT && this->getState("hovered"))
 		this->setState("checked", this->getState("checked") == false);
 }
 
-void Checkbox::onMouseUp(const SDL_Event & event)
-{
+void Checkbox::onMouseUp(const SDL_Event & event) {
+
 
 }
 
-void Checkbox::update(double delta)
-{
+void Checkbox::update(double delta) {
+
 	if (this->getState("hovered"))
 		m_background = nvgRGB(45, 45, 45);
 	else
 		m_background = nvgRGB(40, 40, 40);
 }
 
-void Checkbox::draw(NVGcontext* ctx, double delta)
-{
+void Checkbox::draw(NVGcontext & ctx, double delta) {
+
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
@@ -98,7 +98,8 @@ void Checkbox::draw(NVGcontext* ctx, double delta)
 	nvgRestore(ctx);
 }
 
-Checkbox::~Checkbox()
-{
+ Checkbox::~Checkbox() {
+
 
 }
+

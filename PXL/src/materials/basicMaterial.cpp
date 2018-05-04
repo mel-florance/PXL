@@ -1,7 +1,12 @@
-#include "basicMaterial.h"
 
-BasicMaterial::BasicMaterial(const std::string& name, Shader* shader) : Material(name, shader)
-{
+#include "basicmaterial.h"
+#include "shader.h"
+#include "scene.h"
+#include "transform.h"
+#include "texture.h"
+
+ BasicMaterial::BasicMaterial(const std::string & name, Shader & shader) {
+
 	this->getShader()->addUniform("mTransform");
 	this->getShader()->addUniform("mView");
 	this->getShader()->addUniform("mProj");
@@ -52,27 +57,20 @@ BasicMaterial::BasicMaterial(const std::string& name, Shader* shader) : Material
 	m_alpha = 1.0f;
 	m_Ka = glm::vec3(0.1f, 0.1f, 0.1f);
 	m_Kd = glm::vec3(0.5f, 0.5f, 0.5f);
+	m_Ks = glm::vec3(0.5f, 0.5f, 0.5f);
 	m_tiling = glm::vec2(1.0f, 1.0f);
 	m_backFaceCulling = true;
 
 	this->bindAttributes();
 }
 
-void BasicMaterial::bindAttributes()
-{
-	this->getShader()->bindAttribute(0, "position");
-	this->getShader()->bindAttribute(1, "uvs");
-	this->getShader()->bindAttribute(2, "normal");
-	this->getShader()->bindAttribute(3, "tangent");
+ BasicMaterial::~BasicMaterial() {
+
+
 }
 
-void BasicMaterial::updateTransform(Transform* transform)
-{
-	this->getShader()->setUniformMat4fv("mTransform", transform->getTransformation());
-}
+void BasicMaterial::preUpdate(Scene & scene) {
 
-void BasicMaterial::preUpdate(Scene* scene)
-{
 	this->getShader()->setUniformMat4fv("mView", scene->getActiveCamera()->getViewMatrix());
 	this->getShader()->setUniformMat4fv("mProj", scene->getActiveCamera()->getProjectionMatrix());
 
@@ -130,8 +128,13 @@ void BasicMaterial::preUpdate(Scene* scene)
 	}
 }
 
-void BasicMaterial::postUpdate()
-{
+void BasicMaterial::updateTransform(Transform & transform) {
+
+	this->getShader()->setUniformMat4fv("mTransform", transform->getTransformation());
+}
+
+void BasicMaterial::postUpdate() {
+
 	if (this->getDiffuseTexture() != nullptr)
 		this->getDiffuseTexture()->unbind();
 
@@ -142,7 +145,11 @@ void BasicMaterial::postUpdate()
 		this->getNormalTexture()->unbind();
 }
 
-BasicMaterial::~BasicMaterial()
-{
+void BasicMaterial::bindAttributes() {
 
+	this->getShader()->bindAttribute(0, "position");
+	this->getShader()->bindAttribute(1, "uvs");
+	this->getShader()->bindAttribute(2, "normal");
+	this->getShader()->bindAttribute(3, "tangent");
 }
+

@@ -1,57 +1,106 @@
-#pragma once
+#ifndef _FPSCAMERA_H
+#define _FPSCAMERA_H
+
 
 #include "camera.h"
 
-class FPSCamera : public Camera
-{
-public:
-	FPSCamera(Display* window, glm::vec3& position, float fov, float aspect, float near, float far);
-	~FPSCamera();
+class Display;
 
-	inline glm::vec3& getPosition() { return m_position; }
-	inline void setPosition(const glm::vec3& position) { m_position = position; }
+class FPSCamera : public Camera {
+  public:
+     FPSCamera(Display & window, glm::vec3 & position, float fov, float aspect, float near, float far);
 
-	inline glm::vec3& getRotation() { return m_rotation; }
-	inline void setRotation(const glm::vec3& rotation) { m_rotation = rotation; }
+     ~FPSCamera();
 
-	inline glm::vec3& getDirection() { return m_direction; }
-	inline void setDirection(const glm::vec3& direction) { m_direction = direction; }
+    inline glm::vec3 getPosition();
 
-	void setPitch(float degrees);
-	void setYaw(float degrees);
-	void move(Direction dir);
+    inline void setPosition(const glm::vec3 & position);
 
-	void onKeyDown(const SDL_Keycode& keycode);
-	void onKeyUp(const SDL_Keycode& keycode);
-	void onMouseMove(const glm::vec2& mouse);
-	void onMouseDown(Uint8 button);
-	void onMouseUp(Uint8 button);
-	void onMouseWheel(const SDL_Event& event);
+    inline glm::vec3 getRotation();
 
-	void lockCursor(bool value);
-	void update(double delta);
+    inline void setRotation(const glm::vec3 & rotation);
 
-private:
-	glm::vec3 m_up;
-	glm::vec3 m_position;
-	glm::vec3 m_positionDelta;
-	glm::vec3 m_direction;
-	glm::vec3 m_target;
-	glm::vec3 m_rotation;
+    inline glm::vec3 getDirection();
 
-	float m_velocity;
-	float m_viewFriction;
-	float m_moveFriction;
+    inline void setDirection(const glm::vec3 & direction);
 
-	float m_pitch;
-	float m_yaw;
+    void setPitch(float degrees);
 
-	float m_sensitivity;
-	float m_moveSpeed;
-	float m_maxSpeed;
-	double m_delta;
-	bool m_cursorLocked;
+    void setYaw(float degrees);
 
-	std::map<std::string, int> m_keys;
-	std::map<std::string, bool> m_keys_states;
+    void move(const Direction & dir);
+
+    void onKeyDown(const SDL_Keycode & keycode);
+
+    void onKeyUp(const SDL_Keycode & keycode);
+
+    void onMouseMove(const glm::vec2 & mouse);
+
+    void onMouseDown(const Uint8 & button);
+
+    void onMouseUp(const Uint8 & button);
+
+    void onMouseWheel(const SDL_Event & event);
+
+    void lockCursor(bool value);
+
+    void update(double delta);
+
+
+  private:
+    glm::vec3 m_up;
+
+    glm::vec3 m_position;
+
+    glm::vec3 m_positionDelta;
+
+    glm::vec3 m_direction;
+
+    glm::vec3 m_target;
+
+    glm::vec3 m_rotation;
+
+    float m_velocity;
+
+    float m_viewFriction;
+
+    float m_moveFriction;
+
+    float m_pitch;
+
+    float m_yaw;
+
+    float m_sensitivity;
+
+    float m_moveSpeed;
+
+    float m_maxSpeed;
+
+    double m_delta;
+
+    bool m_cursorLocked;
+
+    std::string, int m_keys;
+
+    std::string, bool m_keys_states;
+
 };
+inline glm::vec3 FPSCamera::getPosition() {
+}
+
+inline void FPSCamera::setPosition(const glm::vec3 & position) {
+}
+
+inline glm::vec3 FPSCamera::getRotation() {
+}
+
+inline void FPSCamera::setRotation(const glm::vec3 & rotation) {
+}
+
+inline glm::vec3 FPSCamera::getDirection() {
+}
+
+inline void FPSCamera::setDirection(const glm::vec3 & direction) {
+}
+
+#endif

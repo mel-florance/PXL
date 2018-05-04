@@ -1,25 +1,35 @@
-#pragma once
+#ifndef _SKYBOXRENDERER_H
+#define _SKYBOXRENDERER_H
 
-#include "../assets/loader.h"
-#include "../scene/scene.h"
-#include "../mesh/mesh.h"
-#include "../mesh/meshFactory.h"
-#include "../shaders/shaderManager.h"
-#include "../materials/skyboxMaterial.h"
 
-class SkyboxRenderer
-{
-public:
-	SkyboxRenderer(Loader* loader, ShaderManager* shaderManager);
-	~SkyboxRenderer();
+class Loader;
+class ShaderManager;
+class Scene;
+class Mesh;
+class SkyboxMaterial;
+class Shader;
 
-	void render(Scene* scene, double delta);
+class SkyboxRenderer {
+  public:
+     SkyboxRenderer(Loader & loader, ShaderManager & shaderManager);
 
-private:
-	float m_time;
-	Loader* m_loader;
-	Mesh* m_mesh;
-	SkyboxMaterial* m_material;
-	ShaderManager* m_shaderManager;
-	Shader* m_skyboxShader;
+     ~SkyboxRenderer();
+
+    void render(Scene & scene, double delta);
+
+
+  private:
+    float m_time;
+
+    Loader * m_loader;
+
+    Mesh * m_mesh;
+
+    SkyboxMaterial * m_material;
+
+    ShaderManager * m_shaderManager;
+
+    Shader * m_skyboxShader;
+
 };
+#endif

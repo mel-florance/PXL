@@ -1,23 +1,40 @@
-#pragma once
+#ifndef _CIRCLE_H
+#define _CIRCLE_H
 
-#include <glm\glm.hpp>
 
-class Circle
-{
-public:
-	Circle(const glm::vec2& position, float radius);
-	~Circle();
+class Circle {
+  public:
+     Circle(const glm::vec2 & position, float radius);
 
-	inline void setPosition(const glm::vec2& position) { m_position = position; }
-	inline glm::vec2& getPosition() { return m_position; }
+     ~Circle();
 
-	inline void setRadius(float radius) { m_radius = radius; }
-	inline float& getRadius() { return m_radius; }
+    inline void setPosition(const glm::vec2 & position);
 
-	bool intersects(const glm::vec2& point);
+    inline glm::vec2 getPosition();
 
-private:
-	glm::vec2 m_position;
-	float m_radius;
+    inline void setRadius(float radius);
+
+    inline float getRadius();
+
+    bool intersects(const glm::vec2 & point);
+
+
+  private:
+    glm::vec2 m_position;
+
+    float m_radius;
+
 };
+inline void Circle::setPosition(const glm::vec2 & position) {
+}
 
+inline glm::vec2 Circle::getPosition() {
+}
+
+inline void Circle::setRadius(float radius) {
+}
+
+inline float Circle::getRadius() {
+}
+
+#endif

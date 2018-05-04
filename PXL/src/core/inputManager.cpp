@@ -1,14 +1,24 @@
-#include "inputManager.h"
 
-InputManager::InputManager(Display* window, GuiManager* guiManager, SceneManager* sceneManager) : Manager()
-{
+#include "inputManager.h"
+#include "display.h"
+#include "guiManager.h"
+#include "sceneManager.h"
+#include "camera.h"
+
+ InputManager::InputManager(Display & window, GuiManager & guiManager, SceneManager & sceneManager) {
+
 	m_window = window;
 	m_guiManager = guiManager;
 	m_sceneManager = sceneManager;
 }
 
-void InputManager::update()
-{
+ InputManager::~InputManager() {
+
+
+}
+
+void InputManager::update() {
+
 	SDL_Event e;
 	Scene* scene = m_sceneManager->getCurrentScene();
 
@@ -34,6 +44,8 @@ void InputManager::update()
 				m_camera->onKeyDown(e.key.keysym.sym);
 
 			m_guiManager->handleEvent("onKeyDown", e);
+			
+			
 		}
 
 		if (e.type == SDL_KEYUP)
@@ -42,6 +54,19 @@ void InputManager::update()
 				m_camera->onKeyUp(e.key.keysym.sym);
 
 			m_guiManager->handleEvent("onKeyUp", e);
+			Editor* editor = m_guiManager->getEngine()->getEditor();
+
+			if (editor != nullptr)
+			{
+				Viewport* viewport = (Viewport*)editor->getComponentByName("viewport");
+				Console* console = (Console*)editor->getComponentByName("console");
+
+				if (viewport != nullptr)
+					viewport->onKeyUp(e);
+
+				if (console != nullptr)
+					console->onKeyUp(e);
+			}
 		}
 
 		if (e.type == SDL_MOUSEMOTION)
@@ -127,7 +152,3 @@ void InputManager::update()
 	}
 }
 
-InputManager::~InputManager()
-{
-
-}

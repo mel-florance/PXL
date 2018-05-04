@@ -1,38 +1,39 @@
-#pragma once
+#ifndef _EVENTLISTENER_H
+#define _EVENTLISTENER_H
 
-#include <map>
-#include <string>
 
 class Widget;
 
 struct CallbackData {
-	Widget* sender;
+    Widget * sender;
+
 };
+class EventListener {
+  public:
+     EventListener();
 
-class EventListener
-{
-public:
-	EventListener();
-	~EventListener();
+     ~EventListener();
 
-	typedef void(*EventListenerFnPtr)(CallbackData);
+    typedef void EventListenerFnPtr;
 
-	inline void addEventListener(std::string name, EventListenerFnPtr callback) {
-		m_listeners[name] = callback; 
-	}
+    inline void addEventListener(const std::string & name, const EventListenerFnPtr & callback);
 
-	inline bool hasListener(std::string name) {
-		return m_listeners[name] != NULL; 
-	}
+    inline bool hasListener(const std::string & name);
 
-	inline void handleEventListener(std::string name, CallbackData data)
-	{
-		EventListenerFnPtr fn = m_listeners[name];
+    inline void handleEventListener(const std::string & name, const CallbackData & data);
 
-		if (fn != 0)
-			return (*fn)(data);
-	}
 
-private:
-	std::map<std::string, EventListenerFnPtr> m_listeners;
+  private:
+    EventListenerFnPtr m_listeners;
+
 };
+inline void EventListener::addEventListener(const std::string & name, const EventListener::EventListenerFnPtr & callback) {
+}
+
+inline bool EventListener::hasListener(const std::string & name) {
+}
+
+inline void EventListener::handleEventListener(const std::string & name, const CallbackData & data) {
+}
+
+#endif

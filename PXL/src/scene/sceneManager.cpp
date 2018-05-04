@@ -1,30 +1,31 @@
-#include "sceneManager.h"
 
-SceneManager::SceneManager() : Manager()
-{
+#include "sceneManager.h"
+#include "scene.h"
+#include "guiManager.h"
+
+ SceneManager::SceneManager() {
+
 	m_sceneCount = 0;
 }
 
-Scene* SceneManager::addScene(const std::string& name)
-{
+ SceneManager::~SceneManager() {
+
+	for (Scene* scene : m_scenes)
+		delete scene;
+
+	m_scenes.clear();
+}
+
+Scene SceneManager::addScene(const std::string & name) {
+
 	Scene* scene = new Scene(name);
 	m_scenes.emplace_back(scene);
 	m_currentScene = m_scenes.size() - 1;
 	return scene;
 }
 
-Scene* SceneManager::getSceneByName(const std::string& name) 
-{
-	for (unsigned int i = 0; i < m_scenes.size(); i++) {
-		if (m_scenes[i]->getName() == name)
-			return m_scenes[i];
-	}
+void SceneManager::deleteScene(const std::string & name) {
 
-	return nullptr;
-}
-
-void SceneManager::deleteScene(const std::string& name)
-{
 	Scene* scene = getSceneByName(name);
 
 	if (scene != nullptr) {
@@ -34,18 +35,21 @@ void SceneManager::deleteScene(const std::string& name)
 	}
 }
 
-void SceneManager::listScenes()
-{
+void SceneManager::listScenes() {
+
 	std::cout << "Listing scenes: " << std::endl;
 
 	for (unsigned int i = 0; i < m_scenes.size(); i++)
 		std::cout << m_scenes[i]->getName() << std::endl;
 }
 
-SceneManager::~SceneManager()
-{
-	for (Scene* scene : m_scenes)
-		delete scene;
+Scene SceneManager::getSceneByName(const std::string & name) {
 
-	m_scenes.clear();
+	for (unsigned int i = 0; i < m_scenes.size(); i++) {
+		if (m_scenes[i]->getName() == name)
+			return m_scenes[i];
+	}
+
+	return nullptr;
 }
+

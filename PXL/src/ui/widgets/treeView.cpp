@@ -1,9 +1,11 @@
-#include "treeView.h"
-#include "layout.h"
-#include "../core/guiManager.h"
 
-TreeView::TreeView(const glm::vec2& position, const glm::vec2& size, const std::string& font = "segoeui") : Widget(position, size)
-{
+#include "treeView.h"
+#include "icon.h"
+#include "eventListener.h"
+#include "scrollbar.h"
+
+ TreeView::TreeView(const glm::vec2 & position, const glm::vec2 & size, const std::string & font) {
+
 	m_margin = glm::vec4(
 		8.0f, // Top
 		5.0f, // Right
@@ -24,24 +26,18 @@ TreeView::TreeView(const glm::vec2& position, const glm::vec2& size, const std::
 	m_offsetScroll = 0.0f;
 
 	m_scrollbar = new Scrollbar(position, size);
-	m_scrollbar->setExpandModeX(Widget::ExpandMode::PARENT);
+	m_scrollbar->setExpandModeX(Widget::ExpandMode::FIXED);
+	m_scrollbar->setExpandModeY(Widget::ExpandMode::PARENT);
+	m_scrollbar->setPositionModeX(Widget::ExpandMode::PARENT);
+	m_scrollbar->setPositionModeY(Widget::ExpandMode::PARENT);
+	m_scrollbar->setAlignment(Widget::Alignment::TOP_RIGHT);
 	m_scrollbar->addEventListener("onMouseMove", &TreeView::onScrollbarDragged);
 
 	this->addChild(m_scrollbar);
 }
 
-void TreeView::onScrollbarDragged(CallbackData data)
-{
-	Scrollbar* sender = (Scrollbar*)data.sender;
-	TreeView* parent = (TreeView*)data.sender->getParent();
+float TreeView::getTreeItemHeight(glm::vec2 & position, TreeView::TreeItem & item, unsigned int index) {
 
-	parent->setOffsetScroll(sender->getHandleDragOffset());
-}
-
-
-
-float TreeView::getTreeItemHeight(glm::vec2& position, TreeItem* item, unsigned int index)
-{
 	if (item == nullptr)
 		return 0.0f;
 
@@ -63,13 +59,22 @@ float TreeView::getTreeItemHeight(glm::vec2& position, TreeItem* item, unsigned 
 	return max;
 }
 
-void TreeView::update(double delta)
+void TreeView::onScrollbarDragged(const CallbackData & data)
 {
+
+	Scrollbar* sender = (Scrollbar*)data.sender;
+	TreeView* parent = (TreeView*)data.sender->getParent();
+
+	parent->setOffsetScroll(sender->getHandleDragOffset());
+}
+
+void TreeView::update(double delta) {
+
 
 }
 
-void TreeView::draw(NVGcontext* ctx, double delta)
-{
+void TreeView::draw(NVGcontext & ctx, double delta) {
+
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
@@ -97,8 +102,8 @@ void TreeView::draw(NVGcontext* ctx, double delta)
 	nvgRestore(ctx);
 }
 
-void TreeView::drawTreeItem(NVGcontext* ctx, glm::vec2& position, glm::vec2& size, TreeItem* item, unsigned int depth, unsigned int index)
-{
+void TreeView::drawTreeItem(NVGcontext & ctx, glm::vec2 & position, glm::vec2 & size, TreeView::TreeItem & item, unsigned int depth, unsigned int index) {
+
 	if (item != nullptr)
 	{
 		float lh = 20.0f;
@@ -160,23 +165,8 @@ void TreeView::drawTreeItem(NVGcontext* ctx, glm::vec2& position, glm::vec2& siz
 	}
 }
 
-void TreeView::onKeyDown(const SDL_Event & event)
-{
+void TreeView::onTreeItemMouseMove(const SDL_Event & event, glm::vec2 & position, glm::vec2 & size, TreeView::TreeItem & item, unsigned int depth, unsigned int index) {
 
-}
-
-void TreeView::onTextInput(const SDL_Event & event)
-{
-
-}
-
-void TreeView::onKeyUp(const SDL_Event & event)
-{
-
-}
-
-void TreeView::onTreeItemMouseMove(const SDL_Event& event, glm::vec2& position, glm::vec2& size, TreeItem* item, unsigned int depth, unsigned int index)
-{
 	if (item != nullptr)
 	{
 		float lh = 20.0f;
@@ -198,51 +188,8 @@ void TreeView::onTreeItemMouseMove(const SDL_Event& event, glm::vec2& position, 
 	}
 }
 
-void TreeView::onMouseMove(const SDL_Event& event)
-{
-	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
-	this->setState("hovered", this->intersects(m_mouse));
+void TreeView::onTreeItemMouseUp(const SDL_Event & event, glm::vec2 & position, glm::vec2 & size, TreeView::TreeItem & item, unsigned int depth, unsigned int index) {
 
-	if (event.button.state != SDL_PRESSED)
-	{
-		glm::vec2 position = this->getRelativePosition();
-		glm::vec2 size = this->getRelativeSize();
-
-		position.y -= m_offsetScroll;
-
-		this->onTreeItemMouseMove(event, position, size, m_root, 0, 1);
-	}
-}
-
-void TreeView::onMouseWheel(const SDL_Event& event)
-{
-	if (this->getState("hovered"))
-	{
-		glm::vec2 position = this->getRelativePosition();
-		glm::vec2 size = this->getRelativeSize();
-		float hy = position.y + 30.0f;
-		float drag = m_scrollbar->getHandleDragOffset();
-		float handleHeight = m_scrollbar->getHandleHeight();
-		drag += event.wheel.y * -3.0f;
-
-		if (hy + drag < hy)
-			drag = 0;
-
-		if (hy + drag + handleHeight > hy + (size.y - 30.0f))
-			drag = (size.y - 30.0f) - handleHeight;
-
-		m_scrollbar->setHandleDragOffset(drag);
-		this->setOffsetScroll(drag);
-	}
-}
-
-void TreeView::onMouseDown(const SDL_Event& event)
-{
-
-}
-
-void TreeView::onTreeItemMouseUp(const SDL_Event& event, glm::vec2& position, glm::vec2& size, TreeItem* item, unsigned int depth, unsigned int index)
-{
 	if (item != nullptr)
 	{
 		float lh = 20.0f;
@@ -282,8 +229,66 @@ void TreeView::onTreeItemMouseUp(const SDL_Event& event, glm::vec2& position, gl
 	}
 }
 
-void TreeView::onMouseUp(const SDL_Event& event)
-{
+void TreeView::onKeyDown(const SDL_Event & event) {
+
+
+}
+
+void TreeView::onTextInput(const SDL_Event & event) {
+
+
+}
+
+void TreeView::onKeyUp(const SDL_Event & event) {
+
+
+}
+
+void TreeView::onMouseMove(const SDL_Event & event) {
+
+	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
+	this->setState("hovered", this->intersects(m_mouse));
+
+	if (event.button.state != SDL_PRESSED)
+	{
+		glm::vec2 position = this->getRelativePosition();
+		glm::vec2 size = this->getRelativeSize();
+
+		position.y -= m_offsetScroll;
+
+		this->onTreeItemMouseMove(event, position, size, m_root, 0, 1);
+	}
+}
+
+void TreeView::onMouseWheel(const SDL_Event & event) {
+
+	if (this->getState("hovered"))
+	{
+		glm::vec2 position = this->getRelativePosition();
+		glm::vec2 size = this->getRelativeSize();
+		float hy = position.y + 30.0f;
+		float drag = m_scrollbar->getHandleDragOffset();
+		float handleHeight = m_scrollbar->getHandleHeight();
+		drag += event.wheel.y * -3.0f;
+
+		if (hy + drag < hy)
+			drag = 0;
+
+		if (hy + drag + handleHeight > hy + (size.y - 30.0f))
+			drag = (size.y - 30.0f) - handleHeight;
+
+		m_scrollbar->setHandleDragOffset(drag);
+		this->setOffsetScroll(drag);
+	}
+}
+
+void TreeView::onMouseDown(const SDL_Event & event) {
+
+
+}
+
+void TreeView::onMouseUp(const SDL_Event & event) {
+
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	this->setState("hovered", this->intersects(m_mouse));
 	LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
@@ -309,13 +314,13 @@ void TreeView::onMouseUp(const SDL_Event& event)
 		layerManager->removeWidget(0, this);
 }
 
-void TreeView::onWindowResized(const SDL_Event& event)
-{
+void TreeView::onWindowResized(const SDL_Event & event) {
+
 
 }
 
-void TreeView::onWindowSizeChanged(const SDL_Event& event)
-{
+void TreeView::onWindowSizeChanged(const SDL_Event & event) {
+
 	float height = this->getTreeItemHeight(glm::vec2(0.0f), this->getRoot(), 1);
 	float scrollMax = this->getRelativeSize().y - 30.0f;
 
@@ -324,7 +329,8 @@ void TreeView::onWindowSizeChanged(const SDL_Event& event)
 	m_scrollbar->computeHandleHeight(height, scrollMax);
 }
 
-TreeView::~TreeView()
-{
+ TreeView::~TreeView() {
+
 	delete m_scrollbar;
 }
+

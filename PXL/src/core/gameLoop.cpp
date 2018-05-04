@@ -1,8 +1,11 @@
-#include <windows.h>
-#include "gameLoop.h"
 
-GameLoop::GameLoop(Engine* engine)
-{
+#include "gameLoop.h"
+#include "engine.h"
+#include "profiler.h"
+#include "clock.h"
+
+ GameLoop::GameLoop(Engine & engine) {
+
 	m_engine = engine;
 	m_clock = new Clock();
 	m_profiler = new Profiler(m_clock);
@@ -30,8 +33,8 @@ GameLoop::GameLoop(Engine* engine)
 	m_fpsSum = 0.0f;
 }
 
-void GameLoop::start()
-{
+void GameLoop::start() {
+
 	if (m_running)
 		return;
 
@@ -92,8 +95,13 @@ void GameLoop::start()
 	}
 }
 
-float GameLoop::computeAverageFps(float fps)
-{
+void GameLoop::stop() {
+
+	m_running = false;
+}
+
+float GameLoop::computeAverageFps(float fps) {
+
 	m_fpsSum -= m_fpsList[m_fpsIndex];
 	m_fpsSum += fps;
 	m_fpsList[m_fpsIndex] = fps;
@@ -104,13 +112,9 @@ float GameLoop::computeAverageFps(float fps)
 	return m_fpsSum / MAX_SAMPLES;
 }
 
-void GameLoop::stop()
-{
-	m_running = false;
-}
+ GameLoop::~GameLoop() {
 
-GameLoop::~GameLoop()
-{
 	delete m_clock;
 	delete m_profiler;
 }
+

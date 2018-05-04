@@ -1,37 +1,60 @@
-#pragma once
+#ifndef _SCENEMANAGER_H
+#define _SCENEMANAGER_H
 
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
 
-#include "scene.h"
-#include "../core/manager.h"
+#include "manager.h"
 
+class Scene;
 class GuiManager;
 
-class SceneManager : public Manager
-{
-public:
-	SceneManager();
-	~SceneManager();
+class SceneManager : public Manager {
+  public:
+     SceneManager();
 
-	inline std::vector<class Scene*> getScenes() { return m_scenes; }
-	inline void setCurrentScene(unsigned int index) { m_currentScene = index; }
+     ~SceneManager();
 
-	Scene* addScene(const std::string& name);
-	void deleteScene(const std::string& name);
-	void listScenes();
+    inline std::vector<class Scene*> getScenes();
 
-	Scene* getSceneByName(const std::string& name);
-	Scene* getCurrentScene() { return m_scenes[m_currentScene]; }
+    inline void setCurrentScene(unsigned int index);
 
-	void setGuiManager(GuiManager* guiManager) { m_guiManager = guiManager; }
-	GuiManager* getGuiManager() { return m_guiManager; }
+    Scene addScene(const std::string & name);
 
-private:
-	GuiManager* m_guiManager;
-	unsigned int m_sceneCount;
-	unsigned int m_currentScene;
-	std::vector<Scene*> m_scenes;
+    void deleteScene(const std::string & name);
+
+    void listScenes();
+
+    Scene getSceneByName(const std::string & name);
+
+    inline Scene getCurrentScene();
+
+    inline void setGuiManager(GuiManager & guiManager);
+
+    inline GuiManager getGuiManager();
+
+
+  private:
+    GuiManager * m_guiManager;
+
+    unsigned int m_sceneCount;
+
+    unsigned int m_currentScene;
+
+    Scene * m_scenes;
+
 };
+inline std::vector<class Scene*> SceneManager::getScenes() {
+}
+
+inline void SceneManager::setCurrentScene(unsigned int index) {
+}
+
+inline Scene SceneManager::getCurrentScene() {
+}
+
+inline void SceneManager::setGuiManager(GuiManager & guiManager) {
+}
+
+inline GuiManager SceneManager::getGuiManager() {
+}
+
+#endif

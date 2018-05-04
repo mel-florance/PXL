@@ -1,80 +1,143 @@
-#pragma once
-
-#include <vector>
-#include <algorithm>
-#include <string>
-
-#include <glm\glm.hpp>
+#ifndef _SCENE_H
+#define _SCENE_H
 
 
-#include "../mesh/mesh.h"
-#include "../core/util.h"
-#include "../materials/material.h"
-
-#include "../lighting/light.h"
-#include "../cameras/camera.h"
-#include "../ui/core/guiManager.h"
-
-#include "../ui/widgets/text.h"
-#include "../ui/widgets/layout.h"
-
+class Mesh;
+class Material;
+class Camera;
+class Light;
 class Widget;
+class Layout;
 
-class Scene
-{
-public:
-	Scene(const std::string& name);
-	~Scene();
+class Scene {
+  public:
+     Scene(const std::string & name);
 
-	inline std::string& getName() { return m_name; }
-	inline void setName(std::string& name) { m_name = name; }
+     ~Scene();
 
-	inline std::vector<class Mesh*> getMeshes() { return m_meshes; }
-	Mesh* getMeshByName(const std::string name);
-	Mesh* addMesh(Mesh* mesh);
-	void removeMesh(Mesh* mesh);
+    inline std::string getName();
 
-	inline std::vector<class Material*> getMaterials() { return m_materials; }
-	Material* addMaterial(Material* material);
-	void removeMaterial(Material* material);
+    inline void setName(std::string & name);
 
-	inline std::vector<class Camera*> getCameras() { return m_cameras; }
-	void addCamera(Camera* camera);
-	void removeCamera(Camera* camera);
+    inline std::vector<class Mesh*> getMeshes();
 
-	inline std::vector<class Light*> getLights() { return m_lights; }
-	void addLight(Light* light);
-	void removeLight(Light* light);
+    Mesh getMeshByName(const std::string & name);
 
-	void addWidget(Widget* widget, Layout* layout);
-	void removeWidget(Widget* widget, Layout* layout);
+    Mesh addMesh(Mesh & mesh);
 
-	void setActiveCamera(unsigned int index) { m_activeCamera = index; }
-	inline Camera* getActiveCamera() { return m_cameras[m_activeCamera]; }
+    void removeMesh(Mesh & mesh);
 
-	inline glm::vec4& getClearColor() { return m_clearColor; }
-	inline void setClearColor(glm::vec4& color) { m_clearColor = color; }
+    inline std::vector<class Material*> getMaterials();
 
-	inline glm::vec3& getFogColor() { return m_fogColor; }
-	inline void setFogColor(glm::vec3& color) { m_fogColor = color; }
+    Material addMaterial(Material & material);
 
-	inline float& getFogGradient() { return m_fogGradient; }
-	inline void setFogGradient(float& value) { m_fogGradient = value; }
+    void removeMaterial(Material & material);
 
-	inline float& getFogDensity() { return m_fogDensity; }
-	inline void setFogDensity(float& value) { m_fogDensity = value; }
+    inline std::vector<class Camera*> getCameras();
 
-private:
-	std::string m_name;
-	unsigned int m_activeCamera;
+    void addCamera(Camera & camera);
 
-	std::vector<class Camera*> m_cameras;
-	std::vector<class Light*> m_lights;
-	std::vector<class Mesh*> m_meshes;
-	std::vector<class Material*> m_materials;
+    void removeCamera(Camera & camera);
 
-	glm::vec4 m_clearColor;
-	glm::vec3 m_fogColor;
-	float m_fogGradient;
-	float m_fogDensity;
+    inline std::vector<class Light*> getLights();
+
+    void addLight(Light & light);
+
+    void removeLight(Light & light);
+
+    void addWidget(Widget & widget, Layout & layout);
+
+    void removeWidget(Widget & widget, Layout & layout);
+
+    inline void setActiveCamera(unsigned int index);
+
+    inline Camera getActiveCamera();
+
+    inline glm::vec4 getClearColor();
+
+    inline void setClearColor(glm::vec4 & color);
+
+    inline glm::vec3 getFogColor();
+
+    inline void setFogColor(glm::vec3 & color);
+
+    inline float getFogGradient();
+
+    inline void setFogGradient(float & value);
+
+    inline float getFogDensity();
+
+    inline void setFogDensity(float & value);
+
+
+  private:
+    std::string m_name;
+
+    unsigned int m_activeCamera;
+
+    class Camera* m_cameras;
+
+    class Light* m_lights;
+
+    class Mesh* m_meshes;
+
+    class Material* m_materials;
+
+    glm::vec4 m_clearColor;
+
+    glm::vec3 m_fogColor;
+
+    float m_fogGradient;
+
+    float m_fogDensity;
+
 };
+inline std::string Scene::getName() {
+}
+
+inline void Scene::setName(std::string & name) {
+}
+
+inline std::vector<class Mesh*> Scene::getMeshes() {
+}
+
+inline std::vector<class Material*> Scene::getMaterials() {
+}
+
+inline std::vector<class Camera*> Scene::getCameras() {
+}
+
+inline std::vector<class Light*> Scene::getLights() {
+}
+
+inline void Scene::setActiveCamera(unsigned int index) {
+}
+
+inline Camera Scene::getActiveCamera() {
+}
+
+inline glm::vec4 Scene::getClearColor() {
+}
+
+inline void Scene::setClearColor(glm::vec4 & color) {
+}
+
+inline glm::vec3 Scene::getFogColor() {
+}
+
+inline void Scene::setFogColor(glm::vec3 & color) {
+}
+
+inline float Scene::getFogGradient() {
+}
+
+inline void Scene::setFogGradient(float & value) {
+}
+
+inline float Scene::getFogDensity() {
+}
+
+inline void Scene::setFogDensity(float & value) {
+}
+
+#endif

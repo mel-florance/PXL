@@ -1,7 +1,8 @@
+
 #include "display.h"
 
-Display::Display(glm::vec2& size, const std::string& title, const std::string& icon)
-{
+ Display::Display(glm::vec2 & size, const std::string & title, const std::string & icon) {
+
 	m_size = size;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	
@@ -56,18 +57,26 @@ Display::Display(glm::vec2& size, const std::string& title, const std::string& i
 	SDL_ShowCursor(SDL_ENABLE);
 }
 
-bool Display::isClosed()
-{
+ Display::~Display() {
+
+	SDL_GL_DeleteContext(m_glContext);
+	SDL_FreeCursor(SDL_GetCursor());
+	SDL_DestroyWindow(m_window);
+	SDL_Quit();
+}
+
+bool Display::isClosed() {
+
 	return m_isClosed;
 }
 
-void Display::swapBuffers()
-{
+void Display::swapBuffers() {
+
 	SDL_GL_SwapWindow(m_window);
 }
 
-bool Display::addIcon(const std::string& filename)
-{
+bool Display::addIcon(const std::string & filename) {
+
 	int req_format = 4;
 	int depth, pitch;
 	Uint32 pixel_format;
@@ -115,8 +124,8 @@ bool Display::addIcon(const std::string& filename)
 	return true;
 }
 
-SDL_Cursor* Display::getMCursor(const std::string& name)
-{
+SDL_Cursor Display::getMCursor(const std::string & name) {
+
 	auto search = m_cursors.find(name);
 	if (search != m_cursors.end())
 		return search->second;
@@ -124,10 +133,3 @@ SDL_Cursor* Display::getMCursor(const std::string& name)
 	return nullptr;
 }
 
-Display::~Display()
-{
-	SDL_GL_DeleteContext(m_glContext);
-	SDL_FreeCursor(SDL_GetCursor());
-	SDL_DestroyWindow(m_window);
-	SDL_Quit();
-}

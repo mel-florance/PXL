@@ -1,59 +1,50 @@
-#pragma once
+#ifndef _LAYERMANAGER_H
+#define _LAYERMANAGER_H
 
-#include <map>
-#include <algorithm>
 
-#include "widget.h"
+class Widget;
 
-class LayerManager
-{
-public:
-	LayerManager();
+class LayerManager {
+  public:
+     LayerManager();
 
-	inline void update(double delta) { }
+    inline void update(double delta);
 
-	inline std::map<int, std::vector<Widget*>>& getLayers() { return m_layers; }
+    inline std::map<int, std::vector<Widget*>> getLayers();
 
-	inline void addLayer(int id)
-	{ 
-		m_layers[id] = std::vector<Widget*>();
-	}
+    inline void addLayer(int id);
 
-	bool removeLayer(int layer)
-	{
-		std::map<int, std::vector<Widget*>>::iterator it = m_layers.find(layer);
+    inline bool removeLayer(int layer);
 
-		if (it != m_layers.end())
-		{
-			m_layers.erase(it);
-			return true;
-		}
+    inline void addWidget(int layer, Widget & widget);
 
-		return false;
-	}
+    inline void removeWidget(int layer, Widget & widget);
 
-	inline void addWidget(int layer, Widget* widget)
-	{
-		std::map<int, std::vector<Widget*>>::iterator it = m_layers.find(layer);
+     ~LayerManager();
 
-		if (it != m_layers.end())
-			if (std::find(it->second.begin(), it->second.end(), widget) == it->second.end())
-				it->second.emplace_back(widget);
-	}
 
-	inline void removeWidget(int layer, Widget* widget)
-	{
-		std::map<int, std::vector<Widget*>>::iterator it = m_layers.find(layer);
+  private:
+    static const unsigned int MAX_LAYERS;
 
-		if (it != m_layers.end())
-			if (std::find(it->second.begin(), it->second.end(), widget) != it->second.end())
-				it->second.erase(std::remove(it->second.begin(), it->second.end(), widget), it->second.end());
-	}
+    int, std::vector<Widget*> m_layers;
 
-	~LayerManager();
-
-private:
-	static const unsigned int MAX_LAYERS = 32;
-	std::map<int, std::vector<Widget*>> m_layers;
 };
+inline void LayerManager::update(double delta) {
+}
 
+inline std::map<int, std::vector<Widget*>> LayerManager::getLayers() {
+}
+
+inline void LayerManager::addLayer(int id) {
+}
+
+inline bool LayerManager::removeLayer(int layer) {
+}
+
+inline void LayerManager::addWidget(int layer, Widget & widget) {
+}
+
+inline void LayerManager::removeWidget(int layer, Widget & widget) {
+}
+
+#endif

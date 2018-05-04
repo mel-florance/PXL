@@ -1,43 +1,98 @@
-#pragma once
+#ifndef _MATERIAL_H
+#define _MATERIAL_H
 
-#include <string>
-#include <vector>
 
-#include <glm/glm.hpp>
-
-#include "../shaders/shader.h"
-
+class Shader;
+class Transform;
+class Camera;
 class Scene;
-class Material
-{
-public:
-	Material(const std::string& name, Shader* shader) : m_name(name), m_shader(shader), m_backFaceCulling(true) {}
-	virtual ~Material() {}
 
-	virtual inline const std::string& getName() { return m_name; }
-	virtual inline void setName(const std::string& name) { m_name = name; }
+class Material {
+  public:
+    inline  Material(const std::string & name, Shader & shader);
 
-	virtual inline Shader* getShader() { return m_shader; }
-	virtual inline void setShader(Shader* shader) { m_shader = shader; }
+    inline virtual  ~Material();
 
-	virtual inline void updateTransform(Transform* transform) {}
-	virtual inline void updateUniforms(Camera* camera) {}
+    inline virtual std::string getName();
 
-	virtual inline void preUpdate(Scene* scene) {}
-	virtual inline void postUpdate() {}
+    inline virtual void setName(const std::string & name);
 
-	virtual inline void setBackFaceCulling(bool value) { m_backFaceCulling = value; }
-	virtual inline bool& getBackFaceCulling() { return m_backFaceCulling; }
+    inline virtual Shader getShader();
 
-	virtual inline void setTiling(glm::vec2& tiling) { m_tiling = tiling; }
-	virtual inline glm::vec2& getTiling() { return m_tiling; }
+    inline virtual void setShader(Shader & shader);
 
-	virtual inline void bindAttributes() {}
+    inline virtual void updateTransform(Transform & transform);
 
-private:
-	std::string m_name;
-	Shader* m_shader;
+    inline virtual void updateUniforms(Camera & camera);
 
-	bool m_backFaceCulling;
-	glm::vec2 m_tiling;
+    inline virtual void preUpdate(Scene & scene);
+
+    inline virtual void postUpdate();
+
+    inline virtual void setBackFaceCulling(bool value);
+
+    inline virtual bool getBackFaceCulling();
+
+    inline virtual void setTiling(glm::vec2 & tiling);
+
+    inline virtual glm::vec2 getTiling();
+
+    inline virtual void bindAttributes();
+
+
+  private:
+    std::string m_name;
+
+    Shader * m_shader;
+
+    bool m_backFaceCulling;
+
+    glm::vec2 m_tiling;
+
 };
+inline  Material::Material(const std::string & name, Shader & shader) {
+}
+
+inline  Material::~Material() {
+}
+
+inline std::string Material::getName() {
+}
+
+inline void Material::setName(const std::string & name) {
+}
+
+inline Shader Material::getShader() {
+}
+
+inline void Material::setShader(Shader & shader) {
+}
+
+inline void Material::updateTransform(Transform & transform) {
+}
+
+inline void Material::updateUniforms(Camera & camera) {
+}
+
+inline void Material::preUpdate(Scene & scene) {
+}
+
+inline void Material::postUpdate() {
+}
+
+inline void Material::setBackFaceCulling(bool value) {
+}
+
+inline bool Material::getBackFaceCulling() {
+}
+
+inline void Material::setTiling(glm::vec2 & tiling) {
+}
+
+inline glm::vec2 Material::getTiling() {
+}
+
+inline void Material::bindAttributes() {
+}
+
+#endif

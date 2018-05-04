@@ -1,7 +1,9 @@
-#include "soundManager.h"
 
-SoundManager::SoundManager()
-{
+#include "soundManager.h"
+#include "sound.h"
+
+ SoundManager::SoundManager() {
+
 	if (SDL_Init(SDL_INIT_AUDIO) < 0)
 		std::cout << "Failed to initialize SoundManager." << std::endl;
 	else
@@ -13,13 +15,13 @@ SoundManager::SoundManager()
 		std::cout << "SoundManager mixer initialized." << std::endl;
 }
 
-void SoundManager::play()
-{
+void SoundManager::play() {
+
 	while (Mix_PlayingMusic());
 }
 
-Sound* SoundManager::loadSound(const std::string& name, const std::string& path)
-{
+Sound SoundManager::loadSound(const std::string & name, const std::string & path) {
+
 	Mix_Chunk* chunk = Mix_LoadWAV(path.c_str());
 
 	if (chunk != NULL && name.size() > 0 )
@@ -35,14 +37,14 @@ Sound* SoundManager::loadSound(const std::string& name, const std::string& path)
 	return nullptr;
 }
 
-void SoundManager::playSound(const std::string& name, int channel, int loop)
-{
+void SoundManager::playSound(const std::string & name, int channel, int loop) {
+
 	Mix_PlayChannel(channel, m_sounds[name]->getData(), loop);
 	std::cout << "Playing sound: " << name << std::endl;
 }
 
-SoundManager::~SoundManager()
-{
+ SoundManager::~SoundManager() {
+
 	//Mix_FreeMusic(music);
 
 	std::map<std::string, Sound*>::iterator it;
@@ -52,3 +54,4 @@ SoundManager::~SoundManager()
 
 	Mix_CloseAudio();
 }
+

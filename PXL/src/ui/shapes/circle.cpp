@@ -1,16 +1,18 @@
+
 #include "circle.h"
 
-Circle::Circle(const glm::vec2& position, float radius) : m_position(position), m_radius(radius)
-{
+ Circle::Circle(const glm::vec2 & position, float radius) {
+
 
 }
 
-bool Circle::intersects(const glm::vec2& point)
-{
+ Circle::~Circle() {
+
+
+}
+
+bool Circle::intersects(const glm::vec2 & point) {
+
 	return false;
 }
 
-Circle::~Circle()
-{
-
-}

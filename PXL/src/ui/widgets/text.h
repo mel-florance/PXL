@@ -1,35 +1,81 @@
-#pragma once
+#ifndef _TEXT_H
+#define _TEXT_H
 
-#include <string>
 
-#include "../core/widget.h"
+#include "widget.h"
+#include "nanovg.h"
 
-class Text : public Widget
-{
-public:
-	Text(const std::string& text, NVGcolor& color, glm::vec2& position, const std::string& font);
-	~Text();
+class Text : public Widget {
+  public:
+     Text(const std::string & text, NVGcolor & color, glm::vec2 & position, const std::string & font);
 
-	inline void setText(const std::string& text) { m_text = text; }
-	inline const std::string getText() { return m_text; }
-	
-	inline void setFontSize(float size) { m_fontSize = size; }
-	inline float getFontsize() { return m_fontSize; }
+     ~Text();
 
-	void draw(NVGcontext* ctx, double delta);
+    inline void setText(const std::string & text);
 
-	void onKeyDown(const SDL_Event& event) {}
-	void onTextInput(const SDL_Event& event) {}
-	void onKeyUp(const SDL_Event& event) {}
-	void onMouseMove(const SDL_Event& event) {}
-	void onMouseDown(const SDL_Event& event) {}
-	void onMouseUp(const SDL_Event& event) {}
+    inline std::string getText();
 
-private:
-	NVGcolor m_color;
-	std::string m_text;
-	std::string m_font;
-	float m_fontSize;
-	float m_blur;
-	Uint32 m_align;
+    inline void setFontSize(float size);
+
+    inline float getFontsize();
+
+    void draw(NVGcontext & ctx, double delta);
+
+    inline void onKeyDown(const SDL_Event & event);
+
+    inline void onTextInput(const SDL_Event & event);
+
+    inline void onKeyUp(const SDL_Event & event);
+
+    inline void onMouseMove(const SDL_Event & event);
+
+    inline void onMouseDown(const SDL_Event & event);
+
+    inline void onMouseUp(const SDL_Event & event);
+
+
+  private:
+    NVGcolor m_color;
+
+    std::string m_text;
+
+    std::string m_font;
+
+    float m_fontSize;
+
+    float m_blur;
+
+    Uint32 m_align;
+
 };
+inline void Text::setText(const std::string & text) {
+}
+
+inline std::string Text::getText() {
+}
+
+inline void Text::setFontSize(float size) {
+}
+
+inline float Text::getFontsize() {
+}
+
+inline void Text::onKeyDown(const SDL_Event & event) {
+}
+
+inline void Text::onTextInput(const SDL_Event & event) {
+}
+
+inline void Text::onKeyUp(const SDL_Event & event) {
+}
+
+inline void Text::onMouseMove(const SDL_Event & event) {
+}
+
+inline void Text::onMouseDown(const SDL_Event & event) {
+}
+
+inline void Text::onMouseUp(const SDL_Event & event) {
+}
+
+#endif

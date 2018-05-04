@@ -1,37 +1,58 @@
-#pragma once
+#ifndef _ENTITY_H
+#define _ENTITY_H
 
-#include <vector>
 
-#include "../core/transform.h"
-#include "../materials/material.h"
+#include "transform.h"
 
 class EntityComponent;
 
-class Entity
-{
-public:
-	Entity() {}
-	virtual ~Entity();
+class Entity {
+  public:
+    inline  Entity();
 
-	Entity* addEntity(Entity* child);
-	Entity* addComponent(EntityComponent* component);
+    virtual  ~Entity();
 
-	inline Transform* getTransform() { return &m_transform; }
+    Entity addEntity(Entity & child);
 
+    Entity addComponent(EntityComponent & component);
 
-	inline std::vector<class Entity*> getChildren() { return m_children; }
-	inline std::vector<class EntityComponent*> getComponents() { return m_components; }
+    inline Transform getTransform();
 
-private:
-	std::vector<class Entity*> m_children;
-	std::vector<class EntityComponent*> m_components;
+    inline std::vector<class Entity*> getChildren();
 
-	Transform m_transform;
+    inline std::vector<class EntityComponent*> getComponents();
 
 
-	void update(float delta);
+  private:
+    class Entity* m_children;
 
-	Entity(const Entity& other) {}
-	void operator=(const Entity& other) {}
+    class EntityComponent* m_components;
+
+    Transform m_transform;
+
+    void update(float delta);
+
+    inline  Entity(const Entity & other);
+
+    inline void operator =(const Entity & other);
+
 };
+inline  Entity::Entity() {
+}
 
+inline Transform Entity::getTransform() {
+}
+
+inline std::vector<class Entity*> Entity::getChildren() {
+}
+
+inline std::vector<class EntityComponent*> Entity::getComponents() {
+}
+
+inline  Entity::Entity(const Entity & other) {
+}
+
+inline void Entity::operator =(const Entity & other) {
+}
+
+#endif

@@ -1,28 +1,29 @@
+
 #include "assetManager.h"
-#include "../scene/sceneManager.h"
-#include "../core/manager.h"
+#include "loader.h"
+#include "shadermanager.h"
+#include "sceneManager.h"
+#include "mesh.h"
+#include "texture.h"
 
-struct MaterialInfo
-{
-	std::string name;
-	glm::vec3 ambient;
-	glm::vec3 diffuse;
-	glm::vec3 specular;
-	float shininess;
-};
+ AssetManager::AssetManager(Loader & loader, ShaderManager & shaderManager, SceneManager & sceneManager) {
 
-AssetManager::AssetManager(Loader* loader, ShaderManager* shaderManager, SceneManager* sceneManager) : Manager()
-{
 	m_loader = loader;
 	m_shaderManager = shaderManager;
 	m_sceneManager = sceneManager;
 }
 
-void AssetManager::importMesh(const std::string& filename)
-{
+ AssetManager::~AssetManager() {
+
+
+}
+
+void AssetManager::importMesh(const std::string & filename) {
+
 	Assimp::Importer importer;
 
 	const aiScene* scene = importer.ReadFile(filename,
+		//aiProcess_GenSmoothNormals |
 		aiProcess_Triangulate |
 		aiProcess_FlipUVs |
 		aiProcess_CalcTangentSpace
@@ -37,8 +38,8 @@ void AssetManager::importMesh(const std::string& filename)
 	this->processNode(scene->mRootNode, scene);
 }
 
-void AssetManager::processNode(aiNode* node, const aiScene* scene)
-{
+void AssetManager::processNode(aiNode & node, const aiScene & scene) {
+
 	for (GLuint i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -49,9 +50,9 @@ void AssetManager::processNode(aiNode* node, const aiScene* scene)
 		this->processNode(node->mChildren[i], scene);
 }
 
-Mesh* AssetManager::processMesh(const std::string& name, aiMesh* object, const aiScene* scene)
-{
-	std::vector<int> indices;
+Mesh AssetManager::processMesh(const std::string & name, aiMesh & object, const aiScene & scene) {
+
+	std::vector<GLuint> indices;
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
@@ -76,9 +77,9 @@ Mesh* AssetManager::processMesh(const std::string& name, aiMesh* object, const a
 	{
 		for (unsigned int i = 0; i < object->mNumFaces; i++)
 		{
-			indices.push_back(object->mFaces[i].mIndices[0]);
-			indices.push_back(object->mFaces[i].mIndices[1]);
-			indices.push_back(object->mFaces[i].mIndices[2]);
+			indices.push_back((GLuint)object->mFaces[i].mIndices[0]);
+			indices.push_back((GLuint)object->mFaces[i].mIndices[1]);
+			indices.push_back((GLuint)object->mFaces[i].mIndices[2]);
 		}
 	}
 
@@ -175,7 +176,3 @@ Mesh* AssetManager::processMesh(const std::string& name, aiMesh* object, const a
 	}
 }
 
-AssetManager::~AssetManager()
-{
-
-}

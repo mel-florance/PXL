@@ -1,56 +1,81 @@
-#pragma once
+#ifndef _DISPLAY_H
+#define _DISPLAY_H
 
-#include <map>
-#include <string>
-#include <iostream>
-#include <algorithm>
 
-#include <SDL2\SDL.h>
-#include <GL/glew.h>
-#include <glm\glm.hpp>
+class Display {
+  public:
+     Display(glm::vec2 & size, const std::string & title, const std::string & icon);
 
-#include "../stb/stb_image.h"
+    virtual  ~Display();
 
-class Display
-{
-public:
-	Display(glm::vec2& size, const std::string& title, const std::string& icon);
-	virtual ~Display();
+    bool isClosed();
 
-	bool isClosed();
-	inline void setIsClosed(bool value) { m_isClosed = value; }
+    inline void setIsClosed(bool value);
 
-	inline bool isFullscreen() { return m_isFullscreen; }
-	inline void setIsFullscreen(bool state) { m_isFullscreen = state; }
+    inline bool isFullscreen();
 
-	void swapBuffers();
+    inline void setIsFullscreen(bool state);
 
-	inline glm::vec2 getSize() { return m_size; }
-	inline void setSize(glm::vec2 size) { m_size = size; }
-	inline double getAspect() { return (double)m_size.x / (double)m_size.y; }
+    void swapBuffers();
 
-	inline SDL_Window* getWindow() { return m_window; };
-	bool addIcon(const std::string& filename);
+    inline glm::vec2 getSize();
 
-	inline void setCurrentCursor(const std::string& name) 
-	{
-		m_currentCursor = m_cursors[name];
-		SDL_SetCursor(m_cursors[name]);
-	}
+    inline void setSize(const glm::vec2 & size);
 
-	SDL_Cursor* getMCursor(const std::string& name);
+    inline double getAspect();
 
-	inline SDL_Cursor* getCurrentMouseCursor() { return m_currentCursor; }
-	glm::vec2 m_size;
+    inline SDL_Window getWindow();
 
-private:
-	SDL_Window* m_window;
-	SDL_GLContext m_glContext;
+    bool addIcon(const std::string & filename);
 
-	std::map<std::string, SDL_Cursor*> m_cursors;
-	SDL_Cursor* m_currentCursor;
+    inline void setCurrentCursor(const std::string & name);
 
-	bool m_isClosed;
-	bool m_isFullscreen;
+    SDL_Cursor getMCursor(const std::string & name);
+
+    inline SDL_Cursor getCurrentMouseCursor();
+
+    glm::vec2 m_size;
+
+
+  private:
+    SDL_Window m_window;
+
+    SDL_GLContext m_glContext;
+
+    std::string, SDL_Cursor* m_cursors;
+
+    SDL_Cursor m_currentCursor;
+
+    bool m_isClosed;
+
+    bool m_isFullscreen;
+
 };
+inline void Display::setIsClosed(bool value) {
+}
 
+inline bool Display::isFullscreen() {
+}
+
+inline void Display::setIsFullscreen(bool state) {
+}
+
+inline glm::vec2 Display::getSize() {
+}
+
+inline void Display::setSize(const glm::vec2 & size) {
+}
+
+inline double Display::getAspect() {
+}
+
+inline SDL_Window Display::getWindow() {
+}
+
+inline void Display::setCurrentCursor(const std::string & name) {
+}
+
+inline SDL_Cursor Display::getCurrentMouseCursor() {
+}
+
+#endif

@@ -1,9 +1,8 @@
-#include "button.h"
-#include "layout.h"
-#include "../core/guiManager.h"
 
-Button::Button(glm::vec2& position, glm::vec2& size, const std::string& font) : Widget(position, size)
-{
+#include "button.h"
+
+ Button::Button(glm::vec2 & position, glm::vec2 & size, const std::string & font) {
+
 	m_background = nvgRGBA(30, 30, 30, 255);
 	m_hightlight = nvgRGBA(100, 100, 100, 255);
 	m_borderRadius = 4.0f;
@@ -23,8 +22,13 @@ Button::Button(glm::vec2& position, glm::vec2& size, const std::string& font) : 
 	m_text.shadow = nvgRGBA(0, 0, 0, 0);
 }
 
-void Button::update(double delta)
-{
+ Button::~Button() {
+
+
+}
+
+void Button::update(double delta) {
+
 	if (this->getState("active"))
 	{
 		m_background = nvgRGBA(120, 120, 120, 64);
@@ -45,8 +49,8 @@ void Button::update(double delta)
 	}
 }
 
-void Button::draw(NVGcontext* ctx, double delta)
-{
+void Button::draw(NVGcontext & ctx, double delta) {
+
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
@@ -64,8 +68,8 @@ void Button::draw(NVGcontext* ctx, double delta)
 	nvgRestore(ctx);
 }
 
-void Button::drawBackground(NVGcontext* ctx, glm::vec2& position, glm::vec2& size)
-{
+void Button::drawBackground(NVGcontext & ctx, glm::vec2 & position, glm::vec2 & size) {
+
 	NVGpaint bg;
 
 	m_text.width = nvgTextBounds(ctx, position.x, position.y, m_text.text.c_str(), NULL, 0);
@@ -103,8 +107,8 @@ void Button::drawBackground(NVGcontext* ctx, glm::vec2& position, glm::vec2& siz
 	nvgStroke(ctx);
 }
 
-void Button::drawText(NVGcontext* ctx, glm::vec2& position, glm::vec2& size)
-{
+void Button::drawText(NVGcontext & ctx, glm::vec2 & position, glm::vec2 & size) {
+
 	nvgFontSize(ctx, m_text.fontSize);
 	nvgFontFace(ctx, m_text.font.c_str());
 	nvgTextAlign(ctx, m_text.align);
@@ -135,12 +139,17 @@ void Button::drawText(NVGcontext* ctx, glm::vec2& position, glm::vec2& size)
 	);
 }
 
-void Button::onTextInput(const SDL_Event& event) {}
-void Button::onKeyDown(const SDL_Event& event) {}
-void Button::onKeyUp(const SDL_Event& event) {}
+void Button::onKeyDown(const SDL_Event & event) {
+}
 
-void Button::onMouseMove(const SDL_Event& event)
-{
+void Button::onTextInput(const SDL_Event & event) {
+}
+
+void Button::onKeyUp(const SDL_Event & event) {
+}
+
+void Button::onMouseMove(const SDL_Event & event) {
+
 	m_mouse = glm::vec2((float)event.motion.x, (float)event.motion.y);
 	m_mouseRel = glm::vec2((float)event.motion.xrel, (float)event.motion.yrel);
 
@@ -155,16 +164,16 @@ void Button::onMouseMove(const SDL_Event& event)
 	this->setState("hovered", rect.intersects(m_mouse));
 }
 
-void Button::onMouseDown(const SDL_Event& event)
-{
+void Button::onMouseDown(const SDL_Event & event) {
+
 	if (event.button.button == SDL_BUTTON_LEFT && this->getState("hovered")) {
 
 		this->setState("active", true);
 	}
 }
 
-void Button::onMouseUp(const SDL_Event& event)
-{
+void Button::onMouseUp(const SDL_Event & event) {
+
 	this->setState("active", false);
 
 	if (event.button.button == SDL_BUTTON_LEFT)
@@ -179,17 +188,13 @@ void Button::onMouseUp(const SDL_Event& event)
 	}
 }
 
-void Button::onWindowResized(const SDL_Event& event)
-{
+void Button::onWindowResized(const SDL_Event & event) {
+
 	this->setScreen(glm::vec2(event.window.data1, event.window.data2));
 }
 
-void Button::onWindowSizeChanged(const SDL_Event& event)
-{
+void Button::onWindowSizeChanged(const SDL_Event & event) {
+
 	this->setScreen(glm::vec2(event.window.data1, event.window.data2));
 }
 
-Button::~Button()
-{
-
-}

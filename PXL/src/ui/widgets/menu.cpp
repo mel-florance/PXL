@@ -1,8 +1,9 @@
-#include "menu.h"
-#include "../core/guiManager.h"
 
-Menu::Menu(const glm::vec2& position, const glm::vec2& size, const std::string& font) : Widget(position, size)
-{
+#include "menu.h"
+#include "icon.h"
+
+ Menu::Menu(const glm::vec2 & position, const glm::vec2 & size, const std::string & font) {
+
 	m_background = nvgRGB(40, 40, 40);
 	m_borderRadius = 3.0f;
 	m_minHeight = 30.0f;
@@ -23,14 +24,8 @@ Menu::Menu(const glm::vec2& position, const glm::vec2& size, const std::string& 
 	this->setDrawingShadow(true);
 }
 
-void Menu::onKeyDown(const SDL_Event& event)
-{
-	if (event.key.keysym.sym == SDLK_c && this->getState("hovered"))
-		this->setState("visible", this->getState("visible") == false);
-}
+void Menu::onMouseMove(const SDL_Event & event) {
 
-void Menu::onMouseMove(const SDL_Event& event)
-{
 	m_mouse = glm::vec2(event.motion.x, event.motion.y);
 	this->setState("hovered", this->intersects(m_mouse));
 	glm::vec2 position = this->getRelativePosition();
@@ -77,8 +72,8 @@ void Menu::onMouseMove(const SDL_Event& event)
 	}
 }
 
-void Menu::onMouseDown(const SDL_Event& event)
-{
+void Menu::onMouseDown(const SDL_Event & event) {
+
 	if (event.button.button == SDL_BUTTON_LEFT && this->getState("hovered"))
 	{
 		LayerManager* layerManager = this->getLayout()->getGuiManager()->getLayerManager();
@@ -99,8 +94,8 @@ void Menu::onMouseDown(const SDL_Event& event)
 	}
 }
 
-void Menu::onMouseUp(const SDL_Event& event)
-{
+void Menu::onMouseUp(const SDL_Event & event) {
+
 	if (event.button.button == SDL_BUTTON_LEFT)
 	{
 		m_mouse = glm::vec2(event.motion.x, event.motion.y);
@@ -153,13 +148,19 @@ void Menu::onMouseUp(const SDL_Event& event)
 	}
 }
 
-void Menu::update(double delta)
-{
+void Menu::onKeyDown(const SDL_Event & event) {
+
+	if (event.key.keysym.sym == SDLK_c && this->getState("hovered"))
+		this->setState("visible", this->getState("visible") == false);
+}
+
+void Menu::update(double delta) {
+
 
 }
 
-void Menu::draw(NVGcontext* ctx, double delta)
-{
+void Menu::draw(NVGcontext & ctx, double delta) {
+
 	nvgSave(ctx);
 
 	glm::vec2 position = this->getRelativePosition();
@@ -387,7 +388,8 @@ void Menu::draw(NVGcontext* ctx, double delta)
 	nvgRestore(ctx);
 }
 
-Menu::~Menu()
-{
+ Menu::~Menu() {
+
 
 }
+

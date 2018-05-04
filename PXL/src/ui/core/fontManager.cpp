@@ -1,12 +1,13 @@
+
 #include "fontManager.h"
 
-FontManager::FontManager() : Manager()
-{
+ FontManager::FontManager() {
+
 
 }
 
-void FontManager::loadFonts(char* path)
-{
+void FontManager::loadFonts(char & path) {
+
 	DIR *dir;
 	struct dirent* directory;
 	dir = opendir(path);
@@ -31,7 +32,8 @@ void FontManager::loadFonts(char* path)
 	}
 }
 
-FontManager::~FontManager()
-{
+ FontManager::~FontManager() {
+
 
 }
+

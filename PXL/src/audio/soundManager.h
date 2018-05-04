@@ -1,27 +1,24 @@
-#pragma once
+#ifndef _SOUNDMANAGER_H
+#define _SOUNDMANAGER_H
 
-#include <iostream>
-#include <map>
-#include <string>
-#include <algorithm>
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
+class Sound;
 
-#include "sound.h"
+class SoundManager {
+  public:
+     SoundManager();
 
-class SoundManager
-{
-public:
-	SoundManager();
+    void play();
 
-	void play();
+    Sound loadSound(const std::string & name, const std::string & path);
 
-	Sound* loadSound(const std::string& name, const std::string& path);
-	void playSound(const std::string& name, int channel = -1, int loop = 0);
+    void playSound(const std::string & name, int channel = -1, int loop = 0);
 
-	~SoundManager();
+     ~SoundManager();
 
-private:
-	std::map<std::string, Sound*> m_sounds;
+
+  private:
+    Sound * m_sounds;
+
 };
+#endif

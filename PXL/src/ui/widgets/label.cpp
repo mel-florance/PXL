@@ -1,7 +1,8 @@
+
 #include "label.h"
 
-Label::Label(glm::vec2& position, glm::vec2& size, const std::string& text, const std::string& font) : Widget(position, size)
-{
+ Label::Label(glm::vec2 & position, glm::vec2 & size, const std::string & text, const std::string & font) {
+
 	m_text = text;
 	m_margin = glm::vec4(
 		8.0f, // Top
@@ -17,18 +18,13 @@ Label::Label(glm::vec2& position, glm::vec2& size, const std::string& text, cons
 	m_color = glm::vec4(255.0f, 255.0f, 255.0f, 128.0f);
 }
 
-Label::~Label()
-{
+ Label::~Label() {
+
 
 }
 
-void Label::update(double delta)
-{
+void Label::draw(NVGcontext & ctx, double delta) {
 
-}
-
-void Label::draw(NVGcontext* ctx, double delta)
-{
 	nvgSave(ctx);
 
 	glm::vec2 pos = this->getRelativePosition();
@@ -55,3 +51,9 @@ void Label::draw(NVGcontext* ctx, double delta)
 
 	nvgRestore(ctx);
 }
+
+void Label::update(double delta) {
+
+
+}
+
